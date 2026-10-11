@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OWCSKR - 한국 OWCS 허브</title>
+<meta name="description" content="한국 오버워치 챔피언스 시리즈 대회 결과, 팀·선수 통계, POTM, 방송·디스코드, 라이브 현황">
+<meta property="og:title" content="OWCSKR - 한국 OWCS 허브">
+<meta property="og:description" content="대회 결과, 팀·선수 통계, POTM, 방송·디스코드, 라이브 현황">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#/">OWCS<span>KR</span></a>
+  <nav>
+    <a href="#/" data-nav="home">홈</a>
+    <a href="#/teams" data-nav="teams">팀</a>
+    <a href="#/players" data-nav="players">선수</a>
+    <a href="#/potm" data-nav="potm">POTM</a>
+    <a href="#/competitions" data-nav="competitions">대회</a>
+  </nav>
+</header>
+<main id="app" aria-live="polite"><p class="muted">불러오는 중…</p></main>
+<footer>
+  <p>경기 데이터: <a href="https://liquipedia.net/overwatch/" rel="noopener">Liquipedia</a> (CC-BY-SA 3.0). 선수 방송·디스코드: 커뮤니티 공유 시트. 갱신: <span id="updated">-</span></p>
+  <p>Not affiliated with Blizzard Entertainment. Overwatch is a trademark of Blizzard Entertainment, Inc. · <a href="https://github.com/dlworhs11-rgb/OWCSKR" rel="noopener">GitHub</a></p>
+</footer>
+<script src="live-soop.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

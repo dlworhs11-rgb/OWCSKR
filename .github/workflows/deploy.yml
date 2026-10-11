@@ -1,0 +1,46 @@
+name: update-and-deploy
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '*/20 * * * *'   # refresh live status + active tournament pages
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Refresh player sheet (links)
+        run: node collector/players-sheet.mjs --refresh
+        continue-on-error: true
+      - name: Refresh active Liquipedia pages (2.2s/request, cached for finished events)
+        run: node collector/run-lp.mjs --active-only
+      - name: Build stats
+        run: node collector/build.mjs
+      - name: Check who is live (Chzzk)
+        run: node collector/live.mjs
+      - name: Assemble site
+        run: node collector/dist.mjs
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deployment
+        uses: actions/deploy-pages@v4

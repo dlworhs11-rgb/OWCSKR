@@ -1,0 +1,772 @@
+[
+ {
+  "region": "KR",
+  "team": "CRAZY RACCOON",
+  "name": "준빈 JunBin",
+  "role": "TANK",
+  "soop": "https://www.sooplive.com/station/junbin1308",
+  "chzzk": "https://chzzk.naver.com/826b0f49cc2bd361d7404c581bf911a8",
+  "discord": "https://discord.com/invite/DKZp3ZDuRg",
+  "youtube": "https://youtube.com/@junbin05"
+ },
+ {
+  "region": "KR",
+  "team": "CRAZY RACCOON",
+  "name": "스토커 Stalk3r",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/stalk3row",
+  "chzzk": "https://chzzk.naver.com/4fa8d17010a569f7739b611da4a6edd2",
+  "discord": "https://discord.com/invite/g2R9Kk6RWM",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "CRAZY RACCOON",
+  "name": "맥스 MAX",
+  "role": "TANK",
+  "soop": "https://www.sooplive.com/station/max34547",
+  "chzzk": "https://chzzk.naver.com/1b501d19f24192f51041d2bc0dacd3be",
+  "discord": "https://discord.gg/fmYCfmrgsj",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "CRAZY RACCOON",
+  "name": "초롱 CH0R0NG",
+  "role": "SUP",
+  "soop": "https://www.sooplive.com/station/sym5022",
+  "chzzk": "https://chzzk.naver.com/b42af4f4bfeeb218749275ef627511f2",
+  "discord": "https://discord.com/invite/WYw3SMQ",
+  "youtube": "https://youtube.com/@ch0r0ng"
+ },
+ {
+  "region": "KR",
+  "team": "CRAZY RACCOON",
+  "name": "립 LIP",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/dlwodnjs1009",
+  "chzzk": "https://chzzk.naver.com/6a106e10c1d2602e3a0e40996018e1ef",
+  "discord": "https://discord.com/invite/z8JeAYh33k",
+  "youtube": "https://youtube.com/@overwatchlip"
+ },
+ {
+  "region": "KR",
+  "team": "CRAZY RACCOON",
+  "name": "비질란테 vigilante",
+  "role": "SUP",
+  "soop": "https://www.sooplive.com/station/bboygkrwnn",
+  "chzzk": "https://chzzk.naver.com/350eaeaa023747cfaf82e2bd1c89177b",
+  "discord": "https://discord.com/invite/NZFJWWJ",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "CRAZY RACCOON",
+  "name": "희상 HeeSang",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/heesang1",
+  "chzzk": "https://chzzk.naver.com/c1da969caa13c1101ef4ea3d414d9a22",
+  "discord": "https://discord.gg/XT26EuTG9",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "ZETA DIVISION",
+  "name": "베르나르 Bernar",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/5eaee03649189abfc779534e318271b0",
+  "discord": "https://discord.com/invite/TR9bkY7",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "ZETA DIVISION",
+  "name": "프로퍼 Proper",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/92898bd140d264341c6542eef4606dca",
+  "discord": "https://discord.com/invite/tf85E3WxNQ",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "ZETA DIVISION",
+  "name": "밀가루 Mealgaru",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/344a931a124887597344b913957c00a7",
+  "discord": "https://discord.com/invite/s986sY6Aff",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "ZETA DIVISION",
+  "name": "슈 Shu",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/5b69fcdf1bea311343aac9e23466c69d",
+  "discord": "https://discord.com/invite/tJXVeBaAzn",
+  "youtube": "https://youtube.com/@shu0712"
+ },
+ {
+  "region": "KR",
+  "team": "ZETA DIVISION",
+  "name": "나이프 Knife",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/86bd730dbe8e99cebf32032ae46e340a",
+  "discord": "https://discord.com/invite/CZzV2W8D5G",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "ZETA DIVISION",
+  "name": "바이올렛 Viol2t",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/3a1998ce5b2a28dc7fe18ba35d684b0d",
+  "discord": "https://discord.com/invite/h59uFagpCE",
+  "youtube": "https://youtube.com/@viol2t417"
+ },
+ {
+  "region": "KR",
+  "team": "TEAM FALCONS",
+  "name": "한빈 Hanbin",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/cb8824848e95be6335ada92331cc8ab6",
+  "discord": "https://discord.gg/RXyfSgyqnc",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "TEAM FALCONS",
+  "name": "체크메이트 Checkmate",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/5cc531f43f5ee4e564409ce576b2acde",
+  "discord": "https://discord.gg/Y6HfBU9RT",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "TEAM FALCONS",
+  "name": "썸원 SOMEONE",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/755c3b1c1891e0f0d77174fed90c8de7",
+  "discord": "https://discord.gg/HFkn5UZDf",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "TEAM FALCONS",
+  "name": "필더 Fielder",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/41da59be22d29ee0c334729aa8756be4",
+  "discord": "https://discord.gg/wua3RyRPfm",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "TEAM FALCONS",
+  "name": "메리트 MER1T",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/7311abe03b99f5398afa305958b5e9f5",
+  "discord": "https://discord.com/invite/3MXwHQ9dnm",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "TEAM FALCONS",
+  "name": "치요 ChiYo",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/902fb58a0fcf602c29d43a0394b994e3",
+  "discord": "https://discord.gg/NC9ePygSD",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "TEAM FALCONS",
+  "name": "스핀트 SP1NT",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/1e149c108d1c3161181142c1db9c5f02",
+  "discord": "https://discord.com/invite/Fp3RYv9sPs",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "T1",
+  "name": "동학 DONGHAK",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/2492595c96735e01c2c2dc88aada0dab",
+  "discord": "https://discord.gg/Tdg5nKwzP",
+  "youtube": "https://youtube.com/@donghak2"
+ },
+ {
+  "region": "KR",
+  "team": "T1",
+  "name": "제스트 ZEST",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/737885cb4cc55acdb21908ac3a63a03c",
+  "discord": "https://discord.gg/FyNuJBkyY7",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "T1",
+  "name": "쟈스민 Jasm1ne",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/67079b704745290c6834d43547ca02d1",
+  "discord": "https://discord.gg/AA85nkZ64",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "T1",
+  "name": "블리스 Bliss",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/c95550cb5e5d21fb237feddfd995fa7c",
+  "discord": "http://discord.gg/A3y2zHT2fQ",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "T1",
+  "name": "프라우드 Proud",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/7adbdbbf3ff35dbd78378c8a134a1c58",
+  "discord": "https://discord.com/invite/VZ3jS4P4zR",
+  "youtube": "https://youtube.com/@proud_ow5353"
+ },
+ {
+  "region": "KR",
+  "team": "T1",
+  "name": "스큐드 skewed",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": null,
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RODE ZANSIDE GAMING",
+  "name": "희성 HEESUNG",
+  "role": "TANK",
+  "soop": "https://www.sooplive.com/station/heesung0620",
+  "chzzk": "https://chzzk.naver.com/4af072e073e9d07e15552bc38dedd760",
+  "discord": "https://discord.gg/UG8Eb4XS",
+  "youtube": "https://youtube.com/@owheesung"
+ },
+ {
+  "region": "KR",
+  "team": "RODE ZANSIDE GAMING",
+  "name": "베키 Bekey",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/ilha1002",
+  "chzzk": "https://chzzk.naver.com/b28e7a255a881332835d1cf675be8153",
+  "discord": "https://discord.com/invite/2tw36V2xZn",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RODE ZANSIDE GAMING",
+  "name": "헤이저 Heiser",
+  "role": "TANK",
+  "soop": "https://www.sooplive.com/station/undefined",
+  "chzzk": "https://chzzk.naver.com/c699c2b329bf771c3744062ecbfcc3c7",
+  "discord": "https://discord.com/invite/8C7tcqParH",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RODE ZANSIDE GAMING",
+  "name": "아이러니 iR0NY",
+  "role": "SUP",
+  "soop": "https://www.sooplive.com/station/rlaguddn2654",
+  "chzzk": "https://chzzk.naver.com/f48309a6a24c8d36ea7afab582ef026d",
+  "discord": "https://discord.com/invite/DF7urFfK4J",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RODE ZANSIDE GAMING",
+  "name": "태종 Taejong",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/xowhd11",
+  "chzzk": "https://chzzk.naver.com/4a0fe7607ccb4ed4f77afbd5891d4140",
+  "discord": "https://discord.com/invite/6ebD3g9Uzj",
+  "youtube": "https://youtube.com/@owtaejong"
+ },
+ {
+  "region": "KR",
+  "team": "RODE ZANSIDE GAMING",
+  "name": "오프너 OPENER",
+  "role": "SUP",
+  "soop": "https://www.sooplive.com/station/renepo43",
+  "chzzk": "https://chzzk.naver.com/e1b60d54acbd29b4fab233a279891bf6",
+  "discord": "https://discord.com/invite/hRKpPUt7zr",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RODE ZANSIDE GAMING",
+  "name": "킬로 Kilo",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/wlsdn750",
+  "chzzk": null,
+  "discord": "https://discord.gg/AeHzy7Egbe",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "O2 BLAST",
+  "name": "페이트 Fate",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/f1f3830bdac782c67e3091e7ba76c462",
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "O2 BLAST",
+  "name": "에일리언 A1lEN",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/acaf0c13ec5f015453dd06bde98866a1",
+  "discord": "https://discord.com/invite/tt9raceyPy",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "O2 BLAST",
+  "name": "홈런볼 homerunball",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/ada161104bba13ba5c1c475126ed8ebb",
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "O2 BLAST",
+  "name": "페이쓰 Faith",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/9e4552b38a8a88110ee5c387b77177e3",
+  "discord": "https://discord.com/invite/vjfxrSfyT7",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "O2 BLAST",
+  "name": "페르 perr",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/ee3403b79f760d4a90f2e78c0cbc3151",
+  "discord": "https://discord.gg/tkE98ThgMw",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "O2 BLAST",
+  "name": "감정이 Gamjung",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/d6f09af711aa2ccd6b23d4d235d14028",
+  "discord": "https://discord.gg/fg6EwTAvbF",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "O2 BLAST",
+  "name": "우티안 WuTian",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/40ddfd5e6e233b6921e7ca7235c09234",
+  "discord": "https://discord.gg/tHZ2gt3gP",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "CHEESEBURGER",
+  "name": "벨로스레아 Belosrea",
+  "role": "TANK",
+  "soop": "https://www.sooplive.com/station/belosrea04",
+  "chzzk": "https://chzzk.naver.com/350d09d2a890a58e4f47eb36b6637940",
+  "discord": "https://discord.com/invite/9EZDB5NDgc",
+  "youtube": "https://youtube.com/@belosrea_ow"
+ },
+ {
+  "region": "KR",
+  "team": "CHEESEBURGER",
+  "name": "에이전트 Azent",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/azent06",
+  "chzzk": "https://chzzk.naver.com/25b329d288938f39c6616db1a8d8824c",
+  "discord": "https://discord.com/invite/GD6Zk7eqNr",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "CHEESEBURGER",
+  "name": "프로핏 Profit",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/dydalswjs77",
+  "chzzk": "https://chzzk.naver.com/ef63f3ccc77294f4d201007bcd6a245b",
+  "discord": "https://discord.gg/B3fAvHxQ",
+  "youtube": "https://youtube.com/@profit9863"
+ },
+ {
+  "region": "KR",
+  "team": "CHEESEBURGER",
+  "name": "트레스트 Trest",
+  "role": "SUP",
+  "soop": "https://www.sooplive.com/station/pcw2031",
+  "chzzk": null,
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "CHEESEBURGER",
+  "name": "케인 K4NE",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/k4ne2337",
+  "chzzk": "https://chzzk.naver.com/35074e1188439dec495c9badcee0b41e",
+  "discord": "https://discord.com/invite/JWadgeHfXR",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "CHEESEBURGER",
+  "name": "텐텐 TenTen",
+  "role": "SUP",
+  "soop": "https://www.sooplive.com/station/yejune1010",
+  "chzzk": "https://chzzk.naver.com/fd135e3aa659fa8c1c28978ffa8606ff",
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "POKER FACE",
+  "name": "스우 SWOO",
+  "role": "TANK",
+  "soop": "https://www.sooplive.com/station/yun850",
+  "chzzk": "https://chzzk.naver.com/88873e3543129137b7c1199aeb0dde7f",
+  "discord": "https://discord.gg/XACKMXd2Ne",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "POKER FACE",
+  "name": "카페인 Caffeine",
+  "role": "SUP",
+  "soop": "https://www.sooplive.com/station/caffeine03",
+  "chzzk": null,
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "POKER FACE",
+  "name": "SoLA 솔라",
+  "role": "TANK",
+  "soop": "https://www.sooplive.com/station/kssaf3333",
+  "chzzk": null,
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "POKER FACE",
+  "name": "소애 Soae",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/soae03",
+  "chzzk": "https://chzzk.naver.com/4a5925dbd5d7b1bfc6715ea400ce00b4",
+  "discord": "https://discord.com/invite/g2hSxTmjEh",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "POKER FACE",
+  "name": "소리 SORI",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/jin2234",
+  "chzzk": "https://chzzk.naver.com/cff44f9726ea5ecd27ba79c0f837d720",
+  "discord": "https://discord.com/invite/7esHNEt4zT",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "POKER FACE",
+  "name": "덤벨 Dumbbell",
+  "role": "SUP",
+  "soop": "https://www.sooplive.com/station/mippy86",
+  "chzzk": "https://chzzk.naver.com/4cedb2248dbedb5f0d1317cdda996f82",
+  "discord": "https://discord.gg/Z5CfZPDAN",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "POKER FACE",
+  "name": "파이널리 F1nally",
+  "role": "DPS",
+  "soop": "https://www.sooplive.com/station/pmj070922",
+  "chzzk": "https://chzzk.naver.com/8666885a39d1d4b4c89dd7e718ca4d09",
+  "discord": "https://discord.com/invite/9wFJ7d8Bjs",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RTplz",
+  "name": "독스 DOX",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": null,
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RTplz",
+  "name": "미닛 M1nut2",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/c7d3ae08ae9ada171cb85b769781f829",
+  "discord": "https://discord.com/invite/RrmbvsU2D5",
+  "youtube": "https://youtube.com/@m1nut2"
+ },
+ {
+  "region": "KR",
+  "team": "RTplz",
+  "name": "센티어 SENTIER",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/a22d71b8d303fde07105073ec3252c60",
+  "discord": "https://discord.gg/9wY3QaSaM",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RTplz",
+  "name": "오프 OFF",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/899edf5b9d884f3ed306a2bb5acc2280",
+  "discord": "https://discord.com/invite/UYFQjJEBM",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RTplz",
+  "name": "다트 D4RT",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/6e035918f8b46496a9c2e16915663713",
+  "discord": "https://discord.gg/vQ6wpVV7tK",
+  "youtube": null
+ },
+ {
+  "region": "KR",
+  "team": "RTplz",
+  "name": "라벤더 Lavender",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/9c07110ad2cd8d9dd470044ad7ec39eb",
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "CN",
+  "team": "CN",
+  "name": "마카 MAKA",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/7f9e321207b24ceb0e4210a7db1a7cb1",
+  "discord": "https://discord.gg/DjTfsTg9p",
+  "youtube": null
+ },
+ {
+  "region": "CN",
+  "team": "CN",
+  "name": "프로펫 Prophet",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/947b1744d7347b8d8321cf88a003d19e",
+  "discord": "https://discord.gg/YkNQ97cds",
+  "youtube": "https://youtube.com/@iamprophet27"
+ },
+ {
+  "region": "CN",
+  "team": "CN",
+  "name": "이수민 LeeSooMin",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/cd29d60d1cf15767a0c425f07fc6c2da",
+  "discord": null,
+  "youtube": null
+ },
+ {
+  "region": "CN",
+  "team": "CN",
+  "name": "승안 SeungAn",
+  "role": "TANK",
+  "soop": "https://www.sooplive.com/station/seungan06",
+  "chzzk": "https://chzzk.naver.com/d62a6108b9953b0e175b0be695af56e4",
+  "discord": "https://discord.com/invite/yhNyKUr9aA",
+  "youtube": null
+ },
+ {
+  "region": "EMEA",
+  "team": "EMEA",
+  "name": "심플 Simple",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/c3770f4acce4d4feaf12cc5b8b5680f8",
+  "discord": "https://discord.gg/RCYzuFYkv",
+  "youtube": null
+ },
+ {
+  "region": "EMEA",
+  "team": "EMEA",
+  "name": "알파이 AlphaYi",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/3e124dd3fe14d90ff712dd6912928a3e",
+  "discord": "https://discord.com/invite/zPA4ENpBUD",
+  "youtube": null
+ },
+ {
+  "region": "EMEA",
+  "team": "EMEA",
+  "name": "핀 FiNN",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/3b6039f72de09bb5ea7fbcbf96e50f46",
+  "discord": "https://discord.com/invite/AwyyQ9FtmT",
+  "youtube": "https://youtube.com/@sejfinn"
+ },
+ {
+  "region": "NA",
+  "team": "NA",
+  "name": "캘란 kellan",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/5f43adc6d17e266054bbbae6d21b466a",
+  "discord": "https://discord.gg/eQKQBH2BfS",
+  "youtube": null
+ },
+ {
+  "region": "NA",
+  "team": "NA",
+  "name": "키비스 KIVIS",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/19d4ef3c42e04990948a0701dfac3927",
+  "discord": "https://discord.com/invite/Rg7G3Z5XNF",
+  "youtube": null
+ },
+ {
+  "region": "NA",
+  "team": "NA",
+  "name": "선준 SeonJun",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/78c51f67210a37348e03b7430ada950d",
+  "discord": "https://discord.gg/WjQpETwMg",
+  "youtube": null
+ },
+ {
+  "region": "NA",
+  "team": "NA",
+  "name": "어택 Attack",
+  "role": "TANK",
+  "soop": "https://ch.sooplive.co.kr/wnsghk0501",
+  "chzzk": "https://chzzk.naver.com/2cffee35301d366a08f194c676aa97e6",
+  "discord": "https://discord.gg/eBSXTdWYeh",
+  "youtube": null
+ },
+ {
+  "region": "JP",
+  "team": "JP",
+  "name": "바이퍼 Viper",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/3a01aaeaf2db604c6d25e65e35a0604a",
+  "discord": "https://discord.com/invite/Gq3QMvcCNu",
+  "youtube": null
+ },
+ {
+  "region": "JP",
+  "team": "JP",
+  "name": "피어리스 Fearless",
+  "role": "TANK",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/a86845f0f7aef931a38ffedad4a15091",
+  "discord": null,
+  "youtube": "https://youtube.com/@fearless0527"
+ },
+ {
+  "region": "JP",
+  "team": "JP",
+  "name": "슬리 Sley",
+  "role": "SUP",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/7f81b9098af4562330f0bfb0b1b72c00",
+  "discord": "https://discord.com/invite/2M2e7W6aP8",
+  "youtube": "https://youtube.com/channel/UCtv3I6ug1lo2HfxofKHxxrQ"
+ },
+ {
+  "region": "JP",
+  "team": "JP",
+  "name": "에디슨 Edison",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/6c411c6573f7964e7ea843d8b694e7d2",
+  "discord": "https://discord.com/invite/4EUrK4FDUT",
+  "youtube": null
+ },
+ {
+  "region": "JP",
+  "team": "JP",
+  "name": "탑드래곤 TOPDRAGON",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/3d69e3102a10fac984ac6d8620c12f2f",
+  "discord": "https://discord.gg/9r6Wy8E4D",
+  "youtube": "https://youtube.com/@topdragon0103"
+ },
+ {
+  "region": "JP",
+  "team": "JP",
+  "name": "플로라 Flora",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/9b50f2c139753884f1bbfb4cf0a799a3",
+  "discord": "https://discord.gg/uwEsm9fJ49",
+  "youtube": null
+ },
+ {
+  "region": "JP",
+  "team": "JP",
+  "name": "에이드 Ade",
+  "role": "DPS",
+  "soop": null,
+  "chzzk": "https://chzzk.naver.com/f6eebccbb02df0abc3d310ae6cb1bd01",
+  "discord": "https://discord.gg/9UzK8MdXXE",
+  "youtube": null
+ }
+]
