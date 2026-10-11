@@ -1,0 +1,1096 @@
+{
+ "title": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 0,
+   "date": "2026-07-29T20:50:00+02:00",
+   "bestof": 3,
+   "team1": "Virtus.Pro",
+   "team2": "9z Team",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "zarya",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "symmetra"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/S_lPHiNTBSg?si=l4V1LmMa1Pyi6im1",
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 1,
+   "date": "2026-07-29T17:30:00+02:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "Twisted Minds",
+   "score1": 1,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "bastion",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "vendetta"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/xj4XZPW3HY8?si=Lkg28ba6bHzSoCLd",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 2,
+   "date": "2026-07-29T19:20:00+02:00",
+   "bestof": null,
+   "team1": "Weibo Gaming",
+   "team2": "Team Liquid",
+   "score1": 2,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "jetpack cat"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "mauga"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/oWKKojpQDQs?si=5D32RV_Ak3spiCrL",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 3,
+   "date": "2026-07-29T21:45:00+02:00",
+   "bestof": null,
+   "team1": "Dallas Fuel",
+   "team2": "Team Falcons",
+   "score1": 0,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "brigitte",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "wuyang"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/fDPf1oTXYr0?si=45hMwgcQhdSREQGx",
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 4,
+   "date": "2026-07-31T12:10:00+02:00",
+   "bestof": null,
+   "team1": "Virtus.Pro",
+   "team2": "Twisted Minds",
+   "score1": 0,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "pharah"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "sojourn",
+      "t2": "sigma"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/GACo2l4coY8?si=w1xuhkXdKvpVFV06",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 5,
+   "date": "2026-07-30T12:55:00+02:00",
+   "bestof": null,
+   "team1": "Weibo Gaming",
+   "team2": "Team Falcons",
+   "score1": 2,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "mauga",
+      "t2": "sojourn"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "wuyang"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 88.42,
+     "score2": 60.07,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "shion"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/_dKTdqR9I3E?si=-d2U70kPzw-Q1G0U",
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 6,
+   "date": "2026-07-30T16:35:00+02:00",
+   "bestof": null,
+   "team1": "9z Team",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "junkerqueen"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "vendetta",
+      "t2": "mercy"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/j0HoxrgG4Ec?si=egu7i_uUSinqKQQh",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 7,
+   "date": "2026-07-30T17:25:00+02:00",
+   "bestof": null,
+   "team1": "Team Liquid",
+   "team2": "Dallas Fuel",
+   "score1": 0,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "d.va"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "mauga",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/BHy0q7QsLsQ?si=RlfX2vY48ta4utDz",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 8,
+   "date": "2026-07-31T14:15:00+02:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "shion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "pharah",
+      "t2": "d.va"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/Mvm44DZhRJo?si=BtrEYl07DAXmTxZr",
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 9,
+   "date": "2026-07-31T16:25:00+02:00",
+   "bestof": null,
+   "team1": "Virtus.Pro",
+   "team2": "Dallas Fuel",
+   "score1": 0,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "d.va"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "mauga",
+      "t2": "symmetra"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/0KiWmkAYpbM?si=T90G9cRRuyOifbJ4",
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 10,
+   "date": "2026-07-29T13:15:00+02:00",
+   "bestof": 3,
+   "team1": "Crazy Raccoon",
+   "team2": "Team Secret",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "hazard",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "mercy",
+      "t2": "mauga"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/j0AsBGfeG00?si=W_BijHWBUxyZCr6H",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 11,
+   "date": "2026-07-29T16:00:00+02:00",
+   "bestof": null,
+   "team1": "Spacestation Gaming",
+   "team2": "JD Gaming",
+   "score1": 2,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "vendetta"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "winston",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "brigitte",
+      "t2": "d.va"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/912u5m8Cedw?si=eS1hioew4zZuabvP",
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 12,
+   "date": "2026-07-29T14:45:00+02:00",
+   "bestof": null,
+   "team1": "Geekay Esports",
+   "team2": "All Gamers",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "d.va"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "baptiste"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/jaMZsUYiaww?si=HGtaYJ9UMAco14BL",
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 13,
+   "date": "2026-07-29T12:15:00+02:00",
+   "bestof": null,
+   "team1": "ZETA Division",
+   "team2": "VARREL",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "bastion",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "d.va"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/mtmrnijWdQg?si=1hwI641oSHDNCPfw",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 14,
+   "date": "2026-07-30T12:05:00+02:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "Spacestation Gaming",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "domina"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/DMQB5c70Tho?si=La0KZsOGf_juUAkN",
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 15,
+   "date": "2026-07-31T13:00:00+02:00",
+   "bestof": null,
+   "team1": "Geekay Esports",
+   "team2": "ZETA Division",
+   "score1": 1,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "tracer",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "symmetra"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "shion",
+      "t2": "lucio"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/6hFc4B6JhK4?si=3A2Q3xTWqQ2WhOnO",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 16,
+   "date": "2026-07-30T15:45:00+02:00",
+   "bestof": null,
+   "team1": "Team Secret",
+   "team2": "JD Gaming",
+   "score1": 0,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "mauga"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "mauga",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/hk6o-q4PMcQ?si=KGp9D_SNkt907eeq",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 17,
+   "date": "2026-07-30T14:25:00+02:00",
+   "bestof": null,
+   "team1": "All Gamers",
+   "team2": "VARREL",
+   "score1": 1,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "bastion",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/0ChJKLBRo-U?si=YVP6Y9TkI5oJoWnb",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 18,
+   "date": "2026-07-31T17:15:00+02:00",
+   "bestof": null,
+   "team1": "Geekay Esports",
+   "team2": "JD Gaming",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "shion",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/6b67U1pBbXU?si=eWi9KMPlC-Kx9sdO",
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
+   "idx": 19,
+   "date": "2026-07-31T15:10:00+02:00",
+   "bestof": null,
+   "team1": "Spacestation Gaming",
+   "team2": "VARREL",
+   "score1": 2,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "sigma",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "ana",
+      "t2": "cassidy"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://youtu.be/btHs3F6wiGw?si=_Vx3Ozb5XeWqaGGZ",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  }
+ ]
+}

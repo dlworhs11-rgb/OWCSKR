@@ -1,0 +1,2861 @@
+{
+ "title": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 0,
+   "date": "2026-10-02T17:15:00+09:00",
+   "bestof": 5,
+   "team1": "Cheeseburger",
+   "team2": "Poker Face",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "bastion",
+      "t2": "d.mon"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 141.97,
+     "score2": 43.57,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "ana"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "K4NE",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "ChangSik",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 1,
+   "date": "2026-10-02T18:45:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "ZETA DIVISION",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "reinhardt",
+      "t2": "mercy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 83.41,
+     "score2": 117.55,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "widowmaker"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "orisa",
+      "t2": "jetpack cat"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "KNIFE",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "ChangSik",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 2,
+   "date": "2026-10-02T20:30:00+09:00",
+   "bestof": null,
+   "team1": "SEIJI ESPORTS",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "mei",
+      "t2": "ana"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "bastion",
+      "t2": "winston"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "d.mon",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Proud",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "ChangSik",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 3,
+   "date": "2026-10-03T15:15:00+09:00",
+   "bestof": 5,
+   "team1": "Cheeseburger",
+   "team2": "ZANSIDE Gaming",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Mizuki",
+      "t2": "Roadhog"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Esperanca",
+     "mode": "Push",
+     "score1": 121.6,
+     "score2": 41.47,
+     "winner": 1,
+     "bans": {
+      "t1": "Bastion",
+      "t2": "Mercy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Trest",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "Sim Ji-soo",
+    "Aid"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 4,
+   "date": "2026-10-03T16:35:00+09:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "ZETA DIVISION",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Cassidy",
+      "t2": "Mercy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "bastion",
+      "t2": "Lifeweaver"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "Jetpack Cat",
+      "t2": "Wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 18.17,
+     "score2": 116.23,
+     "winner": 2,
+     "bans": {
+      "t1": "Ana",
+      "t2": "Vendetta"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "BERNAR",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "Sim Ji-soo",
+    "Aid"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 5,
+   "date": "2026-10-03T18:35:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "O2 Blast",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "zenyatta",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "d.va"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "JunBin",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "Sim Ji-soo",
+    "Aid"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 6,
+   "date": "2026-10-04T15:15:00+09:00",
+   "bestof": 5,
+   "team1": "O2 Blast",
+   "team2": "SEIJI ESPORTS",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "winston"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 4,
+     "winner": 2,
+     "bans": {
+      "t1": "ana",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "ana"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 93.65,
+     "score2": 80.9,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "cassidy"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "A1IEN",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "Park Han-eol",
+    "AKaros"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 7,
+   "date": "2026-10-04T17:05:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "ZANSIDE Gaming",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mizuki",
+      "t2": "bastion"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "ana"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 60.2,
+     "score2": 113,
+     "winner": 2,
+     "bans": {
+      "t1": "ana",
+      "t2": "dva"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "winston",
+      "t2": "ashe"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "JunBin",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "Park Han-eol",
+    "AKaros"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 8,
+   "date": "2026-10-04T19:05:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "Poker Face",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "tracer"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "bastion",
+      "t2": "ana"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "d.mon"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "MER1T",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "Park Han-eol",
+    "AKaros"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 9,
+   "date": "2026-10-09T17:20:00+09:00",
+   "bestof": 5,
+   "team1": "Team Falcons",
+   "team2": "O2 Blast",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "sombra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "orisa",
+      "t2": "mercy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 141.97,
+     "score2": 21.94,
+     "winner": 1,
+     "bans": {
+      "t1": "doctrine",
+      "t2": "bastion"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "SOMEONE",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "AKaros",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 10,
+   "date": "2026-10-09T18:35:00+09:00",
+   "bestof": null,
+   "team1": "Poker Face",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "d.mon"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "ZEST",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "AKaros",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 11,
+   "date": "2026-10-09T20:05:00+09:00",
+   "bestof": null,
+   "team1": "SEIJI ESPORTS",
+   "team2": "ZETA DIVISION",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "mercy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "jetpack cat"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "shion"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "AKaros",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 12,
+   "date": "2026-10-10T15:15:00+09:00",
+   "bestof": 5,
+   "team1": "SEIJI ESPORTS",
+   "team2": "ZANSIDE Gaming",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "shion",
+      "t2": "mizuki"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "sombra",
+      "t2": "dmon"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 77.59,
+     "score2": 69.15,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "bastion"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 5,
+     "score2": 4,
+     "winner": 1,
+     "bans": {
+      "t1": "dmon",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "D4RT",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "Park Han-eol",
+    "Aid"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 13,
+   "date": "2026-10-10T17:15:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "T1",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mercy",
+      "t2": "shion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "hazard",
+      "t2": "bastion"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 118.58,
+     "score2": 58.16,
+     "winner": 1,
+     "bans": {
+      "t1": "zenyatta",
+      "t2": "dmon"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "LIP",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "Park Han-eol",
+    "Aid"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 14,
+   "date": "2026-10-10T19:10:00+09:00",
+   "bestof": null,
+   "team1": "Cheeseburger",
+   "team2": "Team Falcons",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "genji",
+      "t2": "doctrine"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "domina",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "emre",
+      "t2": "ramattra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 141.97,
+     "score2": 34.44,
+     "winner": 1,
+     "bans": {
+      "t1": "reaper",
+      "t2": "hazard"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "K4NE",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "Park Han-eol",
+    "Aid"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 15,
+   "date": "2026-10-11T15:00:00+09:00",
+   "bestof": 5,
+   "team1": "O2 Blast",
+   "team2": "ZANSIDE Gaming",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 16,
+   "date": "2026-10-11T16:30:00+09:00",
+   "bestof": null,
+   "team1": "Cheeseburger",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 17,
+   "date": "2026-10-11T18:00:00+09:00",
+   "bestof": null,
+   "team1": "Poker Face",
+   "team2": "ZETA DIVISION",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 18,
+   "date": "2026-10-16T17:00:00+09:00",
+   "bestof": 5,
+   "team1": "Team Falcons",
+   "team2": "SEIJI ESPORTS",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 19,
+   "date": "2026-10-16T18:30:00+09:00",
+   "bestof": null,
+   "team1": "Cheeseburger",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 20,
+   "date": "2026-10-16T20:00:00+09:00",
+   "bestof": null,
+   "team1": "O2 Blast",
+   "team2": "ZETA DIVISION",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 21,
+   "date": "2026-10-17T15:00:00+09:00",
+   "bestof": 5,
+   "team1": "O2 Blast",
+   "team2": "Poker Face",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 22,
+   "date": "2026-10-17T16:30:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "Team Falcons",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 23,
+   "date": "2026-10-17T17:00:00+09:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "ZANSIDE Gaming",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 24,
+   "date": "2026-10-18T15:00:00+09:00",
+   "bestof": 5,
+   "team1": "Cheeseburger",
+   "team2": "SEIJI ESPORTS",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 25,
+   "date": "2026-10-18T16:30:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "Poker Face",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 26,
+   "date": "2026-10-18T18:00:00+09:00",
+   "bestof": null,
+   "team1": "ZANSIDE Gaming",
+   "team2": "ZETA DIVISION",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 27,
+   "date": "2026-10-23T17:00:00+09:00",
+   "bestof": 5,
+   "team1": "Cheeseburger",
+   "team2": "O2 Blast",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 28,
+   "date": "2026-10-23T18:30:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "ZANSIDE Gaming",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 29,
+   "date": "2026-10-23T20:00:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "SEIJI ESPORTS",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 30,
+   "date": "2026-10-24T15:00:00+09:00",
+   "bestof": 5,
+   "team1": "Cheeseburger",
+   "team2": "ZETA DIVISION",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 31,
+   "date": "2026-10-24T16:30:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 32,
+   "date": "2026-10-24T18:00:00+09:00",
+   "bestof": null,
+   "team1": "Poker Face",
+   "team2": "SEIJI ESPORTS",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 33,
+   "date": "2026-10-25T15:00:00+09:00",
+   "bestof": 5,
+   "team1": "Poker Face",
+   "team2": "ZANSIDE Gaming",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 34,
+   "date": "2026-10-25T16:30:00+09:00",
+   "bestof": null,
+   "team1": "O2 Blast",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 35,
+   "date": "2026-10-25T18:00:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  }
+ ]
+}

@@ -1,0 +1,198 @@
+{
+ "title": "Overwatch Champions Series/2024/Asia/Stage 1/Wild Card",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Wild Card",
+   "idx": 0,
+   "date": "2024-04-08T18:00:00+09:00",
+   "bestof": 5,
+   "team1": "SixBlow",
+   "team2": "YETI (Korean team)",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 0,
+     "score2": 139.4,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "D0NGHAK",
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "OWEsports"
+   },
+   "vod": "https://www.youtube.com/watch?v=N98TF62YwsY",
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Wild Card",
+   "idx": 1,
+   "date": "2024-04-08T19:30:00+09:00",
+   "bestof": null,
+   "team1": "SixBlow",
+   "team2": "321 Diving",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 108.63,
+     "score2": 66.42,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "Midtown",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "TQQ",
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "OWEsports"
+   },
+   "vod": "https://www.youtube.com/watch?v=cDzKTV_M2P8",
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Wild Card",
+   "idx": 2,
+   "date": "2024-04-08T21:00:00+09:00",
+   "bestof": null,
+   "team1": "321 diving",
+   "team2": "YETI (Korean team)",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Midtown",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Viper",
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "OWEsports"
+   },
+   "vod": "https://www.youtube.com/watch?v=oemsCSi1dQc",
+   "casters": []
+  }
+ ]
+}

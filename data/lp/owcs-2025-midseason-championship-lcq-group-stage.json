@@ -1,0 +1,1088 @@
+{
+ "title": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 0,
+   "date": "2025-07-17T15:00:00+00:00",
+   "bestof": 5,
+   "team1": "Invaders",
+   "team2": "Aura (Saudi Arabian team)",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Midtown",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 1,
+   "date": "2025-07-17T16:50:00+00:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "Invaders",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "brigitte",
+      "t2": "ramattra"
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "illari",
+      "t2": "mei"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "baptiste",
+      "t2": "venture"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": null,
+   "casters": [
+    "AVRL",
+    "Avast"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 2,
+   "date": "2025-07-18T15:00:00+00:00",
+   "bestof": null,
+   "team1": "Aura (Saudi Arabian team)",
+   "team2": "Invaders",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "sojourn"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Midtown",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "zarya"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": null,
+   "casters": [
+    "AVRL",
+    "Avast"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 3,
+   "date": "2025-07-17T15:10:00+00:00",
+   "bestof": 5,
+   "team1": "Force (Saudi Arabian team)",
+   "team2": "Zenith (Saudi Arabian team)",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "orisa"
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "doomfist",
+      "t2": "genji"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 139.62,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "torbjorn",
+      "t2": "winston"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": null,
+   "casters": [
+    "AVRL",
+    "Avast"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 4,
+   "date": "2025-07-17T16:45:00+00:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "Force (Saudi Arabian team)",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 139.62,
+     "score2": 74.17,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": "https://youtu.be/mLSsl-4gm3I?si=z4ZasUBYPh5j4jTg",
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 5,
+   "date": "2025-07-18T16:30:00+00:00",
+   "bestof": null,
+   "team1": "Zenith (Saudi Arabian team)",
+   "team2": "Force (Saudi Arabian team)",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Midtown",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": null,
+   "casters": [
+    "AVRL",
+    "Avast"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 6,
+   "date": "2025-07-17T18:30:00+00:00",
+   "bestof": 5,
+   "team1": "team vision",
+   "team2": "SHOCK",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 7,
+   "date": "2025-07-17T18:30:00+00:00",
+   "bestof": null,
+   "team1": "Bright Future",
+   "team2": "FlexaBull",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "orisa",
+      "t2": "genji"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 142.41,
+     "score2": 53.55,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "freja"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": null,
+   "casters": [
+    "Unter",
+    "CommanderX"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 8,
+   "date": "2025-07-17T20:00:00+00:00",
+   "bestof": null,
+   "team1": "team vision",
+   "team2": "Bright Future",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "freja"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "orisa",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 94.27,
+     "score2": 95.34,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "Midtown",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "orisa"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": null,
+   "casters": [
+    "Unter",
+    "CommanderX"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 9,
+   "date": "2025-07-17T20:15:00+00:00",
+   "bestof": null,
+   "team1": "SHOCK",
+   "team2": "FlexaBull",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 59.98,
+     "score2": 139.62,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": null,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 10,
+   "date": "2025-07-18T17:30:00+00:00",
+   "bestof": null,
+   "team1": "Bright Future",
+   "team2": "FlexaBull",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "freja",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "genji"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 130.7,
+     "score2": 34.71,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": null,
+   "casters": [
+    "Unter",
+    "CommanderX"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 11,
+   "date": "2025-07-17T18:30:00+00:00",
+   "bestof": 5,
+   "team1": "Cold Metal",
+   "team2": "LOLARIOUS",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 4,
+     "score2": 5,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 139.62,
+     "score2": 19.03,
+     "winner": 1,
+     "bans": {
+      "t1": "venture",
+      "t2": "ana"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "orisa",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": null,
+   "casters": [
+    "Unter",
+    "CommanderX"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 12,
+   "date": "2025-07-17T18:30:00+00:00",
+   "bestof": null,
+   "team1": "TFW",
+   "team2": "ZoneX",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": "Control",
+     "score1": 2,
+     "score2": null,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 13,
+   "date": "2025-07-17T20:15:00+00:00",
+   "bestof": null,
+   "team1": "Cold Metal",
+   "team2": "TFW",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": null,
+     "score2": null,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 14,
+   "date": "2025-07-17T20:15:00+00:00",
+   "bestof": null,
+   "team1": "LOLARIOUS",
+   "team2": "ZoneX",
+   "score1": 1,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 142.41,
+     "score2": 5.58,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
+   "idx": 15,
+   "date": "2025-07-18T18:20:00+00:00",
+   "bestof": null,
+   "team1": "Cold Metal",
+   "team2": "LOLARIOUS",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "venture",
+      "t2": "winston"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 104.79,
+     "score2": 100.63,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": null,
+   "casters": [
+    "Unter",
+    "CommanderX"
+   ]
+  }
+ ]
+}

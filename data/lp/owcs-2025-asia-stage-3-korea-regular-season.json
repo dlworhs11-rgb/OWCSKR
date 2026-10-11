@@ -1,0 +1,2419 @@
+{
+ "title": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 0,
+   "date": "2025-08-29T17:10:00+09:00",
+   "bestof": 5,
+   "team1": "Cheeseburger",
+   "team2": "ZETA DIVISION",
+   "score1": 2,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "genji"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 116.51,
+     "score2": 80.8,
+     "winner": 1,
+     "bans": {
+      "t1": "freja",
+      "t2": "winston"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "mauga",
+      "t2": "venture"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 4,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "illari"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Eichenwalde",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "hazard",
+      "t2": "brigitte"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "BERNAR",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/EbIjW50pBYI",
+   "casters": [
+    "Park Han-eol",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 1,
+   "date": "2025-08-29T19:50:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "mercy",
+      "t2": "cassidy"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 11.71,
+     "score2": 142.41,
+     "winner": 2,
+     "bans": {
+      "t1": "winston",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "SP1NT",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/FT02aPMdJ-E",
+   "casters": [
+    "Park Han-eol",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 2,
+   "date": "2025-08-29T21:20:00+09:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "Mir Gaming",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": null,
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "dva",
+      "t2": "freja"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 128.11,
+     "score2": 17.56,
+     "winner": 1,
+     "bans": {
+      "t1": "sombra",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "freja",
+      "t2": "brigitte"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "ZEST",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/CRDxEh4Wn1s",
+   "casters": [
+    "Park Han-eol",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 3,
+   "date": "2025-08-30T17:10:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "ONSIDE GAMING",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "dva",
+      "t2": "ana"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "ramattra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "genji",
+      "t2": "winston"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/7FtAebq9uTg",
+   "casters": [
+    "TheMarine",
+    "Strings"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 4,
+   "date": "2025-08-30T18:40:00+09:00",
+   "bestof": null,
+   "team1": "WAE",
+   "team2": "Old Ocean",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "hazard",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Hollywood",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "winston"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Ade",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/fB6rLZuhBb4",
+   "casters": [
+    "TheMarine",
+    "Strings"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 5,
+   "date": "2025-08-30T21:15:00+09:00",
+   "bestof": null,
+   "team1": "Cheeseburger",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "hazard",
+      "t2": "lucio"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "winston"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "junkrat"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "DONGHAK",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/sN8hqwrViDU",
+   "casters": [
+    "TheMarine",
+    "Strings"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 6,
+   "date": "2025-08-31T17:10:00+09:00",
+   "bestof": null,
+   "team1": "Mir Gaming",
+   "team2": "ONSIDE GAMING",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "pharah",
+      "t2": "dva"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "hazard"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "junker queen"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Ado",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/BCIBS5fxb-0",
+   "casters": [
+    "Melt",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 7,
+   "date": "2025-08-31T18:55:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "Old Ocean",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "roadhog",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "zarya",
+      "t2": "genji"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Hollywood",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "freja",
+      "t2": "dva"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "AlphaYi",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/YTc7NI9Gpls",
+   "casters": [
+    "Melt",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 8,
+   "date": "2025-08-31T20:10:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "WAE",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "echo"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 128.11,
+     "score2": 64.37,
+     "winner": 1,
+     "bans": {
+      "t1": "soldier",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "hazard",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Shu",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/mhPtIUOgHWI",
+   "casters": [
+    "Melt",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 9,
+   "date": "2025-09-05T17:10:00+09:00",
+   "bestof": 5,
+   "team1": "WAE",
+   "team2": "Cheeseburger",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "freja"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "winston",
+      "t2": "reaper"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 142.41,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "hazard",
+      "t2": "pharah"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "SeonJun",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/JTMnpxSPGWU",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 10,
+   "date": "2025-09-05T18:20:00+09:00",
+   "bestof": null,
+   "team1": "ONSIDE GAMING",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "freja"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Hollywood",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "genji",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "HeeSang",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/3ARqegf2xIs",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 11,
+   "date": "2025-09-05T19:40:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "Team Falcons",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "ana",
+      "t2": "genji"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "dva"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "freja",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 114.94,
+     "score2": 93.2,
+     "winner": 1,
+     "bans": {
+      "t1": "winston",
+      "t2": "wuyang"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "FiNN",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/fwME_7ghydk",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 12,
+   "date": "2025-09-06T17:10:00+09:00",
+   "bestof": null,
+   "team1": "Mir Gaming",
+   "team2": "WAE",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "pharah",
+      "t2": "roadhog"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "hazard",
+      "t2": "ana"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Mealgaru",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/Gi7IOfQgeT0",
+   "casters": [
+    "AKaros",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 13,
+   "date": "2025-09-06T18:25:00+09:00",
+   "bestof": null,
+   "team1": "Old Ocean",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "roadhog"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "sojourn"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 49.3,
+     "score2": 128.11,
+     "winner": 2,
+     "bans": {
+      "t1": "zenyatta",
+      "t2": "venture"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "DONGHAK",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/XAH-eaShGUM",
+   "casters": [
+    "AKaros",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 14,
+   "date": "2025-09-06T19:45:00+09:00",
+   "bestof": null,
+   "team1": "ONSIDE GAMING",
+   "team2": "Cheeseburger",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "hazard",
+      "t2": "sombra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "lucio"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 126.13,
+     "score2": 32.65,
+     "winner": 1,
+     "bans": {
+      "t1": "reaper",
+      "t2": "ana"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Kellan",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/azt8U5-QE0Q",
+   "casters": [
+    "AKaros",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 15,
+   "date": "2025-09-07T17:00:00+09:00",
+   "bestof": null,
+   "team1": "Mir Gaming",
+   "team2": "ZETA DIVISION",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "pharah",
+      "t2": "d.va"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 42.68,
+     "score2": 125.68,
+     "winner": 2,
+     "bans": {
+      "t1": "reinhardt",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Pelican",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/D_v4xXS39xU",
+   "casters": [
+    "AKaros",
+    "TheMarine"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 16,
+   "date": "2025-09-07T18:25:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "tracer"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "wuyang"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "winston",
+      "t2": "genji"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Proud",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/8spFQay6GJk",
+   "casters": [
+    "AKaros",
+    "TheMarine"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 17,
+   "date": "2025-09-07T19:50:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "Old Ocean",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "echo",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Hollywood",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "lucio"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/wV4Su34Qo7s",
+   "casters": [
+    "AKaros",
+    "TheMarine"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 18,
+   "date": "2025-09-12T17:10:00+09:00",
+   "bestof": 5,
+   "team1": "WAE",
+   "team2": "Team Falcons",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "winston",
+      "t2": "sombra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 125.65,
+     "score2": 125.66,
+     "winner": 2,
+     "bans": {
+      "t1": "tracer",
+      "t2": "wuyang"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/KsTigax2N_s",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 19,
+   "date": "2025-09-12T18:35:00+09:00",
+   "bestof": null,
+   "team1": "Old Ocean",
+   "team2": "Mir Gaming",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "dva",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "sombra",
+      "t2": "winston"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Hollywood",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "zarya",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Becky",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/5Nf3tc7t0l0",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 20,
+   "date": "2025-09-12T20:00:00+09:00",
+   "bestof": null,
+   "team1": "ONSIDE GAMING",
+   "team2": "T1",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "lucio"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "winston",
+      "t2": "hanzo"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "winston"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "ZEST",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/nDrbNxRhA-s",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 21,
+   "date": "2025-09-13T17:10:00+09:00",
+   "bestof": null,
+   "team1": "Mir Gaming",
+   "team2": "Team Falcons",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": "sombra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "winston",
+      "t2": "mercy"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 0,
+     "score2": 142.41,
+     "winner": 2,
+     "bans": {
+      "t1": "reinhardt",
+      "t2": "wuyang"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/qFRKT7bXClY",
+   "casters": [
+    "Park Han-eol",
+    "Strings"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 22,
+   "date": "2025-09-13T18:25:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "ZETA DIVISION",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "lifeweaver",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "mercy",
+      "t2": "genji"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 5,
+     "score2": 3,
+     "winner": 1,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "zarya"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "CH0R0NG",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/iZAGQip04jM",
+   "casters": [
+    "Park Han-eol",
+    "Strings"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 23,
+   "date": "2025-09-13T20:00:00+09:00",
+   "bestof": null,
+   "team1": "Old Ocean",
+   "team2": "Cheeseburger",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Reaper",
+      "t2": "Wuyang"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Lúcio",
+      "t2": "Pharah"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Genji",
+      "t2": "Lifeweaver"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 47.24,
+     "score2": 95.47,
+     "winner": 2,
+     "bans": {
+      "t1": "Kiriko",
+      "t2": "Wrecking Ball"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Sigma",
+      "t2": "Kiriko"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Becky",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/xGnA4ahHvMo",
+   "casters": [
+    "Park Han-eol",
+    "Strings"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 24,
+   "date": "2025-09-14T17:10:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "ONSIDE GAMING",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "winston",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "echo"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "sombra",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 4,
+     "winner": 2,
+     "bans": {
+      "t1": "hazard",
+      "t2": "genji"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 128.11,
+     "score2": 4.4,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "ana"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "AlphaYi",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/RtIczUfKHDg",
+   "casters": [
+    "Strings",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 25,
+   "date": "2025-09-14T19:35:00+09:00",
+   "bestof": null,
+   "team1": "Cheeseburger",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "juno"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 4,
+     "winner": 2,
+     "bans": {
+      "t1": "reaper",
+      "t2": "winston"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "zarya",
+      "t2": "widowmaker"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "SP1NT",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/rq2oPavYEwQ",
+   "casters": [
+    "Strings",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 26,
+   "date": "2025-09-14T21:10:00+09:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "WAE",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "doomfist"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "genji",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "ana",
+      "t2": "symmetra"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "DONGHAK",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/d26UPKLATsg",
+   "casters": [
+    "Strings",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 27,
+   "date": "2025-09-19T17:10:00+09:00",
+   "bestof": 5,
+   "team1": "T1",
+   "team2": "ZETA DIVISION",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": null
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 4,
+     "score2": 5,
+     "winner": 2,
+     "bans": {
+      "t1": "genji",
+      "t2": "winston"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "reaper",
+      "t2": "roadhog"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "dva",
+      "t2": "freja"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "DONGHAK",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/DZiXxccWNDY",
+   "casters": [
+    "Park Han-eol",
+    "AKaros"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 28,
+   "date": "2025-09-19T18:55:00+09:00",
+   "bestof": null,
+   "team1": "WAE",
+   "team2": "ONSIDE GAMING",
+   "score1": 2,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "reaper",
+      "t2": "winston"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "roadhog"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "ana",
+      "t2": "hazard"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 83.15,
+     "score2": 83.16,
+     "winner": 2,
+     "bans": {
+      "t1": "winston",
+      "t2": "wuyang"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Attack",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/KsQCWDEv8J8",
+   "casters": [
+    "Park Han-eol",
+    "AKaros"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 29,
+   "date": "2025-09-19T21:15:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "Cheeseburger",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "sombra",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "zarya"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "genji",
+      "t2": "d.va"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "MER1T",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/YBejC6pGWl0",
+   "casters": [
+    "Park Han-eol",
+    "AKaros"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 30,
+   "date": "2025-09-20T17:10:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "Mir Gaming",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Roadhog",
+      "t2": "Symmetra"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 138.53,
+     "score2": 91.72,
+     "winner": 1,
+     "bans": {
+      "t1": "Reaper",
+      "t2": "Wrecking Ball"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "zarya",
+      "t2": "torbjorn"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "LIP",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/0AuavoMzwB4",
+   "casters": [
+    "AKaros",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 31,
+   "date": "2025-09-20T18:25:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "WAE",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "roadhog",
+      "t2": "genji"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "freja",
+      "t2": "zarya"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 77.98,
+     "score2": 126.54,
+     "winner": 2,
+     "bans": {
+      "t1": "hazard",
+      "t2": "torbjorn"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "sombra",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Mealgaru",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/5XYdU7OaFfs",
+   "casters": [
+    "AKaros",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 32,
+   "date": "2025-09-20T20:15:00+09:00",
+   "bestof": null,
+   "team1": "ONSIDE GAMING",
+   "team2": "Old Ocean",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "sojourn"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "sombra",
+      "t2": "lucio"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 4,
+     "score2": 3,
+     "winner": 1,
+     "bans": {
+      "t1": "winston",
+      "t2": "hanzo"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 115.08,
+     "score2": 72.77,
+     "winner": 1,
+     "bans": {
+      "t1": "lifeweaver",
+      "t2": "wrecking ball"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "knife",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/rwwOT6p37yA",
+   "casters": [
+    "AKaros",
+    "Sim Ji-soo"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 33,
+   "date": "2025-09-21T17:10:00+09:00",
+   "bestof": null,
+   "team1": "Cheeseburger",
+   "team2": "Mir Gaming",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Zarya",
+      "t2": "Lucio"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "widowmaker"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 98.99,
+     "score2": 79.84,
+     "winner": 1,
+     "bans": {
+      "t1": "roadhog",
+      "t2": "torbjorn"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Hollywood",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "hanzo"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "D0D0",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/KZakkvMIJKs",
+   "casters": [
+    "",
+    "https://youtu.be/KZakkvMIJKs"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 34,
+   "date": "2025-09-21T19:10:00+09:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "Team Falcons",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "wrecking ball"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "tracer",
+      "t2": "lifeweaver"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 60.85,
+     "score2": 60.86,
+     "winner": 2,
+     "bans": {
+      "t1": "dva",
+      "t2": "sombra"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/-mVKe-nfQCM",
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season",
+   "idx": 35,
+   "date": "2025-09-21T20:35:00+09:00",
+   "bestof": null,
+   "team1": "Old Ocean",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "ana",
+      "t2": "roadhog"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "symmetra"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 47.15,
+     "score2": 122.2,
+     "winner": 2,
+     "bans": {
+      "t1": "sombra",
+      "t2": "wuyang"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Shu",
+   "broadcast": {
+    "afreeca": "owesports"
+   },
+   "vod": "https://youtu.be/SNlEm0uJyu4",
+   "casters": [
+    "",
+    ""
+   ]
+  }
+ ]
+}

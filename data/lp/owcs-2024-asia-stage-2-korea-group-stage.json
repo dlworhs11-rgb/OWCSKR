@@ -1,0 +1,1951 @@
+{
+ "title": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 0,
+   "date": "2024-08-09T17:00:00+09:00",
+   "bestof": 5,
+   "team1": "ZETA DIVISION",
+   "team2": "Fnatic",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Dorado",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 78.01,
+     "score2": 78.02,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "FINN",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=-gQu9C5eJPM",
+   "casters": [
+    "Achilios",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 1,
+   "date": "2024-08-09T20:30:00+09:00",
+   "bestof": null,
+   "team1": "VEC",
+   "team2": "Old Ocean",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Paraiso",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 106.72,
+     "score2": 96.31,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "M1NUT2",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=a-PT74tWkK4",
+   "casters": [
+    "Achilios",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 2,
+   "date": "2024-08-09T22:15:00+09:00",
+   "bestof": null,
+   "team1": "Poker Face",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Paraiso",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 4,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Shu",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=rH3aaBT3vWQ",
+   "casters": [
+    "Achilios",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 3,
+   "date": "2024-08-10T17:00:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "HaeJeokDan",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 65.83,
+     "score2": 59.85,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Fielder",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=e1FKKCUWOAw",
+   "casters": [
+    "Unknown",
+    "Wolf (American caster)"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 4,
+   "date": "2024-08-10T19:15:00+09:00",
+   "bestof": null,
+   "team1": "VEC",
+   "team2": "Poker Face",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "ChoiSehwan",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=Q-WzKMlJ-ws",
+   "casters": [
+    "Unknown",
+    "Wolf (American caster)"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 5,
+   "date": "2024-08-10T20:50:00+09:00",
+   "bestof": null,
+   "team1": "Fnatic",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Dorado",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Junbin",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=--_NJ-rsFmU",
+   "casters": [
+    "Unknown",
+    "Wolf (American caster)"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 6,
+   "date": "2024-08-11T17:00:00+09:00",
+   "bestof": null,
+   "team1": "Old Ocean",
+   "team2": "HaeJeokDan",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Paraiso",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": 13,
+     "score2": 141.66,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "LeeSooMin",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=b8TMq7b1gjM",
+   "casters": [
+    "Unknown",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 7,
+   "date": "2024-08-11T19:15:00+09:00",
+   "bestof": null,
+   "team1": "Poker Face",
+   "team2": "Fnatic",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Dorado",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Proud",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=LsaWqzT2RXY",
+   "casters": [
+    "Unknown",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 8,
+   "date": "2024-08-11T21:15:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "Team Falcons",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 20.95,
+     "score2": 139.4,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Viol2t",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=quIXDvKEYJc",
+   "casters": [
+    "Unknown",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 9,
+   "date": "2024-08-16T17:00:00+09:00",
+   "bestof": 5,
+   "team1": "Team Falcons",
+   "team2": "VEC",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Happy",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=b42usVogE6U",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 10,
+   "date": "2024-08-16T18:45:00+09:00",
+   "bestof": null,
+   "team1": "HaeJeokDan",
+   "team2": "ZETA DIVISION",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": 81.99,
+     "score2": 82,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Viol2t",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=uyR9qmgCHiY",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 11,
+   "date": "2024-08-16T20:00:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "Old Ocean",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Paraiso",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Junbin",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=lBNU0u-KkUg",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 12,
+   "date": "2024-08-17T18:30:00+09:00",
+   "bestof": null,
+   "team1": "Old Ocean",
+   "team2": "Poker Face",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Paraiso",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "Dorado",
+     "mode": "Escort",
+     "score1": 4,
+     "score2": 5,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "ChoiSehwan",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=iteHL9KLCcM",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 13,
+   "date": "2024-08-17T20:00:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "VEC",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Flora",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=bK-Tutnlvn8",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 14,
+   "date": "2024-08-18T17:00:00+09:00",
+   "bestof": null,
+   "team1": "Fnatic",
+   "team2": "VEC",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": null,
+     "score2": 82.7,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Checkmate",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=2Bi2-tpPxGQ",
+   "casters": [
+    "Unknown",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 15,
+   "date": "2024-08-18T18:30:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "Team Falcons",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 62.19,
+     "score2": 54.51,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 4,
+     "score2": 3,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "LIP",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=GuafNzpryvA",
+   "casters": [
+    "Unknown",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 16,
+   "date": "2024-08-18T20:00:00+09:00",
+   "bestof": null,
+   "team1": "Poker Face",
+   "team2": "ZETA DIVISION",
+   "score1": 2,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 49.02,
+     "score2": 114.56,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 4,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "FiNN",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=ZY89VAJpXiw",
+   "casters": [
+    "Unknown",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 17,
+   "date": "2024-08-17T17:00:00+09:00",
+   "bestof": 5,
+   "team1": "HaeJeokDan",
+   "team2": "Fnatic",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": 88.62,
+     "score2": 51.64,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "KNIFE",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=BMeoDksvMxA",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 18,
+   "date": "2024-08-23T17:00:00+09:00",
+   "bestof": 5,
+   "team1": "Poker Face",
+   "team2": "Team Falcons",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "Dorado",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Happy",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=-VaWGi9F2Yo",
+   "casters": [
+    "Unknown",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 19,
+   "date": "2024-08-23T19:15:00+09:00",
+   "bestof": null,
+   "team1": "HaeJeokDan",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": 98.17,
+     "score2": 98.18,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "shu",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=EjonQvXrV1M",
+   "casters": [
+    "Unknown",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 20,
+   "date": "2024-08-23T20:00:00+09:00",
+   "bestof": null,
+   "team1": "Old Ocean",
+   "team2": "Fnatic",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Paraiso",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Checkmate",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=lIcW4B68vao",
+   "casters": [
+    "Unknown",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 21,
+   "date": "2024-08-24T17:00:00+09:00",
+   "bestof": null,
+   "team1": "VEC",
+   "team2": "HaeJeokDan",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "ZEST",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=6k_kTby1TLQ",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 22,
+   "date": "2024-08-24T18:40:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "LIP",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=GCFooW-uqTE",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 23,
+   "date": "2024-08-24T20:10:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "Old Ocean",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 4,
+     "score2": 3,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Stalk3r",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=rbN-2L3FFdM",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 24,
+   "date": "2024-08-25T15:00:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "VEC",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": 142.75,
+     "score2": 104.35,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "HeeSang",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=gv06vdArVFs",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 25,
+   "date": "2024-08-25T16:30:00+09:00",
+   "bestof": null,
+   "team1": "Old Ocean",
+   "team2": "ZETA DIVISION",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Paraiso",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Flora",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=p05oBrWCyHg",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 26,
+   "date": "2024-08-25T18:10:00+09:00",
+   "bestof": null,
+   "team1": "Fnatic",
+   "team2": "Team Falcons",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "smurf",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=yxXcwSLnVDI",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage",
+   "idx": 27,
+   "date": "2024-08-25T20:00:00+09:00",
+   "bestof": null,
+   "team1": "HaeJeokDan",
+   "team2": "Poker Face",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": 3.92,
+     "score2": 144.86,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "FiXa",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=iTUyZApDcnU",
+   "casters": [
+    "Gclef",
+    "hexagrams"
+   ]
+  }
+ ]
+}

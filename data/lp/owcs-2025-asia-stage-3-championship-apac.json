@@ -1,0 +1,220 @@
+{
+ "title": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/APAC",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/APAC",
+   "idx": 0,
+   "date": "2025-10-24T21:25:00+09:00",
+   "bestof": 5,
+   "team1": "VARREL",
+   "team2": "REJECT",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "sojourn",
+      "t2": "ramattra"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 142.41,
+     "score2": 51.68,
+     "winner": 1,
+     "bans": {
+      "t1": "zarya",
+      "t2": "pharah"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "hanzo"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "TOPDRAGON",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=LhWTNJKAbN8",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/APAC",
+   "idx": 1,
+   "date": "2025-10-24T15:25:00+09:00",
+   "bestof": null,
+   "team1": "Nosebleed Esports",
+   "team2": "The Gatos Guapos",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "zarya",
+      "t2": "freja"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "reaper",
+      "t2": "ramattra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "hazard"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "CLEAR",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=JS-x05nmmVo&pp=0gcJCQYKAYcqIYzv",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/APAC",
+   "idx": 2,
+   "date": "2025-10-25T22:15:00+09:00",
+   "bestof": 7,
+   "team1": "VARREL",
+   "team2": "Nosebleed Esports",
+   "score1": 4,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "pharah"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 5,
+     "score2": 4,
+     "winner": 1,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "ramattra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 58.41,
+     "score2": 134.49,
+     "winner": 2,
+     "bans": {
+      "t1": "sojourn",
+      "t2": "winston"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "ana"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "reaper",
+      "t2": "wuyang"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Sley",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=6UvK8vDIRbs",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  }
+ ]
+}

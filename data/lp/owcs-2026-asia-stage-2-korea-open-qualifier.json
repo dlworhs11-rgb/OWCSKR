@@ -1,0 +1,752 @@
+{
+ "title": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+   "idx": 0,
+   "date": "2026-05-14T17:00:00+09:00",
+   "bestof": 5,
+   "team1": "team key",
+   "team2": "superbad",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+   "idx": 1,
+   "date": "2026-05-14T17:00:00+09:00",
+   "bestof": null,
+   "team1": "team sparrows",
+   "team2": "o2 blast",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+   "idx": 2,
+   "date": "2026-05-14T17:00:00+09:00",
+   "bestof": null,
+   "team1": "ha.na",
+   "team2": "poker face",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+   "idx": 3,
+   "date": "2026-05-14T18:30:00+09:00",
+   "bestof": null,
+   "team1": "cheeseburger",
+   "team2": "SuperBad",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+   "idx": 4,
+   "date": "2026-05-14T18:30:00+09:00",
+   "bestof": null,
+   "team1": "O2 Blast",
+   "team2": "Poker Face",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+   "idx": 5,
+   "date": "2026-05-14T18:30:00+09:00",
+   "bestof": null,
+   "team1": "Team Sparrows",
+   "team2": "HA.NA",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+   "idx": 6,
+   "date": "2026-05-14T20:00:00+09:00",
+   "bestof": null,
+   "team1": "Poker Face",
+   "team2": "Team Key",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+   "idx": 7,
+   "date": "2026-05-14T20:00:00+09:00",
+   "bestof": null,
+   "team1": "SuperBad",
+   "team2": "HA.NA",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
+   "idx": 8,
+   "date": "2026-05-14T21:30:00+09:00",
+   "bestof": null,
+   "team1": "Poker Face",
+   "team2": "SuperBad",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [
+    {
+     "n": 1,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": null,
+     "mode": null,
+     "score1": null,
+     "score2": null,
+     "winner": null,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {},
+   "vod": null,
+   "casters": []
+  }
+ ]
+}

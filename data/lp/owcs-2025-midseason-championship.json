@@ -1,0 +1,728 @@
+{
+ "title": "Overwatch Champions Series/2025/Midseason Championship",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship",
+   "idx": 0,
+   "date": null,
+   "bestof": 5,
+   "team1": "Crazy Raccoon",
+   "team2": "Twisted Minds",
+   "score1": 2,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "pharah"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 27.92,
+     "score2": 139.62,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "ana"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "tracer"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=QUK1ohTthHQ",
+   "casters": [
+    "Jaws",
+    "LemonKiwi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship",
+   "idx": 1,
+   "date": null,
+   "bestof": null,
+   "team1": "Al Qadsiah",
+   "team2": "Virtus.Pro",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "venture",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "freja",
+      "t2": "d.va"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "symmetra"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=jc88FZhPq88",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship",
+   "idx": 2,
+   "date": null,
+   "bestof": null,
+   "team1": "T1",
+   "team2": "Team Liquid",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "sojourn"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "venture",
+      "t2": "hazard"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 119.44,
+     "score2": 77.87,
+     "winner": 1,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "symmetra"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=9Yx65CSh1z4",
+   "casters": [
+    "Jaws",
+    "LemonKiwi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship",
+   "idx": 3,
+   "date": null,
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "Geekay Esports",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "baptiste",
+      "t2": "tracer"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "venture",
+      "t2": "ramattra"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "hazard",
+      "t2": "lucio"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 82.56,
+     "score2": 52.87,
+     "winner": 1,
+     "bans": {
+      "t1": "lifeweaver",
+      "t2": "orisa"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=MpqQeoPGi6M",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship",
+   "idx": 4,
+   "date": null,
+   "bestof": null,
+   "team1": "Twisted Minds",
+   "team2": "Al Qadsiah",
+   "score1": 2,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "pharah",
+      "t2": "ramattra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "juno"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "lifeweaver",
+      "t2": "freja"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 97.41,
+     "score2": 38.89,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "lifeweaver"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 3,
+     "winner": 0,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "symmetra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 6,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "hazard",
+      "t2": "brigitte"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=N6t0H5UKBNU",
+   "casters": [
+    "Jaws",
+    "LemonKiwi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship",
+   "idx": 5,
+   "date": null,
+   "bestof": null,
+   "team1": "T1",
+   "team2": "Team Falcons",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "tracer",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "illari"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 24.19,
+     "score2": 137.03,
+     "winner": 2,
+     "bans": {
+      "t1": "freja",
+      "t2": "orisa"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=MZ6EfH5CTrE",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship",
+   "idx": 6,
+   "date": null,
+   "bestof": 7,
+   "team1": "Al Qadsiah",
+   "team2": "Team Falcons",
+   "score1": 0,
+   "score2": 4,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "venture",
+      "t2": "junkerqueen"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 115.67,
+     "score2": 115.68,
+     "winner": 2,
+     "bans": {
+      "t1": "doomfist",
+      "t2": "lifeweaver"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "baptiste",
+      "t2": "d.va"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "freja",
+      "t2": "baptiste"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=_T12LPHN7cw",
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship",
+   "idx": 7,
+   "date": null,
+   "bestof": 5,
+   "team1": "Twisted Minds",
+   "team2": "T1",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "symmetra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "orisa",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "cassidy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "brigitte",
+      "t2": "ramattra"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "Overwatch Esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=D66LymowTfs",
+   "casters": [
+    "Jaws",
+    "LemonKiwi"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Midseason Championship",
+   "idx": 8,
+   "date": null,
+   "bestof": 7,
+   "team1": "Bronze Baddies",
+   "team2": "Diamond Dawgs",
+   "score1": 4,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Place Lacroix",
+     "mode": "Push",
+     "score1": 50.54,
+     "score2": 48.94,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Arena Victoriae",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Redwood Dam",
+     "mode": "Push",
+     "score1": 64.81,
+     "score2": 28.89,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 4,
+     "map": "Powder Keg Mines",
+     "mode": "Payload Race",
+     "score1": 4,
+     "score2": 3,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 5,
+     "map": "Throne of Anubis",
+     "mode": "Clash",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "AVRL"
+   ]
+  }
+ ]
+}

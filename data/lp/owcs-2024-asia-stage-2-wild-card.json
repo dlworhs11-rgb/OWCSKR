@@ -1,0 +1,194 @@
+{
+ "title": "Overwatch Champions Series/2024/Asia/Stage 2/Wild Card",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Wild Card",
+   "idx": 0,
+   "date": "2024-09-13T18:00:00+09:00",
+   "bestof": 5,
+   "team1": "Poker Face",
+   "team2": "Varrel",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "FLashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "Proud",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=1n8XNcqNmyY",
+   "casters": [
+    "Achilios",
+    "Wolf (American caster)"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Wild Card",
+   "idx": 1,
+   "date": "2024-09-13T19:30:00+09:00",
+   "bestof": null,
+   "team1": "Varrel",
+   "team2": "USIA Esports",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 128.94,
+     "score2": 8.95,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "KSG",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=e3g4GXNcDb8",
+   "casters": [
+    "Achilios",
+    "Wolf (American caster)"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Wild Card",
+   "idx": 2,
+   "date": "2024-09-13T21:00:00+09:00",
+   "bestof": null,
+   "team1": "USIA Esports",
+   "team2": "Poker Face",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Circuit Royal",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 0,
+     "score2": 139.62,
+     "winner": 2,
+     "bans": {
+      "t1": null,
+      "t2": null
+     },
+     "banstart": null
+    }
+   ],
+   "potm": "JaeWoo",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "ow_esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=roedSQERFFk",
+   "casters": [
+    "Achilios",
+    "Wolf (American caster)"
+   ]
+  }
+ ]
+}

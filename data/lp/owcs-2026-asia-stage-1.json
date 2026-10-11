@@ -1,0 +1,1133 @@
+{
+ "title": "Overwatch Champions Series/2026/Asia/Stage 1",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 0,
+   "date": "2026-05-05T15:00:00+09:00",
+   "bestof": 3,
+   "team1": "ZETA DIVISION",
+   "team2": "T1",
+   "score1": 2,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "dva",
+      "t2": "ana"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "zarya",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "illari"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Viol2t",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://youtu.be/YM8rqEuC2dE?t=2087",
+   "casters": [
+    "AKaros",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 1,
+   "date": "2026-05-05T16:30:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "roadhog",
+      "t2": "ana"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "HeeSang",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://youtu.be/YM8rqEuC2dE?t=7057",
+   "casters": [
+    "AKaros",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 2,
+   "date": "2026-05-05T17:30:00+09:00",
+   "bestof": null,
+   "team1": "ENTER FORCE.36",
+   "team2": "The Gatos Guapos",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "pharah",
+      "t2": "domina"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "sojourn"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Edison",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://youtu.be/YM8rqEuC2dE?t=10405",
+   "casters": [
+    "AKaros",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 3,
+   "date": "2026-05-05T18:30:00+09:00",
+   "bestof": null,
+   "team1": "VARREL",
+   "team2": "Please Not Hero Ban",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Esperanca",
+     "mode": "Push",
+     "score1": 137.94,
+     "score2": 80.81,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "dva"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "TOPDRAGON",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://youtu.be/YM8rqEuC2dE?t=14321",
+   "casters": [
+    "AKaros",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 4,
+   "date": "2026-05-05T19:20:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "ENTER FORCE.36",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "reaper",
+      "t2": "Illari"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Viol2t",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://youtu.be/YM8rqEuC2dE?t=17136",
+   "casters": [
+    "AKaros",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 5,
+   "date": "2026-05-05T20:10:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "VARREL",
+   "score1": 2,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "zarya"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": 91.97,
+     "score2": 81.99,
+     "winner": 1,
+     "bans": {
+      "t1": "dva",
+      "t2": "lucio"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "ana",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Checkmate",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://youtu.be/YM8rqEuC2dE?t=19961",
+   "casters": [
+    "AKaros",
+    "Park Han-eol"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 6,
+   "date": "2026-05-06T15:00:00+09:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "The Gatos Guapos",
+   "score1": 0,
+   "score2": 0,
+   "winner": null,
+   "played": false,
+   "maps": [],
+   "potm": null,
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": null,
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 7,
+   "date": "2026-05-06T16:10:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "Please Not Hero Ban",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Jetpack Cat",
+      "t2": "Wrecking Ball"
+     },
+     "banstart": null
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 142.41,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Mauga",
+      "t2": "Ashe"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "JunBin",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/KwzfCVUi5JM?si=-iS8CdFko8CCFtO7&t=6040",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 8,
+   "date": "2026-05-06T16:50:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "The Gatos Guapos",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "D.Va",
+      "t2": "Bastion"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Pharah",
+      "t2": "D.Va"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/KwzfCVUi5JM?si=kxlNNZRBGSgeUQ95&t=8541",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 9,
+   "date": "2026-05-06T17:40:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "Please Not Hero Ban",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Roadhog",
+      "t2": "Ana"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 142.41,
+     "score2": 46.97,
+     "winner": 1,
+     "bans": {
+      "t1": "Ramattra",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "MER1T",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/KwzfCVUi5JM?si=cgMVcQGdXRi4SeZe&t=11450",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 10,
+   "date": "2026-05-06T18:25:00+09:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "ENTER FORCE.36",
+   "score1": 2,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Cassidy",
+      "t2": "Wrecking Ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Blizzard World",
+     "mode": "hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "emre",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "DONGHAK",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/KwzfCVUi5JM?si=3RXJrQDLi6CQEiJI&t=14050",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 11,
+   "date": "2026-05-06T19:20:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "VARREL",
+   "score1": 1,
+   "score2": 2,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Mauga",
+      "t2": "Kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": 114.25,
+     "score2": 31.66,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "pharah"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "Illari",
+      "t2": "Zarya"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Sley",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/KwzfCVUi5JM?si=V1WQDFbyWc-wlsvv&t=17485",
+   "casters": [
+    "Sim Ji-soo",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 12,
+   "date": "2026-05-09T15:20:00+09:00",
+   "bestof": 5,
+   "team1": "zeta division",
+   "team2": "VARREL",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "junkerqueen",
+      "t2": "tracer"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "illari"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 80.2,
+     "score2": 121.67,
+     "winner": 2,
+     "bans": {
+      "t1": "reaper",
+      "t2": "wrecking ball"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Havana",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "zarya"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "reaper"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "shu",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/l5BEUM6Inhg?si=kNRDldKrcPZDT0NU&t=2614",
+   "casters": [
+    "Sim Ji-soo",
+    "Strings",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 13,
+   "date": "2026-05-09T17:30:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "t1",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "wuyang"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": 125.26,
+     "score2": 55.53,
+     "winner": 1,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "pharah"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 4,
+     "score2": 3,
+     "winner": 1,
+     "bans": {
+      "t1": "ana",
+      "t2": "d.va"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "reaper",
+      "t2": "ana"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "Havana",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "jetpack cat"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "CH0R0NG",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/l5BEUM6Inhg?si=OgEVbs0UuvpiYr3m&t=10345",
+   "casters": [
+    "Sim Ji-soo",
+    "Strings",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 14,
+   "date": "2026-05-09T19:45:00+09:00",
+   "bestof": null,
+   "team1": "zeta division",
+   "team2": "Crazy Raccoon",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mercy",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Midtown",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "zarya",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Havana",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "bastion"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/l5BEUM6Inhg?si=F7PkrIvwymXx3Y0d&t=18834",
+   "casters": [
+    "Sim Ji-soo",
+    "Strings",
+    "ChangSik"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 15,
+   "date": "2026-05-10T15:20:00+09:00",
+   "bestof": null,
+   "team1": "VARREL",
+   "team2": "t1",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Domina",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 46.43,
+     "score2": 133.07,
+     "winner": 2,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "d.va"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "torbjorn"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "ZEST",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/jW1qyTsfl-A?si=ZZSJE5aCBaURx9LD&t=2221",
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 16,
+   "date": "2026-05-10T16:30:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "t1",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "d.va"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "reaper",
+      "t2": "mauga"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Hazard",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "HeeSang",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/jW1qyTsfl-A?si=WtSpITJiejCJWGar&t=6984",
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2026/Asia/Stage 1",
+   "idx": 17,
+   "date": "2026-05-10T17:55:00+09:00",
+   "bestof": 7,
+   "team1": "zeta division",
+   "team2": "crazy raccoon",
+   "score1": 4,
+   "score2": 3,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Lijiang Tower",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Lucio",
+      "t2": "Soldier"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Blizzard World",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "Mauga",
+      "t2": "Sierra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Havana",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Zarya",
+      "t2": "Ana"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Runasapi",
+     "mode": "Push",
+     "score1": null,
+     "score2": null,
+     "winner": 1,
+     "bans": {
+      "t1": "Pharah",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "Cassidy",
+      "t2": "Baptiste"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 6,
+     "map": "Oasis",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Ana",
+      "t2": "DVA"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 7,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "Reaper",
+      "t2": "Illari"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Viol2t",
+   "broadcast": {
+    "afreeca": "owesports",
+    "twitch": "ow_esports_jp",
+    "youtube": "ow_esports_jp"
+   },
+   "vod": "https://www.youtube.com/live/jW1qyTsfl-A?si=L0NXRB4Ka_S6BJXk&t=12505",
+   "casters": [
+    "",
+    ""
+   ]
+  }
+ ]
+}

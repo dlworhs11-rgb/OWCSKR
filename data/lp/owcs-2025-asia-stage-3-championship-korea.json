@@ -1,0 +1,665 @@
+{
+ "title": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
+ "matches": [
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
+   "idx": 0,
+   "date": "2025-10-24T16:50:00+09:00",
+   "bestof": 5,
+   "team1": "Team Falcons",
+   "team2": "ONSIDE GAMING",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "bastion",
+      "t2": "dva"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "winston",
+      "t2": "cassidy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 99.92,
+     "score2": 110.88,
+     "winner": 2,
+     "bans": {
+      "t1": "Mercy",
+      "t2": "Symmetra"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "zarya",
+      "t2": "wuyang"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "sojourn",
+      "t2": "ramattra"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=sZAG1HR_xTQ",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
+   "idx": 1,
+   "date": "2025-10-24T19:30:00+09:00",
+   "bestof": null,
+   "team1": "ZETA DIVISION",
+   "team2": "Team Falcons",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "tracer",
+      "t2": "zarya"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "winston"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 4.79,
+     "score2": 140.23,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "symmetra"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "MER1T",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=9UogDYRB1-c",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
+   "idx": 2,
+   "date": "2025-10-25T15:20:00+09:00",
+   "bestof": 5,
+   "team1": "Crazy Raccoon",
+   "team2": "Team Falcons",
+   "score1": 2,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "roadhog"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 53.55,
+     "score2": 139.2,
+     "winner": 2,
+     "bans": {
+      "t1": "illari",
+      "t2": "ramattra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "tracer"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "venture"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 4,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=bPtnTujzNdI",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
+   "idx": 3,
+   "date": "2025-10-25T18:00:00+09:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "WAE",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "orisa"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "wuyang",
+      "t2": "tracer"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "venture"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 81.17,
+     "score2": 98.28,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "ana",
+      "t2": "winston"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "ZEST",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=ofc_ZR8u5j8",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
+   "idx": 4,
+   "date": "2025-10-25T20:20:00+09:00",
+   "bestof": null,
+   "team1": "Team Falcons",
+   "team2": "T1",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "roadhog",
+      "t2": "cassidy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 110.38,
+     "score2": 60.45,
+     "winner": 1,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "venture",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "Proper",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=1EZb3mDCa5k",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
+   "idx": 5,
+   "date": "2025-10-26T15:10:00+09:00",
+   "bestof": null,
+   "team1": "Crazy Raccoon",
+   "team2": "WAE",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "widowmaker",
+      "t2": "lucio"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "freja",
+      "t2": "winston"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Watchpoint: Gibraltar",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": "HeeSang",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=a1cT550A2BU",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
+   "idx": 6,
+   "date": "2025-10-26T16:50:00+09:00",
+   "bestof": null,
+   "team1": "T1",
+   "team2": "Crazy Raccoon",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "mercy",
+      "t2": "freja"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 55.5,
+     "score2": 128.11,
+     "winner": 2,
+     "bans": {
+      "t1": "tracer",
+      "t2": "wrecking ball"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "reaper",
+      "t2": "ramattra"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "JunBin",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=eYZuy357H1M",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  },
+  {
+   "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
+   "idx": 7,
+   "date": "2025-10-26T18:00:00+09:00",
+   "bestof": 7,
+   "team1": "Team Falcons",
+   "team2": "Crazy Raccoon",
+   "score1": 3,
+   "score2": 4,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Ilios",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "roadhog",
+      "t2": "cassidy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "symmetra"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "King's Row",
+     "mode": "Hybrid",
+     "score1": 4,
+     "score2": 3,
+     "winner": 1,
+     "bans": {
+      "t1": "zarya",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Rialto",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "winston",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "New Queen Street",
+     "mode": "Push",
+     "score1": 109.87,
+     "score2": 124.67,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "widowmaker"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 6,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 22.37,
+     "score2": 142.41,
+     "winner": 2,
+     "bans": {
+      "t1": "zarya",
+      "t2": "venture"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 7,
+     "map": "Hollywood",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "orisa",
+      "t2": "mei"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": "LIP",
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "Overwatch Esports"
+   },
+   "vod": "https://www.youtube.com/watch?v=zm0NPBwctBk",
+   "casters": [
+    "AVRL",
+    "Legday"
+   ]
+  }
+ ]
+}

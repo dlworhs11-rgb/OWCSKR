@@ -1,0 +1,2268 @@
+{
+ "title": "Overwatch World Cup/2026",
+ "matches": [
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 0,
+   "date": "2026-08-19T23:30:00-05:00",
+   "bestof": 5,
+   "team1": "China",
+   "team2": "United States",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Ana",
+      "t2": "Bastion"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Mauga",
+      "t2": "Mizuki"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "Tracer",
+      "t2": "Lucio"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "D.Mon",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 1,
+   "date": "2026-08-20T07:00:00-05:00",
+   "bestof": null,
+   "team1": "Sweden",
+   "team2": "Japan",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "bastion",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "roadhog"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Paraíso",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "D.Va",
+      "t2": "Lucio"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 2,
+   "date": "2026-08-20T22:30:00-05:00",
+   "bestof": null,
+   "team1": "United States",
+   "team2": "Japan",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Bastion",
+      "t2": "D.Mon"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Paraiso",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "D.Va",
+      "t2": "Kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Lucio",
+      "t2": "Mauga"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Mr X",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 3,
+   "date": "2026-08-21T00:20:00-05:00",
+   "bestof": null,
+   "team1": "China",
+   "team2": "Sweden",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "D.Mon",
+      "t2": "Lucio"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "Cassidy",
+      "t2": "Zarya"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Paraiso",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Tracer",
+      "t2": "D.Va"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 18.72,
+     "score2": 142.41,
+     "winner": 2,
+     "bans": {
+      "t1": "D.Va",
+      "t2": "Kiriko"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "JAKE",
+    "Uber"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 4,
+   "date": "2026-08-21T21:00:00-05:00",
+   "bestof": null,
+   "team1": "United States",
+   "team2": "Sweden",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Ana",
+      "t2": "roadhog"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "dva"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "freja",
+      "t2": "sigma"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "dmon",
+      "t2": "reaper"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 97.83,
+     "score2": 97.82,
+     "winner": 1,
+     "bans": {
+      "t1": "tracer",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "JAKE",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 5,
+   "date": "2026-08-22T04:35:00-05:00",
+   "bestof": null,
+   "team1": "China",
+   "team2": "Japan",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "ana",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Suravasa",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "dmon"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 142.41,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "vendetta"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 6,
+   "date": "2026-08-19T21:15:00-05:00",
+   "bestof": 5,
+   "team1": "Mexico",
+   "team2": "Great Britain",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "tracer",
+      "t2": "dmon"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "zarya"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Wrecking Ball",
+      "t2": "Genji"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 7,
+   "date": "2026-08-20T01:15:00-05:00",
+   "bestof": null,
+   "team1": "Saudi Arabia",
+   "team2": "Australia",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Ana",
+      "t2": "Mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "mercy",
+      "t2": "d.va"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 142.41,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "d.mon",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "JAKE",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 8,
+   "date": "2026-08-21T02:00:00-05:00",
+   "bestof": null,
+   "team1": "Saudi Arabia",
+   "team2": "Mexico",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "genji",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "d.mon",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 139.62,
+     "score2": 17.85,
+     "winner": 1,
+     "bans": {
+      "t1": "mercy",
+      "t2": "cassidy"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "JAKE"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 9,
+   "date": "2026-08-21T03:25:00-05:00",
+   "bestof": null,
+   "team1": "Australia",
+   "team2": "Great Britain",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "juno"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "zarya",
+      "t2": "ana"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "orisa",
+      "t2": "mizuki"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "shion",
+      "t2": "d.mon"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 10,
+   "date": "2026-08-23T02:00:00-05:00",
+   "bestof": null,
+   "team1": "Saudi Arabia",
+   "team2": "Great Britain",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Mercy",
+      "t2": "Bastion"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Ana",
+      "t2": "D.Va"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "Wrecking Ball",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "JAKE",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 11,
+   "date": "2026-08-23T03:00:00-05:00",
+   "bestof": null,
+   "team1": "Australia",
+   "team2": "Mexico",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Bastion",
+      "t2": "D.Mon"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Junkertown",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Kiriko",
+      "t2": "Cassidy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Colosseo",
+     "mode": "Push",
+     "score1": 81.93,
+     "score2": 81.94,
+     "winner": 2,
+     "bans": {
+      "t1": "D.Va",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "shion",
+      "t2": "juno"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "mercy"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "JAKE",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 12,
+   "date": "2026-08-20T03:05:00-05:00",
+   "bestof": 5,
+   "team1": "Canada",
+   "team2": "Germany",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "d.va",
+      "t2": "mercy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Paraíso",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "emre"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "mauga",
+      "t2": "ana"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "orisa"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 109.23,
+     "score2": 109.22,
+     "winner": 1,
+     "bans": {
+      "t1": "d.mon",
+      "t2": "vendetta"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Gottmoxi",
+    "JAKE"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 13,
+   "date": "2026-08-20T05:40:00-05:00",
+   "bestof": null,
+   "team1": "Thailand",
+   "team2": "Spain",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "reaper"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 0,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "junkerqueen"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Paraíso",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "bastion",
+      "t2": "winston"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 14,
+   "date": "2026-08-21T23:05:00-05:00",
+   "bestof": null,
+   "team1": "Germany",
+   "team2": "Spain",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mercy",
+      "t2": "bastion"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mizuki",
+      "t2": "dmon"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "wrecking ball"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "ana",
+      "t2": "dva"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "JAKE",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 15,
+   "date": "2026-08-22T00:35:00-05:00",
+   "bestof": null,
+   "team1": "Canada",
+   "team2": "Thailand",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mizuki",
+      "t2": "shion"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 4,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "dmon"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "ramattra"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 16,
+   "date": "2026-08-22T21:00:00-05:00",
+   "bestof": null,
+   "team1": "Canada",
+   "team2": "Spain",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Busan",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "dva"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Paraíso",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "lucio",
+      "t2": "dmon"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 17,
+   "date": "2026-08-22T23:30:00-05:00",
+   "bestof": null,
+   "team1": "Germany",
+   "team2": "Thailand",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Shion",
+      "t2": "Mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Mizuki",
+      "t2": "D.Mon"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Reaper",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 18,
+   "date": "2026-08-20T21:30:00-05:00",
+   "bestof": 5,
+   "team1": "Denmark",
+   "team2": "Colombia",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "symmetra",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "vendetta",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 4,
+     "score2": 3,
+     "winner": 1,
+     "bans": {
+      "t1": "Shion",
+      "t2": "D.Mon"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Mr X",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 19,
+   "date": "2026-08-21T05:20:00-05:00",
+   "bestof": null,
+   "team1": "France",
+   "team2": "South Korea",
+   "score1": 3,
+   "score2": 2,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 0,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "shion",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "emre",
+      "t2": "d.mon"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "cassidy"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 120.12,
+     "score2": 75.34,
+     "winner": 1,
+     "bans": {
+      "t1": "ana",
+      "t2": "d.va"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "ramattra",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 20,
+   "date": "2026-08-22T02:30:00-05:00",
+   "bestof": null,
+   "team1": "France",
+   "team2": "Denmark",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "lucio",
+      "t2": "bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "dva",
+      "t2": "symmetra"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mauga",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 21,
+   "date": "2026-08-22T03:40:00-05:00",
+   "bestof": null,
+   "team1": "South Korea",
+   "team2": "Colombia",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "dva",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "shion",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "mercy",
+      "t2": "pharah"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 22,
+   "date": "2026-08-22T22:25:00-05:00",
+   "bestof": null,
+   "team1": "South Korea",
+   "team2": "Denmark",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "jetpack cat",
+      "t2": "orisa"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "D.Mon",
+      "t2": "Pharah"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 142.41,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Shion",
+      "t2": "Mizuki"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 23,
+   "date": "2026-08-23T00:40:00-05:00",
+   "bestof": null,
+   "team1": "France",
+   "team2": "Colombia",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Mauga",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Reaper",
+      "t2": "D.Mon"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 3,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Lucio",
+      "t2": "Cassidy"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Gottmoxi"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 24,
+   "date": "2026-09-12T13:25:00-07:00",
+   "bestof": 5,
+   "team1": "Saudi Arabia",
+   "team2": "Spain",
+   "score1": 3,
+   "score2": 1,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Symmetra",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Route 66",
+     "mode": "escort",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Ana",
+      "t2": "D.Va"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Eichenwalde",
+     "mode": "hybrid",
+     "score1": 4,
+     "score2": 3,
+     "winner": 1,
+     "bans": {
+      "t1": "Mizuki",
+      "t2": "Bastion"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 141.97,
+     "score2": 53.13,
+     "winner": 1,
+     "bans": {
+      "t1": "D.Mon",
+      "t2": "Kiriko"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 25,
+   "date": "2026-09-12T15:20:00-07:00",
+   "bestof": null,
+   "team1": "Germany",
+   "team2": "Sweden",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Ana",
+      "t2": "Cassidy"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "d.mon",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "tracer",
+      "t2": "sigma"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 26,
+   "date": "2026-09-12T16:50:00-07:00",
+   "bestof": null,
+   "team1": "France",
+   "team2": "Australia",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "hazard",
+      "t2": "bastion"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Shambali Monastery",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 2,
+     "winner": 1,
+     "bans": {
+      "t1": "Ramattra",
+      "t2": "Kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Juno",
+      "t2": "D.Mon"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "Mr X"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 27,
+   "date": "2026-09-12T18:20:00-07:00",
+   "bestof": null,
+   "team1": "United States",
+   "team2": "South Korea",
+   "score1": 0,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "D.Mon",
+      "t2": "Ana"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 0,
+     "score2": 1,
+     "winner": 2,
+     "bans": {
+      "t1": "Kiriko",
+      "t2": "Tracer"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "Jetpack Cat",
+      "t2": "D.Va"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "JAKE"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 28,
+   "date": "2026-09-13T09:25:00-07:00",
+   "bestof": null,
+   "team1": "Saudi Arabia",
+   "team2": "Sweden",
+   "score1": 3,
+   "score2": 0,
+   "winner": 1,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "Tracer",
+      "t2": "D.Va"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 2,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "D.Mon",
+      "t2": "Kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Ana",
+      "t2": "Cassidy"
+     },
+     "banstart": 2
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Jaws",
+    "Reinforce"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 29,
+   "date": "2026-09-13T10:50:00-07:00",
+   "bestof": null,
+   "team1": "France",
+   "team2": "South Korea",
+   "score1": 2,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "Shion",
+      "t2": "D.Mon"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 2,
+     "score2": 1,
+     "winner": 1,
+     "bans": {
+      "t1": "d.va",
+      "t2": "kiriko"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 80.03,
+     "score2": 112.99,
+     "winner": 2,
+     "bans": {
+      "t1": "Jetpack Cat",
+      "t2": "Cassidy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "Mauga",
+      "t2": "Jetpack Cat"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 5,
+     "map": "Eichenwalde",
+     "mode": "Hybrid",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "Ana",
+      "t2": "Orisa"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "Uber",
+    "JAKE"
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 30,
+   "date": "2026-09-13T15:50:00-07:00",
+   "bestof": 7,
+   "team1": "Saudi Arabia",
+   "team2": "South Korea",
+   "score1": 1,
+   "score2": 4,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Nepal",
+     "mode": "Control",
+     "score1": 2,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "wrecking ball",
+      "t2": "jetpack cat"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Neon Junction",
+     "mode": "Hybrid",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "sigma",
+      "t2": "kiriko"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 3,
+     "map": "New Junk City",
+     "mode": "Flashpoint",
+     "score1": 2,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "vendetta",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 4,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "mizuki",
+      "t2": "cassidy"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 5,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 100.74,
+     "score2": 106.46,
+     "winner": 2,
+     "bans": {
+      "t1": "tracer",
+      "t2": "d.va"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  },
+  {
+   "competition": "Overwatch World Cup/2026",
+   "idx": 31,
+   "date": "2026-09-13T14:00:00-07:00",
+   "bestof": 5,
+   "team1": "Sweden",
+   "team2": "France",
+   "score1": 1,
+   "score2": 3,
+   "winner": 2,
+   "played": true,
+   "maps": [
+    {
+     "n": 1,
+     "map": "Samoa",
+     "mode": "Control",
+     "score1": 1,
+     "score2": 2,
+     "winner": 2,
+     "bans": {
+      "t1": "kiriko",
+      "t2": "freja"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 2,
+     "map": "Route 66",
+     "mode": "Escort",
+     "score1": 3,
+     "score2": 0,
+     "winner": 1,
+     "bans": {
+      "t1": "d.mon",
+      "t2": "ana"
+     },
+     "banstart": 1
+    },
+    {
+     "n": 3,
+     "map": "Esperança",
+     "mode": "Push",
+     "score1": 3.9,
+     "score2": 141.97,
+     "winner": 2,
+     "bans": {
+      "t1": "roadhog",
+      "t2": "tracer"
+     },
+     "banstart": 2
+    },
+    {
+     "n": 4,
+     "map": "Aatlis",
+     "mode": "Flashpoint",
+     "score1": 1,
+     "score2": 3,
+     "winner": 2,
+     "bans": {
+      "t1": "cassidy",
+      "t2": "mauga"
+     },
+     "banstart": 1
+    }
+   ],
+   "potm": null,
+   "broadcast": {
+    "twitch": "ow_esports",
+    "youtube": "@ow_esports"
+   },
+   "vod": null,
+   "casters": [
+    "",
+    ""
+   ]
+  }
+ ]
+}
