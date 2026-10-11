@@ -25,3 +25,17 @@ input.search{width:100%;padding:9px 12px;border:1px solid var(--line);border-rad
 select{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit}
 .pill{font-size:12px;padding:1px 7px;border-radius:6px;background:var(--line);color:var(--muted);margin-left:6px}
 @media (max-width:560px){th,td{padding:7px 6px;font-size:13px}main{padding:12px}}
+
+details{margin-top:8px}summary{cursor:pointer;color:var(--accent);font-size:13px}
+table.inner{margin-top:8px;font-size:13px}
+button.code{font:600 13px ui-monospace,Consolas,monospace;padding:2px 8px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+button.code:hover{border-color:var(--accent)}
+@media (max-width:560px){.hide-s{display:none}}
+@media (max-width:560px){
+  .top{gap:6px 12px;padding:8px 12px}
+  nav{width:100%;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+  nav a{padding:5px 11px;font-size:14px;white-space:nowrap}
+  h1{font-size:20px}
+}
+select{max-width:100%;width:100%}
+@media (min-width:700px){select{width:auto;min-width:340px}}

@@ -1,0 +1,15 @@
+{
+  "_comment": "team names/abbreviations used in the replay-code sheet (lowercase, a-z0-9 only) -> canonical team name",
+  "cr": "Crazy Raccoon", "crazyraccoon": "Crazy Raccoon",
+  "zeta": "ZETA DIVISION", "zetadivision": "ZETA DIVISION",
+  "pf": "Poker Face", "pokerface": "Poker Face",
+  "roze": "ZANSIDE GAMING", "zan": "ZANSIDE GAMING", "rdezansidegaming": "ZANSIDE GAMING", "zansidegaming": "ZANSIDE GAMING",
+  "o2": "O2 Blast", "o2blast": "O2 Blast",
+  "cb": "Cheeseburger", "cheeseburger": "Cheeseburger",
+  "seiji": "SEIJI ESPORTS", "seijiesports": "SEIJI ESPORTS", "rtplz": "SEIJI ESPORTS",
+  "flc": "Team Falcons", "teamfalcons": "Team Falcons",
+  "t1": "T1", "ftg": "From The Gamer", "vec": "VEC", "vestaesportscrew": "VEC", "vecseongnam": "VEC",
+  "yeti": "YETI", "runaway": "RunAway", "genesis": "Genesis", "wac": "WAC", "wae": "WAE", "way": "WAY",
+  "ne": "New Era", "oldocean": "Old Ocean", "mirgaming": "Mir Gaming", "allgamersglobal": "All Gamers Global",
+  "onsidegaming": "ONSIDE Gaming", "spg": "Spacestation Gaming", "sb": "SuperBad", "rong": "ONSIDE Gaming"
+}

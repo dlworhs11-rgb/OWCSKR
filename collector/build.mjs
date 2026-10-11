@@ -32,6 +32,26 @@ const isKR = t => koreanTeams.has(t) || /^south korea$/i.test(t);
 const matches = [...seen.values()].sort((a, b) => a.date.localeCompare(b.date));
 const krMatches = matches.filter(m => isKR(m.team1) || isKR(m.team2));
 
+// ---- replay codes: attach to Korean league series by (year, stage, team pair, order) ----
+const replaySheet = fs.existsSync('data/manual/replays.json') ? JSON.parse(fs.readFileSync('data/manual/replays.json', 'utf8')) : [];
+const rTeams = fs.existsSync('data/manual/replay-teams.json') ? JSON.parse(fs.readFileSync('data/manual/replay-teams.json', 'utf8')) : {};
+const sheetTeam = n => { const k = (n || '').toLowerCase().replace(/[^a-z0-9]/g, ''); return rTeams[k] || canon(n); };
+const stageOf = title => { const m = /\/(20\d\d)\/Asia\/Stage (\d)\/(?:Championship\/)?Korea(?:\/(?:Regular Season|Group Stage|Relegation))?$/.exec(title); return m ? m[1] + '|Stage ' + m[2] : null; };
+const pairKey = (a, b) => [a, b].sort().join('~');
+const ours = new Map();
+for (const m of krMatches) { const st = stageOf(m.competitionTitle); if (!st) continue; const k = st + '|' + pairKey(m.team1, m.team2); (ours.get(k) ?? ours.set(k, []).get(k)).push(m); }
+const theirs = new Map();
+for (const s of replaySheet) { const k = s.year + '|' + s.stage + '|' + pairKey(sheetTeam(s.teamA), sheetTeam(s.teamB)); (theirs.get(k) ?? theirs.set(k, []).get(k)).push(s); }
+let linked = 0, countMismatch = 0; const orphanKeys = [];
+for (const [k, list] of theirs) {
+  const mine = ours.get(k);
+  if (!mine) { orphanKeys.push(k); continue; }
+  list.sort((a, b) => a.order - b.order || a.day - b.day || a.matchNo - b.matchNo);
+  mine.sort((a, b) => a.date.localeCompare(b.date));
+  list.forEach((s, i) => { const m = mine[i]; if (!m) return; m.replays = s.codes.map(c => c || null); linked++; if (m.maps.length && s.codes.filter(Boolean).length !== m.maps.length) countMismatch++; });
+}
+console.log('replays: sheet series', replaySheet.length, 'linked', linked, 'game-count mismatches', countMismatch, 'unlinked keys', orphanKeys.length, orphanKeys.slice(0, 6).join(' ; '));
+
 // ---- team stats ----
 const teams = {};
 const T = n => teams[n] ??= { name: n, matches: 0, wins: 0, losses: 0, mapWins: 0, mapLosses: 0, potmWon: 0 };

@@ -20,11 +20,21 @@ async function load() {
 }
 
 // ---------- pieces ----------
+function mapDetail(m) {
+  if (!m.maps?.length) return '';
+  const rows = m.maps.map((mp, i) => {
+    const code = m.replays?.[i];
+    const ban = [mp.bans?.t1, mp.bans?.t2].filter(Boolean).join(' / ');
+    return `<tr><td class="n">${mp.n}</td><td>${esc(mp.map)} <span class="pill">${esc(mp.mode || '')}</span></td><td class="n">${esc(mp.score1)} : ${esc(mp.score2)}</td><td class="hide-s">${esc(ban)}</td><td>${code ? `<button class="code" data-code="${esc(code)}" title="클릭하면 복사됩니다">${esc(code)}</button>` : '<span class="muted">-</span>'}</td></tr>`;
+  }).join('');
+  return `<details><summary>맵별 결과 · 리플레이 코드</summary><div class="scroll"><table class="inner"><thead><tr><th class="n">#</th><th>맵</th><th class="n">점수</th><th class="hide-s">밴</th><th>리플레이</th></tr></thead><tbody>${rows}</tbody></table></div></details>`;
+}
+
 function matchRow(m) {
   const w1 = m.winner === 1, w2 = m.winner === 2;
   const sc = m.played ? `${m.score1} : ${m.score2}` : 'vs';
   return `<div class="card"><div class="row muted"><span>${esc(fmtDate(m.date))}</span><span>${esc(prettyComp(m.competition))}${m.potm ? ` · POTM <b>${esc(m.potm)}</b>` : ''}</span></div>
-  <div class="match"><span class="${w1 ? 'win' : w2 ? 'lose' : ''}">${teamLink(m.team1)}</span><span class="score">${sc}</span><span class="t2 ${w2 ? 'win' : w1 ? 'lose' : ''}">${teamLink(m.team2)}</span></div></div>`;
+  <div class="match"><span class="${w1 ? 'win' : w2 ? 'lose' : ''}">${teamLink(m.team1)}</span><span class="score">${sc}</span><span class="t2 ${w2 ? 'win' : w1 ? 'lose' : ''}">${teamLink(m.team2)}</span></div>${mapDetail(m)}</div>`;
 }
 
 function links(p) {
@@ -104,8 +114,11 @@ function potm() {
 }
 
 function competitions(sel) {
-  const names = [...new Set(D.matches.map(m => m.competition))].sort().reverse();
-  const cur = sel && names.includes(sel) ? sel : names[0];
+  const latest = {};
+  for (const m of D.matches) if (!latest[m.competition] || m.date > latest[m.competition]) latest[m.competition] = m.date;
+  const names = Object.keys(latest).sort((x, y) => latest[y].localeCompare(latest[x]));
+  const pref = names.find(n => n.endsWith('Korea/Regular Season')) || names[0];
+  const cur = sel && names.includes(sel) ? sel : pref;
   const ms = D.matches.filter(m => m.competition === cur).slice().reverse();
   const st = D.standings[cur];
   $app.innerHTML = `<h1>대회</h1><select id="sel">${names.map(n => `<option value="${esc(n)}" ${n === cur ? 'selected' : ''}>${esc(prettyComp(n))}</option>`).join('')}</select>
@@ -128,3 +141,11 @@ async function route() {
 }
 window.addEventListener('hashchange', route);
 load().then(route).catch(e => { $app.innerHTML = `<p>데이터를 불러오지 못했습니다. (${esc(e.message)})</p>`; });
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button.code');
+  if (!b) return;
+  const code = b.dataset.code;
+  const done = () => { const t = b.textContent; b.textContent = '복사됨'; setTimeout(() => { b.textContent = t; }, 900); };
+  if (navigator.clipboard?.writeText) navigator.clipboard.writeText(code).then(done, done); else done();
+});

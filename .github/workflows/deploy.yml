@@ -30,6 +30,9 @@ jobs:
       - name: Refresh player sheet (links)
         run: node collector/players-sheet.mjs --refresh
         continue-on-error: true
+      - name: Refresh replay codes
+        run: node collector/replays.mjs --refresh
+        continue-on-error: true
       - name: Refresh active Liquipedia pages (2.2s/request, cached for finished events)
         run: node collector/run-lp.mjs --active-only
       - name: Build stats
