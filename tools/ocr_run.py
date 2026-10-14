@@ -12,7 +12,7 @@ TOT_TRAIN = {i + 1: glob.glob(f'data/vod/p1a/frames/m0{i+1}_totals_*.png')[0] fo
 
 
 mt = TB.Model(); mo = TB.Model()
-for i, m in enumerate(gt['maps'], 1):
+for i, m in enumerate([x for x in gt['maps'] if x.get('reading', 'manual') == 'manual'], 1):
     im = cv2.imread(TABLE_TRAIN[i]); rows = [p for t in m['teams'].values() for p in t]
     for r, p in enumerate(rows):
         for c, k in enumerate(K):
