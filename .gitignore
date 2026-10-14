@@ -17,3 +17,4 @@ data/vod/
 
 # live captures (local only)
 data/live/
+__pycache__/
