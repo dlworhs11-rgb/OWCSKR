@@ -14,3 +14,6 @@ dist/
 
 # broadcast screenshots + signed stream URL: local only
 data/vod/
+
+# live captures (local only)
+data/live/
