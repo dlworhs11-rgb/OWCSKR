@@ -4,5 +4,5 @@ cd /d C:\Users\dlwor\OWCSKR
 if not exist data\live mkdir data\live
 node collector\run-lp.mjs --active-only >> data\live\daily.log 2>&1
 node collector\build.mjs >> data\live\daily.log 2>&1
-python -I toolsepublish_recent.py >> data\live\daily.log 2>&1
+python -I tools\republish_recent.py >> data\live\daily.log 2>&1
 python -I tools\schedule_today.py --upcoming >> data\live\daily.log 2>&1
