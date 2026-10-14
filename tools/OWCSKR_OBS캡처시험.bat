@@ -1,0 +1,20 @@
+@echo off
+rem OWCSKR: start OBS (tray, dedicated scene collection) with a SOOP page and take 6 test captures.
+cd /d C:\Users\dlwor\OWCSKR
+set "URL=%~1"
+if "%URL%"=="" set "URL=https://vod.sooplive.com/player/209539901?change_second=3440"
+echo [1/2] Starting OBS and preparing the scene...
+python -I tools\obs_setup.py start "%URL%"
+if errorlevel 1 goto fail
+echo [2/2] Waiting 20 s, then 6 captures every 10 s...
+timeout /t 20 >nul
+python -I tools\obs_snap.py 6 10
+if errorlevel 1 goto fail
+echo.
+echo DONE. Report: C:\Users\dlwor\OWCSKR\data\live\snap_report.txt
+pause
+exit /b 0
+:fail
+echo FAILED. Please send a screenshot of this window.
+pause
+exit /b 1

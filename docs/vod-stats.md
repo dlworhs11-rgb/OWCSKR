@@ -23,3 +23,29 @@
 ## 데이터 형태 (`matches.json` 의 `mapStats`)
 `m.mapStats = [{ game, map, mapTime, teams: { "팀명": [{ name, e, a, d, dmg, heal, mit }] }, reading, verified }]`
 - E = Eliminations (어시스트 기여 포함), `reading` = manual | ocr, `verified` = 합계 화면과 일치 여부
+
+## 라이브 자동 캡처 (OBS)
+영상을 내려받지 않고, OBS 브라우저 소스로 SOOP 공식 임베드 플레이어(`/embed?autoPlay=true&mutePlay=true`)를 평소처럼 재생하면서(광고 포함, 화면에 표시 안 됨) 10초마다 그 이미지 1장만 받아 처리한다.
+
+- `tools/live_capture.py` : OBS 실행 -> 10초마다 캡처 -> GAME DATA가 아닌 화면은 즉시 버림 -> 맵마다 표 3장 + 합계 1장 저장 -> `ocr_run.py` -> 끝나면 `assemble_day.py`
+- `tools/assemble_day.py` : 이름 사전(`data/name_lib/`)으로 선수 이름, 선수 시트로 팀, Liquipedia 일정으로 경기/세트/맵 결정 -> `data/live/<날짜>/mapstats.json`
+  (모르는 이름은 `data/live/<날짜>/unknown/`에 저장, 사람이 확인 후 `data/name_lib/<이름>__<태그>.png`로 넣고 다시 실행)
+- `tools/schedule_today.py` : 그날 한국 리그 첫 경기 10분 전에 `OWCSKR\LiveCapture` 작업 예약
+- 바탕화면 `OWCSKR_예약등록.bat` : 매일 09:00 `OWCSKR\Daily` 작업 등록 (Liquipedia 갱신 -> 빌드 -> 당일 예약). 해제는 `OWCSKR_예약해제.bat`
+- 사용자의 OBS 장면은 건드리지 않는다: 전용 장면 모음 `OWCSKR` 사용, 다른 장면 모음으로 OBS가 켜져 있으면 캡처하지 않고 종료
+
+### 끝까지 시험 (2026-10-14)
+다시보기 1경기 1세트 구간으로 `live_capture.py` 실행 -> 통계 화면 탐지(점수 0.996), 숫자 60칸, 이름 10명, 팀, 경기/세트/맵(O2 Blast vs ZANSIDE G1 Nepal)까지 손으로 확인한 정답과 전부 일치.
+아직 실제 라이브에서는 돌려 보지 않았다.
+
+## 실시간 업로드
+맵마다 통계 화면을 읽고 합계 검증을 통과하면 바로 `tools/publish_day.py`가 GitHub `main`의 `data/manual/mapstats/<날짜>.json`을 갱신한다 (GitHub API로 그 파일 하나만 커밋). 이 커밋이 배포 작업을 돌려서 약 2분 뒤 사이트 데이터(`matches.json`의 `mapStats`)에 반영된다. 사이트 화면은 바꾸지 않는다.
+- 검증 통과한 맵만 올림, 모르는 선수 이름은 `?1` 등으로 올리고 나중에 고침
+- 손으로 확인한 맵이 들어 있는 파일은 덮어쓰지 않음, 내용이 같으면 올리지 않음
+- 매일 09:00 작업이 최근 이틀치를 다시 정리해서 올림 (Liquipedia에 늦게 올라온 맵 이름 반영)
+
+## 화면에서 직접 읽는 경기 정보 (Liquipedia 대기 없음)
+- 경기 번호·세트 번호·맵 이름: 통계 화면 머리글("MATCH 2 GAME 3 / ESPERANÇA")을 글자 모양 사전(`data/header_lib/`, 로컬 전용)으로 읽음. 처음 보는 맵은 `?`로 두고 사전에 추가
+- 맵 시간: 팀 합계 화면의 "피해 ÷ 분당 피해", "힐 ÷ 분당 힐" (두 팀, 4개 값). 4개가 3초 넘게 어긋나면 시간을 비움 -> 10/11 12개 맵 전부 정확
+- 경기 중 Liquipedia 요청 없음. 아침 일정은 "팀 A vs 팀 B" 순서와, 화면에서 못 읽었을 때의 대체용으로만 사용
+- 10/11 새 5개 맵을 화면 정보만으로 정리 -> 숫자·이름·경기·세트·맵·시간 정답과 전부 일치
