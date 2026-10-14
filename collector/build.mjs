@@ -52,6 +52,39 @@ for (const [k, list] of theirs) {
 }
 console.log('replays: sheet series', replaySheet.length, 'linked', linked, 'game-count mismatches', countMismatch, 'unlinked keys', orphanKeys.length, orphanKeys.slice(0, 6).join(' ; '));
 
+// ---- per-player map stats read from the broadcast GAME DATA screens (data/manual/mapstats/*.json) ----
+const mapstatDir = 'data/manual/mapstats';
+const normMap = s => (s || '').toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '');
+const secs = t => { const m = /^(\d+):(\d\d)$/.exec(t || ''); return m ? +m[1] * 60 + +m[2] : null; };
+const pAgg = {};
+let msLinked = 0, msTotal = 0;
+if (fs.existsSync(mapstatDir)) for (const file of fs.readdirSync(mapstatDir).filter(x => x.endsWith('.json'))) {
+  const ms = JSON.parse(fs.readFileSync(mapstatDir + '/' + file, 'utf8'));
+  for (const sm of ms.maps) {
+    msTotal++;
+    const [ta, tb] = Object.keys(sm.teams);
+    const m = krMatches.find(x => x.date.startsWith(ms.date) && pairKey2(x.team1, x.team2) === pairKey2(ta, tb));
+    if (!m) { console.log('mapstats: no match for', ms.date, ta, tb); continue; }
+    const lp = m.maps[sm.game - 1];
+    if (lp && lp.map && normMap(lp.map) !== normMap(sm.map)) console.log('mapstats: map name mismatch', ms.date, ta, tb, 'G' + sm.game, lp.map, 'vs', sm.map);
+    (m.mapStats ??= []).push({ game: sm.game, map: sm.map, mapTime: sm.mapTime, teams: sm.teams, reading: sm.reading, verified: sm.totalsVerified ?? null });
+    msLinked++;
+    const dur = secs(sm.mapTime);
+    for (const [team, rows] of Object.entries(sm.teams)) for (const r of rows) {
+      const k = normPlayer(r.name) + '|' + team;
+      const a = pAgg[k] ??= { handle: r.name, team, maps: 0, secs: 0, e: 0, a: 0, d: 0, dmg: 0, heal: 0, mit: 0 };
+      a.maps++; a.secs += dur || 0; a.e += r.e; a.a += r.a; a.d += r.d; a.dmg += r.dmg; a.heal += r.heal; a.mit += r.mit;
+    }
+  }
+}
+function pairKey2(a, b) { return [a, b].sort().join('~'); }
+function normPlayer(n) { return (n || '').toLowerCase().replace(/[^a-z0-9]/g, ''); }
+const playerStats = Object.values(pAgg).map(a => {
+  const per10 = v => (a.secs ? +(v / a.secs * 600).toFixed(0) : null);
+  return { ...a, minutes: +(a.secs / 60).toFixed(1), ed: a.d ? +(a.e / a.d).toFixed(2) : null, dmg10: per10(a.dmg), heal10: per10(a.heal), mit10: per10(a.mit), e10: a.secs ? +(a.e / a.secs * 600).toFixed(1) : null, d10: a.secs ? +(a.d / a.secs * 600).toFixed(1) : null };
+}).sort((x, y) => (y.ed ?? 0) - (x.ed ?? 0));
+console.log('mapstats: maps', msTotal, 'linked', msLinked, 'players', playerStats.length);
+
 // ---- team stats ----
 const teams = {};
 const T = n => teams[n] ??= { name: n, matches: 0, wins: 0, losses: 0, mapWins: 0, mapLosses: 0, potmWon: 0 };
@@ -104,6 +137,7 @@ const potmOut = Object.entries(potmAll).map(([k, p]) => ({ key: k, handle: byHan
 fs.mkdirSync('data/site', { recursive: true });
 const w = (n, d) => fs.writeFileSync(`data/site/${n}.json`, JSON.stringify(d));
 w('matches', krMatches);
+w('player-stats', playerStats);
 w('team-stats', Object.values(teams).sort((a, b) => b.wins - a.wins));
 w('standings', standingsOut);
 w('players', playerOut);

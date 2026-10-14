@@ -1,0 +1,1272 @@
+{
+ "source": "SOOP VOD 209539901 (owesports) - OWCS Asia Korea Stage 3 Week 2 Day 3, broadcast GAME DATA screens",
+ "note": "E = Eliminations (credits assists), A = assists, D = deaths, dmg/heal/mit = damage dealt / healing / damage mitigated. Team order and colours on screen swap between maps. reading=manual: read by eye; reading=ocr: read by tools/ocr_run.py and verified against the team-totals page (E, D, damage, heal, mitigation sums).",
+ "maps": [
+  {
+   "match": "O2 Blast vs ZANSIDE GAMING",
+   "game": 1,
+   "map": "Nepal",
+   "mapTime": "8:18",
+   "vodSec": 3466,
+   "teams": {
+    "O2 Blast": [
+     {
+      "name": "Faith",
+      "e": 7,
+      "a": 6,
+      "d": 6,
+      "dmg": 1332,
+      "heal": 7098,
+      "mit": 0
+     },
+     {
+      "name": "Fate",
+      "e": 8,
+      "a": 4,
+      "d": 5,
+      "dmg": 9705,
+      "heal": 839,
+      "mit": 7500
+     },
+     {
+      "name": "Gamjung",
+      "e": 7,
+      "a": 6,
+      "d": 6,
+      "dmg": 4758,
+      "heal": 9895,
+      "mit": 1145
+     },
+     {
+      "name": "Perr",
+      "e": 8,
+      "a": 1,
+      "d": 5,
+      "dmg": 7835,
+      "heal": 248,
+      "mit": 550
+     },
+     {
+      "name": "Wutian",
+      "e": 4,
+      "a": 0,
+      "d": 5,
+      "dmg": 4910,
+      "heal": 50,
+      "mit": 621
+     }
+    ],
+    "ZANSIDE GAMING": [
+     {
+      "name": "Becky",
+      "e": 17,
+      "a": 1,
+      "d": 3,
+      "dmg": 6888,
+      "heal": 45,
+      "mit": 425
+     },
+     {
+      "name": "Heiser",
+      "e": 16,
+      "a": 2,
+      "d": 3,
+      "dmg": 11403,
+      "heal": 484,
+      "mit": 7438
+     },
+     {
+      "name": "Irony",
+      "e": 13,
+      "a": 15,
+      "d": 1,
+      "dmg": 4841,
+      "heal": 10679,
+      "mit": 1271
+     },
+     {
+      "name": "Kilo",
+      "e": 11,
+      "a": 3,
+      "d": 4,
+      "dmg": 8309,
+      "heal": 0,
+      "mit": 101
+     },
+     {
+      "name": "Opener",
+      "e": 8,
+      "a": 11,
+      "d": 3,
+      "dmg": 2299,
+      "heal": 5903,
+      "mit": 0
+     }
+    ]
+   },
+   "totalsVerified": false,
+   "reading": "manual"
+  },
+  {
+   "match": "O2 Blast vs ZANSIDE GAMING",
+   "game": 2,
+   "map": "New Junk City",
+   "mapTime": "15:25",
+   "vodSec": 5025,
+   "teams": {
+    "ZANSIDE GAMING": [
+     {
+      "name": "Becky",
+      "e": 36,
+      "a": 0,
+      "d": 7,
+      "dmg": 12459,
+      "heal": 153,
+      "mit": 522
+     },
+     {
+      "name": "Heiser",
+      "e": 23,
+      "a": 7,
+      "d": 10,
+      "dmg": 19204,
+      "heal": 1983,
+      "mit": 10660
+     },
+     {
+      "name": "Irony",
+      "e": 25,
+      "a": 19,
+      "d": 9,
+      "dmg": 9445,
+      "heal": 14037,
+      "mit": 2420
+     },
+     {
+      "name": "Kilo",
+      "e": 27,
+      "a": 1,
+      "d": 14,
+      "dmg": 11724,
+      "heal": 150,
+      "mit": 566
+     },
+     {
+      "name": "Opener",
+      "e": 24,
+      "a": 27,
+      "d": 12,
+      "dmg": 5700,
+      "heal": 9514,
+      "mit": 0
+     }
+    ],
+    "O2 Blast": [
+     {
+      "name": "Faith",
+      "e": 25,
+      "a": 23,
+      "d": 8,
+      "dmg": 5632,
+      "heal": 14329,
+      "mit": 0
+     },
+     {
+      "name": "Fate",
+      "e": 24,
+      "a": 4,
+      "d": 8,
+      "dmg": 18225,
+      "heal": 2074,
+      "mit": 10650
+     },
+     {
+      "name": "Gamjung",
+      "e": 25,
+      "a": 34,
+      "d": 13,
+      "dmg": 7397,
+      "heal": 14005,
+      "mit": 1235
+     },
+     {
+      "name": "Perr",
+      "e": 28,
+      "a": 1,
+      "d": 13,
+      "dmg": 12620,
+      "heal": 192,
+      "mit": 851
+     },
+     {
+      "name": "Wutian",
+      "e": 31,
+      "a": 0,
+      "d": 9,
+      "dmg": 11788,
+      "heal": 188,
+      "mit": 650
+     }
+    ]
+   },
+   "totalsVerified": false,
+   "reading": "manual"
+  },
+  {
+   "match": "O2 Blast vs ZANSIDE GAMING",
+   "game": 3,
+   "map": "Esperanca",
+   "mapTime": "10:37",
+   "vodSec": 6120,
+   "teams": {
+    "ZANSIDE GAMING": [
+     {
+      "name": "Becky",
+      "e": 5,
+      "a": 0,
+      "d": 6,
+      "dmg": 7967,
+      "heal": 0,
+      "mit": 284
+     },
+     {
+      "name": "Heiser",
+      "e": 7,
+      "a": 0,
+      "d": 8,
+      "dmg": 12247,
+      "heal": 1617,
+      "mit": 5030
+     },
+     {
+      "name": "Irony",
+      "e": 8,
+      "a": 11,
+      "d": 5,
+      "dmg": 4961,
+      "heal": 9684,
+      "mit": 1595
+     },
+     {
+      "name": "Kilo",
+      "e": 8,
+      "a": 0,
+      "d": 8,
+      "dmg": 10370,
+      "heal": 104,
+      "mit": 1532
+     },
+     {
+      "name": "Opener",
+      "e": 8,
+      "a": 11,
+      "d": 5,
+      "dmg": 1888,
+      "heal": 8009,
+      "mit": 0
+     }
+    ],
+    "O2 Blast": [
+     {
+      "name": "Faith",
+      "e": 15,
+      "a": 18,
+      "d": 3,
+      "dmg": 2265,
+      "heal": 10683,
+      "mit": 0
+     },
+     {
+      "name": "Fate",
+      "e": 15,
+      "a": 4,
+      "d": 2,
+      "dmg": 10724,
+      "heal": 357,
+      "mit": 11212
+     },
+     {
+      "name": "Gamjung",
+      "e": 15,
+      "a": 26,
+      "d": 2,
+      "dmg": 5501,
+      "heal": 12856,
+      "mit": 2300
+     },
+     {
+      "name": "Perr",
+      "e": 19,
+      "a": 1,
+      "d": 7,
+      "dmg": 11423,
+      "heal": 647,
+      "mit": 1638
+     },
+     {
+      "name": "Wutian",
+      "e": 20,
+      "a": 0,
+      "d": 0,
+      "dmg": 8013,
+      "heal": 93,
+      "mit": 221
+     }
+    ]
+   },
+   "totalsVerified": false,
+   "reading": "manual"
+  },
+  {
+   "match": "O2 Blast vs ZANSIDE GAMING",
+   "game": 4,
+   "map": "Route 66",
+   "mapTime": "21:59",
+   "vodSec": 8220,
+   "teams": {
+    "O2 Blast": [
+     {
+      "name": "Faith",
+      "e": 22,
+      "a": 35,
+      "d": 6,
+      "dmg": 5836,
+      "heal": 22389,
+      "mit": 0
+     },
+     {
+      "name": "Fate",
+      "e": 34,
+      "a": 12,
+      "d": 3,
+      "dmg": 19262,
+      "heal": 4275,
+      "mit": 30427
+     },
+     {
+      "name": "Gamjung",
+      "e": 18,
+      "a": 21,
+      "d": 10,
+      "dmg": 11620,
+      "heal": 22808,
+      "mit": 3096
+     },
+     {
+      "name": "Perr",
+      "e": 26,
+      "a": 3,
+      "d": 12,
+      "dmg": 22570,
+      "heal": 0,
+      "mit": 936
+     },
+     {
+      "name": "Wutian",
+      "e": 23,
+      "a": 0,
+      "d": 8,
+      "dmg": 15889,
+      "heal": 14,
+      "mit": 482
+     }
+    ],
+    "ZANSIDE GAMING": [
+     {
+      "name": "Becky",
+      "e": 23,
+      "a": 0,
+      "d": 11,
+      "dmg": 14619,
+      "heal": 107,
+      "mit": 633
+     },
+     {
+      "name": "Heesung",
+      "e": 29,
+      "a": 13,
+      "d": 7,
+      "dmg": 20325,
+      "heal": 4137,
+      "mit": 38035
+     },
+     {
+      "name": "Irony",
+      "e": 16,
+      "a": 24,
+      "d": 8,
+      "dmg": 15136,
+      "heal": 22245,
+      "mit": 2447
+     },
+     {
+      "name": "Kilo",
+      "e": 17,
+      "a": 2,
+      "d": 14,
+      "dmg": 20983,
+      "heal": 0,
+      "mit": 298
+     },
+     {
+      "name": "Opener",
+      "e": 16,
+      "a": 13,
+      "d": 11,
+      "dmg": 6443,
+      "heal": 19033,
+      "mit": 0
+     }
+    ]
+   },
+   "totalsVerified": false,
+   "reading": "manual"
+  },
+  {
+   "match": "O2 Blast vs ZANSIDE GAMING",
+   "game": 5,
+   "map": "Neon Junction",
+   "mapTime": "15:48",
+   "vodSec": 9440,
+   "teams": {
+    "O2 Blast": [
+     {
+      "name": "Faith",
+      "e": 22,
+      "a": 25,
+      "d": 11,
+      "dmg": 4747,
+      "heal": 14325,
+      "mit": 0
+     },
+     {
+      "name": "Fate",
+      "e": 31,
+      "a": 7,
+      "d": 7,
+      "dmg": 20108,
+      "heal": 1037,
+      "mit": 15709
+     },
+     {
+      "name": "Gamjung",
+      "e": 18,
+      "a": 30,
+      "d": 6,
+      "dmg": 7295,
+      "heal": 23546,
+      "mit": 3083
+     },
+     {
+      "name": "Perr",
+      "e": 18,
+      "a": 3,
+      "d": 9,
+      "dmg": 16456,
+      "heal": 0,
+      "mit": 171
+     },
+     {
+      "name": "Wutian",
+      "e": 25,
+      "a": 1,
+      "d": 5,
+      "dmg": 13146,
+      "heal": 195,
+      "mit": 948
+     }
+    ],
+    "ZANSIDE GAMING": [
+     {
+      "name": "Becky",
+      "e": 17,
+      "a": 3,
+      "d": 13,
+      "dmg": 11635,
+      "heal": 131,
+      "mit": 951
+     },
+     {
+      "name": "Heesung",
+      "e": 16,
+      "a": 4,
+      "d": 7,
+      "dmg": 21266,
+      "heal": 1486,
+      "mit": 15070
+     },
+     {
+      "name": "Irony",
+      "e": 13,
+      "a": 25,
+      "d": 1,
+      "dmg": 9788,
+      "heal": 24739,
+      "mit": 2741
+     },
+     {
+      "name": "Kilo",
+      "e": 28,
+      "a": 4,
+      "d": 10,
+      "dmg": 16055,
+      "heal": 0,
+      "mit": 256
+     },
+     {
+      "name": "Opener",
+      "e": 21,
+      "a": 16,
+      "d": 9,
+      "dmg": 5295,
+      "heal": 12122,
+      "mit": 0
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "manual"
+  },
+  {
+   "match": "Cheeseburger vs Crazy Raccoon",
+   "game": 1,
+   "map": "Nepal",
+   "mapTime": "10:50",
+   "vodSec": 12540,
+   "teams": {
+    "Cheeseburger": [
+     {
+      "name": "Belosrea",
+      "e": 15,
+      "a": 2,
+      "d": 6,
+      "dmg": 10709,
+      "heal": 973,
+      "mit": 7859
+     },
+     {
+      "name": "K4NE",
+      "e": 10,
+      "a": 0,
+      "d": 9,
+      "dmg": 10049,
+      "heal": 0,
+      "mit": 240
+     },
+     {
+      "name": "Profit",
+      "e": 16,
+      "a": 0,
+      "d": 5,
+      "dmg": 8394,
+      "heal": 58,
+      "mit": 304
+     },
+     {
+      "name": "TenTen",
+      "e": 10,
+      "a": 11,
+      "d": 4,
+      "dmg": 4032,
+      "heal": 9872,
+      "mit": 25
+     },
+     {
+      "name": "Trest",
+      "e": 8,
+      "a": 14,
+      "d": 11,
+      "dmg": 5350,
+      "heal": 7674,
+      "mit": 967
+     }
+    ],
+    "Crazy Raccoon": [
+     {
+      "name": "Chorong",
+      "e": 23,
+      "a": 18,
+      "d": 5,
+      "dmg": 6054,
+      "heal": 7939,
+      "mit": 0
+     },
+     {
+      "name": "Heesang",
+      "e": 22,
+      "a": 0,
+      "d": 5,
+      "dmg": 7302,
+      "heal": 663,
+      "mit": 0
+     },
+     {
+      "name": "JunBin",
+      "e": 22,
+      "a": 9,
+      "d": 4,
+      "dmg": 9079,
+      "heal": 2327,
+      "mit": 5420
+     },
+     {
+      "name": "LIP",
+      "e": 17,
+      "a": 22,
+      "d": 8,
+      "dmg": 4838,
+      "heal": 7727,
+      "mit": 301
+     },
+     {
+      "name": "Stalk3r",
+      "e": 28,
+      "a": 0,
+      "d": 2,
+      "dmg": 7542,
+      "heal": 0,
+      "mit": 114
+     }
+    ]
+   },
+   "totalsVerified": false,
+   "reading": "manual"
+  },
+  {
+   "match": "Cheeseburger vs Crazy Raccoon",
+   "game": 2,
+   "map": "Aatlis",
+   "mapTime": "16:54",
+   "vodSec": 14100,
+   "teams": {
+    "Cheeseburger": [
+     {
+      "name": "Belosrea",
+      "e": 24,
+      "a": 5,
+      "d": 8,
+      "dmg": 15697,
+      "heal": 3281,
+      "mit": 19337
+     },
+     {
+      "name": "K4NE",
+      "e": 34,
+      "a": 4,
+      "d": 10,
+      "dmg": 18727,
+      "heal": 0,
+      "mit": 436
+     },
+     {
+      "name": "Profit",
+      "e": 26,
+      "a": 0,
+      "d": 7,
+      "dmg": 12195,
+      "heal": 114,
+      "mit": 572
+     },
+     {
+      "name": "TenTen",
+      "e": 19,
+      "a": 29,
+      "d": 6,
+      "dmg": 4780,
+      "heal": 15201,
+      "mit": 0
+     },
+     {
+      "name": "Trest",
+      "e": 23,
+      "a": 33,
+      "d": 12,
+      "dmg": 7870,
+      "heal": 13257,
+      "mit": 1242
+     }
+    ],
+    "Crazy Raccoon": [
+     {
+      "name": "Chorong",
+      "e": 18,
+      "a": 21,
+      "d": 11,
+      "dmg": 5295,
+      "heal": 11596,
+      "mit": 0
+     },
+     {
+      "name": "Heesang",
+      "e": 24,
+      "a": 1,
+      "d": 12,
+      "dmg": 14754,
+      "heal": 411,
+      "mit": 1076
+     },
+     {
+      "name": "JunBin",
+      "e": 25,
+      "a": 8,
+      "d": 7,
+      "dmg": 13516,
+      "heal": 2811,
+      "mit": 9273
+     },
+     {
+      "name": "LIP",
+      "e": 25,
+      "a": 23,
+      "d": 12,
+      "dmg": 7879,
+      "heal": 12401,
+      "mit": 1166
+     },
+     {
+      "name": "Stalk3r",
+      "e": 30,
+      "a": 0,
+      "d": 5,
+      "dmg": 12870,
+      "heal": 6,
+      "mit": 242
+     }
+    ]
+   },
+   "totalsVerified": false,
+   "reading": "manual"
+  },
+  {
+   "match": "Cheeseburger vs Crazy Raccoon",
+   "game": 3,
+   "map": "Esperanca",
+   "mapTime": "10:44",
+   "vodSec": 15210,
+   "teams": {
+    "Crazy Raccoon": [
+     {
+      "name": "Chorong",
+      "e": 17,
+      "a": 20,
+      "d": 1,
+      "dmg": 3372,
+      "heal": 10101,
+      "mit": 0
+     },
+     {
+      "name": "Heesang",
+      "e": 17,
+      "a": 0,
+      "d": 2,
+      "dmg": 10063,
+      "heal": 125,
+      "mit": 246
+     },
+     {
+      "name": "JunBin",
+      "e": 13,
+      "a": 2,
+      "d": 2,
+      "dmg": 7973,
+      "heal": 2266,
+      "mit": 5079
+     },
+     {
+      "name": "LIP",
+      "e": 19,
+      "a": 18,
+      "d": 5,
+      "dmg": 6689,
+      "heal": 6488,
+      "mit": 819
+     },
+     {
+      "name": "Stalk3r",
+      "e": 18,
+      "a": 3,
+      "d": 6,
+      "dmg": 12696,
+      "heal": 61,
+      "mit": 1079
+     }
+    ],
+    "Cheeseburger": [
+     {
+      "name": "Belosrea",
+      "e": 8,
+      "a": 1,
+      "d": 7,
+      "dmg": 9138,
+      "heal": 1973,
+      "mit": 6965
+     },
+     {
+      "name": "K4NE",
+      "e": 9,
+      "a": 1,
+      "d": 7,
+      "dmg": 13557,
+      "heal": 477,
+      "mit": 1305
+     },
+     {
+      "name": "Profit",
+      "e": 10,
+      "a": 0,
+      "d": 4,
+      "dmg": 7645,
+      "heal": 67,
+      "mit": 202
+     },
+     {
+      "name": "TenTen",
+      "e": 7,
+      "a": 9,
+      "d": 6,
+      "dmg": 2180,
+      "heal": 9779,
+      "mit": 0
+     },
+     {
+      "name": "Trest",
+      "e": 7,
+      "a": 5,
+      "d": 7,
+      "dmg": 4328,
+      "heal": 7544,
+      "mit": 626
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "framesAgree": true
+  },
+  {
+   "match": "Cheeseburger vs Crazy Raccoon",
+   "game": 4,
+   "map": "Neon Junction",
+   "mapTime": "15:51",
+   "vodSec": 16695,
+   "teams": {
+    "Crazy Raccoon": [
+     {
+      "name": "Chorong",
+      "e": 25,
+      "a": 35,
+      "d": 6,
+      "dmg": 5117,
+      "heal": 13604,
+      "mit": 0
+     },
+     {
+      "name": "Heesang",
+      "e": 30,
+      "a": 4,
+      "d": 10,
+      "dmg": 14273,
+      "heal": 268,
+      "mit": 536
+     },
+     {
+      "name": "LIP",
+      "e": 19,
+      "a": 38,
+      "d": 3,
+      "dmg": 5485,
+      "heal": 26794,
+      "mit": 2110
+     },
+     {
+      "name": "MAX",
+      "e": 34,
+      "a": 8,
+      "d": 4,
+      "dmg": 17747,
+      "heal": 776,
+      "mit": 20036
+     },
+     {
+      "name": "Stalk3r",
+      "e": 33,
+      "a": 4,
+      "d": 8,
+      "dmg": 18240,
+      "heal": 0,
+      "mit": 770
+     }
+    ],
+    "Cheeseburger": [
+     {
+      "name": "Belosrea",
+      "e": 21,
+      "a": 2,
+      "d": 8,
+      "dmg": 16327,
+      "heal": 654,
+      "mit": 14642
+     },
+     {
+      "name": "K4NE",
+      "e": 19,
+      "a": 3,
+      "d": 13,
+      "dmg": 14295,
+      "heal": 0,
+      "mit": 460
+     },
+     {
+      "name": "Profit",
+      "e": 16,
+      "a": 7,
+      "d": 13,
+      "dmg": 12371,
+      "heal": 3492,
+      "mit": 7491
+     },
+     {
+      "name": "TenTen",
+      "e": 14,
+      "a": 15,
+      "d": 10,
+      "dmg": 8603,
+      "heal": 12914,
+      "mit": 0
+     },
+     {
+      "name": "Trest",
+      "e": 12,
+      "a": 17,
+      "d": 10,
+      "dmg": 8316,
+      "heal": 16851,
+      "mit": 2252
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "framesAgree": true
+  },
+  {
+   "match": "Poker Face vs ZETA DIVISION",
+   "game": 1,
+   "map": "Samoa",
+   "mapTime": "8:07",
+   "vodSec": 1455,
+   "teams": {
+    "Poker Face": [
+     {
+      "name": "Caffeine",
+      "e": 5,
+      "a": 6,
+      "d": 7,
+      "dmg": 3802,
+      "heal": 7331,
+      "mit": 681
+     },
+     {
+      "name": "F1nally",
+      "e": 11,
+      "a": 0,
+      "d": 7,
+      "dmg": 4753,
+      "heal": 129,
+      "mit": 100
+     },
+     {
+      "name": "Soae",
+      "e": 7,
+      "a": 8,
+      "d": 7,
+      "dmg": 2851,
+      "heal": 5507,
+      "mit": 289
+     },
+     {
+      "name": "SoLA",
+      "e": 9,
+      "a": 0,
+      "d": 5,
+      "dmg": 7718,
+      "heal": 377,
+      "mit": 7754
+     },
+     {
+      "name": "Sori",
+      "e": 7,
+      "a": 1,
+      "d": 7,
+      "dmg": 5626,
+      "heal": 82,
+      "mit": 512
+     }
+    ],
+    "ZETA DIVISION": [
+     {
+      "name": "Bernar",
+      "e": 16,
+      "a": 4,
+      "d": 3,
+      "dmg": 8936,
+      "heal": 730,
+      "mit": 5779
+     },
+     {
+      "name": "Knife",
+      "e": 13,
+      "a": 1,
+      "d": 4,
+      "dmg": 8223,
+      "heal": 557,
+      "mit": 132
+     },
+     {
+      "name": "Proper",
+      "e": 17,
+      "a": 0,
+      "d": 3,
+      "dmg": 5995,
+      "heal": 69,
+      "mit": 200
+     },
+     {
+      "name": "Shu",
+      "e": 11,
+      "a": 12,
+      "d": 3,
+      "dmg": 3914,
+      "heal": 5597,
+      "mit": 290
+     },
+     {
+      "name": "Viol2t",
+      "e": 8,
+      "a": 12,
+      "d": 5,
+      "dmg": 4600,
+      "heal": 6019,
+      "mit": 535
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "framesAgree": true
+  },
+  {
+   "match": "Poker Face vs ZETA DIVISION",
+   "game": 2,
+   "map": "Shambali Monastery",
+   "mapTime": "11:38",
+   "vodSec": 2775,
+   "teams": {
+    "Poker Face": [
+     {
+      "name": "Caffeine",
+      "e": 13,
+      "a": 19,
+      "d": 8,
+      "dmg": 6152,
+      "heal": 13711,
+      "mit": 1589
+     },
+     {
+      "name": "F1nally",
+      "e": 15,
+      "a": 0,
+      "d": 6,
+      "dmg": 6415,
+      "heal": 205,
+      "mit": 119
+     },
+     {
+      "name": "Soae",
+      "e": 15,
+      "a": 13,
+      "d": 9,
+      "dmg": 2380,
+      "heal": 9799,
+      "mit": 0
+     },
+     {
+      "name": "SoLA",
+      "e": 16,
+      "a": 5,
+      "d": 4,
+      "dmg": 13682,
+      "heal": 601,
+      "mit": 10341
+     },
+     {
+      "name": "Sori",
+      "e": 15,
+      "a": 1,
+      "d": 12,
+      "dmg": 9769,
+      "heal": 128,
+      "mit": 466
+     }
+    ],
+    "ZETA DIVISION": [
+     {
+      "name": "Bernar",
+      "e": 17,
+      "a": 4,
+      "d": 4,
+      "dmg": 13536,
+      "heal": 222,
+      "mit": 7488
+     },
+     {
+      "name": "Knife",
+      "e": 17,
+      "a": 1,
+      "d": 7,
+      "dmg": 11802,
+      "heal": 0,
+      "mit": 373
+     },
+     {
+      "name": "Proper",
+      "e": 17,
+      "a": 0,
+      "d": 7,
+      "dmg": 7905,
+      "heal": 30,
+      "mit": 218
+     },
+     {
+      "name": "Shu",
+      "e": 18,
+      "a": 16,
+      "d": 7,
+      "dmg": 7543,
+      "heal": 8770,
+      "mit": 1697
+     },
+     {
+      "name": "Viol2t",
+      "e": 15,
+      "a": 17,
+      "d": 6,
+      "dmg": 5111,
+      "heal": 9478,
+      "mit": 0
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "framesAgree": false
+  },
+  {
+   "match": "Poker Face vs ZETA DIVISION",
+   "game": 3,
+   "map": "Esperanca",
+   "mapTime": "10:18",
+   "vodSec": 3705,
+   "teams": {
+    "Poker Face": [
+     {
+      "name": "Caffeine",
+      "e": 9,
+      "a": 6,
+      "d": 10,
+      "dmg": 5969,
+      "heal": 6817,
+      "mit": 335
+     },
+     {
+      "name": "Dumbbell",
+      "e": 11,
+      "a": 10,
+      "d": 7,
+      "dmg": 3860,
+      "heal": 7800,
+      "mit": 0
+     },
+     {
+      "name": "F1nally",
+      "e": 8,
+      "a": 0,
+      "d": 11,
+      "dmg": 6977,
+      "heal": 0,
+      "mit": 250
+     },
+     {
+      "name": "Sori",
+      "e": 11,
+      "a": 1,
+      "d": 11,
+      "dmg": 8868,
+      "heal": 0,
+      "mit": 374
+     },
+     {
+      "name": "Swoo",
+      "e": 4,
+      "a": 0,
+      "d": 9,
+      "dmg": 8714,
+      "heal": 1372,
+      "mit": 11373
+     }
+    ],
+    "ZETA DIVISION": [
+     {
+      "name": "Knife",
+      "e": 24,
+      "a": 4,
+      "d": 6,
+      "dmg": 10656,
+      "heal": 0,
+      "mit": 382
+     },
+     {
+      "name": "Mealgaru",
+      "e": 29,
+      "a": 8,
+      "d": 1,
+      "dmg": 10020,
+      "heal": 1930,
+      "mit": 5317
+     },
+     {
+      "name": "Proper",
+      "e": 23,
+      "a": 0,
+      "d": 2,
+      "dmg": 6950,
+      "heal": 0,
+      "mit": 223
+     },
+     {
+      "name": "Shu",
+      "e": 13,
+      "a": 16,
+      "d": 7,
+      "dmg": 5756,
+      "heal": 8034,
+      "mit": 852
+     },
+     {
+      "name": "Viol2t",
+      "e": 21,
+      "a": 16,
+      "d": 5,
+      "dmg": 4086,
+      "heal": 6126,
+      "mit": 0
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "framesAgree": true
+  }
+ ],
+ "date": "2026-10-11"
+}
