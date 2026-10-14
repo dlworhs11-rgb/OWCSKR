@@ -24,7 +24,7 @@ def register(day, start, hours):
     ps = (f"$a = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c {os.path.join(ROOT, 'tools', 'run_live.bat')} {hours} {day}' -WorkingDirectory '{ROOT}';"
           f"$t = New-ScheduledTaskTrigger -Once -At '{start.strftime('%Y-%m-%dT%H:%M:%S')}';"
           "$s = New-ScheduledTaskSettingsSet -WakeToRun -ExecutionTimeLimit (New-TimeSpan -Hours 12);"
-          rf"Register-ScheduledTask -TaskPath '\OWCSKR' -TaskName 'LiveCapture_{day}' -Action $a -Trigger $t -Settings $s -Force | Out-Null; 'registered'")
+          rf"Register-ScheduledTask -TaskPath '\OWCSKR\' -TaskName 'LiveCapture_{day}' -Action $a -Trigger $t -Settings $s -Force | Out-Null; 'registered'")
     return subprocess.run(['powershell', '-NoProfile', '-Command', ps], capture_output=True, text=True).stdout.strip() or 'registration failed'
 
 
