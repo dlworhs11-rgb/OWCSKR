@@ -5,8 +5,7 @@ usage: python -I tools/assemble_day.py YYYY-MM-DD
 - player names: nearest crop in data/name_lib (unknown names -> '?k', crop saved to data/live/<date>/unknown/)
 - team of each panel: roster overlap with data/manual/players.json (community sheet)
 - match / game number / map name: that day's Korean-league matches from data/site/matches.json (run collector/build.mjs first)
-- writes data/live/<date>/mapstats.json; copies it to data/manual/mapstats/<date>.json only if that file does not exist
-  (hand-checked files are never overwritten) and every name is known
+- writes data/live/<date>/mapstats.json (tools/publish_day.py uploads the verified maps)
 """
 import cv2, json, os, sys, shutil
 sys.path.insert(0, os.path.dirname(__file__))
@@ -81,12 +80,5 @@ res = {'date': date, 'source': 'OBS capture of the SOOP broadcast (owesports), G
        'unknownNames': unknown,
        'note': 'reading=ocr: digits read by tools/ocr_run.py; totalsVerified = sums match the team-totals page. mapTime not read yet.'}
 json.dump(res, open(os.path.join(day, 'mapstats.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-target = os.path.join('data', 'manual', 'mapstats', f'{date}.json')
 verified = sum(1 for x in out_maps if x['totalsVerified'])
 print(f'{date}: {len(out_maps)} maps, {verified} verified by totals, {len(unknown)} unknown names')
-if not unknown and not os.path.exists(target):
-    shutil.copy(os.path.join(day, 'mapstats.json'), target); print('copied to', target)
-elif os.path.exists(target):
-    print('kept existing', target, '(not overwritten)')
-else:
-    print('label the crops in', unknown_dir, '(save them into data/name_lib/<Name>__<tag>.png) and run again')

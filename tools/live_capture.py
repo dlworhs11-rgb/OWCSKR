@@ -6,8 +6,8 @@ usage: python -I tools/live_capture.py [--url URL] [--date YYYY-MM-DD] [--hours 
   refuses to touch an OBS that is running with the user's own scene collection
 - every --interval seconds grabs the OBS browser source; frames that are not GAME DATA screens are discarded
   immediately (nothing else is stored)
-- per map keeps up to 3 TABLE frames and 1 TOTALS frame in data/live/<date>/frames, runs tools/ocr_run.py after
-  each map, and finally tools/assemble_day.py
+- per map keeps up to 3 TABLE frames and 1 TOTALS frame in data/live/<date>/frames; right after each map it runs
+  ocr_run.py -> assemble_day.py -> publish_day.py, so verified stats reach GitHub (and the site data) within minutes
 - stops after --hours, or when no GAME DATA screen was seen for --idle-stop minutes after at least one map
 """
 import argparse, asyncio, datetime, json, os, subprocess, sys, time
@@ -29,6 +29,21 @@ def classify(img):
     if cv2.matchTemplate(s[TITLE], REF_T[TITLE], cv2.TM_CCOEFF_NORMED)[0][0] < 0.6: return None
     dt = np.abs(s[BODY].astype(np.float32) - REF_T[BODY]).mean(); ds = np.abs(s[BODY].astype(np.float32) - REF_S[BODY]).mean()
     return 'TOTALS' if ds < dt else 'TABLE'
+
+
+_last_refresh = [0.0]
+
+
+def update_and_publish(date, log, force_refresh=False):
+    """after every map: refresh Liquipedia (at most every 5 min), rebuild, assemble the day, upload verified maps"""
+    if force_refresh or time.time() - _last_refresh[0] > 300:
+        subprocess.run(['node', 'collector/run-lp.mjs', '--active-only'], capture_output=True)
+        subprocess.run(['node', 'collector/build.mjs'], capture_output=True)
+        _last_refresh[0] = time.time()
+    for script in ('tools/assemble_day.py', 'tools/publish_day.py'):
+        r = subprocess.run([sys.executable, '-I', script, date], capture_output=True, text=True, encoding='utf-8')
+        last = (r.stdout.strip().splitlines() or [r.stderr.strip()[-200:]])[-1]
+        log('  ' + os.path.basename(script) + ':', last)
 
 
 async def collection_ok():
@@ -68,8 +83,9 @@ def main():
         if started_obs:
             subprocess.run(['taskkill', '/IM', 'obs64.exe'], capture_output=True)
             log('OBS closed')
-    subprocess.run([sys.executable, '-I', 'tools/ocr_run.py', os.path.join(out, 'ocr.json'), frames])
-    subprocess.run([sys.executable, '-I', 'tools/assemble_day.py', a.date])
+    subprocess.run([sys.executable, '-I', 'tools/ocr_run.py', os.path.join(out, 'ocr.json'), frames], capture_output=True)
+    if os.path.exists(os.path.join(out, 'ocr.json')):
+        update_and_publish(a.date, log, force_refresh=True)
     log('done')
 
 
@@ -82,6 +98,7 @@ async def loop(a, frames, out, log):
         log(f"map {c['n']} closed: tables={c['tables']} totals={c['totals']}")
         r = subprocess.run([sys.executable, '-I', 'tools/ocr_run.py', os.path.join(out, 'ocr.json'), frames], capture_output=True, text=True)
         for line in r.stdout.strip().splitlines()[-1:]: log('  ocr:', line)
+        update_and_publish(a.date, log)
 
     while time.time() < end:
         t0 = time.time()
