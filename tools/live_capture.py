@@ -77,7 +77,7 @@ def main():
         asyncio.run(loop(a, frames, out, log))
     finally:
         if started_obs:
-            subprocess.run(['taskkill', '/IM', 'obs64.exe'], capture_output=True)
+            subprocess.run(['taskkill', '/F', '/IM', 'obs64.exe'], capture_output=True)   # tray mode turns a normal close into 'hide'
             log('OBS closed')
     subprocess.run([sys.executable, '-I', 'tools/ocr_run.py', os.path.join(out, 'ocr.json'), frames], capture_output=True)
     if os.path.exists(os.path.join(out, 'ocr.json')):
