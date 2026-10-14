@@ -1,7 +1,7 @@
 r"""Schedule today's (or a given day's) live capture from the Liquipedia match list.
 usage: python -I tools/schedule_today.py [YYYY-MM-DD] [--dry]
 Finds that day's Korean-league matches in data/site/matches.json (run collector/build.mjs first), and registers a
-one-shot Windows task 'OWCSKR\LiveCapture' that starts 20 minutes before the first match and runs until 3.5 hours
+one-shot Windows task 'OWCSKR\LiveCapture' that starts 10 minutes before the first match and runs until 3.5 hours
 after the last one (live_capture.py also stops by itself when GAME DATA screens stop for 75 minutes)."""
 import datetime, json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -15,8 +15,8 @@ if not ms:
     print(day, ': no Korean-league matches - nothing scheduled'); sys.exit(0)
 ms.sort(key=lambda m: m['date'])
 first = datetime.datetime.fromisoformat(ms[0]['date']); last = datetime.datetime.fromisoformat(ms[-1]['date'])
-start = (first - datetime.timedelta(minutes=20)).astimezone()        # local time of this PC
-hours = round(((last - first).total_seconds() / 3600) + 3.5 + 20 / 60, 1)
+start = (first - datetime.timedelta(minutes=10)).astimezone()        # local time of this PC
+hours = round(((last - first).total_seconds() / 3600) + 3.5 + 10 / 60, 1)
 print(day, ':', len(ms), 'matches:', ', '.join(f"{datetime.datetime.fromisoformat(m['date']).astimezone():%H:%M} {m['team1']} vs {m['team2']}" for m in ms))
 print('capture starts', start.strftime('%Y-%m-%d %H:%M'), 'for up to', hours, 'h')
 if dry: sys.exit(0)
