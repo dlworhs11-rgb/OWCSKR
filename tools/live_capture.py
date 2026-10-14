@@ -131,7 +131,9 @@ async def loop(a, frames, out, log):
                 if kept < (4 if k2 == 'POTM' else 2):      # the POTM card animates in: keep a few frames, the name shows up later
                     cv2.imwrite(os.path.join(frames, f'{k2.lower()}_{first}_{kept + 1}.png'), img); kept += 1
                 other[k2] = [now, kept, first]
-                if k2 == 'POTM' and kept == 1: update_and_publish(a.date, log)      # POTM decides the match: publish now
+                if k2 == 'POTM' and kept == 1:            # the match is over: close the last map now and publish
+                    if cluster: finish(cluster); cluster = None
+                    update_and_publish(a.date, log)
             if cluster and now - cluster['last'] > 60:
                 finish(cluster); cluster = None
         if last_hit and now - last_hit > a.idle_stop * 60:

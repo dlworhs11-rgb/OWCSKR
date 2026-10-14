@@ -17,6 +17,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 date = sys.argv[1]
 day = os.path.join('data', 'live', date)
+if not os.path.exists(os.path.join(day, 'ocr.json')):
+    print(f'{date}: no map read yet'); sys.exit(0)
 ocr = json.load(open(os.path.join(day, 'ocr.json'), encoding='utf-8'))
 lib = N.load_lib()
 
