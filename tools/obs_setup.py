@@ -10,7 +10,7 @@ from obs_client import OBS, CONFIG
 
 OBS_DIR = r'C:\Program Files\obs-studio\bin\64bit'
 SCENE, SOURCE, COLLECTION = 'OWCSKR', 'SOOP', 'OWCSKR'
-LIVE_URL = 'https://play.sooplive.com/owesports'
+LIVE_URL = 'https://play.sooplive.com/owesports/embed?autoPlay=true&mutePlay=true'   # official embed player: video only, full frame
 CSS = ('body{background:#000!important;overflow:hidden!important}'
        'video{position:fixed!important;left:0!important;top:0!important;width:100vw!important;height:100vh!important;'
        'z-index:2147483647!important;object-fit:contain!important;background:#000!important}')
