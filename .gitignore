@@ -20,3 +20,5 @@ data/live/
 __pycache__/
 # player-name crops from broadcast screens (local only)
 data/name_lib/
+# header glyph/map-name crops from broadcast screens (local only)
+data/header_lib/

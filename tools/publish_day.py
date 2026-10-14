@@ -7,6 +7,7 @@ usage: python -I tools/publish_day.py YYYY-MM-DD [--branch main] [--as YYYY-MM-D
 - nothing is uploaded when the content did not change
 """
 import base64, json, os, shutil, subprocess, sys
+import sys as _sys; _sys.stdout.reconfigure(encoding='utf-8', errors='replace'); _sys.stderr.reconfigure(encoding='utf-8', errors='replace')   # logs may contain names like 'Esperança'
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)

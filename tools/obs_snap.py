@@ -1,6 +1,7 @@
 """One-shot check: grab the OBS browser source as an image and test the GAME DATA detector on it.
 usage: python -I tools/obs_snap.py [count] [interval_s]   -> data/live/snap_*.png + data/live/snap_report.txt"""
 import asyncio, os, sys, time
+import sys as _sys; _sys.stdout.reconfigure(encoding='utf-8', errors='replace'); _sys.stderr.reconfigure(encoding='utf-8', errors='replace')   # logs may contain names like 'Esperança'
 import cv2, numpy as np
 sys.path.insert(0, os.path.dirname(__file__))
 from obs_client import OBS

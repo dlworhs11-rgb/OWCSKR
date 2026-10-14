@@ -11,6 +11,7 @@ usage: python -I tools/live_capture.py [--url URL] [--date YYYY-MM-DD] [--hours 
 - stops after --hours, or when no GAME DATA screen was seen for --idle-stop minutes after at least one map
 """
 import argparse, asyncio, datetime, json, os, subprocess, sys, time
+import sys as _sys; _sys.stdout.reconfigure(encoding='utf-8', errors='replace'); _sys.stderr.reconfigure(encoding='utf-8', errors='replace')   # logs may contain names like 'Esperança'
 import cv2, numpy as np
 sys.path.insert(0, os.path.dirname(__file__))
 import obs_setup
@@ -31,15 +32,9 @@ def classify(img):
     return 'TOTALS' if ds < dt else 'TABLE'
 
 
-_last_refresh = [0.0]
-
-
 def update_and_publish(date, log, force_refresh=False):
-    """after every map: refresh Liquipedia (at most every 5 min), rebuild, assemble the day, upload verified maps"""
-    if force_refresh or time.time() - _last_refresh[0] > 300:
-        subprocess.run(['node', 'collector/run-lp.mjs', '--active-only'], capture_output=True)
-        subprocess.run(['node', 'collector/build.mjs'], capture_output=True)
-        _last_refresh[0] = time.time()
+    """after every map: assemble the day from what was read on screen and upload the verified maps.
+    No Liquipedia request here - match/game/map/time come from the broadcast itself."""
     for script in ('tools/assemble_day.py', 'tools/publish_day.py'):
         r = subprocess.run([sys.executable, '-I', script, date], capture_output=True, text=True, encoding='utf-8')
         last = (r.stdout.strip().splitlines() or [r.stderr.strip()[-200:]])[-1]

@@ -4,6 +4,7 @@ Finds that day's Korean-league matches in data/site/matches.json (run collector/
 one-shot Windows task 'OWCSKR\LiveCapture' that starts 10 minutes before the first match and runs until 3.5 hours
 after the last one (live_capture.py also stops by itself when GAME DATA screens stop for 75 minutes)."""
 import datetime, json, os, subprocess, sys
+import sys as _sys; _sys.stdout.reconfigure(encoding='utf-8', errors='replace'); _sys.stderr.reconfigure(encoding='utf-8', errors='replace')   # logs may contain names like 'Esperança'
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 args = [x for x in sys.argv[1:] if not x.startswith('--')]

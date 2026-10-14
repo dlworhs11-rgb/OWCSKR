@@ -5,6 +5,7 @@ usage:
 The browser source plays the SOOP page like a normal viewer (ads included); custom CSS stretches the <video> to 1920x1080.
 """
 import asyncio, json, os, secrets, subprocess, sys, time
+import sys as _sys; _sys.stdout.reconfigure(encoding='utf-8', errors='replace'); _sys.stderr.reconfigure(encoding='utf-8', errors='replace')   # logs may contain names like 'Esperança'
 sys.path.insert(0, os.path.dirname(__file__))
 from obs_client import OBS, CONFIG
 
