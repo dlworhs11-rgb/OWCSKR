@@ -41,3 +41,8 @@ https://owtics.gg/ko-KR/terms (시행일 2026-10-11)
 
 ## OWTV 약관 확인
 https://owtv.gg/terms: 봇/스크립트 접근 금지, 서면 허락 없는 체계적 수집 금지 -> 데이터 출처로 쓰지 않음. 링크만 사용.
+
+## 최종 결정 (2026-10-14)
+- OWTICS 데이터는 쓰지 않는다. 운영진 허락 요청도 더 진행하지 않는다.
+- 선수 스탯은 공식 중계 화면(SOOP owesports, OBS 캡처)에서 직접 읽어 맵마다 바로 올린다 (`docs/vod-stats.md`).
+- 경기 결과·일정·밴·POTM은 Liquipedia API, 선수 방송·디스코드와 리플레이 코드는 커뮤니티 시트.
