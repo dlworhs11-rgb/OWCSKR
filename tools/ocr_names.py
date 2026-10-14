@@ -30,3 +30,14 @@ def match(lib, f, exclude_map=None):
         d = float(((lf - f) ** 2).sum())
         if d < best[1]: best = (nm, d)
     return best
+
+
+def load_lib(path='data/name_lib'):
+    """[(name, feature, tag)] from data/name_lib/<Name>__<tag>.png"""
+    lib = []
+    for f in glob.glob(os.path.join(path, '*.png')):
+        nm, tag = os.path.basename(f)[:-4].split('__', 1)
+        lib.append((nm, cv2.imread(f, cv2.IMREAD_GRAYSCALE).astype(np.float32) / 255, tag))
+    return lib
+
+UNKNOWN_DIST = 175.0     # nearest-name distance above this = a name we have not seen yet

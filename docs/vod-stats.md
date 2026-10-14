@@ -23,3 +23,17 @@
 ## 데이터 형태 (`matches.json` 의 `mapStats`)
 `m.mapStats = [{ game, map, mapTime, teams: { "팀명": [{ name, e, a, d, dmg, heal, mit }] }, reading, verified }]`
 - E = Eliminations (어시스트 기여 포함), `reading` = manual | ocr, `verified` = 합계 화면과 일치 여부
+
+## 라이브 자동 캡처 (OBS)
+영상을 내려받지 않고, OBS 브라우저 소스로 SOOP 공식 임베드 플레이어(`/embed?autoPlay=true&mutePlay=true`)를 평소처럼 재생하면서(광고 포함, 화면에 표시 안 됨) 10초마다 그 이미지 1장만 받아 처리한다.
+
+- `tools/live_capture.py` : OBS 실행 -> 10초마다 캡처 -> GAME DATA가 아닌 화면은 즉시 버림 -> 맵마다 표 3장 + 합계 1장 저장 -> `ocr_run.py` -> 끝나면 `assemble_day.py`
+- `tools/assemble_day.py` : 이름 사전(`data/name_lib/`)으로 선수 이름, 선수 시트로 팀, Liquipedia 일정으로 경기/세트/맵 결정 -> `data/live/<날짜>/mapstats.json`
+  (모르는 이름은 `data/live/<날짜>/unknown/`에 저장, 사람이 확인 후 `data/name_lib/<이름>__<태그>.png`로 넣고 다시 실행)
+- `tools/schedule_today.py` : 그날 한국 리그 첫 경기 20분 전에 `OWCSKR\LiveCapture` 작업 예약
+- 바탕화면 `OWCSKR_예약등록.bat` : 매일 09:00 `OWCSKR\Daily` 작업 등록 (Liquipedia 갱신 -> 빌드 -> 당일 예약). 해제는 `OWCSKR_예약해제.bat`
+- 사용자의 OBS 장면은 건드리지 않는다: 전용 장면 모음 `OWCSKR` 사용, 다른 장면 모음으로 OBS가 켜져 있으면 캡처하지 않고 종료
+
+### 끝까지 시험 (2026-10-14)
+다시보기 1경기 1세트 구간으로 `live_capture.py` 실행 -> 통계 화면 탐지(점수 0.996), 숫자 60칸, 이름 10명, 팀, 경기/세트/맵(O2 Blast vs ZANSIDE G1 Nepal)까지 손으로 확인한 정답과 전부 일치.
+아직 실제 라이브에서는 돌려 보지 않았다.
