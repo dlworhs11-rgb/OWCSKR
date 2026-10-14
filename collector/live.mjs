@@ -28,7 +28,7 @@ export async function checkLive(players) {
       entry.platforms.chzzk = { ok: j?.code === 200, live: d?.status === 'OPEN', title: d?.status === 'OPEN' ? d.liveTitle : null, viewers: d?.status === 'OPEN' ? d.concurrentUserCount : null, url: `https://chzzk.naver.com/live/${c}` };
       await sleep(250);
     }
-    // SOOP is checked in the visitor's own browser (see site/live-soop.js): its API rejects non-browser servers.
+    // SOOP is checked in the visitor's own browser (the old site did this in the browser): its API rejects non-browser servers.
     if (soopId(p.soop)) entry.soop = soopId(p.soop);
     if (Object.keys(entry.platforms).length || entry.soop) out.push(entry);
   }
