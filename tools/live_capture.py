@@ -15,6 +15,7 @@ import sys as _sys; _sys.stdout.reconfigure(encoding='utf-8', errors='replace');
 import cv2, numpy as np
 sys.path.insert(0, os.path.dirname(__file__))
 import obs_setup
+import ocr_screens as SCR
 from obs_client import OBS
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -53,7 +54,7 @@ def main():
     ap.add_argument('--url', default=obs_setup.LIVE_URL)
     ap.add_argument('--date', default=datetime.date.today().isoformat())
     ap.add_argument('--hours', type=float, default=8)
-    ap.add_argument('--interval', type=float, default=10)
+    ap.add_argument('--interval', type=float, default=5)
     ap.add_argument('--idle-stop', type=float, default=75, help='minutes without GAME DATA (after the first map) before stopping')
     a = ap.parse_args()
 
@@ -88,6 +89,7 @@ async def loop(a, frames, out, log):
     end = time.time() + a.hours * 3600
     obs = await OBS().connect()
     cluster, n, last_hit = None, 0, None
+    other = {'BAN': [0.0, 0, 0], 'POTM': [0.0, 0, 0]}    # last time seen, frames kept, first timestamp of the current occurrence
 
     def finish(c):
         log(f"map {c['n']} closed: tables={c['tables']} totals={c['totals']}")
@@ -121,8 +123,17 @@ async def loop(a, frames, out, log):
             elif kind == 'TOTALS' and cluster['totals'] < 1:
                 cluster['totals'] += 1
                 cv2.imwrite(os.path.join(frames, f'm{n:02d}_totals_{ts}.png'), img)
-        elif cluster and now - cluster['last'] > 60:
-            finish(cluster); cluster = None
+        else:
+            k2 = SCR.screen_kind(img) if img is not None else None
+            if k2:
+                last, kept, first = other[k2]
+                if now - last > 40: kept, first = 0, int(now); log(f'{k2} screen detected')
+                if kept < (4 if k2 == 'POTM' else 2):      # the POTM card animates in: keep a few frames, the name shows up later
+                    cv2.imwrite(os.path.join(frames, f'{k2.lower()}_{first}_{kept + 1}.png'), img); kept += 1
+                other[k2] = [now, kept, first]
+                if k2 == 'POTM' and kept == 1: update_and_publish(a.date, log)      # POTM decides the match: publish now
+            if cluster and now - cluster['last'] > 60:
+                finish(cluster); cluster = None
         if last_hit and now - last_hit > a.idle_stop * 60:
             log(f'no GAME DATA for {a.idle_stop} min - broadcast day looks finished'); break
         await asyncio.sleep(max(0.0, a.interval - (time.time() - t0)))

@@ -60,6 +60,11 @@ const pAgg = {};
 let msLinked = 0, msTotal = 0;
 if (fs.existsSync(mapstatDir)) for (const file of fs.readdirSync(mapstatDir).filter(x => x.endsWith('.json'))) {
   const ms = JSON.parse(fs.readFileSync(mapstatDir + '/' + file, 'utf8'));
+  for (const r of ms.matches || []) {          // match-level results read from the broadcast (POTM, map wins)
+    const [ta, tb] = (r.match || '').split(' vs ');
+    const m = krMatches.find(x => x.date.startsWith(ms.date) && pairKey2(x.team1, x.team2) === pairKey2(ta, tb));
+    if (m) { m.potmLive = r.potm ?? null; m.mapWinsLive = r.mapWins ?? null; }
+  }
   for (const sm of ms.maps) {
     msTotal++;
     const [ta, tb] = Object.keys(sm.teams);
@@ -67,7 +72,7 @@ if (fs.existsSync(mapstatDir)) for (const file of fs.readdirSync(mapstatDir).fil
     if (!m) { console.log('mapstats: no match for', ms.date, ta, tb); continue; }
     const lp = m.maps[sm.game - 1];
     if (lp && lp.map && normMap(lp.map) !== normMap(sm.map)) console.log('mapstats: map name mismatch', ms.date, ta, tb, 'G' + sm.game, lp.map, 'vs', sm.map);
-    (m.mapStats ??= []).push({ game: sm.game, map: sm.map, mapTime: sm.mapTime, teams: sm.teams, reading: sm.reading, verified: sm.totalsVerified ?? null });
+    (m.mapStats ??= []).push({ game: sm.game, map: sm.map, mapTime: sm.mapTime, teams: sm.teams, reading: sm.reading, verified: sm.totalsVerified ?? null, bans: sm.bans ?? null, winner: sm.winner ?? null, seriesBefore: sm.seriesBefore ?? null });
     msLinked++;
     const dur = secs(sm.mapTime);
     for (const [team, rows] of Object.entries(sm.teams)) for (const r of rows) {
