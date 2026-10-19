@@ -36,21 +36,44 @@ const krMatches = matches.filter(m => isKR(m.team1) || isKR(m.team2));
 const replaySheet = fs.existsSync('data/manual/replays.json') ? JSON.parse(fs.readFileSync('data/manual/replays.json', 'utf8')) : [];
 const rTeams = fs.existsSync('data/manual/replay-teams.json') ? JSON.parse(fs.readFileSync('data/manual/replay-teams.json', 'utf8')) : {};
 const sheetTeam = n => { const k = (n || '').toLowerCase().replace(/[^a-z0-9]/g, ''); return rTeams[k] || canon(n); };
+// stage of a Korean league page (regular season, group stage, relegation, playoffs): 'year|Stage n'
 const stageOf = title => { const m = /\/(20\d\d)\/Asia\/Stage (\d)\/(?:Championship\/)?Korea(?:\/(?:Regular Season|Group Stage|Relegation))?$/.exec(title); return m ? m[1] + '|Stage ' + m[2] : null; };
-const pairKey = (a, b) => [a, b].sort().join('~');
-const ours = new Map();
-for (const m of krMatches) { const st = stageOf(m.competitionTitle); if (!st) continue; const k = st + '|' + pairKey(m.team1, m.team2); (ours.get(k) ?? ours.set(k, []).get(k)).push(m); }
-const theirs = new Map();
-for (const s of replaySheet) { const k = s.year + '|' + s.stage + '|' + pairKey(sheetTeam(s.teamA), sheetTeam(s.teamB)); (theirs.get(k) ?? theirs.set(k, []).get(k)).push(s); }
-let linked = 0, countMismatch = 0; const orphanKeys = [];
-for (const [k, list] of theirs) {
-  const mine = ours.get(k);
-  if (!mine) { orphanKeys.push(k); continue; }
-  list.sort((a, b) => a.order - b.order || a.day - b.day || a.matchNo - b.matchNo);
-  mine.sort((a, b) => a.date.localeCompare(b.date));
-  list.forEach((s, i) => { const m = mine[i]; if (!m) return; m.replays = s.codes.map(c => c || null); linked++; if (m.maps.length && s.codes.filter(Boolean).length !== m.maps.length) countMismatch++; });
+// names compared loosely (punctuation, case)
+const nameKey = n => (n || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+const pairKey = (a, b) => [nameKey(a), nameKey(b)].sort().join('~');
+const kstDay = d => new Date(new Date(d).getTime() + 9 * 3600e3).toISOString().slice(0, 10);
+const events = new Map();   // stage -> its matches, with the week / day # / match # the sheet would give them
+for (const m of krMatches) { const st = stageOf(m.competitionTitle); if (st) (events.get(st) ?? events.set(st, []).get(st)).push(m); }
+const pos = new Map();
+for (const list of events.values()) {
+  list.sort((a, b) => a.date.localeCompare(b.date));
+  // sheet "Day" = day # inside one match week (Fri/Sat/Sun = 1/2/3): dates closer than 3 days are one week.
+  // "Match #" = order on that day
+  const dates = [...new Set(list.map(m => kstDay(m.date)))].sort();
+  const at = {}; let w = 0, n = 0;
+  dates.forEach((d, i) => { if (i && (Date.parse(d) - Date.parse(dates[i - 1])) / 864e5 < 3) n++; else { w++; n = 1; } at[d] = { week: w, day: n }; });
+  list.forEach(m => pos.set(m, { ...at[kstDay(m.date)], inDay: list.filter(x => kstDay(x.date) === kstDay(m.date)).indexOf(m) + 1 }));
 }
-console.log('replays: sheet series', replaySheet.length, 'linked', linked, 'game-count mismatches', countMismatch, 'unlinked keys', orphanKeys.length, orphanKeys.slice(0, 6).join(' ; '));
+const played = m => (m.maps || []).filter(x => x.winner).length;
+let linked = 0, countMismatch = 0, weak = 0; const orphans = [], weakList = [];
+const used = new Set();
+// sheet order is the play order: walk each event's series in that order, each taking the best unused match of the
+// same two teams. Score: game count = maps played (4), sheet week + day (2), sheet match # = order that day (1); ties -> earliest
+for (const s of [...replaySheet].sort((a, b) => (a.seq ?? 0) - (b.seq ?? 0))) {
+  const ev = s.year + '|' + s.stage, pk = pairKey(sheetTeam(s.teamA), sheetTeam(s.teamB));
+  const cand = (events.get(ev) || []).filter(m => !used.has(m) && pairKey(m.team1, m.team2) === pk);
+  if (!cand.length) { orphans.push(`${ev}|${s.teamA} vs ${s.teamB} (row ${s.row})`); continue; }
+  const games = s.codes.length, p = m => pos.get(m);
+  const score = m => (played(m) === games ? 4 : 0) + (p(m).week === s.week && p(m).day === s.day ? 2 : 0) + (p(m).inDay === s.matchNo ? 1 : 0);
+  const best = cand.reduce((a, m) => score(m) > score(a) ? m : a);
+  used.add(best);
+  best.replays = s.codes;
+  linked++;
+  if (played(best) && played(best) !== games) countMismatch++;
+  if (score(best) < 4) { weak++; weakList.push(`${kstDay(best.date)} ${best.team1}-${best.team2} score ${score(best)}`); }
+}
+console.log('replays: sheet series', replaySheet.length, 'linked', linked, 'game-count mismatches', countMismatch, 'weak', weak, weakList.slice(0, 4).join(' ; '),
+  '| unlinked', orphans.length, orphans.slice(0, 6).join(' ; '));
 
 // ---- per-player map stats read from the broadcast GAME DATA screens (data/manual/mapstats/*.json) ----
 const mapstatDir = 'data/manual/mapstats';
