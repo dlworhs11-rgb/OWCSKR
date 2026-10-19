@@ -10,14 +10,42 @@ os.chdir(ROOT)
 args = [x for x in sys.argv[1:] if not x.startswith('--')]
 dry = '--dry' in sys.argv
 ALL = json.load(open('data/site/matches.json', encoding='utf-8'))
+DAY_START = {4: '17:00', 5: '15:00', 6: '15:00'}   # usual first-match time per weekday (same as owcs_build.py)
+
+
+def playoff_matches(day):
+    """playoff / seeding-decider matches of that day from the stage's Liquipedia page (data/lp/*-korea.json).
+    site/matches.json drops matches whose teams are still TBD, which is every playoff match until the round before
+    is over, so the capture of a playoff day would never get scheduled. A match without a start time comes as 00:00 KST:
+    it gets the usual first-match time of that weekday (re-registered each morning once Liquipedia has the time)."""
+    out = []
+    for f in sorted(os.listdir('data/lp')):
+        if not f.endswith('-korea.json'):
+            continue
+        for m in json.load(open(os.path.join('data/lp', f), encoding='utf-8')).get('matches', []):
+            d = m.get('date') or ''
+            if not d.startswith(day):
+                continue
+            dt = datetime.datetime.fromisoformat(d)
+            if dt.strftime('%H:%M') == '00:00':
+                h, mi = map(int, DAY_START.get(dt.weekday(), '19:00').split(':'))
+                dt = dt.replace(hour=h, minute=mi)
+                m = dict(m, guessed=True)
+            out.append(dict(m, date=dt.isoformat()))
+    return out
 
 
 def plan(day):
-    ms = sorted([m for m in ALL if m['date'].startswith(day) and '/Korea' in m['competitionTitle']], key=lambda m: m['date'])
+    ms = [m for m in ALL if m['date'].startswith(day) and '/Korea' in m['competitionTitle']]
+    seen = {m['date'] for m in ms}
+    ms += [m for m in playoff_matches(day) if m['date'] not in seen]
+    ms = sorted(ms, key=lambda m: m['date'])
     if not ms: return None
     first = datetime.datetime.fromisoformat(ms[0]['date']); last = datetime.datetime.fromisoformat(ms[-1]['date'])
     start = (first - datetime.timedelta(minutes=10)).astimezone()        # local time of this PC
     hours = round(((last - first).total_seconds() / 3600) + 3.5 + 10 / 60, 1)
+    if any(m.get('guessed') for m in ms):   # start times not out yet: all on one guessed time, so allow ~2.5 h per match after the first
+        hours = max(hours, round(3.5 + 10 / 60 + (len(ms) - 1) * 2.5, 1))
     return ms, start, hours
 
 
