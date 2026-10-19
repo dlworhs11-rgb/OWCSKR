@@ -17,12 +17,16 @@ def playoff_matches(day):
     """playoff / seeding-decider matches of that day from the stage's Liquipedia page (data/lp/*-korea.json).
     site/matches.json drops matches whose teams are still TBD, which is every playoff match until the round before
     is over, so the capture of a playoff day would never get scheduled. A match without a start time comes as 00:00 KST:
-    it gets the usual first-match time of that weekday (re-registered each morning once Liquipedia has the time)."""
+    it gets the usual first-match time of that weekday (re-registered each morning once Liquipedia has the time).
+    Liquipedia writes 'bestof' only on a round's first match: the rest of the round carries it over."""
     out = []
     for f in sorted(os.listdir('data/lp')):
         if not f.endswith('-korea.json'):
             continue
+        bo = None
         for m in json.load(open(os.path.join('data/lp', f), encoding='utf-8')).get('matches', []):
+            bo = m.get('bestof') or bo
+            m = dict(m, bestof=bo)
             d = m.get('date') or ''
             if not d.startswith(day):
                 continue
@@ -43,16 +47,18 @@ def plan(day):
     if not ms: return None
     first = datetime.datetime.fromisoformat(ms[0]['date']); last = datetime.datetime.fromisoformat(ms[-1]['date'])
     start = (first - datetime.timedelta(minutes=10)).astimezone()        # local time of this PC
-    hours = round(((last - first).total_seconds() / 3600) + 3.5 + 10 / 60, 1)
-    if any(m.get('guessed') for m in ms):   # start times not out yet: all on one guessed time, so allow ~2.5 h per match after the first
-        hours = max(hours, round(3.5 + 10 / 60 + (len(ms) - 1) * 2.5, 1))
+    # a BO7 (playoffs) can run 4 hours, a BO5 about 2.5; the last match gets an hour more on top
+    length = lambda m: 4 if (m.get('bestof') or 5) >= 7 else 2.5
+    hours = round(((last - first).total_seconds() / 3600) + length(ms[-1]) + 1 + 10 / 60, 1)
+    if any(m.get('guessed') for m in ms):   # start times not out yet: all on one guessed time, so add up every match
+        hours = max(hours, round(sum(length(m) for m in ms) + 1 + 10 / 60, 1))
     return ms, start, hours
 
 
 def register(day, start, hours):
     ps = (f"$a = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c {os.path.join(ROOT, 'tools', 'run_live.bat')} {hours} {day}' -WorkingDirectory '{ROOT}';"
           f"$t = New-ScheduledTaskTrigger -Once -At '{start.strftime('%Y-%m-%dT%H:%M:%S')}';"
-          "$s = New-ScheduledTaskSettingsSet -WakeToRun -ExecutionTimeLimit (New-TimeSpan -Hours 12);"
+          "$s = New-ScheduledTaskSettingsSet -WakeToRun -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 12);"
           rf"Register-ScheduledTask -TaskPath '\OWCSKR\' -TaskName 'LiveCapture_{day}' -Action $a -Trigger $t -Settings $s -Force | Out-Null; 'registered'")
     return subprocess.run(['powershell', '-NoProfile', '-Command', ps], capture_output=True, text=True).stdout.strip() or 'registration failed'
 
