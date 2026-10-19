@@ -128,6 +128,8 @@ def read_ban(img, lists=None):
     lab_l, _ = _ocr(img, (80, 250, 442, 457)); lab_r, _ = _ocr(img, (710, 880, 442, 457))
     hero_l, _ = _ocr(img, (80, 250, 458, 476)); hero_r, _ = _ocr(img, (710, 880, 458, 476))
     sel, _ = _ocr(img, (380, 580, 458, 476))
+    if not sel:   # a short one-word name ('Nepal', 10-18 map 1) can come back empty as a line: read it as one word
+        sel, _ = _ocr(img, (380, 580, 458, 476), 8)
     team_l, _ = _ocr(img, (60, 300, 20, 40)); team_r, _ = _ocr(img, (640, 900, 20, 40))
     tkey = lambda t: re.sub(r'[^a-z0-9 ]', '', t.lower().replace('@', 'o').replace('ø', 'o')).strip()
     def team(t):
@@ -148,7 +150,9 @@ POTM_FIELDS = {'elims': (562, 624), 'deaths': (636, 696), 'ed': (704, 772), 'dmg
 
 def read_potm(img):
     name, _ = _ocr(img, (80, 300, 480, 515))
-    out = {'name': name.strip(' |'), 'raw': {}}
+    if not name.strip(' |'):           # one short word ('Someone', 10-09): psm 7 returns nothing, psm 8 reads it
+        name, _ = _ocr(img, (80, 300, 480, 515), 8)
+    out = {'name': name.strip(' |‘’\'"`'), 'raw': {}}
     for k, (x0, x1) in POTM_FIELDS.items():
         txt = read_digits(img, (x0, x1, 486, 519)) if k in ('elims', 'deaths', 'dmgPerMin') else None
         if not txt: txt, _ = _ocr(img, (x0, x1, 486, 519), 7, '-c tessedit_char_whitelist=0123456789.K')

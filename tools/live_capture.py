@@ -88,8 +88,13 @@ def main():
 async def loop(a, frames, out, log):
     end = time.time() + a.hours * 3600
     obs = await OBS().connect()
-    cluster, n, last_hit = None, 0, None
+    # map numbers go on from frames already saved today: a restart mid-day reused m01.. and mixed two matches up
+    import re as _re
+    n = max([int(m.group(1)) for f in os.listdir(frames) for m in [_re.match(r'm(\d+)_', f)] if m] or [0])
+    cluster, last_hit = None, None
     other = {'BAN': [0.0, 0, 0], 'POTM': [0.0, 0, 0]}    # last time seen, frames kept, first timestamp of the current occurrence
+    potm_close = 0
+    potm_tail = [0.0, 0, 0.0]   # POTM card: once the intro shows, also keep a frame every 3 s for 24 s - the name card no longer looks like the intro
 
     def finish(c):
         log(f"map {c['n']} closed: tables={c['tables']} totals={c['totals']}")
@@ -97,8 +102,18 @@ async def loop(a, frames, out, log):
         for line in r.stdout.strip().splitlines()[-1:]: log('  ocr:', line)
         update_and_publish(a.date, log)
 
+    def paused():   # caster_watch.py saw the waiting-screen countdown: rest until 20 s before it ends
+        try:
+            with open(os.path.join(out, 'pause.json'), encoding='utf-8') as fh:
+                return max(0, json.load(fh)['until'] - 20 - time.time())
+        except Exception:
+            return 0
+
     while time.time() < end:
         t0 = time.time()
+        if paused():
+            await asyncio.sleep(min(paused(), 10))
+            continue
         try:
             png = await obs.screenshot(obs_setup.SOURCE)
         except Exception as e:
@@ -110,6 +125,13 @@ async def loop(a, frames, out, log):
         img = cv2.imdecode(np.frombuffer(png, np.uint8), cv2.IMREAD_COLOR)
         kind = classify(img) if img is not None else None
         now = time.time()
+        if potm_close and now >= potm_close:
+            potm_close = 0
+            if cluster: finish(cluster); cluster = None
+            update_and_publish(a.date, log)
+        if img is not None and now < potm_tail[0] and now - potm_tail[2] >= 1.5:
+            potm_tail[1] += 1; potm_tail[2] = now
+            cv2.imwrite(os.path.join(frames, f'potm_{other["POTM"][2]}_t{potm_tail[1]}.png'), img)
         if kind:
             if cluster is None or now - cluster['last'] > 60:
                 if cluster: finish(cluster)
@@ -127,18 +149,19 @@ async def loop(a, frames, out, log):
             k2 = SCR.screen_kind(img) if img is not None else None
             if k2:
                 last, kept, first = other[k2]
-                if now - last > 40: kept, first = 0, int(now); log(f'{k2} screen detected')
+                if now - last > 40:
+                    kept, first = 0, int(now); log(f'{k2} screen detected')
+                    if k2 == 'POTM': potm_tail[:] = [now + 24, 0, now]
                 if kept < (4 if k2 == 'POTM' else 2):      # the POTM card animates in: keep a few frames, the name shows up later
                     cv2.imwrite(os.path.join(frames, f'{k2.lower()}_{first}_{kept + 1}.png'), img); kept += 1
                 other[k2] = [now, kept, first]
-                if k2 == 'POTM' and kept == 1:            # the match is over: close the last map now and publish
-                    if cluster: finish(cluster); cluster = None
-                    update_and_publish(a.date, log)
-            if cluster and now - cluster['last'] > 60:
+                if k2 == 'POTM' and kept == 1:            # the match is over: close the last map and publish once the name card is in
+                    potm_close = now + 26                 # (OCR + publish take long: done now, they made the loop miss the name card)
+            if cluster and now - cluster['last'] > 60 and now >= potm_tail[0]:
                 finish(cluster); cluster = None
         if last_hit and now - last_hit > a.idle_stop * 60:
             log(f'no GAME DATA for {a.idle_stop} min - broadcast day looks finished'); break
-        await asyncio.sleep(max(0.0, a.interval - (time.time() - t0)))
+        await asyncio.sleep(max(0.0, (2 if now < potm_tail[0] else a.interval) - (time.time() - t0)))
     if cluster: finish(cluster)
     await obs.close()
 

@@ -103,6 +103,7 @@ def _events(prefix, reader):
     return sorted(ev.items())
 bans = _events('ban', lambda im: SCR.read_ban(im, lists))
 
+import re as _re
 def _potm_events():
     """one POTM card = up to 4 frames with the same first timestamp; take the name from any frame that shows it
     and the numbers from the frame where E/D agrees best with elims/deaths"""
@@ -111,7 +112,9 @@ def _potm_events():
         ts = int(os.path.basename(f).split('_')[1]); groups.setdefault(ts, []).append(SCR.read_potm(cv2.imread(f)))
     out = []
     for ts, reads in sorted(groups.items()):
-        name = next((r['name'] for r in reads if r.get('name')), '')
+        # the intro frames have no name yet and read as noise ('?51'): the most common clean name wins
+        names = [r['name'] for r in reads if _re.fullmatch(r'[A-Za-z0-9_]{2,}', r.get('name') or '')]
+        name = max(set(names), key=names.count) if names else ''
         good = [r for r in reads if r.get('elims') is not None and r.get('deaths')]
         best = min(good, key=lambda r: abs(r['elims'] / r['deaths'] - r.get('ed', 0))) if good else (reads[0] if reads else {})
         out.append((ts, {**best, 'name': name}))
@@ -150,7 +153,7 @@ for label, ms in by_match.items():
         for m in ms:
             for team, rows in m['teams'].items():
                 for r in rows:
-                    t = tot.setdefault((r['name'], team), {'e': 0, 'd': 0}); t['e'] += r['e']; t['d'] += r['d']
+                    t = tot.setdefault((r['name'], team), {'e': 0, 'd': 0}); t['e'] += r['e'] or 0; t['d'] += r['d'] or 0
         exact = [k for k, v in tot.items() if v['e'] == p.get('elims') and v['d'] == p.get('deaths')]
         byname = [k for k in tot if p.get('name') and k[0].lower() == p['name'].lower()]
         if len(exact) == 1: pick, method = exact[0], 'elims+deaths match'
@@ -159,7 +162,9 @@ for label, ms in by_match.items():
             near = sorted(tot, key=lambda k: abs(tot[k]['e'] - p['elims']) + abs(tot[k]['d'] - p['deaths']))
             pick, method = near[0], 'closest elims+deaths'
         else: pick, method = None, 'unresolved'
-        potm = {'name': pick[0] if pick else p.get('name'), 'team': pick[1] if pick else None,
+        # a table name not read yet ('?88') is no name: the card's own name ('Violet') is closer (the site matches it to the roster)
+        nm = pick[0] if pick and not str(pick[0]).startswith('?') else (p.get('name') or (pick[0] if pick else None))
+        potm = {'name': nm, 'team': pick[1] if pick else None,
                 'elims': p.get('elims'), 'deaths': p.get('deaths'), 'dmgPerMin': p.get('dmgPerMin'), 'screenName': p.get('name'), 'method': method}
     # last map of the match: decided by the final score (the leader won), POTM team only breaks a tie
     lm = ms[-1]

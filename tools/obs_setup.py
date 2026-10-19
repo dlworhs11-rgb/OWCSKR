@@ -76,9 +76,22 @@ async def ensure_scene(url):
     print('scene ready:', SCENE, '/', SOURCE, '->', url)
 
 
+def clear_crash_marks():
+    """live_capture force-closes OBS (tray mode turns a normal close into 'hide'), which leaves run markers in
+    obs-studio/.sentinel; newer OBS then opens an 'unclean shutdown' dialog at the next start (ignoring
+    --disable-shutdown-check) and the websocket never comes up. Only called while OBS is not running."""
+    d = os.path.join(os.environ.get('APPDATA', ''), 'obs-studio', '.sentinel')
+    if os.path.isdir(d):
+        for f in os.listdir(d):
+            if f.startswith('run_'):
+                try: os.remove(os.path.join(d, f))
+                except OSError: pass
+
+
 def start(url):
     write_collection(url)
     if not running():
+        clear_crash_marks()
         subprocess.Popen([os.path.join(OBS_DIR, 'obs64.exe'), '--collection', COLLECTION, '--scene', SCENE,
                           '--minimize-to-tray', '--disable-shutdown-check', '--disable-updater'], cwd=OBS_DIR)
     for _ in range(60):                       # wait for the websocket server

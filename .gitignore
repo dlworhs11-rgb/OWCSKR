@@ -24,3 +24,6 @@ data/name_lib/
 data/header_lib/
 data/ref/
 data/digit_lib/
+
+# relay signing key and topic: never published (live_relay.py)
+data/relay/
