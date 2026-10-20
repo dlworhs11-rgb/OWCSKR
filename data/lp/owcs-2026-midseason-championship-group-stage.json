@@ -49,7 +49,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Opening Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -112,7 +114,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Opening Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -175,7 +179,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Opening Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -225,7 +231,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Opening Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -275,7 +283,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Upper Bracket Finals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -338,7 +348,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Upper Bracket Finals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -388,7 +400,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Lower Bracket Finals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -438,7 +452,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Lower Bracket Finals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -488,7 +504,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Seeding Decider Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -538,7 +556,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Seeding Decider Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -588,7 +608,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Opening Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -651,7 +673,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Opening Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -701,7 +725,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Opening Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -751,7 +777,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Opening Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -801,7 +829,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Upper Bracket Finals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -864,7 +894,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Upper Bracket Finals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -914,7 +946,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Lower Bracket Finals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -977,7 +1011,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Lower Bracket Finals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -1027,7 +1063,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Seeding Decider Matches"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
@@ -1090,7 +1128,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Seeding Decider Matches"
   }
  ]
 }

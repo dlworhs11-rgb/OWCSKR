@@ -54,8 +54,26 @@ function parseDate(s) {
   return `${y}-${p(mo)}-${p(d)}T${t ? p(t[1]) + ':' + t[2] : '00:00'}:00${tz}`;
 }
 
+// Where each {{Match}} sits on the page, in page order: the deepest heading under ==Results== ('Group A', 'Playoffs')
+// and the <!-- comment --> above it ('Upper Bracket Quarterfinals'). Kept with the match so the site build needs no wiki
+// copy (the cloud only has the active pages' wiki cached). Same rule as owcs_build.py intl_layout().
+function matchPlaces(text) {
+  const out = []; let sec = '', rnd = '', on = false, t;
+  const re = /^(==+)\s*(.*?)\s*\1\s*$|<!--\s*(.*?)\s*-->|\{\{\s*Match\s*(?=[|}\n])/gm;
+  while ((t = re.exec(text))) {
+    if (t[1]) {
+      const h = t[2].replace(/\{\{Stage\|([^}]*)\}\}/g, '$1');
+      if (t[1].length === 2) on = h.toLowerCase() === 'results';
+      if (on && t[1].length > 2) { sec = h; rnd = ''; }
+    } else if (t[3] !== undefined) rnd = t[3];
+    else out.push({ section: on ? sec : '', round: rnd });
+  }
+  return out;
+}
+
 // Parse every {{Match}} in a Liquipedia tournament page.
 export function parseMatches(text, competition) {
+  const places = matchPlaces(text);
   return findTemplates(text, 'Match').map((raw, idx) => {
     const { args } = parseTemplate(raw);
     const team = k => { const t = args[k] && findTemplates(args[k], 'TeamOpponent')[0]; return t ? parseTemplate(t).pos[0] : stripLinks(args[k] || ''); };
@@ -76,6 +94,7 @@ export function parseMatches(text, competition) {
       played: maps.some(m => m.winner),
       maps, potm: args.mvp || null, broadcast, vod: args.vod || null,
       casters: Object.entries(args).filter(([k]) => /^caster\d/.test(k)).map(([, v]) => v),
+      section: (places[idx] || {}).section || '', round: (places[idx] || {}).round || '',
     };
   });
 }

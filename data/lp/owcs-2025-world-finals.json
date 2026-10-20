@@ -62,7 +62,9 @@
    "casters": [
     "Nekkra",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -112,7 +114,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -175,7 +179,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -238,7 +244,9 @@
    "casters": [
     "Nekkra",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -301,7 +309,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -364,7 +374,9 @@
    "casters": [
     "Nekkra",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -453,7 +465,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -529,7 +543,9 @@
    "casters": [
     "Nekkra",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -605,7 +621,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -668,7 +686,9 @@
    "casters": [
     "Jaws",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -744,7 +764,9 @@
    "casters": [
     "Jaws",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -794,7 +816,9 @@
    "casters": [
     "Jaws",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -857,7 +881,9 @@
    "casters": [
     "Jaws",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -907,7 +933,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -957,7 +985,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -1020,7 +1050,9 @@
    "casters": [
     "Jaws",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 2"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -1083,7 +1115,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 2"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -1146,7 +1180,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -1209,7 +1245,9 @@
    "casters": [
     "Jaws",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -1298,7 +1336,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -1374,7 +1414,9 @@
    "casters": [
     "Jaws",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -1463,7 +1505,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
@@ -1500,7 +1544,9 @@
    "casters": [
     "JAKE",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Grand Final"
   }
  ]
 }

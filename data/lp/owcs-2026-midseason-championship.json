@@ -75,7 +75,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship",
@@ -151,7 +153,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship",
@@ -214,7 +218,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship",
@@ -277,7 +283,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship",
@@ -366,7 +374,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship",
@@ -429,7 +439,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship",
@@ -531,7 +543,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2026/Midseason Championship",
@@ -594,7 +608,9 @@
    "casters": [
     "Jaws",
     "Gottmoxi"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Third Place Match"
   }
  ]
 }

@@ -88,7 +88,9 @@
    "casters": [
     "Jaws",
     "LemonKiwi"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
@@ -151,7 +153,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
@@ -214,7 +218,9 @@
    "casters": [
     "Jaws",
     "LemonKiwi"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
@@ -303,7 +309,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
@@ -405,7 +413,9 @@
    "casters": [
     "Jaws",
     "LemonKiwi"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
@@ -481,7 +491,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
@@ -557,7 +569,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
@@ -633,7 +647,9 @@
    "casters": [
     "Jaws",
     "LemonKiwi"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Third Place Match"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
@@ -722,7 +738,9 @@
    "casters": [
     "Jaws",
     "AVRL"
-   ]
+   ],
+   "section": "",
+   "round": "Third Place Match"
   }
  ]
 }

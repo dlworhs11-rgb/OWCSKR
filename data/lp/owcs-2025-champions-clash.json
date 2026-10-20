@@ -62,7 +62,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -112,7 +114,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -162,7 +166,9 @@
    "casters": [
     "Jaws",
     "Nekkra"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -212,7 +218,9 @@
    "casters": [
     "Jaws",
     "Nekkra"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -301,7 +309,9 @@
    "casters": [
     "Jaws",
     "Nekkra"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -377,7 +387,9 @@
    "casters": [
     "Jaws",
     "Nekkra"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -440,7 +452,9 @@
    "casters": [
     "Jaws",
     "Nekkra"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -503,7 +517,9 @@
    "casters": [
     "JAKE",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -566,7 +582,9 @@
    "casters": [
     "JAKE",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -642,7 +660,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -718,7 +738,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -781,7 +803,9 @@
    "casters": [
     "JAKE",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -844,7 +868,9 @@
    "casters": [
     "JAKE",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -946,7 +972,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Champions Clash",
@@ -1036,7 +1064,9 @@
     "Nekkra",
     "Jaws",
     "Reinforce"
-   ]
+   ],
+   "section": "",
+   "round": "Grand Final"
   }
  ]
 }

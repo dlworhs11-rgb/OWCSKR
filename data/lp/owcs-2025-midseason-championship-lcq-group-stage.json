@@ -56,7 +56,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Group A",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -119,7 +121,9 @@
    "casters": [
     "AVRL",
     "Avast"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -195,7 +199,9 @@
    "casters": [
     "AVRL",
     "Avast"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -258,7 +264,9 @@
    "casters": [
     "AVRL",
     "Avast"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -315,7 +323,9 @@
    "potm": null,
    "broadcast": {},
    "vod": "https://youtu.be/mLSsl-4gm3I?si=z4ZasUBYPh5j4jTg",
-   "casters": []
+   "casters": [],
+   "section": "Group B",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -378,7 +388,9 @@
    "casters": [
     "AVRL",
     "Avast"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -435,7 +447,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Group C",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -498,7 +512,9 @@
    "casters": [
     "Unter",
     "CommanderX"
-   ]
+   ],
+   "section": "Group C",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -587,7 +603,9 @@
    "casters": [
     "Unter",
     "CommanderX"
-   ]
+   ],
+   "section": "Group C",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -657,7 +675,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Group C",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -746,7 +766,9 @@
    "casters": [
     "Unter",
     "CommanderX"
-   ]
+   ],
+   "section": "Group C",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -822,7 +844,9 @@
    "casters": [
     "Unter",
     "CommanderX"
-   ]
+   ],
+   "section": "Group D",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -879,7 +903,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Group D",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -936,7 +962,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Group D",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -1019,7 +1047,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Group D",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
@@ -1082,7 +1112,9 @@
    "casters": [
     "Unter",
     "CommanderX"
-   ]
+   ],
+   "section": "Group D",
+   "round": "Lower Bracket Final"
   }
  ]
 }

@@ -56,7 +56,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ",
@@ -119,7 +121,9 @@
    "casters": [
     "AVRL",
     "Avast"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ",
@@ -182,7 +186,9 @@
    "casters": [
     "AVRL",
     "Avast"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ",
@@ -239,7 +245,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ",
@@ -302,7 +310,9 @@
    "casters": [
     "AVRL",
     "Avast"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ",
@@ -378,7 +388,9 @@
    "casters": [
     "Unter",
     "CommanderX"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/LCQ",
@@ -441,7 +453,9 @@
    "casters": [
     "Unter",
     "CommanderX"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Grand Final"
   }
  ]
 }

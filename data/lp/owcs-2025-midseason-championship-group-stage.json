@@ -49,7 +49,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -112,7 +114,9 @@
    "casters": [
     "Wolf (American caster)",
     "ZP"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -201,7 +205,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -264,7 +270,9 @@
    "casters": [
     "Jaws",
     "LemonKiwi"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -353,7 +361,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group A",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -403,7 +413,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -453,7 +465,9 @@
    "casters": [
     "Wolf (American caster)",
     "Unter"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -542,7 +556,9 @@
    "casters": [
     "Wolf (American caster)",
     "Unter"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -631,7 +647,9 @@
    "casters": [
     "Jaws",
     "LemonKiwi"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -694,7 +712,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group B",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -744,7 +764,9 @@
    "casters": [
     "Jaws",
     "LemonKiwi"
-   ]
+   ],
+   "section": "Group C",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -794,7 +816,9 @@
    "casters": [
     "Unter",
     "ZP"
-   ]
+   ],
+   "section": "Group C",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -883,7 +907,9 @@
    "casters": [
     "ZP",
     "Unter"
-   ]
+   ],
+   "section": "Group C",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -946,7 +972,9 @@
    "casters": [
     "Wolf (American caster)",
     "ZP"
-   ]
+   ],
+   "section": "Group C",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -1035,7 +1063,9 @@
    "casters": [
     "Wolf (American caster)",
     "Unter"
-   ]
+   ],
+   "section": "Group C",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -1098,7 +1128,9 @@
    "casters": [
     "Jaws",
     "LemonKiwi"
-   ]
+   ],
+   "section": "Group D",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -1148,7 +1180,9 @@
    "casters": [
     "Wolf (American caster)",
     "ZP"
-   ]
+   ],
+   "section": "Group D",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -1211,7 +1245,9 @@
    "casters": [
     "Jaws",
     "LemonKiwi"
-   ]
+   ],
+   "section": "Group D",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -1274,7 +1310,9 @@
    "casters": [
     "ZP",
     "Unter"
-   ]
+   ],
+   "section": "Group D",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
@@ -1337,7 +1375,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "Group D",
+   "round": "Lower Bracket Final"
   }
  ]
 }
