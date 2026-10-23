@@ -107,13 +107,137 @@
    },
    "totalsVerified": true,
    "reading": "ocr"
+  },
+  {
+   "match": "Cheeseburger vs O2 Blast",
+   "matchNo": 1,
+   "game": 2,
+   "map": "New Junk City",
+   "mapTime": "12:28",
+   "frame": "m02_table2_1792745303.png",
+   "teams": {
+    "Cheeseburger": [
+     {
+      "name": "?10",
+      "e": 21,
+      "a": 5,
+      "d": 3,
+      "dmg": 12438,
+      "heal": 1696,
+      "mit": 11184
+     },
+     {
+      "name": "?11",
+      "e": 18,
+      "a": 0,
+      "d": 9,
+      "dmg": 9358,
+      "heal": 0,
+      "mit": 0
+     },
+     {
+      "name": "Profit",
+      "e": 14,
+      "a": 0,
+      "d": 5,
+      "dmg": 6095,
+      "heal": 55,
+      "mit": 143
+     },
+     {
+      "name": "TenTen",
+      "e": 15,
+      "a": 21,
+      "d": 3,
+      "dmg": 4537,
+      "heal": 10296,
+      "mit": 0
+     },
+     {
+      "name": "?12",
+      "e": 14,
+      "a": 16,
+      "d": 7,
+      "dmg": 5893,
+      "heal": 8428,
+      "mit": 1290
+     }
+    ],
+    "O2 Blast": [
+     {
+      "name": "?13",
+      "e": 16,
+      "a": 0,
+      "d": 8,
+      "dmg": 9243,
+      "heal": 0,
+      "mit": 0
+     },
+     {
+      "name": "?14",
+      "e": 15,
+      "a": 15,
+      "d": 4,
+      "dmg": 4095,
+      "heal": 11064,
+      "mit": 0
+     },
+     {
+      "name": "?15",
+      "e": 13,
+      "a": 6,
+      "d": 7,
+      "dmg": 8342,
+      "heal": 1377,
+      "mit": 14604
+     },
+     {
+      "name": "Gamjung",
+      "e": 7,
+      "a": 15,
+      "d": 7,
+      "dmg": 5422,
+      "heal": 8269,
+      "mit": 813
+     },
+     {
+      "name": "Wutian",
+      "e": 15,
+      "a": 0,
+      "d": 6,
+      "dmg": 8158,
+      "heal": 15,
+      "mit": 351
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "bans": {
+    "initial": {
+     "team": "O2 Blast",
+     "hero": "cassidy"
+    },
+    "followUp": {
+     "team": "Cheeseburger",
+     "hero": "mauga"
+    }
+   },
+   "seriesBefore": {
+    "Cheeseburger": 1,
+    "O2 Blast": 0
+   },
+   "winner": "Cheeseburger",
+   "winnerSource": "match end (leader)"
   }
  ],
  "matches": [
   {
    "match": "Cheeseburger vs O2 Blast",
    "matchNo": 1,
-   "mapWins": {},
+   "mapWins": {
+    "Cheeseburger": 1
+   },
    "potm": null
   }
  ],
@@ -162,6 +286,36 @@
    "id": "?9",
    "map": "01",
    "row": 8
+  },
+  {
+   "id": "?10",
+   "map": "02",
+   "row": 0
+  },
+  {
+   "id": "?11",
+   "map": "02",
+   "row": 1
+  },
+  {
+   "id": "?12",
+   "map": "02",
+   "row": 4
+  },
+  {
+   "id": "?13",
+   "map": "02",
+   "row": 5
+  },
+  {
+   "id": "?14",
+   "map": "02",
+   "row": 6
+  },
+  {
+   "id": "?15",
+   "map": "02",
+   "row": 7
   }
  ],
  "unknownMaps": [],
