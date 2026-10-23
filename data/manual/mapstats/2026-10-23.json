@@ -229,6 +229,112 @@
    },
    "winner": "Cheeseburger",
    "winnerSource": "series score"
+  },
+  {
+   "match": "Cheeseburger vs O2 Blast",
+   "matchNo": 1,
+   "game": 1,
+   "map": "Nepal",
+   "mapTime": "13:37",
+   "frame": "m04_table1_1792749177.png",
+   "teams": {
+    "Cheeseburger": [
+     {
+      "name": "?23",
+      "e": 14,
+      "a": 0,
+      "d": 4,
+      "dmg": 10807,
+      "heal": 46,
+      "mit": 454
+     },
+     {
+      "name": "?24",
+      "e": 8,
+      "a": 8,
+      "d": 8,
+      "dmg": 4262,
+      "heal": 10749,
+      "mit": 5308
+     },
+     {
+      "name": "?25",
+      "e": 14,
+      "a": 17,
+      "d": 5,
+      "dmg": 6969,
+      "heal": 16314,
+      "mit": 1238
+     },
+     {
+      "name": "?26",
+      "e": 15,
+      "a": 0,
+      "d": 6,
+      "dmg": 13493,
+      "heal": 0,
+      "mit": 0
+     },
+     {
+      "name": "?27",
+      "e": 13,
+      "a": 4,
+      "d": 5,
+      "dmg": 13491,
+      "heal": 2455,
+      "mit": 18400
+     }
+    ],
+    "O2 Blast": [
+     {
+      "name": "?28",
+      "e": 17,
+      "a": 6,
+      "d": 6,
+      "dmg": 16899,
+      "heal": 1097,
+      "mit": 14007
+     },
+     {
+      "name": "Irony",
+      "e": 7,
+      "a": 14,
+      "d": 4,
+      "dmg": 6975,
+      "heal": 15590,
+      "mit": 2213
+     },
+     {
+      "name": "?29",
+      "e": 12,
+      "a": 0,
+      "d": 9,
+      "dmg": 10911,
+      "heal": 0,
+      "mit": 0
+     },
+     {
+      "name": "?30",
+      "e": 9,
+      "a": 14,
+      "d": 6,
+      "dmg": 5670,
+      "heal": 10686,
+      "mit": 0
+     },
+     {
+      "name": "?31",
+      "e": 11,
+      "a": 0,
+      "d": 2,
+      "dmg": 10800,
+      "heal": 50,
+      "mit": 529
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr"
   }
  ],
  "matches": [
@@ -236,17 +342,9 @@
    "match": "Cheeseburger vs O2 Blast",
    "matchNo": 1,
    "mapWins": {
-    "Cheeseburger": 2
+    "Cheeseburger": 1
    },
-   "potm": {
-    "name": "Belosrea",
-    "team": "O2 Blast",
-    "elims": 0,
-    "deaths": 8,
-    "dmgPerMin": 1,
-    "screenName": "Belosrea",
-    "method": "closest elims+deaths"
-   }
+   "potm": null
   }
  ],
  "unknownNames": [
@@ -359,6 +457,51 @@
    "id": "?22",
    "map": "03",
    "row": 7
+  },
+  {
+   "id": "?23",
+   "map": "04",
+   "row": 0
+  },
+  {
+   "id": "?24",
+   "map": "04",
+   "row": 1
+  },
+  {
+   "id": "?25",
+   "map": "04",
+   "row": 2
+  },
+  {
+   "id": "?26",
+   "map": "04",
+   "row": 3
+  },
+  {
+   "id": "?27",
+   "map": "04",
+   "row": 4
+  },
+  {
+   "id": "?28",
+   "map": "04",
+   "row": 5
+  },
+  {
+   "id": "?29",
+   "map": "04",
+   "row": 7
+  },
+  {
+   "id": "?30",
+   "map": "04",
+   "row": 8
+  },
+  {
+   "id": "?31",
+   "map": "04",
+   "row": 9
   }
  ],
  "unknownMaps": [],
