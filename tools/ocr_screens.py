@@ -104,6 +104,10 @@ def _snap(text, words, cutoff=0.72):
     key = lambda s: re.sub(r'[^a-z0-9]', '', s.lower().replace('ç', 'c').replace('ø', 'o').replace('@', 'o'))
     table = {key(w): w for w in words}
     hit = difflib.get_close_matches(key(text), list(table), n=1, cutoff=cutoff)
+    if not hit:   # look-alike glyphs: 'D.Va' read '0Va' (10-11 / 10-17 ban screens)
+        k = key(text)
+        k = ('d' + k[1:] if k[:1] == '0' else k).replace('0', 'o').replace('1', 'l').replace('5', 's')
+        hit = difflib.get_close_matches(k, list(table), n=1, cutoff=cutoff)
     return table[hit[0]] if hit else text
 
 
