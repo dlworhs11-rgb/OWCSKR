@@ -454,7 +454,131 @@
    "seriesBefore": {
     "Crazy Raccoon": 0,
     "SEIJI ESPORTS": 0
-   }
+   },
+   "winner": "Crazy Raccoon",
+   "winnerSource": "series score"
+  },
+  {
+   "match": "Crazy Raccoon vs SEIJI ESPORTS",
+   "matchNo": 3,
+   "game": 2,
+   "map": "Colosseo",
+   "mapTime": "8:55",
+   "frame": "m08_table2_1792755033.png",
+   "teams": {
+    "Crazy Raccoon": [
+     {
+      "name": "?60",
+      "e": 19,
+      "a": 4,
+      "d": 10,
+      "dmg": 9115,
+      "heal": 426,
+      "mit": 958
+     },
+     {
+      "name": "?61",
+      "e": 6,
+      "a": 17,
+      "d": 4,
+      "dmg": 2378,
+      "heal": 15712,
+      "mit": 0
+     },
+     {
+      "name": "?62",
+      "e": 12,
+      "a": 0,
+      "d": 7,
+      "dmg": 7167,
+      "heal": 0,
+      "mit": 0
+     },
+     {
+      "name": "?63",
+      "e": 6,
+      "a": 7,
+      "d": 6,
+      "dmg": 2730,
+      "heal": 7114,
+      "mit": 2360
+     },
+     {
+      "name": "?64",
+      "e": 14,
+      "a": 6,
+      "d": 6,
+      "dmg": 7512,
+      "heal": 150,
+      "mit": 6385
+     }
+    ],
+    "SEIJI ESPORTS": [
+     {
+      "name": "?65",
+      "e": 17,
+      "a": 20,
+      "d": 5,
+      "dmg": 3977,
+      "heal": 9195,
+      "mit": 884
+     },
+     {
+      "name": "?66",
+      "e": 28,
+      "a": 8,
+      "d": 3,
+      "dmg": 10956,
+      "heal": 50,
+      "mit": 138
+     },
+     {
+      "name": "?67",
+      "e": 19,
+      "a": 7,
+      "d": 4,
+      "dmg": 9433,
+      "heal": 0,
+      "mit": 9899
+     },
+     {
+      "name": "?68",
+      "e": 21,
+      "a": 3,
+      "d": 6,
+      "dmg": 11311,
+      "heal": 0,
+      "mit": 702
+     },
+     {
+      "name": "?69",
+      "e": 10,
+      "a": 21,
+      "d": 4,
+      "dmg": 2546,
+      "heal": 9056,
+      "mit": 0
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "bans": {
+    "initial": {
+     "team": "SEIJI ESPORTS",
+     "hero": "cassidy"
+    },
+    "followUp": {
+     "team": "Crazy Raccoon",
+     "hero": "jetpack cat"
+    }
+   },
+   "seriesBefore": {
+    "Crazy Raccoon": 1,
+    "SEIJI ESPORTS": 0
+   },
+   "winner": "Crazy Raccoon",
+   "winnerSource": "match end (leader)"
   }
  ],
  "matches": [
@@ -477,7 +601,9 @@
   {
    "match": "Crazy Raccoon vs SEIJI ESPORTS",
    "matchNo": 3,
-   "mapWins": {},
+   "mapWins": {
+    "Crazy Raccoon": 2
+   },
    "potm": null
   }
  ],
@@ -776,12 +902,66 @@
    "id": "?59",
    "map": "07",
    "row": 9
+  },
+  {
+   "id": "?60",
+   "map": "08",
+   "row": 0
+  },
+  {
+   "id": "?61",
+   "map": "08",
+   "row": 1
+  },
+  {
+   "id": "?62",
+   "map": "08",
+   "row": 2
+  },
+  {
+   "id": "?63",
+   "map": "08",
+   "row": 3
+  },
+  {
+   "id": "?64",
+   "map": "08",
+   "row": 4
+  },
+  {
+   "id": "?65",
+   "map": "08",
+   "row": 5
+  },
+  {
+   "id": "?66",
+   "map": "08",
+   "row": 6
+  },
+  {
+   "id": "?67",
+   "map": "08",
+   "row": 7
+  },
+  {
+   "id": "?68",
+   "map": "08",
+   "row": 8
+  },
+  {
+   "id": "?69",
+   "map": "08",
+   "row": 9
   }
  ],
  "unknownMaps": [
   {
    "map": "06",
    "frame": "m06_table1_1792751015.png"
+  },
+  {
+   "map": "08",
+   "frame": "m08_table2_1792755033.png"
   }
  ],
  "note": "reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; mapTime = damage / damage-per-minute from the totals page."
