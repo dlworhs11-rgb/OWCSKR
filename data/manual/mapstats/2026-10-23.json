@@ -344,7 +344,15 @@
    "mapWins": {
     "Cheeseburger": 1
    },
-   "potm": null
+   "potm": {
+    "name": "Someone",
+    "team": "O2 Blast",
+    "elims": 0,
+    "deaths": 2,
+    "dmgPerMin": 1,
+    "screenName": "Someone",
+    "method": "closest elims+deaths"
+   }
   }
  ],
  "unknownNames": [
@@ -547,8 +555,58 @@
    "id": "?40",
    "map": "05",
    "row": 9
+  },
+  {
+   "id": "?41",
+   "map": "06",
+   "row": 0
+  },
+  {
+   "id": "?42",
+   "map": "06",
+   "row": 1
+  },
+  {
+   "id": "?43",
+   "map": "06",
+   "row": 2
+  },
+  {
+   "id": "?44",
+   "map": "06",
+   "row": 3
+  },
+  {
+   "id": "?45",
+   "map": "06",
+   "row": 4
+  },
+  {
+   "id": "?46",
+   "map": "06",
+   "row": 5
+  },
+  {
+   "id": "?47",
+   "map": "06",
+   "row": 7
+  },
+  {
+   "id": "?48",
+   "map": "06",
+   "row": 8
+  },
+  {
+   "id": "?49",
+   "map": "06",
+   "row": 9
   }
  ],
- "unknownMaps": [],
+ "unknownMaps": [
+  {
+   "map": "06",
+   "frame": "m06_table1_1792751015.png"
+  }
+ ],
  "note": "reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; mapTime = damage / damage-per-minute from the totals page."
 }
