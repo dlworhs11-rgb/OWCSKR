@@ -335,6 +335,126 @@
    },
    "totalsVerified": true,
    "reading": "ocr"
+  },
+  {
+   "match": "Crazy Raccoon vs SEIJI ESPORTS",
+   "matchNo": 3,
+   "game": 1,
+   "map": "Samoa",
+   "mapTime": "8:42",
+   "frame": "m07_table1_1792753648.png",
+   "teams": {
+    "Crazy Raccoon": [
+     {
+      "name": "?50",
+      "e": 10,
+      "a": 12,
+      "d": 3,
+      "dmg": 3754,
+      "heal": 10154,
+      "mit": 428
+     },
+     {
+      "name": "?51",
+      "e": 17,
+      "a": 0,
+      "d": 2,
+      "dmg": 6616,
+      "heal": 0,
+      "mit": 156
+     },
+     {
+      "name": "?52",
+      "e": 12,
+      "a": 3,
+      "d": 2,
+      "dmg": 9257,
+      "heal": 644,
+      "mit": 7924
+     },
+     {
+      "name": "?53",
+      "e": 18,
+      "a": 2,
+      "d": 3,
+      "dmg": 9682,
+      "heal": 105,
+      "mit": 452
+     },
+     {
+      "name": "?54",
+      "e": 13,
+      "a": 16,
+      "d": 3,
+      "dmg": 3981,
+      "heal": 5240,
+      "mit": 381
+     }
+    ],
+    "SEIJI ESPORTS": [
+     {
+      "name": "?55",
+      "e": 6,
+      "a": 0,
+      "d": 4,
+      "dmg": 5299,
+      "heal": 92,
+      "mit": 200
+     },
+     {
+      "name": "?56",
+      "e": 7,
+      "a": 5,
+      "d": 6,
+      "dmg": 3435,
+      "heal": 9038,
+      "mit": 1409
+     },
+     {
+      "name": "?57",
+      "e": 5,
+      "a": 1,
+      "d": 9,
+      "dmg": 9819,
+      "heal": 160,
+      "mit": 602
+     },
+     {
+      "name": "?58",
+      "e": 7,
+      "a": 6,
+      "d": 3,
+      "dmg": 1421,
+      "heal": 7429,
+      "mit": 0
+     },
+     {
+      "name": "?59",
+      "e": 5,
+      "a": 2,
+      "d": 4,
+      "dmg": 5601,
+      "heal": 1232,
+      "mit": 18270
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "bans": {
+    "initial": {
+     "team": "SEIJI ESPORTS",
+     "hero": "sierra"
+    },
+    "followUp": {
+     "team": "Crazy Raccoon",
+     "hero": "hazard"
+    }
+   },
+   "seriesBefore": {
+    "Crazy Raccoon": 0,
+    "SEIJI ESPORTS": 0
+   }
   }
  ],
  "matches": [
@@ -353,6 +473,12 @@
     "screenName": "Someone",
     "method": "closest elims+deaths"
    }
+  },
+  {
+   "match": "Crazy Raccoon vs SEIJI ESPORTS",
+   "matchNo": 3,
+   "mapWins": {},
+   "potm": null
   }
  ],
  "unknownNames": [
@@ -599,6 +725,56 @@
   {
    "id": "?49",
    "map": "06",
+   "row": 9
+  },
+  {
+   "id": "?50",
+   "map": "07",
+   "row": 0
+  },
+  {
+   "id": "?51",
+   "map": "07",
+   "row": 1
+  },
+  {
+   "id": "?52",
+   "map": "07",
+   "row": 2
+  },
+  {
+   "id": "?53",
+   "map": "07",
+   "row": 3
+  },
+  {
+   "id": "?54",
+   "map": "07",
+   "row": 4
+  },
+  {
+   "id": "?55",
+   "map": "07",
+   "row": 5
+  },
+  {
+   "id": "?56",
+   "map": "07",
+   "row": 6
+  },
+  {
+   "id": "?57",
+   "map": "07",
+   "row": 7
+  },
+  {
+   "id": "?58",
+   "map": "07",
+   "row": 8
+  },
+  {
+   "id": "?59",
+   "map": "07",
    "row": 9
   }
  ],
