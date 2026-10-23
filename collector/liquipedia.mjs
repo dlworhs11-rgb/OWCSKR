@@ -83,6 +83,10 @@ export function parseMatches(text, competition) {
       return { n: i + 1, map: a.map || null, mode: a.mode || null, score1: num(a.score1), score2: num(a.score2), winner: num(a.winner), bans: { t1: a.t1b1 || null, t2: a.t2b1 || null }, banstart: num(a.banstart) };
     }).filter(Boolean);
     const w1 = maps.filter(m => m.winner === 1).length, w2 = maps.filter(m => m.winner === 2).length;
+    // over = a side has the maps to win: BO5 3, BO7 4 (10-23: 'any map won' called CB-O2 over at 1-0, mid-match).
+    // Liquipedia's own winner / finished still end a match early (forfeit)
+    const need = Math.floor((num(args.bestof) || 5) / 2) + 1;
+    const over = Math.max(w1, w2) >= need || num(args.winner) != null || args.finished === 'true';
     const broadcast = Object.fromEntries(['afreeca', 'soop', 'chzzk', 'twitch', 'youtube'].filter(k => args[k]).map(k => [k, args[k]]));
     return {
       competition, idx,
@@ -90,8 +94,8 @@ export function parseMatches(text, competition) {
       bestof: num(args.bestof),
       team1: team('opponent1'), team2: team('opponent2'),
       score1: w1, score2: w2,
-      winner: num(args.winner) ?? (w1 + w2 === 0 ? null : w1 > w2 ? 1 : w2 > w1 ? 2 : 0),
-      played: maps.some(m => m.winner),
+      winner: num(args.winner) ?? (!over ? null : w1 > w2 ? 1 : w2 > w1 ? 2 : 0),
+      played: over,
       maps, potm: args.mvp || null, broadcast, vod: args.vod || null,
       casters: Object.entries(args).filter(([k]) => /^caster\d/.test(k)).map(([, v]) => v),
       section: (places[idx] || {}).section || '', round: (places[idx] || {}).round || '',
