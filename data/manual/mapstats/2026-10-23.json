@@ -1,0 +1,169 @@
+{
+ "date": "2026-10-23",
+ "source": "OBS capture of the SOOP broadcast (owesports), GAME DATA screens",
+ "maps": [
+  {
+   "match": "Cheeseburger vs O2 Blast",
+   "matchNo": 1,
+   "game": 1,
+   "map": "Samoa",
+   "mapTime": "8:41",
+   "frame": "m01_table1_1792743915.png",
+   "teams": {
+    "Cheeseburger": [
+     {
+      "name": "?1",
+      "e": 13,
+      "a": 5,
+      "d": 2,
+      "dmg": 9356,
+      "heal": 422,
+      "mit": 10648
+     },
+     {
+      "name": "?2",
+      "e": 21,
+      "a": 1,
+      "d": 2,
+      "dmg": 9428,
+      "heal": 0,
+      "mit": 348
+     },
+     {
+      "name": "?3",
+      "e": 16,
+      "a": 0,
+      "d": 2,
+      "dmg": 5641,
+      "heal": 65,
+      "mit": 80
+     },
+     {
+      "name": "?4",
+      "e": 12,
+      "a": 18,
+      "d": 0,
+      "dmg": 1825,
+      "heal": 10763,
+      "mit": 0
+     },
+     {
+      "name": "?5",
+      "e": 9,
+      "a": 13,
+      "d": 6,
+      "dmg": 4385,
+      "heal": 5941,
+      "mit": 784
+     }
+    ],
+    "O2 Blast": [
+     {
+      "name": "?6",
+      "e": 7,
+      "a": 0,
+      "d": 7,
+      "dmg": 8815,
+      "heal": 86,
+      "mit": 565
+     },
+     {
+      "name": "?7",
+      "e": 3,
+      "a": 7,
+      "d": 6,
+      "dmg": 1082,
+      "heal": 6717,
+      "mit": 0
+     },
+     {
+      "name": "?8",
+      "e": 6,
+      "a": 3,
+      "d": 7,
+      "dmg": 6815,
+      "heal": 1471,
+      "mit": 7288
+     },
+     {
+      "name": "?9",
+      "e": 4,
+      "a": 6,
+      "d": 6,
+      "dmg": 2876,
+      "heal": 5523,
+      "mit": 677
+     },
+     {
+      "name": "Wutian",
+      "e": 10,
+      "a": 0,
+      "d": 2,
+      "dmg": 6380,
+      "heal": 106,
+      "mit": 59
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr"
+  }
+ ],
+ "matches": [
+  {
+   "match": "Cheeseburger vs O2 Blast",
+   "matchNo": 1,
+   "mapWins": {},
+   "potm": null
+  }
+ ],
+ "unknownNames": [
+  {
+   "id": "?1",
+   "map": "01",
+   "row": 0
+  },
+  {
+   "id": "?2",
+   "map": "01",
+   "row": 1
+  },
+  {
+   "id": "?3",
+   "map": "01",
+   "row": 2
+  },
+  {
+   "id": "?4",
+   "map": "01",
+   "row": 3
+  },
+  {
+   "id": "?5",
+   "map": "01",
+   "row": 4
+  },
+  {
+   "id": "?6",
+   "map": "01",
+   "row": 5
+  },
+  {
+   "id": "?7",
+   "map": "01",
+   "row": 6
+  },
+  {
+   "id": "?8",
+   "map": "01",
+   "row": 7
+  },
+  {
+   "id": "?9",
+   "map": "01",
+   "row": 8
+  }
+ ],
+ "unknownMaps": [],
+ "note": "reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; mapTime = damage / damage-per-minute from the totals page."
+}
