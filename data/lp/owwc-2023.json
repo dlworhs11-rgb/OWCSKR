@@ -46,7 +46,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/yzTzryqGOIw?feature=shared&t=5888",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group A}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -57,8 +59,8 @@
    "team2": "south korea",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -93,7 +95,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/yzTzryqGOIw?feature=shared&t=19387",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group A}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -104,8 +108,8 @@
    "team2": "colombia",
    "score1": 1,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -153,7 +157,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/nAJtn3LnByI?feature=shared&t=9483",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group A}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -164,8 +170,8 @@
    "team2": "colombia",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -200,7 +206,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/HGizOudQrXk?feature=shared&t=2096",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group A}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -211,8 +219,8 @@
    "team2": "south korea",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -247,7 +255,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/HGizOudQrXk?feature=shared&t=11777",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group A}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -258,8 +268,8 @@
    "team2": "fin",
    "score1": 2,
    "score2": 1,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -307,7 +317,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/uVSPgP7GiGs?feature=shared&t=6141",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group A}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -354,7 +366,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/yzTzryqGOIw?feature=shared&t=2324",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group B}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -365,8 +379,8 @@
    "team2": "aus",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -401,7 +415,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/yzTzryqGOIw?feature=shared&t=8732",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group B}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -412,8 +428,8 @@
    "team2": "aus",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -448,7 +464,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/nAJtn3LnByI?feature=shared&t=22528",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group B}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -459,8 +477,8 @@
    "team2": "brazil",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -495,7 +513,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/HGizOudQrXk?feature=shared&t=9118",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group B}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -506,8 +526,8 @@
    "team2": "united kingdom",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -542,7 +562,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/HGizOudQrXk?feature=shared&t=14657",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group B}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -553,8 +575,8 @@
    "team2": "united kingdom",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -589,7 +611,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/uVSPgP7GiGs?feature=shared&t=13359",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group B}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -636,7 +660,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/yzTzryqGOIw?feature=shared&t=16409",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group C}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -647,8 +673,8 @@
    "team2": "esp",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -683,7 +709,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/nAJtn3LnByI?feature=shared&t=2215",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group C}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -694,8 +722,8 @@
    "team2": "china",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -730,7 +758,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/nAJtn3LnByI?feature=shared&t=14453",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group C}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -741,8 +771,8 @@
    "team2": "china",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -777,7 +807,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/HGizOudQrXk?feature=shared&t=5607",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group C}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -788,8 +820,8 @@
    "team2": "esp",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -824,7 +856,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/uVSPgP7GiGs?feature=shared&t=10633",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group C}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -835,8 +869,8 @@
    "team2": "thailand",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -871,7 +905,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/uVSPgP7GiGs?feature=shared&t=18474",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group C}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -918,7 +954,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/yzTzryqGOIw?feature=shared&t=12038",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group D}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -929,8 +967,8 @@
    "team2": "saudi arabia",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -965,7 +1003,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/nAJtn3LnByI?feature=shared&t=2215",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group D}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -976,8 +1016,8 @@
    "team2": "usa",
    "score1": 1,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -1025,7 +1065,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/nAJtn3LnByI?feature=shared&t=17124",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group D}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1036,8 +1078,8 @@
    "team2": "usa",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -1072,7 +1114,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/HGizOudQrXk?feature=shared&t=17776",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group D}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1083,8 +1127,8 @@
    "team2": "saudi arabia",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -1119,7 +1163,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/uVSPgP7GiGs?feature=shared&t=2120",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group D}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1130,8 +1176,8 @@
    "team2": "jpn",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -1166,7 +1212,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/uVSPgP7GiGs?feature=shared&t=16203",
-   "casters": []
+   "casters": [],
+   "section": "{{HiddenSort|Group D}}",
+   "round": ""
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1239,7 +1287,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/RtUBcfu6twM?feature=shared&t=2650",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1299,7 +1349,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/RtUBcfu6twM?feature=shared&t=14589",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1359,7 +1411,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/RtUBcfu6twM?feature=shared&t=22906",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1419,7 +1473,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/RtUBcfu6twM?feature=shared&t=22906",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1505,7 +1561,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/R6nax5v92q0?si=cIc2cRgD3PkdgJc2&t=1934",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1591,7 +1649,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/R6nax5v92q0?si=ntAf3tZVDEbqalZ1&t=8707",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1677,7 +1737,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/R6nax5v92q0?si=sjOVHCAcbimxYXBs&t=25280",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch World Cup/2023",
@@ -1763,7 +1825,9 @@
     "youtube": "playoverwatch"
    },
    "vod": "https://www.youtube.com/live/R6nax5v92q0?si=PAbWpk4YtenfA6t5&t=18506",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Third Place"
   }
  ]
 }

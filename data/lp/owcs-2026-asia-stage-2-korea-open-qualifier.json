@@ -82,7 +82,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
@@ -165,7 +167,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
@@ -248,7 +252,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
@@ -331,7 +337,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
@@ -414,7 +422,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
@@ -497,7 +507,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
@@ -580,7 +592,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
@@ -663,7 +677,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier",
@@ -746,7 +762,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Lower Bracket Final"
   }
  ]
 }

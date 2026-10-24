@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { knownPlayer } from './util.mjs';
 const aliases = JSON.parse(fs.readFileSync('data/aliases.json', 'utf8'));
 const canon = raw => {
   const n = (raw || '').replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
@@ -98,7 +99,8 @@ if (fs.existsSync(mapstatDir)) for (const file of fs.readdirSync(mapstatDir).fil
     (m.mapStats ??= []).push({ game: sm.game, map: sm.map, mapTime: sm.mapTime, teams: sm.teams, reading: sm.reading, verified: sm.totalsVerified ?? null, bans: sm.bans ?? null, winner: sm.winner ?? null, seriesBefore: sm.seriesBefore ?? null });
     msLinked++;
     const dur = secs(sm.mapTime);
-    for (const [team, rows] of Object.entries(sm.teams)) for (const r of rows) {
+    // rows the name reader did not know ('?3', or name: null + unknownId) are not players: no per-player line for them
+    for (const [team, rows] of Object.entries(sm.teams)) for (const r of rows.filter(knownPlayer)) {
       const k = normPlayer(r.name) + '|' + team;
       const a = pAgg[k] ??= { handle: r.name, team, maps: 0, secs: 0, e: 0, a: 0, d: 0, dmg: 0, heal: 0, mit: 0 };
       a.maps++; a.secs += dur || 0; a.e += r.e; a.a += r.a; a.d += r.d; a.dmg += r.dmg; a.heal += r.heal; a.mit += r.mit;

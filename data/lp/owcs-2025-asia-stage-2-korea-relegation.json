@@ -56,7 +56,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -73,7 +75,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -143,7 +147,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -226,12 +232,14 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
    "idx": 4,
-   "date": null,
+   "date": "2025-08-17T17:50:00+09:00",
    "bestof": null,
    "team1": "Old Ocean",
    "team2": "Cheeseburger",
@@ -296,7 +304,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -379,7 +389,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -436,7 +448,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -453,7 +467,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -523,7 +539,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -580,7 +598,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -637,7 +657,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation",
@@ -694,7 +716,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Lower Bracket Final"
   }
  ]
 }

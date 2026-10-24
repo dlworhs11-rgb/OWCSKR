@@ -75,7 +75,9 @@
     "Park Han-eol",
     "Strings",
     "ChangSik"
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -138,7 +140,9 @@
     "Park Han-eol",
     "Strings",
     "ChangSik"
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -214,7 +218,9 @@
     "Sim Ji-soo",
     "AKaros",
     "Strings"
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -303,7 +309,9 @@
     "Sim Ji-soo",
     "AKaros",
     "Strings"
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -379,7 +387,9 @@
     "Sim Ji-soo",
     "Strings",
     "AKaros"
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -442,7 +452,9 @@
     "Sim Ji-soo",
     "Strings",
     "AKaros"
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -505,7 +517,9 @@
     "Park Han-eol",
     "Strings",
     "ChangSik"
-   ]
+   ],
+   "section": "Last Chance Qualifier",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -568,7 +582,9 @@
     "Sim Ji-soo",
     "AKaros",
     "Strings"
-   ]
+   ],
+   "section": "Last Chance Qualifier",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -644,7 +660,9 @@
     "Sim Ji-soo",
     "Strings",
     "AKaros"
-   ]
+   ],
+   "section": "Last Chance Qualifier",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -746,7 +764,9 @@
     "Park Han-eol",
     "AKaros",
     "ChangSik"
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -822,7 +842,9 @@
     "Park Han-eol",
     "AKaros",
     "ChangSik"
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -911,7 +933,9 @@
     "Sim Ji-soo",
     "AKaros",
     "ChangSik"
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -1000,7 +1024,9 @@
     "Sim Ji-soo",
     "AKaros",
     "ChangSik"
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -1102,7 +1128,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 2/Korea",
@@ -1191,7 +1219,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Third Place Match"
   }
  ]
 }

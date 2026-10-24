@@ -1,0 +1,438 @@
+{
+ "updatedAt": "2026-10-24T05:06:09.061Z",
+ "failures": 0,
+ "rateLimit": null,
+ "pages": {
+  "Overwatch Champions Series/2024/Asia/Stage 1/Korea": {
+   "ok": true,
+   "matches": 18,
+   "played": 18,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2024/Asia/Stage 1/Main Event": {
+   "ok": true,
+   "matches": 15,
+   "played": 15,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2024/Asia/Stage 1/Wild Card": {
+   "ok": true,
+   "matches": 3,
+   "played": 3,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2024/Asia/Stage 2/Korea": {
+   "ok": true,
+   "matches": 15,
+   "played": 15,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2024/Asia/Stage 2/Main Event": {
+   "ok": true,
+   "matches": 14,
+   "played": 14,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2024/Asia/Stage 2/Wild Card": {
+   "ok": true,
+   "matches": 3,
+   "played": 3,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2024/World Finals": {
+   "ok": true,
+   "matches": 15,
+   "played": 12,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 1": {
+   "ok": true,
+   "matches": 18,
+   "played": 18,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 1/Korea": {
+   "ok": true,
+   "matches": 15,
+   "played": 15,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 1/Korea/Relegation": {
+   "ok": true,
+   "matches": 12,
+   "played": 0,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 2/Korea": {
+   "ok": true,
+   "matches": 15,
+   "played": 15,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Relegation": {
+   "ok": true,
+   "matches": 12,
+   "played": 10,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 3/Championship/APAC": {
+   "ok": true,
+   "matches": 3,
+   "played": 3,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea": {
+   "ok": true,
+   "matches": 8,
+   "played": 8,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 3/Korea": {
+   "ok": true,
+   "matches": 9,
+   "played": 9,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Champions Clash": {
+   "ok": true,
+   "matches": 15,
+   "played": 12,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Midseason Championship": {
+   "ok": true,
+   "matches": 9,
+   "played": 9,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Midseason Championship/LCQ": {
+   "ok": true,
+   "matches": 7,
+   "played": 7,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/World Finals": {
+   "ok": true,
+   "matches": 23,
+   "played": 17,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 1": {
+   "ok": true,
+   "matches": 18,
+   "played": 7,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 1/Korea": {
+   "ok": true,
+   "matches": 15,
+   "played": 15,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 1/Korea/Open Qualifier": {
+   "ok": true,
+   "matches": 17,
+   "played": 0,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 2/Korea": {
+   "ok": true,
+   "matches": 15,
+   "played": 15,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Open Qualifier": {
+   "ok": true,
+   "matches": 9,
+   "played": 0,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 3": {
+   "ok": true,
+   "matches": 0,
+   "played": 0,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "missing": true,
+   "lastOk": "2026-10-24T05:06:09.061Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 3/Korea": {
+   "ok": true,
+   "matches": 15,
+   "played": 0,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:06:09.061Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Open Qualifier": {
+   "ok": true,
+   "matches": 19,
+   "played": 0,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:06:09.061Z"
+  },
+  "Overwatch Champions Series/2026/Champions Clash": {
+   "ok": true,
+   "matches": 16,
+   "played": 12,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Midseason Championship": {
+   "ok": true,
+   "matches": 8,
+   "played": 8,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/World Finals": {
+   "ok": true,
+   "matches": 0,
+   "played": 0,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:06:09.061Z"
+  },
+  "Overwatch Champions Series/2024/Asia/Stage 1/Korea/Group Stage": {
+   "ok": true,
+   "matches": 36,
+   "played": 36,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2024/Asia/Stage 2/Korea/Group Stage": {
+   "ok": true,
+   "matches": 28,
+   "played": 28,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 1/Korea/Regular Season": {
+   "ok": true,
+   "matches": 36,
+   "played": 36,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 2/Korea/Regular Season": {
+   "ok": true,
+   "matches": 36,
+   "played": 36,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Asia/Stage 3/Korea/Regular Season": {
+   "ok": true,
+   "matches": 36,
+   "played": 36,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Midseason Championship/Group Stage": {
+   "ok": true,
+   "matches": 20,
+   "played": 20,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage": {
+   "ok": true,
+   "matches": 16,
+   "played": 15,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 1/Korea/Regular Season": {
+   "ok": true,
+   "matches": 36,
+   "played": 36,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 2/Korea/Regular Season": {
+   "ok": true,
+   "matches": 36,
+   "played": 36,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season": {
+   "ok": true,
+   "matches": 36,
+   "played": 30,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:06:09.061Z"
+  },
+  "Overwatch Champions Series/2026/Midseason Championship/Group Stage": {
+   "ok": true,
+   "matches": 20,
+   "played": 2,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch World Cup/2023": {
+   "ok": true,
+   "matches": 32,
+   "played": 12,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  },
+  "Overwatch World Cup/2026": {
+   "ok": true,
+   "matches": 32,
+   "played": 32,
+   "dateless": 0,
+   "redirect": null,
+   "shrinkFrom": null,
+   "error": null,
+   "lastOk": "2026-10-24T05:00:44.476Z"
+  }
+ }
+}

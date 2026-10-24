@@ -62,7 +62,9 @@
    "casters": [
     "Achilios",
     "Wolf (American caster)"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -125,7 +127,9 @@
    "casters": [
     "Achilios",
     "Wolf (American caster)"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -188,7 +192,9 @@
    "casters": [
     "Achilios",
     "Wolf (American caster)"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -251,7 +257,9 @@
    "casters": [
     "Achilios",
     "Wolf (American caster)"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -327,7 +335,9 @@
    "casters": [
     "Achilios",
     "Wolf (American caster)"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -416,7 +426,9 @@
    "casters": [
     "Achilios",
     "Wolf (American caster)"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -505,7 +517,9 @@
    "casters": [
     "Unknown",
     "NineK"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -594,7 +608,9 @@
    "casters": [
     "Achilios",
     "Wolf (American caster)"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -657,7 +673,9 @@
    "casters": [
     "Achilios",
     "Wolf (American caster)"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -720,7 +738,9 @@
    "casters": [
     "Unknown",
     "NineK"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -783,7 +803,9 @@
    "casters": [
     "Unknown",
     "NineK"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -859,7 +881,9 @@
    "casters": [
     "Unknown",
     "NineK"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -949,7 +973,9 @@
     "Achilios",
     "Wolf (American caster)",
     "Gclef"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Main Event",
@@ -1065,7 +1091,9 @@
     "Achilios",
     "Wolf (American caster)",
     "Gclef"
-   ]
+   ],
+   "section": "",
+   "round": "Grand Final"
   }
  ]
 }

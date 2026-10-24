@@ -72,7 +72,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=KKnoNe0aIDY",
-   "casters": []
+   "casters": [],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -145,7 +147,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=kAmFaMlRVAg",
-   "casters": []
+   "casters": [],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -205,7 +209,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=zubLGUUiH6Y",
-   "casters": []
+   "casters": [],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -291,7 +297,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=lrRD2Cbhs6Q",
-   "casters": []
+   "casters": [],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -377,7 +385,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=hzoF4F6rtZg",
-   "casters": []
+   "casters": [],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -450,7 +460,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=gXbg2ke6-hM",
-   "casters": []
+   "casters": [],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -520,7 +532,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Last Chance Qualifier",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -590,7 +604,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Last Chance Qualifier",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -676,7 +692,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=4gD1lDUPvL4",
-   "casters": []
+   "casters": [],
+   "section": "Last Chance Qualifier",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -733,7 +751,9 @@
    "potm": null,
    "broadcast": {},
    "vod": null,
-   "casters": []
+   "casters": [],
+   "section": "Last Chance Qualifier",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -806,7 +826,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=-YBWPpgSxXY",
-   "casters": []
+   "casters": [],
+   "section": "Last Chance Qualifier",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -892,7 +914,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=DERtJsUUGg4",
-   "casters": []
+   "casters": [],
+   "section": "Last Chance Qualifier",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -978,7 +1002,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=PsWaF7HyWyQ",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -1064,7 +1090,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=4CL2e19vfsA",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -1124,7 +1152,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=nYKl9F7bwD0",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -1197,7 +1227,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=khLG7HYIoRo",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -1296,7 +1328,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=fLGWOKHdVFc",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Korea",
@@ -1356,7 +1390,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=iEvoj79dmbc",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Grand Final"
   }
  ]
 }

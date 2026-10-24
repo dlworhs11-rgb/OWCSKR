@@ -62,7 +62,9 @@
    "casters": [
     "Achilios",
     "hexagrams"
-   ]
+   ],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -151,7 +153,9 @@
    "casters": [
     "Achilios",
     "hexagrams"
-   ]
+   ],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -214,7 +218,9 @@
    "casters": [
     "Unknown",
     "hexagrams"
-   ]
+   ],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -303,7 +309,9 @@
    "casters": [
     "Unknown",
     "hexagrams"
-   ]
+   ],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -379,7 +387,9 @@
    "casters": [
     "Unknown",
     "hexagrams"
-   ]
+   ],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -468,7 +478,9 @@
    "casters": [
     "Unknown",
     "hexagrams"
-   ]
+   ],
+   "section": "Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -531,7 +543,9 @@
    "casters": [
     "Achilios",
     "hexagrams"
-   ]
+   ],
+   "section": "Play-Ins",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -620,7 +634,9 @@
    "casters": [
     "Unknown",
     "hexagrams"
-   ]
+   ],
+   "section": "Play-Ins",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -683,7 +699,9 @@
    "casters": [
     "Unknown",
     "hexagrams"
-   ]
+   ],
+   "section": "Play-Ins",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -759,7 +777,9 @@
    "casters": [
     "Gclef",
     "Unknown"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -822,7 +842,9 @@
    "casters": [
     "Gclef",
     "Unknown"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -898,7 +920,9 @@
    "casters": [
     "Unknown",
     "NineK"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -974,7 +998,9 @@
    "casters": [
     "Unknown",
     "NineK"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -1063,7 +1089,9 @@
    "casters": [
     "Gclef",
     "Wolf (American caster)"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 2/Korea",
@@ -1126,7 +1154,9 @@
    "casters": [
     "Unknown",
     "NineK"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Third Place Match"
   }
  ]
 }

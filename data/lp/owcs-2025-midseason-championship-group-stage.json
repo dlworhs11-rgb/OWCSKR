@@ -212,7 +212,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
    "idx": 3,
-   "date": null,
+   "date": "2025-08-01T13:05:00+00:00",
    "bestof": 5,
    "team1": "All Gamers Global",
    "team2": "Virtus.Pro",
@@ -277,7 +277,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
    "idx": 4,
-   "date": null,
+   "date": "2025-08-01T17:10:00+00:00",
    "bestof": 5,
    "team1": "Weibo Gaming",
    "team2": "Virtus.Pro",
@@ -563,7 +563,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
    "idx": 8,
-   "date": null,
+   "date": "2025-08-01T14:45:00+00:00",
    "bestof": 5,
    "team1": "VARREL",
    "team2": "ROC Esports",
@@ -654,7 +654,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
    "idx": 9,
-   "date": null,
+   "date": "2025-08-01T19:25:00+00:00",
    "bestof": 5,
    "team1": "Team Liquid",
    "team2": "VARREL",
@@ -914,7 +914,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
    "idx": 13,
-   "date": null,
+   "date": "2025-08-01T13:10:00+00:00",
    "bestof": 5,
    "team1": "Team CC (Chinese orgless team)",
    "team2": "ZoKorp Esports",
@@ -979,7 +979,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
    "idx": 14,
-   "date": null,
+   "date": "2025-08-01T16:30:00+00:00",
    "bestof": 5,
    "team1": "Geekay Esports",
    "team2": "Team CC (Chinese orgless team)",
@@ -1252,7 +1252,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
    "idx": 18,
-   "date": null,
+   "date": "2025-08-01T14:35:00+00:00",
    "bestof": 5,
    "team1": "Twisted Minds",
    "team2": "The Gatos Guapos",
@@ -1317,7 +1317,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship/Group Stage",
    "idx": 19,
-   "date": null,
+   "date": "2025-08-01T20:55:00+00:00",
    "bestof": 5,
    "team1": "Sign Esports",
    "team2": "Twisted Minds",
