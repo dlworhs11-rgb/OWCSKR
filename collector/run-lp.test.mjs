@@ -89,10 +89,14 @@ test('mergeStatus keeps lastOk of failed and unfetched pages, drops titles no lo
   assert.equal(mergeStatus(null, { X: { ok: false } }, { now, titles: ['X'], failures: 1 }).pages.X.lastOk, null);
 });
 
-test('titlesOf: World Cup pages only when collected already or active', async () => {
+test('titlesOf: World Cup pages only when collected already or active by their exact title (not the qualifiers below)', async () => {
   const c = { core: ['K'], world_cup: ['Overwatch World Cup/2023', 'Overwatch World Cup/2027', 'Overwatch World Cup/2027/Asia Qualifier'] };
   assert.deepEqual(await titlesOf(c, [], async t => t === 'Overwatch World Cup/2023'), ['K', 'Overwatch World Cup/2023']);
-  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027'], async () => false), ['K', 'Overwatch World Cup/2027', 'Overwatch World Cup/2027/Asia Qualifier']);
+  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027'], async () => false), ['K', 'Overwatch World Cup/2027']);
+  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027/Asia Qualifier'], async () => false), ['K', 'Overwatch World Cup/2027/Asia Qualifier']);
+  // the committed lists: only the two main World Cup pages, as before the date-based active.json
+  assert.deepEqual((await titlesOf(comps, comps.world_cup.filter(t => /20(23|26)$/.test(t)), async () => false)).filter(t => t.includes('World Cup')),
+    ['Overwatch World Cup/2023', 'Overwatch World Cup/2026']);
 });
 
 test('acceptTitle takes every page shape already in competitions.json and nothing else', () => {

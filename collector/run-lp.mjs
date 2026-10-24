@@ -28,10 +28,11 @@ const exists = f => fs.access(f).then(() => true, () => false);
 // substring match, same as owcs-kr cloud_live.active_titles (old entries are short: '2026/Asia/Stage 3')
 export const isActive = (title, active) => active.some(a => title.includes(a));
 
-// core + World Cup pages that are active or already collected (the World Cup list also has qualifiers we never fetch)
+// core + World Cup pages that are active or already collected. The World Cup list also has qualifiers we never fetch:
+// a World Cup page counts as active only by its exact title ('Overwatch World Cup/2026' would substring-match them all)
 export async function titlesOf(comps, active, has = t => exists(fileOf(t))) {
   const wc = [];
-  for (const t of comps.world_cup || []) if (isActive(t, active) || await has(t)) wc.push(t);
+  for (const t of comps.world_cup || []) if (active.includes(t) || await has(t)) wc.push(t);
   return [...comps.core, ...wc];
 }
 
