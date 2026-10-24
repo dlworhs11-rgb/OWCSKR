@@ -98,7 +98,7 @@ def test_register_systemd_command_line(linux):
     assert cmd[-4:] == ['/bin/bash', os.path.join(S.ROOT, 'tools', 'run_live.sh'), '6.2', DAY]
     p = props(cmd)
     assert S.ENV_PROP in p and S.ENV_PROP.startswith('EnvironmentFile=-')
-    assert {'Restart=on-failure', 'RestartSec=60', 'TimeoutStopSec=5min', 'RestartPreventExitStatus=2'} <= set(p)
+    assert {'Restart=on-failure', 'RestartSec=60', 'TimeoutStopSec=5min', 'RestartPreventExitStatus=2 4'} <= set(p)
     assert f'RuntimeMaxSec={round(7.2 * 3600)}s' in p          # planned length + 1 h
     assert ['systemctl', '--user', 'stop', UNIT + '.timer'] in linux.calls
     assert not any('stop' in c and UNIT + '.service' in c for c in linux.calls)
@@ -113,12 +113,14 @@ def test_register_systemd_leaves_running_capture_alone(linux):
 
 def test_register_clears_old_until_but_launch_now_keeps_it(linux):
     path = os.path.join(PU.LIVE_DIR, DAY, 'until.txt')
+    mark = os.path.join(PU.LIVE_DIR, DAY, 'summary.txt')
     os.makedirs(os.path.dirname(path))
     open(path, 'w').write('2026-10-25T21:00:00+09:00')
+    open(mark, 'w').write('sent')
     S.launch_now_systemd(DAY, 3.0)
-    assert os.path.exists(path)                      # a restart must end at the old time
+    assert os.path.exists(path) and os.path.exists(mark)   # a restart must end at the old time, a finished day stays
     S.register_systemd(DAY, start_of(), 6.2)
-    assert not os.path.exists(path)                  # a newly planned start is a new run
+    assert not os.path.exists(path) and not os.path.exists(mark)   # a newly planned start is a new run
 
 
 def test_already_started_day_uses_systemd_run_now(linux):
@@ -137,6 +139,21 @@ def test_today_is_the_korean_date_on_a_utc_machine(linux):
     now = datetime.datetime(2026, 10, 24, 23, 30, tzinfo=datetime.timezone.utc)    # 10-25 08:30 KST
     assert S.main([], now=now) == 0
     assert len(linux.runs(UNIT)) == 1
+
+
+def test_upcoming_relaunches_yesterdays_capture_after_midnight(linux):
+    """a reboot at 00:30 KST: the day before's capture (until ~01:00) is still on and must be started again"""
+    late = [kr(f'{DAY}T19:00:00+09:00'), kr(f'{DAY}T21:30:00+09:00')]   # capture 18:50 .. 01:00
+    S.load_matches = lambda path=None: late
+    now = datetime.datetime.fromisoformat('2026-10-26T00:30:00+09:00')
+    assert S.main(['--upcoming'], now=now) == 0
+    (cmd,) = linux.runs(UNIT)
+    assert '--on-calendar' not in cmd and cmd[-1] == DAY
+
+
+def test_upcoming_leaves_yesterday_alone_once_it_is_over(linux):
+    assert S.main(['--upcoming'], now=datetime.datetime.fromisoformat('2026-10-26T08:00:00+09:00')) == 0
+    assert linux.runs(UNIT) == []
 
 
 def test_already_started_day_not_launched_twice(linux):

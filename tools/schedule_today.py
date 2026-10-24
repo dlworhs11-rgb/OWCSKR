@@ -95,10 +95,12 @@ def live_script() -> str:
 
 
 def clear_until(day: str) -> None:
-    """a newly planned start is a new run: drop the end time a test or an earlier start of that day left behind"""
-    path = os.path.join(PU.LIVE_DIR, day, 'until.txt')
-    if os.path.isfile(path):
-        os.remove(path)
+    """a newly planned start is a new run: drop the end time and the "day finished" mark (summary.txt) a test or an
+    earlier start of that day left behind"""
+    for name in ('until.txt', 'summary.txt'):
+        path = os.path.join(PU.LIVE_DIR, day, name)
+        if os.path.isfile(path):
+            os.remove(path)
 
 
 def left_hours(end: datetime.datetime, now: datetime.datetime) -> float:
@@ -125,9 +127,10 @@ def free_name(unit: str) -> None:
 
 def capture_props(hours: float) -> list[str]:
     """the capture unit, the same whether a timer or launch_now starts it. RuntimeMaxSec is only a backstop: run_live.sh
-    ends at the planned time itself (until.txt). Exit 2 = live_capture's self-check failed: a restart would not help."""
+    ends at the planned time itself (until.txt). Not restarted: exit 2 = live_capture's self-check failed, 4 = the capture
+    ended but its final OCR / publish failed (a restart would capture an empty screen until the end time)."""
     return [ENV_PROP, f'RuntimeMaxSec={round((hours + 1) * 3600)}s', 'Restart=on-failure', 'RestartSec=60',
-            'RestartPreventExitStatus=2', 'TimeoutStopSec=5min']
+            'RestartPreventExitStatus=2 4', 'TimeoutStopSec=5min']
 
 
 def systemd_run(unit: str, desc: str, argv: list[str], props: list[str], when: datetime.datetime | None = None,
@@ -337,8 +340,9 @@ def main(argv: list[str] | None = None, now: datetime.datetime | None = None) ->
     args = [x for x in argv if not x.startswith('--')]
     matches = load_matches()
     today = now.astimezone(KST).date()
-    if upcoming:            # every match day in the next 14 days, each with its own units / tasks
-        days = [(today + datetime.timedelta(d)).isoformat() for d in range(15)]
+    if upcoming:            # every match day in the next 14 days, each with its own units / tasks; yesterday too, whose
+        # capture runs past midnight (a reboot at 00:30 must start it again), but only while it is still on
+        days = [(today + datetime.timedelta(d)).isoformat() for d in range(-1, 15)]
         if not dry: cleanup(today.isoformat())
     else:
         days = [args[0] if args else today.isoformat()]
@@ -349,6 +353,8 @@ def main(argv: list[str] | None = None, now: datetime.datetime | None = None) ->
             if not upcoming: print(day, ': no Korean-league matches - nothing scheduled')
             continue
         ms, start, hours = p
+        if day < today.isoformat() and not start < now < start + datetime.timedelta(hours=hours):
+            continue
         print(day, ':', len(ms), 'matches, first', f"{datetime.datetime.fromisoformat(ms[0]['date']).astimezone():%H:%M}",
               '-> capture', start.strftime('%m-%d %H:%M'), f'(up to {hours} h)', end=' ')
         if dry:
