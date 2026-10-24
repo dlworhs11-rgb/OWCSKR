@@ -367,6 +367,126 @@
    },
    "winner": "ZETA DIVISION",
    "winnerSource": "match end (POTM team)"
+  },
+  {
+   "match": "Team Falcons vs T1",
+   "matchNo": 2,
+   "game": 1,
+   "map": "Busan",
+   "mapTime": "10:37",
+   "frame": "m06_table1_1792831510.png",
+   "teams": {
+    "Team Falcons": [
+     {
+      "name": "?29",
+      "e": 10,
+      "a": 0,
+      "d": 6,
+      "dmg": 5348,
+      "heal": 289,
+      "mit": 150
+     },
+     {
+      "name": "?30",
+      "e": 10,
+      "a": 8,
+      "d": 5,
+      "dmg": 5315,
+      "heal": 10849,
+      "mit": 3413
+     },
+     {
+      "name": "?31",
+      "e": 6,
+      "a": 16,
+      "d": 4,
+      "dmg": 4836,
+      "heal": 12168,
+      "mit": 1031
+     },
+     {
+      "name": "?32",
+      "e": 14,
+      "a": 5,
+      "d": 5,
+      "dmg": 8464,
+      "heal": 1070,
+      "mit": 12531
+     },
+     {
+      "name": "?33",
+      "e": 17,
+      "a": 0,
+      "d": 6,
+      "dmg": 9577,
+      "heal": 0,
+      "mit": 0
+     }
+    ],
+    "T1": [
+     {
+      "name": "?34",
+      "e": 11,
+      "a": 11,
+      "d": 5,
+      "dmg": 6457,
+      "heal": 8907,
+      "mit": 744
+     },
+     {
+      "name": "?35",
+      "e": 18,
+      "a": 4,
+      "d": 5,
+      "dmg": 12912,
+      "heal": 961,
+      "mit": 12082
+     },
+     {
+      "name": "?36",
+      "e": 14,
+      "a": 0,
+      "d": 4,
+      "dmg": 7941,
+      "heal": 0,
+      "mit": 93
+     },
+     {
+      "name": "?37",
+      "e": 8,
+      "a": 15,
+      "d": 5,
+      "dmg": 3957,
+      "heal": 10206,
+      "mit": 0
+     },
+     {
+      "name": "?38",
+      "e": 11,
+      "a": 1,
+      "d": 2,
+      "dmg": 8284,
+      "heal": 188,
+      "mit": 301
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "bans": {
+    "initial": {
+     "team": "Team Falcons",
+     "hero": "wrecking ball"
+    },
+    "followUp": {
+     "team": "T1",
+     "hero": "bastion"
+    }
+   },
+   "seriesBefore": {
+    "Team Falcons": 0,
+    "T1": 0
+   }
   }
  ],
  "matches": [
@@ -386,6 +506,12 @@
     "screenName": "Proper",
     "method": "name"
    }
+  },
+  {
+   "match": "Team Falcons vs T1",
+   "matchNo": 2,
+   "mapWins": {},
+   "potm": null
   }
  ],
  "unknownNames": [
@@ -528,6 +654,56 @@
    "id": "?28",
    "map": "05",
    "row": 9
+  },
+  {
+   "id": "?29",
+   "map": "06",
+   "row": 0
+  },
+  {
+   "id": "?30",
+   "map": "06",
+   "row": 1
+  },
+  {
+   "id": "?31",
+   "map": "06",
+   "row": 2
+  },
+  {
+   "id": "?32",
+   "map": "06",
+   "row": 3
+  },
+  {
+   "id": "?33",
+   "map": "06",
+   "row": 4
+  },
+  {
+   "id": "?34",
+   "map": "06",
+   "row": 5
+  },
+  {
+   "id": "?35",
+   "map": "06",
+   "row": 6
+  },
+  {
+   "id": "?36",
+   "map": "06",
+   "row": 7
+  },
+  {
+   "id": "?37",
+   "map": "06",
+   "row": 8
+  },
+  {
+   "id": "?38",
+   "map": "06",
+   "row": 9
   }
  ],
  "unknownMaps": [
@@ -538,6 +714,10 @@
   {
    "map": "05",
    "frame": "m05_table1_1792828700.png"
+  },
+  {
+   "map": "06",
+   "frame": "m06_table1_1792831510.png"
   }
  ],
  "note": "reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; mapTime = damage / damage-per-minute from the totals page."
