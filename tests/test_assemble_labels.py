@@ -28,7 +28,7 @@ def fake_rows(monkeypatch, names):
                 nums = {k: entry['rows'][r][k] for k in AD.K}
                 nm = names[entry['frame']][r]
                 if nm is None:
-                    uid = f'?{len(unknown) + 1}'; unknown.append({'id': uid, 'map': entry['map'], 'row': r})
+                    uid = AD.unknown_id(entry['map'], r, unknown); unknown.append({'id': uid, 'map': entry['map'], 'row': r})
                     rows.append({'name': None, 'unknownId': uid, **nums})
                 else:
                     rows.append({'name': nm, **nums})
@@ -114,7 +114,8 @@ def test_no_known_player_and_no_ban_is_not_trusted(monkeypatch):
 def test_duplicate_match_game_blocks_both(monkeypatch):
     ocr = json.loads(json.dumps(FX['ocr']))
     ocr[1]['header']['game'] = 1                                          # m02 header misread as game 1, no ban screen
-    bans = [b for b in FX['bans'] if b[0] != AD.frame_ts(ocr[1]['frame']) - 900]
+    m01_ts, m02_ts = AD.frame_ts(ocr[0]['frame']), AD.frame_ts(ocr[1]['frame'])
+    bans = [b for b in FX['bans'] if not m01_ts < b[0] < m02_ts]
     m = by_map(run_day(monkeypatch, ocr=ocr, bans=bans))
     assert m['01']['labelVerified'] is False and m['02']['labelVerified'] is False
     assert 'duplicate match 1 game 1' in m['01']['labelIssues']
@@ -153,7 +154,7 @@ def test_unknown_names_and_known_ratio(monkeypatch):
     res = run_day(monkeypatch)
     m01 = by_map(res)['01']
     rows = [r for t in m01['teams'].values() for r in t]
-    assert rows[0]['name'] is None and rows[0]['unknownId'] == '?1' and rows[0]['e'] == 13
+    assert rows[0]['name'] is None and rows[0]['unknownId'] == '?10' and rows[0]['e'] == 13
     assert 'known names 1/10' in m01['labelIssues'] and m01['labelVerified'] is True
     assert m01['framesAgree'] is True and m01['totalsVerified'] is True
     assert AD.summary(DATE, res).startswith('2026-10-23: 9 maps, 5 verified by totals, 8 label-verified, 77 unknown names, 9 map(s) under 50% known names, ')
