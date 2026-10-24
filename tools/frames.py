@@ -449,7 +449,7 @@ class StableCrop:
 
 class HlsSource:
     """live_capture's frame-source interface (ready / start / grab / reconnect / restart / refresh / alive / close, as
-    ObsSource) over HlsFrames + StableCrop. Not wired into live_capture yet (P1-17 4).
+    ObsSource) over HlsFrames + StableCrop. live_capture uses it with --source hls (OWCSKR_FRAME_SOURCE=hls).
     grab() -> 1920x1080 BGR, a frame newer than the last one when it comes within `interval`; raises when there is no
     fresh frame, so live_capture's Grabber counts the failure, alerts after 3 min and calls restart() after 1 min.
     interval 2 s: the capture loop polls every 2 s during the POTM tail, every 5 s otherwise."""

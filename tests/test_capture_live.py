@@ -178,7 +178,7 @@ class Screens:
 @pytest.fixture
 def kinds(monkeypatch):
     """frame pixel value -> GAME DATA kind: 1 = TABLE, 2 = TOTALS, else nothing"""
-    monkeypatch.setattr(LC, 'classify', lambda img: {1: 'TABLE', 2: 'TOTALS'}.get(int(img[0, 0, 0])))
+    monkeypatch.setattr(LC, 'classify', lambda img: ({1: 'TABLE', 2: 'TOTALS'}.get(int(img[0, 0, 0])), (0, 0)))
     monkeypatch.setattr(LC, 'screens', lambda: Screens)
 
 
@@ -387,7 +387,7 @@ def steps(monkeypatch):
 
 def test_selfcheck_failure_exits_2(tmp_path, monkeypatch, steps):
     sent = []
-    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [LC.selfcheck.Problem('fatal', 'tesseract', 'missing')])
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda **k: [LC.selfcheck.Problem('fatal', 'tesseract', 'missing')])
     monkeypatch.setattr(LC.PU, 'notify', lambda t, x: sent.append(x))
     rc = LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
                 source_factory=lambda *a: pytest.fail('source must not start'))
@@ -420,7 +420,7 @@ class ReadySource(FakeSource):
 
 
 def test_sigterm_during_capture_finishes_the_day(tmp_path, monkeypatch, steps):
-    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda **k: [])
     src = ReadySource()
     monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: (_ for _ in ()).throw(SystemExit(0)))
     (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
@@ -430,7 +430,7 @@ def test_sigterm_during_capture_finishes_the_day(tmp_path, monkeypatch, steps):
 
 
 def test_crash_at_the_end_sends_the_summary(tmp_path, monkeypatch, steps):
-    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda **k: [])
     end = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=2)
     monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: (_ for _ in ()).throw(RuntimeError('boom')))
     rc = LC.run(args(until=end), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
@@ -448,7 +448,7 @@ def test_summary_due_rules(tmp_path):
 
 
 def test_crash_exits_1_without_summary(tmp_path, monkeypatch, steps):
-    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda **k: [])
     src, sent = ReadySource(), []
     monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: (_ for _ in ()).throw(RuntimeError('boom')))
     rc = LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: sent.append(x)),
@@ -457,7 +457,7 @@ def test_crash_exits_1_without_summary(tmp_path, monkeypatch, steps):
 
 
 def test_failed_final_publish_exits_4_not_restarted(tmp_path, monkeypatch, steps):
-    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda **k: [])
     monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: None)
     monkeypatch.setattr(LC, 'update_and_publish', lambda *x: False)
     (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
@@ -467,7 +467,7 @@ def test_failed_final_publish_exits_4_not_restarted(tmp_path, monkeypatch, steps
 
 
 def test_busy_obs_exits_2(tmp_path, monkeypatch, steps):
-    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda **k: [])
     monkeypatch.setattr(LC.PU, 'notify', lambda t, x: None)
     src = ReadySource(); src.ready = lambda: False
     assert LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
@@ -476,7 +476,7 @@ def test_busy_obs_exits_2(tmp_path, monkeypatch, steps):
 
 
 def test_obs_not_answering_exits_1_and_alerts(tmp_path, monkeypatch, steps):
-    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda **k: [])
     sent = []
     src = ReadySource()
     def ready(): raise TimeoutError('websocket')
