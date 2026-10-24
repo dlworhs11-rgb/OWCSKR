@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { RateLimited } from './liquipedia.mjs';
-import { fileOf, titlesOf, tabLinksOf, collectPage, collectAll, mergeStatus, acceptTitle, nextOf, koreaRootOf, newestKorea, computeActive, discoverCandidates, optionValues } from './run-lp.mjs';
+import { fileOf, titlesOf, tabLinksOf, collectPage, collectAll, mergeStatus, acceptTitle, nextOf, koreaRootOf, newestKorea, computeActive, discoverCandidates, optionValues, worldCupCandidates, addDiscovered } from './run-lp.mjs';
 
 const fixture = name => fs.readFile(new URL('./fixtures/' + name, import.meta.url), 'utf8');
 const DATES = await fixture('dates.wiki');
@@ -113,11 +113,16 @@ test('mergeStatus keeps lastOk of failed and unfetched pages, drops titles no lo
 
 test('titlesOf: World Cup pages only when collected already or active by their exact title (not the qualifiers below)', async () => {
   const c = { core: ['K'], world_cup: ['Overwatch World Cup/2023', 'Overwatch World Cup/2027', 'Overwatch World Cup/2027/Asia Qualifier'] };
-  assert.deepEqual(await titlesOf(c, [], async t => t === 'Overwatch World Cup/2023'), ['K', 'Overwatch World Cup/2023']);
-  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027'], async () => false), ['K', 'Overwatch World Cup/2027']);
-  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027/Asia Qualifier'], async () => false), ['K', 'Overwatch World Cup/2027/Asia Qualifier']);
+  const y2028 = { year: 2028 };
+  assert.deepEqual(await titlesOf(c, [], async t => t === 'Overwatch World Cup/2023', y2028), ['K', 'Overwatch World Cup/2023']);
+  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027'], async () => false, y2028), ['K', 'Overwatch World Cup/2027']);
+  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027/Asia Qualifier'], async () => false, y2028), ['K', 'Overwatch World Cup/2027/Asia Qualifier']);
+  assert.deepEqual(await titlesOf(c, ['2027'], async () => false, y2028), ['K']);   // short entry: no World Cup page
+  // RC-15: a main page of this year or later is collected without a file or active entry (just discovered), not its qualifiers
+  assert.deepEqual(await titlesOf(c, [], async () => false, { year: 2027 }), ['K', 'Overwatch World Cup/2027']);
+  assert.deepEqual(await titlesOf(c, [], async () => false, { year: 2026 }), ['K', 'Overwatch World Cup/2027']);
   // the committed lists: only the two main World Cup pages, as before the date-based active.json
-  assert.deepEqual((await titlesOf(comps, comps.world_cup.filter(t => /20(23|26)$/.test(t)), async () => false)).filter(t => t.includes('World Cup')),
+  assert.deepEqual((await titlesOf(comps, comps.world_cup.filter(t => /20(23|26)$/.test(t)), async () => false, { year: 2026 })).filter(t => t.includes('World Cup')),
     ['Overwatch World Cup/2023', 'Overwatch World Cup/2026']);
 });
 
@@ -192,6 +197,27 @@ test('discoverCandidates: |next= of the newest Korea page and the page list of t
     OCS + '2027/Asia/Stage 1/Korea/Open Qualifier', OCS + '2027/Champions Clash']);
   // everything known already: nothing new (idempotent)
   assert.deepEqual(await discoverCandidates([...core, ...got], [2026, 2027], deps), []);
+});
+
+test('--discover World Cup: this year and next are looked up, a main page that exists goes to world_cup (RC-15)', () => {
+  const WC = 'Overwatch World Cup/';
+  assert.deepEqual(worldCupCandidates([WC + '2023', WC + '2026'], [2026, 2027]), [WC + '2027']);
+  assert.deepEqual(worldCupCandidates([], [2027, 2028]), [WC + '2027', WC + '2028']);
+  const c = { core: [OCS + '2026/World Finals'], legacy_contenders: ['L'], world_cup: [WC + '2026'] };
+  const resolved = {
+    [WC + '2027']: { exists: true, title: WC + '2027' },
+    [WC + '2028']: { exists: false, title: WC + '2028' },
+    [OCS + '2027/Champions Clash']: { exists: true, title: OCS + '2027/Champions Clash' },
+    [WC + '2027/Asia Qualifier']: { exists: true, title: WC + '2027/Asia Qualifier' },   // qualifiers are never added
+    [OCS + '2026/World Finals']: { exists: true, title: OCS + '2026/World Finals' },
+  };
+  const { next, added } = addDiscovered(c, resolved, [2027, 2028]);
+  assert.deepEqual(added, [OCS + '2027/Champions Clash', WC + '2027']);
+  assert.deepEqual(next, { core: [OCS + '2026/World Finals', OCS + '2027/Champions Clash'], legacy_contenders: ['L'], world_cup: [WC + '2026', WC + '2027'] });
+  assert.deepEqual(Object.keys(next), Object.keys(c));   // key order kept: the file only changes where a page was added
+  assert.deepEqual(addDiscovered(next, resolved, [2027, 2028]).added, []);   // idempotent
+  // a World Cup year that is not looked up (out of the two years) is not added
+  assert.deepEqual(addDiscovered(c, { x: { exists: true, title: WC + '2030' } }, [2027, 2028]).added, []);
 });
 
 test('real Korea stage page header: tab links, empty |next=', async () => {

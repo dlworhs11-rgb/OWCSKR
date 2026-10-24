@@ -1,12 +1,18 @@
 // Liquipedia pages in data/competitions.json -> data/lp/<slug>.json (2.2 s between requests, data/lp-cache 6 h).
-//   node collector/run-lp.mjs                every page (core + the World Cup pages already in data/lp or active)
+//   node collector/run-lp.mjs                every page (core + the World Cup pages already in data/lp or active, and
+//                                            the main 'Overwatch World Cup/<year>' pages of this year or later)
 //   node collector/run-lp.mjs --active-only  only the pages matching data/active.json (and pages with no data/lp file yet);
 //                                            a full title there matches only itself, a short one ('2026/Asia/Stage 3')
 //                                            every title containing it (util.isActiveTitle, same as owcs-kr cloud_live)
-//   node collector/run-lp.mjs --discover     find new stage / event pages, update data/competitions.json (core) and
-//                                            data/active.json, print them, fetch no matches. Run it before --active-only.
+//   node collector/run-lp.mjs --discover     find new stage / event pages, update data/competitions.json (core,
+//                                            world_cup) and data/active.json, print them, fetch no matches. Run it
+//                                            before --active-only.
 // --discover reads the newest Korea stage page (tabs, |next=) and the list of pages named
 // 'Overwatch Champions Series/<year>/...' for this year and next; keeps titles of the shapes in SHAPES that exist.
+// It also asks whether 'Overwatch World Cup/<year>' exists for this year and next (in the same title lookup, no extra
+// request) and adds it to world_cup, so a new World Cup year starts without hand edits; its qualifier pages are never
+// added (only the main page has the Korea team's matches). A main World Cup page of this year or later is collected
+// like a core page, so the first run after it is added fetches it.
 // Prints 'ADDED <title>' per new page, 'ACTIVE+ <title>' / 'ACTIVE- <title>' per change of active.json, then
 // 'DISCOVER <today> added <n> active <n>'. Never removes pages from competitions.json. active.json = pages with a match
 // dated within today (KST) +-30 days, plus pages of this year or later with no dated match yet or undated matches still
@@ -27,19 +33,23 @@ import { fileURLToPath } from 'node:url';
 import { fetchPage, pagesWithPrefix, resolveTitles, parseMatches, RateLimited } from './liquipedia.mjs';
 import { readJson, writeJson, kstDay, isActiveTitle } from './util.mjs';
 
-const OCS = 'Overwatch Champions Series/';
+const OCS = 'Overwatch Champions Series/', WC = 'Overwatch World Cup/';
+export const isWorldCupMain = t => /^Overwatch World Cup\/\d{4}$/.test(t);
+const thisYear = () => +kstDay(Date.now()).slice(0, 4);
 const MAX_AGE = 6 * 3600e3;
 export const fileOf = title => { const slug = title.replace(/^Overwatch (Champions Series|World Cup)\//, '').replace(/[^a-z0-9]+/gi, '-').toLowerCase(); return `data/lp/${title.includes('World Cup') ? 'owwc-' : 'owcs-'}${slug}.json`; };
 const exists = f => fs.access(f).then(() => true, () => false);
 // full titles match exactly, old short entries ('2026/Asia/Stage 3') by substring: same as owcs-kr cloud_live.active_titles
 export const isActive = isActiveTitle;
 
-// core + World Cup pages that are active or already collected. The World Cup list also has qualifiers we never fetch:
-// a World Cup page counts as active only by its exact title ('Overwatch World Cup/2026' would substring-match them all,
-// so a short entry does not pull World Cup pages in)
-export async function titlesOf(comps, active, has = t => exists(fileOf(t))) {
+// core + World Cup pages that are active, already collected, or the main page of this year or later (just discovered).
+// The World Cup list also has qualifiers we never fetch: a World Cup page counts as active only by its exact title
+// ('Overwatch World Cup/2026' would substring-match them all, so a short entry does not pull World Cup pages in)
+export async function titlesOf(comps, active, has = t => exists(fileOf(t)), { year = thisYear() } = {}) {
   const wc = [];
-  for (const t of comps.world_cup || []) if (active.includes(t) || await has(t)) wc.push(t);
+  for (const t of comps.world_cup || []) {
+    if (active.includes(t) || (isWorldCupMain(t) && +t.slice(WC.length) >= year) || await has(t)) wc.push(t);
+  }
   return [...comps.core, ...wc];
 }
 
@@ -194,20 +204,32 @@ export async function discoverCandidates(core, years, { page = t => fetchPage(t,
   return [...out].filter(t => acceptTitle(t, years) && !core.includes(t)).sort();
 }
 
+// 'Overwatch World Cup/<year>' for the years given, unless listed already (looked up with the stage candidates)
+export const worldCupCandidates = (worldCup, years) => years.map(y => WC + y).filter(t => !worldCup.includes(t));
+
+// resolveTitles result -> competitions.json with the pages that exist added (core: SHAPES, world_cup: main pages)
+export function addDiscovered(comps, resolved, years) {
+  const found = [...new Set(Object.values(resolved).filter(r => r.exists).map(r => normTitle(r.title)))];
+  const wcList = comps.world_cup || [];
+  const core = found.filter(t => acceptTitle(t, years) && !comps.core.includes(t)).sort();
+  const wc = found.filter(t => isWorldCupMain(t) && years.includes(+t.slice(WC.length)) && !wcList.includes(t)).sort();
+  const next = { ...comps, core: [...comps.core, ...core] };
+  if (wc.length) next.world_cup = [...wcList, ...wc];
+  return { next, added: [...core, ...wc] };
+}
+
 const diff = (a, b) => a.filter(x => !b.includes(x));
 
 async function discover() {
   const today = kstDay(Date.now()), year = +today.slice(0, 4), years = [year, year + 1];
   const comps = await readComps();
-  const cands = await discoverCandidates(comps.core, years);
+  const cands = [...await discoverCandidates(comps.core, years), ...worldCupCandidates(comps.world_cup || [], years)];
   const resolved = cands.length ? await resolveTitles(cands) : {};
-  const added = [...new Set(Object.values(resolved).filter(r => r.exists).map(r => normTitle(r.title)))]
-    .filter(t => acceptTitle(t, years) && !comps.core.includes(t)).sort();
+  const { next, added } = addDiscovered(comps, resolved, years);
   for (const t of added) console.log('ADDED', t);
-  const next = { ...comps, core: [...comps.core, ...added] };
   if (added.length) await writeJson('data/competitions.json', next);
   const prevActive = (await readJson('data/active.json')) || [];
-  const titles = await titlesOf(next, prevActive);
+  const titles = await titlesOf(next, prevActive, undefined, { year });
   const pages = {};
   for (const t of titles) pages[t] = (await readJson(fileOf(t)))?.matches ?? null;
   const active = computeActive({ titles, pages, today });
