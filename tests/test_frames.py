@@ -166,6 +166,9 @@ class FakeStdout:
         if self.then == 'exit':
             self.proc.returncode = 1
             return b''
+        if self.then == 'exit_late':      # real order: stdout EOF first, the exit status a moment later
+            threading.Timer(0.2, self.proc.exit, (3,)).start()
+            return b''
         self.proc.killed.wait()          # stall: block until killed, like a pipe with no data
         return b''
     def close(self): pass
@@ -175,9 +178,15 @@ class FakeProc:
     def __init__(self, frames=(), then='exit', stderr=b''):
         self.returncode, self.killed = None, threading.Event()
         self.stdout, self.stderr = FakeStdout(self, frames, then), io.BytesIO(stderr)
+        self.exited = threading.Event()
     def poll(self): return self.returncode
-    def kill(self): self.killed.set(); self.returncode = -9
-    def wait(self, timeout=None): return self.returncode
+    def exit(self, rc):
+        if self.returncode is None: self.returncode = rc
+        self.exited.set()
+    def kill(self): self.killed.set(); self.exit(-9)
+    def wait(self, timeout=None):
+        if self.returncode is None and not self.exited.wait(timeout): raise subprocess.TimeoutExpired('ffmpeg', timeout)
+        return self.returncode
 
 
 class Factory:
@@ -297,6 +306,70 @@ def test_context_manager_kills_on_exception():
             assert wait_until(lambda: src.frames == 1)
             raise KeyboardInterrupt
     assert fac.made[0].killed.is_set()
+
+
+def test_exit_reports_the_real_exit_code():
+    fac = Factory([FakeProc([frame_bytes(1)], then='exit_late')])
+    with make(fac, stall_after=10, backoff=(5, 5)) as src:
+        assert wait_until(lambda: src.restarts == 1)
+        assert src.last_error == 'ffmpeg exited (3)'       # was 'ffmpeg exited (None)': EOF is seen before the exit
+
+
+def test_kick_restarts_now_without_backoff_or_failure():
+    fac = Factory([FakeProc([frame_bytes(1)], then='stall'), FakeProc([frame_bytes(2)], then='stall')])
+    with make(fac, stall_after=10, backoff=(30, 30)) as src:
+        assert wait_until(lambda: src.frames == 1)
+        src.kick('frozen frame')
+        assert wait_until(lambda: src.frames == 2), src.last_error
+        assert fac.made[0].killed.is_set() and src.failures == 0 and src.last_error == 'kicked: frozen frame'
+
+
+def test_kick_cuts_a_backoff_wait_short():
+    calls = []
+    def resolver():
+        calls.append(time.time())
+        if len(calls) == 1: raise F.ResolveError('offline')
+        return 'https://h/m.m3u8', {}, {}
+    fac = Factory([FakeProc([frame_bytes(7)], then='stall')])
+    with make(fac, resolver, stall_after=10, backoff=(60, 60)) as src:
+        assert wait_until(lambda: src.restarts == 1)
+        src.kick()
+        assert wait_until(lambda: src.grab() is not None, timeout=3) and len(fac.cmds) == 1
+
+
+def test_supervisor_survives_its_own_errors():
+    class Broken(FakeProc):
+        def poll(self): raise OSError('poll broke')
+    fac = Factory([Broken(), FakeProc([frame_bytes(8)], then='stall')])
+    with make(fac, stall_after=10) as src:
+        assert wait_until(lambda: src.grab() is not None), src.last_error
+        assert src.alive() and 'supervisor error' in src.last_error
+
+
+def test_close_during_spawn_kills_the_new_process():
+    made = []
+    def popen(cmd):
+        src._stop.wait(5)                  # close() runs while ffmpeg is being spawned
+        made.append(FakeProc(then='stall')); return made[-1]
+    src = make(popen, stall_after=10).start()
+    time.sleep(0.05)
+    src.close()
+    assert wait_until(lambda: made and made[0].killed.is_set()) and src._holder[0] is None
+
+
+def test_next_frame_waits_for_a_newer_frame():
+    frames = [frame_bytes(1)] + [frame_bytes(2)]
+    class Slow(FakeStdout):
+        def read(self, n):
+            if len(self.frames) == 1: time.sleep(0.3)
+            return super().read(n)
+    p = FakeProc(then='stall'); p.stdout = Slow(p, frames, 'stall')
+    with make(Factory([p]), stall_after=10, interval=1) as src:
+        assert wait_until(lambda: src.frames == 1)
+        n, f = src.next_frame(1, timeout=2)
+        assert n == 2 and f[0, 0, 0] == 2
+        n, f = src.next_frame(2, timeout=0.05)    # nothing newer: the latest one, still fresh
+        assert n == 2
 
 
 # ---------------------------------------------------------------- real ffmpeg (optional)
