@@ -49,11 +49,21 @@ async function api(params) {
 
 const cacheFile = (title, ext) => path.join(cfg.cache, title.replace(/[^a-z0-9]+/gi, '_') + ext);
 const fresh = async (file, maxAgeMs) => { try { return Date.now() - (await fs.stat(file)).mtimeMs < maxAgeMs; } catch { return false; } };
-// title -> when it was found missing / title -> redirect target (a cached copy keeps where it came from).
-// _missing.json is shared with owcs-kr cloud_live.ensure_wiki, which writes and reads epoch seconds (time.time()) and
-// fails on a string: written in seconds, read as seconds or as an ISO string (written by earlier collector runs)
+// title -> when it was found missing (epoch seconds) / title -> redirect target (a cached copy keeps where it came from).
+// Not '_missing.json': that is owcs-kr cloud_live.ensure_wiki's own file (epoch floats; a string there is a TypeError).
+// Earlier collector runs wrote ISO strings into it: removed once per cache dir, the site's numbers are left alone.
+const MISSING = '_missing_collector.json', SITE_MISSING = '_missing.json';
 const sideFile = name => path.join(cfg.cache, name);
 const missingMs = v => (typeof v === 'number' ? v * 1000 : typeof v === 'string' ? Date.parse(v) : NaN);
+const cleaned = new Set();
+async function dropOldMissing() {
+  if (cleaned.has(cfg.cache)) return;
+  cleaned.add(cfg.cache);
+  const m = await readJson(sideFile(SITE_MISSING));
+  if (!m || typeof m !== 'object') return;
+  const keep = Object.fromEntries(Object.entries(m).filter(([, v]) => typeof v !== 'string'));
+  if (Object.keys(keep).length !== Object.keys(m).length) await writeJson(sideFile(SITE_MISSING), keep);
+}
 async function sideSet(name, key, value) {
   const m = (await readJson(sideFile(name))) || {};
   if (value === undefined) { if (!(key in m)) return; delete m[key]; } else m[key] = value;
@@ -66,7 +76,8 @@ const pageOf = r => Object.values(r.query.pages || {})[0] || {};
 // is an error, so the caller does not replace the old matches with an empty list. Missing pages are not asked again for 6 h.
 export async function fetchPage(title, { maxAgeMs = 3600e3 } = {}) {
   const file = cacheFile(title, '.wiki');
-  const missingAt = missingMs(((await readJson(sideFile('_missing.json'))) || {})[title]);
+  await dropOldMissing();
+  const missingAt = missingMs(((await readJson(sideFile(MISSING))) || {})[title]);
   if (Date.now() - missingAt < cfg.missingTtl) return { text: null, redirect: null, missing: true, cached: true };
   if (await fresh(file, maxAgeMs)) {
     const text = await fs.readFile(file, 'utf8');
@@ -76,8 +87,8 @@ export async function fetchPage(title, { maxAgeMs = 3600e3 } = {}) {
   const r = await api({ action: 'query', prop: 'revisions', rvprop: 'content', rvslots: 'main', redirects: '1', titles: title });
   const page = pageOf(r), redirect = r.query.redirects?.length ? page.title ?? null : null;
   const text = page.revisions?.[0]?.slots?.main?.['*'];
-  if (text == null) { await sideSet('_missing.json', title, Date.now() / 1000); return { text: null, redirect, missing: true, cached: false }; }
-  await sideSet('_missing.json', title, undefined);
+  if (text == null) { await sideSet(MISSING, title, Date.now() / 1000); return { text: null, redirect, missing: true, cached: false }; }
+  await sideSet(MISSING, title, undefined);
   if (isRedirectBody(text)) throw new Error('redirect not followed: ' + text.trim().slice(0, 120));
   await writeAtomic(file, text);   // a half-written copy would be read as fresh for 6 h (fewer matches, no SHRINK below half)
   await sideSet('_redirects.json', title, redirect ?? undefined);

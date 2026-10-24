@@ -91,26 +91,29 @@ test('fetchPage: a #REDIRECT body is an error and is not cached', async () => {
   assert.equal(calls.length, 2);
 });
 
-test('fetchPage: a missing page is not asked again for 6 h', async () => {
+test('fetchPage: a missing page is not asked again for 6 h (collector file, epoch seconds)', async () => {
   replies.push(json({ query: { pages: { '-1': { ns: 0, title: 'Nope', missing: '' } } } }));
   assert.equal((await fetchPage('Nope')).missing, true);
   const again = await fetchPage('Nope');
   assert.equal(again.missing, true); assert.equal(again.cached, true); assert.equal(calls.length, 1);
-  const m = JSON.parse(await fs.readFile(path.join(dir, '_missing.json'), 'utf8'));
+  const m = JSON.parse(await fs.readFile(path.join(dir, '_missing_collector.json'), 'utf8'));
   assert.equal(typeof m.Nope, 'number'); assert.ok(m.Nope * 1000 <= Date.now() && m.Nope * 1000 > Date.now() - 60e3);
+  await assert.rejects(fs.access(path.join(dir, '_missing.json')));   // the site's file is not created
 });
 
-test('fetchPage: _missing.json entries in seconds (cloud_live) and ISO (older runs) are honoured, old ones are asked again', async () => {
+test('fetchPage: own entries in seconds or ISO honoured; the site _missing.json is not read, only cleared of old ISO strings', async () => {
   const now = Date.now();
-  await fs.writeFile(path.join(dir, '_missing.json'), JSON.stringify({ Py: now / 1000 - 60, Iso: new Date(now - 60e3).toISOString(), Old: now / 1000 - 7 * 3600, Bad: 'x' }));
-  assert.equal((await fetchPage('Py')).cached, true);
+  await fs.writeFile(path.join(dir, '_missing_collector.json'), JSON.stringify({ Sec: now / 1000 - 60, Iso: new Date(now - 60e3).toISOString(), Old: now / 1000 - 7 * 3600, Bad: 'x' }));
+  await fs.writeFile(path.join(dir, '_missing.json'), JSON.stringify({ Site: now / 1000 - 60, Stale: new Date(now).toISOString() }));
+  assert.equal((await fetchPage('Sec')).cached, true);
   assert.equal((await fetchPage('Iso')).cached, true);
   assert.equal(calls.length, 0);
-  replies.push(pageReply('Old', 'back'), pageReply('Bad', 'here'));
+  replies.push(pageReply('Old', 'back'), pageReply('Bad', 'here'), pageReply('Site', 'own copy'));
   assert.equal((await fetchPage('Old')).text, 'back');
   assert.equal((await fetchPage('Bad')).text, 'here');
-  const m = JSON.parse(await fs.readFile(path.join(dir, '_missing.json'), 'utf8'));
-  assert.deepEqual(Object.keys(m).sort(), ['Iso', 'Py']);
+  assert.equal((await fetchPage('Site')).text, 'own copy');   // the site's note does not stop the collector
+  assert.deepEqual(Object.keys(JSON.parse(await fs.readFile(path.join(dir, '_missing_collector.json'), 'utf8'))).sort(), ['Iso', 'Sec']);
+  assert.deepEqual(JSON.parse(await fs.readFile(path.join(dir, '_missing.json'), 'utf8')), { Site: now / 1000 - 60 });
 });
 
 test('api: 429 throws RateLimited with Retry-After, no retry', async () => {
