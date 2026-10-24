@@ -4,7 +4,8 @@ Settings come from environment variables; .env in the repo root fills in the one
 and on the server also by the tools/*.sh scripts and the units' EnvironmentFile=):
   OWCSKR_SITE_DIR         folder with the site recorders (score_watch.py, pick_watch.py, ...); empty = not on this machine
   OWCSKR_DISCORD_WEBHOOK  Discord webhook for every notify() alert; empty = log only (+ a message box on Windows)
-  OWCSKR_FRAME_SOURCE     obs (default) or hls: frame_source(), for the checks that skip OBS on an hls machine
+  OWCSKR_FRAME_SOURCE     obs (default) or hls: frame_source(), the capture's default source and the checks that skip
+                          OBS on an hls machine (an unknown value: obs, with a warning)
   OWCSKR_PUBLISH          1 (default) or 0: publish_on(); 0 = shadow run, the capture reads and assembles but uploads
                           nothing (no publish_day.py, no SOOP replay comment)
   TESSERACT_CMD           tesseract binary when it is not on PATH
@@ -74,10 +75,13 @@ def obs_installed() -> bool:
 FRAME_SOURCES = ('obs', 'hls')
 
 
-def frame_source() -> str:
+def frame_source(env=None) -> str:
     """where the capture takes its frames: OWCSKR_FRAME_SOURCE=obs (default, OBS browser source) or hls (SOOP HLS
-    through yt-dlp + ffmpeg, no OBS). An unknown value counts as obs, with a warning."""
-    value = (os.environ.get('OWCSKR_FRAME_SOURCE') or 'obs').strip().lower()
+    through yt-dlp + ffmpeg, no OBS). Lower-cased; an unknown value counts as obs, with a warning. Every reader of the
+    setting goes through here (live_capture's --source default, selfcheck, the match-day checks; run_live.sh does the
+    same in shell)."""
+    env = os.environ if env is None else env
+    value = (env.get('OWCSKR_FRAME_SOURCE') or 'obs').strip().lower()
     if value in FRAME_SOURCES:
         return value
     print(f'platform_util: OWCSKR_FRAME_SOURCE={value!r} is not obs or hls - using obs', file=sys.stderr)

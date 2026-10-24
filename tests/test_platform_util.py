@@ -91,6 +91,7 @@ def test_frame_source(monkeypatch, capsys):
     assert PU.frame_source() == 'hls'
     monkeypatch.setenv('OWCSKR_FRAME_SOURCE', 'ffmpeg')
     assert PU.frame_source() == 'obs' and 'not obs or hls' in capsys.readouterr().err
+    assert PU.frame_source({'OWCSKR_FRAME_SOURCE': 'Hls'}) == 'hls' and PU.frame_source({}) == 'obs'
 
 
 def _import_with_env(tmp_path, content: bytes, **env):

@@ -89,8 +89,15 @@ start_xvfb() {
   done
   return 1
 }
-# OWCSKR_FRAME_SOURCE=hls: live_capture.py reads the SOOP stream with yt-dlp + ffmpeg, no OBS, so no display either
-SOURCE="$(printf '%s' "${OWCSKR_FRAME_SOURCE:-obs}" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')"
+# OWCSKR_FRAME_SOURCE=hls: live_capture.py reads the SOOP stream with yt-dlp + ffmpeg, no OBS, so no display either.
+# Read as platform_util.frame_source does (live_capture.py takes it from there): trimmed, lower-cased, an unknown
+# value is obs with a warning
+SOURCE="${OWCSKR_FRAME_SOURCE:-obs}"
+SOURCE="${SOURCE#"${SOURCE%%[![:space:]]*}"}"; SOURCE="${SOURCE%"${SOURCE##*[![:space:]]}"}"; SOURCE="${SOURCE,,}"
+if [ "$SOURCE" != hls ] && [ "$SOURCE" != obs ]; then
+  log "OWCSKR_FRAME_SOURCE='$OWCSKR_FRAME_SOURCE' is not obs or hls - using obs"
+  SOURCE=obs
+fi
 if [ "$SOURCE" = hls ]; then
   log "frame source hls - no Xvfb"
 elif [ -z "${DISPLAY:-}" ] && command -v Xvfb >/dev/null 2>&1; then

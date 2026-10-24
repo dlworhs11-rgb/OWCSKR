@@ -46,9 +46,17 @@ def test_hls_defaults_and_cli_wins_over_env():
     assert (a.source, a.url) == ('obs', 'https://x/')
 
 
-def test_unknown_source_is_rejected(capsys):
+def test_unknown_env_source_is_obs_with_a_warning(capsys):
+    """the same as every other reader of OWCSKR_FRAME_SOURCE (platform_util.frame_source, run_live.sh)"""
+    a = LC.parse_args([], env={'OWCSKR_FRAME_SOURCE': 'webcam'})
+    assert a.source == 'obs' and a.url == LC.obs_setup.LIVE_URL
+    assert "OWCSKR_FRAME_SOURCE='webcam' is not obs or hls - using obs" in capsys.readouterr().err
+    assert LC.parse_args([], env={'OWCSKR_FRAME_SOURCE': ' HLS '}).source == 'hls'
+
+
+def test_unknown_cli_source_is_rejected(capsys):
     with pytest.raises(SystemExit) as e:
-        LC.parse_args([], env={'OWCSKR_FRAME_SOURCE': 'webcam'})
+        LC.parse_args(['--source', 'webcam'], env={'OWCSKR_FRAME_SOURCE': 'hls'})
     assert e.value.code == 2 and 'webcam' in capsys.readouterr().err
 
 

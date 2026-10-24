@@ -162,8 +162,11 @@ def test_frame_source_from_env(tmp_path):
     which = lambda n: None if n == 'ffmpeg' else all_tools(n)
     probs = SC.check(str(tmp_path), env={'GH_TOKEN': 'x', 'OWCSKR_FRAME_SOURCE': 'hls'}, which=which, find_spec=has_module)
     assert items(probs, 'fatal') == {'ffmpeg'}
-    bad = SC.check(str(tmp_path), env={'GH_TOKEN': 'x', 'OWCSKR_FRAME_SOURCE': 'webcam'}, which=all_tools, find_spec=has_module)
-    assert items(bad, 'fatal') == {'frame source'}
+    unknown = SC.check(str(tmp_path), env={'GH_TOKEN': 'x', 'OWCSKR_FRAME_SOURCE': 'webcam'}, which=all_tools,
+                       find_spec=has_module)
+    assert SC.fatal(unknown) == []                    # an unknown env value is obs, as for live_capture
+    bad = SC.check(str(tmp_path), env={'GH_TOKEN': 'x'}, which=all_tools, find_spec=has_module, source='webcam')
+    assert items(bad, 'fatal') == {'frame source'}    # an explicit --source is not corrected
 
 
 def test_cli_source_argument(monkeypatch, capsys):

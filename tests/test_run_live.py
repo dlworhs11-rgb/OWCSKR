@@ -92,8 +92,17 @@ def test_obs_source_without_a_display_starts_xvfb(live):
     assert calls == [f'py -I tools/live_capture.py --until {UNTIL} --date {DAY}']
 
 
+@pytest.mark.parametrize('value', ['webcam', '   '])
+def test_unknown_source_is_obs_with_a_warning(live, value):
+    """as platform_util.frame_source reads it for live_capture.py: anything but hls / obs is obs (so Xvfb starts)"""
+    rc, calls = live(DISPLAY='', OWCSKR_FRAME_SOURCE=value)
+    assert rc == 0 and any(c.startswith('Xvfb :99') for c in live.all_calls)
+    task = (live.day.parent / 'task.log').read_text(encoding='utf-8')
+    assert f"OWCSKR_FRAME_SOURCE='{value}' is not obs or hls - using obs" in task
+
+
 def test_hls_source_never_starts_xvfb(live):
-    rc, calls = live(DISPLAY='', OWCSKR_FRAME_SOURCE='HLS')
+    rc, calls = live(DISPLAY='', OWCSKR_FRAME_SOURCE=' HLS ')
     assert rc == 0 and not any(c.startswith('Xvfb') for c in live.all_calls)
     assert calls == [f'py -I tools/live_capture.py --until {UNTIL} --date {DAY}']
 

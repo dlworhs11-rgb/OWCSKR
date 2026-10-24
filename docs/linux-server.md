@@ -17,7 +17,7 @@
 - `hls` (**서버 권장**, `.env.example` 값): SOOP 방송 HLS를 `yt-dlp` + `ffmpeg`로 직접 받는다(`tools/frames.py`, `docs/hls-capture.md`). OBS도 가상 화면도 없다: `run_live.sh`는 `Xvfb`를 띄우지 않고, `matchday_check.py`·`soop_quality.py`는 OBS 점검을 건너뛰고 로그에만 남긴다.
   - `ffmpeg`는 apt(아래 설치 명령에 포함), `yt-dlp`는 venv에 `requirements.txt`로 설치된다(버전 고정, 일부러 올린다). `tools/env.sh`가 `.venv/bin`을 PATH 앞에 넣으므로 systemd 유닛에서도 찾는다. 다른 경로면 `FFMPEG_CMD`, `YTDLP_CMD`.
   - `OWCSKR_HLS_CHANNEL`: SOOP 채널 id (기본 `owesports`). `OWCSKR_HLS_KEYFRAMES=1`: 키프레임만 디코딩(CPU가 크게 줄고 프레임 시각이 키프레임 간격에 맞춰짐). 경기일에 `tools/frames_probe.py --keyframes-only`로 간격을 본 뒤 켠다. 기본 `0`.
-- `obs` (기본값, 값이 없을 때): OBS 브라우저 소스. 윈도우 PC는 이 경로 그대로다. 리눅스에서는 `run_live.sh`가 `Xvfb`를 띄운다(아래 "시작 전에" 참고).
+- `obs` (기본값, 값이 없을 때): OBS 브라우저 소스. 대소문자는 가리지 않고, `obs`·`hls`가 아닌 값도 경고 한 줄(`task.log`, stderr)을 남기고 `obs`로 읽는다(`live_capture.py`, `run_live.sh`, `selfcheck.py`, 경기일 점검이 모두 같다). 윈도우 PC는 이 경로 그대로다. 리눅스에서는 `run_live.sh`가 `Xvfb`를 띄운다(아래 "시작 전에" 참고).
 - `OWCSKR_HLS_*`는 `live_capture.py`만 읽는다. 사이트 기록기(`score_watch.py` 등)는 아직 OBS 화면을 읽는다(아래 "아직 남은 일").
 
 ## 시작 전에 확인할 것

@@ -3,7 +3,8 @@
 usage: python -I tools/selfcheck.py [--notify] [--source obs|hls]      exit 2 when a fatal problem was found, else 0
 API:   check(root, source=...) -> [Problem(severity 'fatal'|'warn', item, detail)]; fatal(problems) -> the fatal ones
 live_capture.py runs check(source=<its frame source>) at start and exits 2 (with an alert) on any fatal problem.
-Frame source (--source, default env OWCSKR_FRAME_SOURCE, else obs): with hls, ffmpeg and yt-dlp (FFMPEG_CMD /
+Frame source (--source, default env OWCSKR_FRAME_SOURCE, else obs; an unknown env value counts as obs with a warning,
+an unknown --source is fatal): with hls, ffmpeg and yt-dlp (FFMPEG_CMD /
 YTDLP_CMD or on PATH) are fatal - nothing else can produce a frame; with obs they are only reported as warnings.
 With publishing off (OWCSKR_PUBLISH=0, live_capture --no-publish) a missing gh or GitHub token is only a warning.
 """
@@ -22,16 +23,16 @@ REFERENCE_IMAGES = [
     ('data/ref/potm_960.jpg', 'POTM screen reference (ocr_screens)'),
 ]
 WIN_TESSERACT = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-FRAME_SOURCES = ('obs', 'hls')
+FRAME_SOURCES = PU.FRAME_SOURCES
 SOURCE_ENV = 'OWCSKR_FRAME_SOURCE'
 HLS_TOOLS = (('ffmpeg', 'FFMPEG_CMD'), ('yt-dlp', 'YTDLP_CMD'))     # the same lookup as tools/frames.py
 
 
 def frame_source(env=None) -> str:
-    """the frame source live_capture uses when --source is not given: env OWCSKR_FRAME_SOURCE, else 'obs'
-    (lower-cased, not validated here: check_frame_source / live_capture reject a value outside FRAME_SOURCES)"""
-    env = os.environ if env is None else env
-    return (env.get(SOURCE_ENV) or 'obs').strip().lower()
+    """the frame source live_capture uses when --source is not given: platform_util.frame_source (env
+    OWCSKR_FRAME_SOURCE lower-cased, an unknown value -> obs with a warning). Only an explicit --source outside
+    FRAME_SOURCES is rejected (check_frame_source, live_capture exit 2)."""
+    return PU.frame_source(env)
 
 
 @dataclass(frozen=True)

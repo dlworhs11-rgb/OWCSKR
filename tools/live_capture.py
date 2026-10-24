@@ -3,7 +3,8 @@
 usage: python -I tools/live_capture.py [--source obs|hls] [--url URL] [--date YYYY-MM-DD] (--until ISO-DATETIME | --hours 8)
                                        [--interval 5] [--idle-stop 75] [--no-publish]
 
-- frame source (--source, default env OWCSKR_FRAME_SOURCE, else obs):
+- frame source (--source, default env OWCSKR_FRAME_SOURCE, else obs; platform_util.frame_source: an unknown env value
+  counts as obs with a warning, like every other reader; an unknown --source exits 2):
   obs  screenshots of the OBS browser source; --url is the player page. Starts OBS in the tray (dedicated 'OWCSKR'
        scene collection) unless it is already running with that collection; refuses to touch an OBS that is running
        with the user's own scene collection (exit 2)
@@ -625,9 +626,9 @@ def install_sigterm():
 def parse_args(argv=None, env=None):
     env = os.environ if env is None else env
     ap = argparse.ArgumentParser()
-    ap.add_argument('--source', default=selfcheck.frame_source(env), type=str.lower,
+    ap.add_argument('--source', default=None, type=lambda s: s.strip().lower(),
                     help=f'frame source: obs (browser source screenshots) or hls (SOOP stream via yt-dlp + ffmpeg); '
-                         f'default env {selfcheck.SOURCE_ENV}, else obs')
+                         f'default env {selfcheck.SOURCE_ENV} (an unknown value: obs, with a warning), else obs')
     ap.add_argument('--url', default=None, help=f'obs: the player page (default {obs_setup.LIVE_URL}); '
                                                 f'hls: channel or play URL (default env {HLS_CHANNEL_ENV}, else {HLS_CHANNEL})')
     ap.add_argument('--date', default=datetime.date.today().isoformat())
@@ -640,8 +641,10 @@ def parse_args(argv=None, env=None):
                     help=f'read and assemble, upload nothing (shadow run; also env {PU.PUBLISH_ENV}=0)')
     a = ap.parse_args(argv)
     a.publish_off = 'publish off (--no-publish)' if a.no_publish else '' if PU.publish_on(env) else PU.PUBLISH_OFF
-    if a.source not in selfcheck.FRAME_SOURCES:      # argparse checks choices on the command line, not on an env default
-        ap.error(f'--source / {selfcheck.SOURCE_ENV}: {a.source!r} is not one of {", ".join(selfcheck.FRAME_SOURCES)}')
+    if a.source is None:                             # the env value as every other reader takes it (unknown -> obs)
+        a.source = PU.frame_source(env)
+    elif a.source not in selfcheck.FRAME_SOURCES:    # a typo typed on the command line is refused
+        ap.error(f'--source: {a.source!r} is not one of {", ".join(selfcheck.FRAME_SOURCES)}')
     if a.url is None:
         a.url = obs_setup.LIVE_URL if a.source == 'obs' else (env.get(HLS_CHANNEL_ENV) or '').strip() or HLS_CHANNEL
     a.keyframes = (env.get(HLS_KEYFRAMES_ENV) or '').strip() == '1'

@@ -36,7 +36,7 @@ OWCSKR_FRAME_SOURCE=hls python -I tools/live_capture.py --until 2026-10-25T23:30
 ```
 | 설정 | 기본값 | 뜻 |
 |---|---|---|
-| `--source` / `OWCSKR_FRAME_SOURCE` | `obs` | `obs`: OBS 브라우저 소스 스크린샷, `hls`: `frames.HlsSource`. 다른 값이면 exit 2 |
+| `--source` / `OWCSKR_FRAME_SOURCE` | `obs` | `obs`: OBS 브라우저 소스 스크린샷, `hls`: `frames.HlsSource`. 대소문자 무관. `OWCSKR_FRAME_SOURCE`가 다른 값이면 경고를 남기고 `obs`(`platform_util.frame_source`, `run_live.sh`·점검 스크립트도 같음), `--source`가 다른 값이면 exit 2 |
 | `--url` / `OWCSKR_HLS_CHANNEL` | `owesports` | hls일 때 채널(또는 재생 페이지 주소). obs일 때 `--url`은 플레이어 페이지 |
 | `OWCSKR_HLS_KEYFRAMES` | (없음) | `1`이면 `keyframes_only=True` |
 
