@@ -9,6 +9,7 @@ All coordinates are measured on a 960x540 frame; frames of any 16:9 size are res
 import difflib, json, os, re, sys
 import cv2, numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import screen_match as SM
 from platform_util import tesseract_cmd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,11 +29,23 @@ POTM_KEY = (slice(26, 54), slice(130, 830))        # 'PLAYER OF THE MATCH' title
 def small(img): return cv2.resize(img, (960, 540), interpolation=cv2.INTER_AREA)
 
 
-def screen_kind(img):
+BAN_MIN, POTM_MIN = 0.8, 0.85
+KEY_SEARCH = 12                                    # px on the 960 grid a screen's graphics may sit off the reference
+
+
+def key_score(s, ref, window, search=KEY_SEARCH):
+    """match of ref[window] in the 960 frame s: at offset 0 first (the score screen_kind always used), then
+    within +-search px (screen_match.locate), so a layout a few pixels off still counts"""
+    score = float(np.nan_to_num(cv2.matchTemplate(s[window], ref[window], cv2.TM_CCOEFF_NORMED)[0][0]))
+    if search <= 0: return score
+    return max(score, SM.locate(s, ref, window, search)[0])
+
+
+def screen_kind(img, search=KEY_SEARCH):
     """'BAN', 'POTM' or None for a broadcast frame."""
     s = small(img)
-    if cv2.matchTemplate(s[BAN_KEY], REF_BAN[BAN_KEY], cv2.TM_CCOEFF_NORMED)[0][0] > 0.8: return 'BAN'
-    if cv2.matchTemplate(s[POTM_KEY], REF_POTM[POTM_KEY], cv2.TM_CCOEFF_NORMED)[0][0] > 0.85: return 'POTM'
+    if key_score(s, REF_BAN, BAN_KEY, search) > BAN_MIN: return 'BAN'
+    if key_score(s, REF_POTM, POTM_KEY, search) > POTM_MIN: return 'POTM'
     return None
 
 

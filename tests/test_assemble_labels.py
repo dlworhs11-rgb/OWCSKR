@@ -93,10 +93,16 @@ def test_header_kept_when_it_agrees(monkeypatch):
     assert list(m['01']['teams']) == ['Cheeseburger', 'O2 Blast']         # Wutian (O2) is in the lower panel
 
 
-def test_known_players_of_a_third_team_leave_the_map_unresolved(monkeypatch):
-    m09 = by_map(run_day(monkeypatch))['09']                               # Soae (Poker Face) + LIP (CR) in CR vs SEIJI
-    assert m09['labelVerified'] is False
-    assert 'match unresolved' in m09['labelIssues']
+def test_one_misread_name_of_a_third_team_is_overruled_by_header_and_ban_screen(monkeypatch):
+    # m09: header MATCH 3 GAME 3, ban screen CR vs SEIJI 2-0 Aatlis, LIP (CR) lower panel, 'Soae' (Poker Face) upper
+    m09 = by_map(run_day(monkeypatch))['09']
+    assert (m09['match'], m09['matchNo'], m09['game'], m09['map'], m09['labelVerified']) == (
+        'Crazy Raccoon vs SEIJI ESPORTS', 3, 3, 'Aatlis', True)
+    assert list(m09['teams']) == ['SEIJI ESPORTS', 'Crazy Raccoon']        # LIP decides the sides, not Soae
+    upper, lower = m09['teams'].values()
+    assert upper[1]['name'] is None and upper[1]['misreadName'] == 'Soae' and lower[1]['name'] == 'LIP'
+    assert any(i.startswith('known name Soae (Poker Face) is not Crazy Raccoon vs SEIJI ESPORTS: overruled by 3 sources')
+               for i in m09['labelIssues'])
 
 
 def test_no_known_player_uses_ban_order(monkeypatch):
@@ -157,7 +163,7 @@ def test_unknown_names_and_known_ratio(monkeypatch):
     assert rows[0]['name'] is None and rows[0]['unknownId'] == '?10' and rows[0]['e'] == 13
     assert 'known names 1/10' in m01['labelIssues'] and m01['labelVerified'] is True
     assert m01['framesAgree'] is True and m01['totalsVerified'] is True
-    assert AD.summary(DATE, res).startswith('2026-10-23: 9 maps, 5 verified by totals, 8 label-verified, 77 unknown names, 9 map(s) under 50% known names, ')
+    assert AD.summary(DATE, res).startswith('2026-10-23: 9 maps, 5 verified by totals, 9 label-verified, 77 unknown names, 9 map(s) under 50% known names, ')
 
 
 def test_load_context_from_files(tmp_path):
