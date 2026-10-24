@@ -53,6 +53,26 @@ def test_sigterm_raises_systemexit_once(monkeypatch):
         signal.signal(signal.SIGTERM, old)
 
 
+def test_sigterm_during_final_ocr_does_not_cut_it_short(tmp_path, monkeypatch):
+    old = signal.getsignal(signal.SIGTERM)
+    monkeypatch.setattr(LC, '_STOPPING', False)
+    done = []
+    def ocr(*x):
+        signal.getsignal(signal.SIGTERM)(signal.SIGTERM, None)        # systemctl stop while the final OCR runs
+        done.append('ocr'); return True
+    monkeypatch.setattr(LC, 'run_ocr', ocr)
+    monkeypatch.setattr(LC, 'update_and_publish', lambda *x: done.append('publish') or True)
+    monkeypatch.setattr(LC, 'send_summary', lambda *x, **k: done.append('summary'))
+    (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
+    a = LC.parse_args(['--date', '2026-10-25', '--until', '2020-01-01T00:00:00+00:00'])
+    try:
+        LC.install_sigterm()
+        assert LC.run(a, str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None)) == 0
+    finally:
+        signal.signal(signal.SIGTERM, old)
+    assert done == ['ocr', 'publish', 'summary']
+
+
 def test_alerts_are_rate_limited_per_key():
     clock, sent = Clock(), []
     alert = LC.Alerter(lambda t, x: sent.append(x), clock=clock)
@@ -439,6 +459,21 @@ def test_obs_source_start_failure_is_an_error_not_an_exit(obs):
     src = LC.ObsSource('url', lambda *x: None)
     with pytest.raises(RuntimeError, match='could not reach'):
         src.start()
+
+
+def test_sigterm_while_waiting_for_obs_is_a_stop_not_an_error(obs, monkeypatch, tmp_path):
+    def start(url): raise LC.StopRequested(0)
+    monkeypatch.setattr(LC.obs_setup, 'start', start)
+    src = LC.ObsSource('url', lambda *x: None)
+    with pytest.raises(LC.StopRequested):
+        src.start()
+
+    class Dead(FakeSource):
+        def restart(self): src.restart()                          # the real ObsSource restart, OBS start interrupted
+    cap = StubCapture()
+    with pytest.raises(LC.StopRequested):                         # not swallowed as 'restart FAILED' by the loop
+        loop(tmp_path, Dead([RuntimeError('gone')], alive=False), cap, 30)
+    assert cap.closed
 
 
 def test_foreign_obs_is_not_ours(obs, monkeypatch):

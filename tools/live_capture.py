@@ -151,6 +151,8 @@ class ObsSource:
         if not obs_setup.running(): self.started = True
         try:
             obs_setup.start(self.url)
+        except StopRequested:                        # SIGTERM while waiting for OBS: still a stop, not an error
+            raise
         except SystemExit as e:                      # obs_setup gives up with SystemExit after ~2 min
             raise RuntimeError(str(e)) from None
         self.connect()
@@ -417,11 +419,21 @@ def capture_loop(source, cap, end, out, log, alert, clock=time.time, sleep=time.
 _STOPPING = False
 
 
+class StopRequested(SystemExit):
+    """SIGTERM: told apart from obs_setup's SystemExit, which ObsSource turns into an error"""
+
+
 def _on_sigterm(signum, frame):
     global _STOPPING
     if _STOPPING: return           # a second signal while finishing: let the final OCR / publish complete
     _STOPPING = True
-    raise SystemExit(0)
+    raise StopRequested(0)
+
+
+def finishing():
+    """from here on a SIGTERM must not cut the final OCR / publish short (systemd kills after TimeoutStopSec)"""
+    global _STOPPING
+    _STOPPING = True
 
 
 def install_sigterm():
@@ -534,6 +546,7 @@ def run(a, out, frames, log, alert, source_factory=ObsSource) -> int:
     end = end_time(a, time.time())
     if end <= time.time():           # restarted after the window: only redo the final OCR / publish
         log('capture window already over - final OCR and publish only')
+        finishing()
         rc = finalize(a, out, frames, log, alert)
         if not os.path.exists(os.path.join(out, SUMMARY_MARK)): send_summary(a.date, out, frames, log)
         return rc
@@ -544,6 +557,7 @@ def run(a, out, frames, log, alert, source_factory=ObsSource) -> int:
         PU.notify('OWCSKR 캡처 시작 실패', 'OBS is running with another scene collection - capture not started')
         return 2
     crashed = capture(a, out, frames, log, alert, end, source) != 0
+    finishing()
     rc = 1 if finalize(a, out, frames, log, alert) != 0 or crashed else 0
     if not crashed: send_summary(a.date, out, frames, log)     # a crashed run is restarted: its successor sends it
     log('done')
