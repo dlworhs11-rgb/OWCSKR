@@ -437,6 +437,8 @@ def match_results(out_maps: list, cards: list, ctx: dict) -> list:
         potm, method = None, None
         if idx in owner: potm, method = pick_potm(owner[idx][1], ms, ok[0]['_pair'], ctx)
         set_winners(ms, potm, ctx['schedule'][idx].get('need') if idx < len(ctx['schedule']) else None)
+        for m in ms:          # an unverified map's game may be a guess: no winner the site could put on another game
+            if not m['labelVerified']: m.pop('winner', None); m.pop('winnerSource', None)
         res = {'match': ok[0]['match'], 'matchNo': idx + 1,
                'mapWins': dict(Counter(m['winner'] for m in ok if m.get('winner'))), 'potm': potm}
         if idx in owner and potm is None:

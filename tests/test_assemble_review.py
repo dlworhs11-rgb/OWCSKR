@@ -297,3 +297,9 @@ def test_write_result_replaces_the_file_whole(tmp_path, monkeypatch):
     AD.write_result(FX['date'], str(tmp_path), res)
     assert json.loads((tmp_path / 'mapstats.json').read_text(encoding='utf-8'))['date'] == FX['date']
     assert [p.name for p in tmp_path.iterdir()] == ['mapstats.json']
+
+
+def test_unverified_maps_carry_no_winner(monkeypatch):
+    m = by_map(run_day(monkeypatch, bans=bans_with(m06={'score': [0, 0]})))      # m06 game untrusted
+    assert m['06']['labelVerified'] is False and 'winner' not in m['06']
+    assert all('winner' not in x for x in m.values() if not x['labelVerified'])
