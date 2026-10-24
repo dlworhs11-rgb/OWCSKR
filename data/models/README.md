@@ -22,6 +22,13 @@ On the PC that has `data/vod`:
     python -I tools/glyph_models.py --rebuild
 
 Copy `data/models/table.npz` and `data/models/totals.npz` to the same folder on the server.
+The models replace only the training frames. A server without `data/vod` still needs the two GAME DATA reference
+frames `data/vod/maps/m_3480.png` and `data/vod/maps/m_9465.png` (`live_capture.classify`), and `data/ref/`,
+`data/name_lib/`, `data/header_lib/`, `data/digit_lib/`; the self-check (`tools/selfcheck.py`) reports any that are
+missing as fatal.
+
+The cache does not notice a changed `data/manual/mapstats/2026-10-11.json` while the training frames are absent:
+after changing that file, rebuild on the PC and copy the `.npz` files again.
 
 ## Not in git
 
