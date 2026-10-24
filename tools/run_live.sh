@@ -8,11 +8,18 @@
 # Exit: 0 ok / day finished or over / already running, 1 capture failed (systemd restarts it), 2 bad arguments or the
 # capture's self-check failed, 4 capture ended but its final OCR / publish failed, 78 bad .env (env.sh) (2, 4 and 78
 # are not restarted: RestartPreventExitStatus=2 4 78; a unit that fails for good alerts through OnFailure=).
+# Every exit 1, 2 and 4 alerts here first (bad arguments too): tools/notify.py --unit-failed skips those codes.
 set -u
 . "$(dirname "$0")/env.sh"
-if [ $# -lt 2 ]; then echo "usage: $0 HOURS DATE [URL]" >&2; exit 2; fi
+# bad_args MESSAGE: exit 2 (a restart would not help) with an alert, since OnFailure= stays quiet for exit 2
+bad_args() {
+  echo "run_live.sh: $1" >&2
+  notify "OWCSKR 캡처 시작 실패" "run_live.sh: $1 - 캡처를 시작하지 않음 (재시작 안 함)"
+  exit 2
+}
+if [ $# -lt 2 ]; then bad_args "usage: run_live.sh HOURS DATE [URL], got $# argument(s): $*"; fi
 HOURS="$1"; DAY="$2"; URL="${3:-}"
-if ! [[ "$DAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then echo "run_live.sh: DATE must be YYYY-MM-DD, got '$DAY'" >&2; exit 2; fi
+if ! [[ "$DAY" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then bad_args "DATE must be YYYY-MM-DD, got '$DAY'"; fi
 LOG="$LOG_DIR/task.log"
 DAYDIR="$LOG_DIR/$DAY"
 mkdir -p "$DAYDIR"

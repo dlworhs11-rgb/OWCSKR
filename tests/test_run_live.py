@@ -40,8 +40,8 @@ def live(tmp_path):
     base.update(OWCSKR_PYTHON=py.as_posix(), FAKE_LOG=log.as_posix(), FAKE_UNTIL=UNTIL, DISPLAY=':0',
                 HOME=tmp_path.as_posix(), PATH=str(stubs) + os.pathsep + os.environ.get('PATH', ''))
 
-    def run(**env):
-        r = subprocess.run([bash, 'tools/run_live.sh', '6.5', DAY], cwd=root, env=dict(base, **env),
+    def run(args=('6.5', DAY), **env):
+        r = subprocess.run([bash, 'tools/run_live.sh', *args], cwd=root, env=dict(base, **env),
                            capture_output=True, text=True, timeout=60)
         calls = log.read_text(encoding='utf-8').splitlines() if log.exists() else []
         run.all_calls = calls
@@ -108,3 +108,13 @@ def test_shadow_run_posts_no_replay_comment(live, tmp_path):
     assert not any('replay_comment' in c for c in live.all_calls)
     task = (live.day.parent / 'task.log').read_text(encoding='utf-8')
     assert 'publish off (OWCSKR_PUBLISH=0) - replay comment not posted' in task
+
+
+@pytest.mark.parametrize('args', [(), ('6.5',), ('6.5', '25-10-2026')])
+def test_bad_arguments_exit_2_with_an_alert(live, args):
+    """exit 2 is not restarted and notify.py --unit-failed skips it (run_live.sh alerts on 2 itself): a unit with
+    bad arguments must not fail silently"""
+    rc, calls = live(args)
+    assert rc == 2
+    assert len(calls) == 1 and calls[0].startswith('py -I ') and calls[0].split()[2].endswith('/repo/tools/notify.py')
+    assert 'OWCSKR 캡처 시작 실패' in calls[0]
