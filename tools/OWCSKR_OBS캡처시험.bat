@@ -4,6 +4,7 @@ pushd "%~dp0.."
 set "ROOT=%CD%"
 popd
 if not exist "%ROOT%\tools\live_capture.py" if defined OWCSKR_ROOT set "ROOT=%OWCSKR_ROOT%"
+if not exist "%ROOT%\tools\live_capture.py" set "ROOT=C:\Users\dlwor\OWCSKR"
 cd /d "%ROOT%"
 set "URL=%~1"
 if "%URL%"=="" set "URL=https://vod.sooplive.com/player/209539901?change_second=3440"

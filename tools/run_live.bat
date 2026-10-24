@@ -1,20 +1,48 @@
 @echo off
 rem Runs the capture for one broadcast day. Called by the scheduled tasks OWCSKR\LiveCapture_YYYY-MM-DD.
 rem args: HOURS DATE [URL]   (URL only for tests; default = live embed of owesports)
+rem The first start of a day fixes the end time (now + HOURS) in data\live\<DATE>\until.txt; a later start of the
+rem same day (after a crash or a reboot) reuses it, so it never extends the day.
+setlocal
 pushd "%~dp0.."
 set "ROOT=%CD%"
 popd
 if not exist "%ROOT%\tools\live_capture.py" if defined OWCSKR_ROOT set "ROOT=%OWCSKR_ROOT%"
 if not defined OWCSKR_SITE_DIR set "OWCSKR_SITE_DIR=C:\Users\dlwor\Documents\Obsidian\LeeJaeGon\02_Projects\OWCS KR Home"
 cd /d "%ROOT%"
-if not exist data\live mkdir data\live
-rem the site recorders (score / bans / first comps / push) start with the capture, so no match day is missed
-call tools\start_watchers.bat >> data\live\task.log 2>&1
-if "%~3"=="" (
-  python -I tools\live_capture.py --hours %1 --date %2 >> data\live\task.log 2>&1
-) else (
-  python -I tools\live_capture.py --hours %1 --date %2 --url "%~3" >> data\live\task.log 2>&1
+if "%~2"=="" (
+  echo usage: run_live.bat HOURS DATE [URL]
+  exit /b 2
 )
+if not exist data\live mkdir data\live
+set "LOG=%ROOT%\data\live\task.log"
+python -I tools\platform_util.py live-until %1 %2 >nul 2>> "%LOG%"
+if errorlevel 3 goto dayover
+if errorlevel 1 goto nountil
+set /p UNTIL=<"data\live\%~2\until.txt"
+echo %DATE% %TIME% run_live %2: start (hours %1, until %UNTIL%)>> "%LOG%"
+if defined OWCSKR_HC_LIVE curl -fsS -m 10 --retry 3 -o NUL "%OWCSKR_HC_LIVE%/start" >nul 2>&1
+rem the site recorders (score / bans / first comps / push) start with the capture, so no match day is missed
+call tools\start_watchers.bat >> "%LOG%" 2>&1
+set "URLARG="
+if not "%~3"=="" set URLARG=--url "%~3"
+python -I tools\live_capture.py --until %UNTIL% --date %2 %URLARG% >> "%LOG%" 2>&1
+set "RC=%ERRORLEVEL%"
+echo %DATE% %TIME% run_live %2: live_capture exit %RC%>> "%LOG%"
+if "%RC%"=="0" goto ok
+python -I tools\notify.py "OWCSKR capture %2" "live_capture.py exit %RC% (log: %LOG%)"
+if defined OWCSKR_HC_LIVE curl -fsS -m 10 --retry 3 -o NUL "%OWCSKR_HC_LIVE%/fail" >nul 2>&1
+goto replay
+:ok
+if defined OWCSKR_HC_LIVE curl -fsS -m 10 --retry 3 -o NUL "%OWCSKR_HC_LIVE%" >nul 2>&1
+:replay
 rem broadcast over: SOOP timestamp comment as soon as the replay is up (checks every 5 min, up to 6 h; detached so
 rem this task can end). replay_comment.py lives with the site files.
-start "" /d "%OWCSKR_SITE_DIR%" pythonw -X utf8 replay_comment.py --wait %2
+if exist "%OWCSKR_SITE_DIR%\replay_comment.py" start "" /d "%OWCSKR_SITE_DIR%" pythonw -X utf8 replay_comment.py --wait %2
+exit /b %RC%
+:dayover
+echo %DATE% %TIME% run_live %2: day over (until.txt end time passed) - nothing to do>> "%LOG%"
+exit /b 0
+:nountil
+python -I tools\notify.py "OWCSKR capture %2" "run_live.bat: could not work out the end time (log: %LOG%)"
+exit /b 2
