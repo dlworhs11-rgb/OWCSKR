@@ -17,7 +17,9 @@ usage: python -I tools/live_capture.py [--url URL] [--date YYYY-MM-DD] (--until 
   grabs or when OBS is gone, a frozen / black frame for 60 s refreshes the browser source; alerts go through
   platform_util.notify (each kind at most once per 15 min, also across restarts: data/live/<date>/alerts.json);
   an end-of-day summary is sent at the end
-exit: 0 ok, 1 unexpected error or a failed final OCR / assemble / publish, 2 self-check failed or OBS busy
+exit: 0 ok, 1 unexpected error (the capture crashed: systemd restarts it), 2 self-check failed or OBS busy,
+      4 the capture ended (--until / idle stop / signal) but the final OCR / assemble / publish failed - alerted,
+      and a restart would only capture an empty stream until --until (not restarted: RestartPreventExitStatus=2 4)
 """
 import argparse, asyncio, datetime, glob, hashlib, json, os, re, signal, subprocess, sys, time, traceback
 
@@ -43,6 +45,7 @@ TABLE_SETTLE = 2.0              # s after the first TABLE frame of a map before 
 TOTALS_STEP = 5.0               # TOTALS frames at +0 / +5 / +10 s
 MAX_TABLES = MAX_TOTALS = 3
 SUMMARY_MARK = 'summary.txt'    # written once the end-of-day summary went out (a restart after the window resends none)
+FINALIZE_FAILED = 4             # exit code: the day was captured, only the final steps failed
 SUMMARY_NEAR_END = 5 * 60       # a crash / stop this close to --until has no successor run: it sends the summary itself
 _REFS = None
 
@@ -601,7 +604,7 @@ def run(a, out, frames, log, alert, source_factory=ObsSource) -> int:
     if end <= time.time():           # restarted after the window: only redo the final OCR / publish
         log('capture window already over - final OCR and publish only')
         finishing()
-        rc = finalize(a, out, frames, log, alert)
+        rc = FINALIZE_FAILED if finalize(a, out, frames, log, alert) != 0 else 0
         if not os.path.exists(os.path.join(out, SUMMARY_MARK)): send_summary(a.date, out, frames, log)
         return rc
     if not preflight(log): return 2
@@ -610,7 +613,8 @@ def run(a, out, frames, log, alert, source_factory=ObsSource) -> int:
     if busy is not None: return busy
     how = capture(a, out, frames, log, alert, end, source)
     finishing()
-    rc = 1 if finalize(a, out, frames, log, alert) != 0 or how == 'crashed' else 0
+    finalized = finalize(a, out, frames, log, alert) == 0
+    rc = 1 if how == 'crashed' else (0 if finalized else FINALIZE_FAILED)
     if summary_due(how, end, time.time(), out): send_summary(a.date, out, frames, log)
     else: log(f'capture {how} - no summary from this run')
     log('done')

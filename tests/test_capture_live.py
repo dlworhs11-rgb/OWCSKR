@@ -348,7 +348,8 @@ def test_summary_counts(tmp_path):
               [{'totalsVerified': True, 'teams': {'A': [{'name': 'Faith'}, {'name': None, 'unknownId': '?1'}]}},
                {'totalsVerified': True, 'labelVerified': False, 'teams': {'B': [{'name': '?2'}, {'name': 'Bliss'}]}},
                {'totalsVerified': False, 'teams': {}}],
-              [{'match': 'CR vs O2', 'potm': {'method': 'name'}}, {'match': 'ZAN vs TF', 'potm': None}])
+              [{'match': 'CR vs O2', 'potm': {'method': 'name'}}, {'match': 'ZAN vs TF', 'potm': None},
+               {'match': 'WAY vs FS', 'potm': None, 'potmMethod': 'unresolved'}])
     for n in ('01', '02', '03', '04'):
         open(os.path.join(out, 'frames', f'm{n}_table1_1.png'), 'wb').close()
     s = LC.day_summary(out, os.path.join(out, 'frames'))
@@ -390,6 +391,13 @@ def test_selfcheck_failure_exits_2(tmp_path, monkeypatch, steps):
     rc = LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
                 source_factory=lambda *a: pytest.fail('source must not start'))
     assert rc == 2 and 'tesseract' in sent[0] and steps == []
+
+
+def test_window_over_failed_finalize_exits_4(tmp_path, monkeypatch, steps):
+    monkeypatch.setattr(LC, 'update_and_publish', lambda *x: False)
+    (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
+    a = args(until=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc))
+    assert LC.run(a, str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None)) == 4
 
 
 def test_window_over_only_finalizes(tmp_path, steps):
@@ -447,14 +455,14 @@ def test_crash_exits_1_without_summary(tmp_path, monkeypatch, steps):
     assert rc == 1 and src.closed and 'summary' not in steps and 'boom' in sent[0]
 
 
-def test_failed_final_publish_exits_1(tmp_path, monkeypatch, steps):
+def test_failed_final_publish_exits_4_not_restarted(tmp_path, monkeypatch, steps):
     monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
     monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: None)
     monkeypatch.setattr(LC, 'update_and_publish', lambda *x: False)
     (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
     rc = LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
                 source_factory=lambda *a: ReadySource())
-    assert rc == 1 and steps == ['ocr', 'summary']                # the day still gets its summary
+    assert rc == LC.FINALIZE_FAILED == 4 and steps == ['ocr', 'summary']                # the day still gets its summary
 
 
 def test_busy_obs_exits_2(tmp_path, monkeypatch, steps):
