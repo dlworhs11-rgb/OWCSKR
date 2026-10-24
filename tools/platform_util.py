@@ -4,8 +4,13 @@ Settings come from environment variables (on the server: .env in the repo root, 
   OWCSKR_SITE_DIR         folder with the site recorders (score_watch.py, pick_watch.py, ...); empty = not on this machine
   OWCSKR_DISCORD_WEBHOOK  Discord webhook for alerts (match-day check, SOOP quality); empty = log only
   TESSERACT_CMD           tesseract binary when it is not on PATH
+
+CLI (for the shell scripts):
+  python -I tools/platform_util.py live-until HOURS DATE
+      end time of that day's capture (ISO with offset) on stdout; kept in data/live/<DATE>/until.txt from the first
+      start, so a restart ends at the same time. Exit 0 = still to come, 3 = already past, 2 = bad arguments.
 """
-import json, os, shutil, subprocess, sys, urllib.request
+import datetime, json, os, re, shutil, subprocess, sys, urllib.request
 
 IS_WIN = os.name == 'nt'
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -55,6 +60,92 @@ def obs_command() -> tuple[list[str], str | None]:
     return [shutil.which('obs') or '/usr/bin/obs'], None
 
 
+def obs_installed() -> bool:
+    """is OBS on this machine at all? (a server that reads the stream without OBS skips the OBS checks)"""
+    cmd, _ = obs_command()
+    return os.path.isfile(cmd[0]) or bool(shutil.which(cmd[0]))
+
+
+ENV_FILE = os.path.join(ROOT, '.env')
+_ENV_KEY = re.compile(r'([A-Za-z_][A-Za-z0-9_]*)=(.*)')
+
+
+def parse_env_lines(lines: list[str]) -> dict[str, str]:
+    """.env as plain KEY=VALUE lines, the subset where tools/env.sh and systemd EnvironmentFile= read the same values:
+    blank lines and '#' lines are skipped, a value fully inside "..." or '...' loses the quotes, no $ expansion.
+    CR (a Windows-saved file), backslashes and unbalanced quotes are refused: the two readers would differ there."""
+    out = {}
+    for n, raw in enumerate(lines, 1):
+        line = raw.rstrip('\n')
+        if '\r' in line:
+            raise ValueError(f'line {n}: CRLF line ending (save .env with LF: dos2unix .env)')
+        if not line.strip() or line.lstrip().startswith('#'):
+            continue
+        m = _ENV_KEY.fullmatch(line)
+        if not m:
+            raise ValueError(f'line {n}: not KEY=VALUE (no spaces around =, no "export")')
+        key, val = m.group(1), m.group(2).strip(' \t')
+        if '\\' in val:
+            raise ValueError(f'line {n}: {key}: backslashes are not supported')
+        if len(val) >= 2 and val[0] == val[-1] and val[0] in '"\'' and val[0] not in val[1:-1]:
+            val = val[1:-1]
+        elif val[:1] in ('"', "'"):
+            raise ValueError(f'line {n}: {key}: unbalanced quote')
+        out[key] = val
+    return out
+
+
+def load_env_file(path: str = ENV_FILE) -> dict[str, str]:
+    """put .env values into os.environ where not already set (the tools/*.sh scripts and systemd units set them first);
+    a missing file is fine, a malformed one raises ValueError"""
+    if not os.path.isfile(path):
+        return {}
+    with open(path, encoding='utf-8', newline='') as f:
+        values = parse_env_lines(f.read().split('\n'))
+    for k, v in values.items():
+        os.environ.setdefault(k, v)
+    return values
+
+
+def live_until(day: str, hours: float, now: datetime.datetime | None = None) -> tuple[str, bool]:
+    """(end time ISO, already past?) of DAY's capture. The first start writes now + HOURS to data/live/<day>/until.txt;
+    later starts (restart after a crash, a reboot) reuse it, so a restart never extends the day."""
+    now = now or datetime.datetime.now().astimezone()
+    path = os.path.join(LIVE_DIR, day, 'until.txt')
+    until = None
+    if os.path.isfile(path):
+        with open(path, encoding='utf-8') as f:
+            text = f.read().strip()
+        try:
+            until = datetime.datetime.fromisoformat(text)
+            if until.tzinfo is None:
+                raise ValueError('no UTC offset')
+        except ValueError as e:
+            print(f'live_until: ignoring bad {path} ({text!r}: {e})', file=sys.stderr)
+            until = None
+    if until is None:
+        until = (now + datetime.timedelta(hours=hours)).replace(microsecond=0)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, 'w', encoding='utf-8') as f:
+            f.write(until.isoformat())
+    return until.isoformat(), until <= now
+
+
+def _cli(argv: list[str]) -> int:
+    if len(argv) == 3 and argv[0] == 'live-until':
+        try:
+            hours = float(argv[1])
+            datetime.date.fromisoformat(argv[2])
+        except ValueError as e:
+            print(f'live-until: bad HOURS or DATE: {e}', file=sys.stderr)
+            return 2
+        iso, past = live_until(argv[2], hours)
+        print(iso)
+        return 3 if past else 0
+    print('usage: platform_util.py live-until HOURS DATE', file=sys.stderr)
+    return 2
+
+
 def tesseract_cmd() -> str:
     win_default = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
     return os.environ.get('TESSERACT_CMD') or shutil.which('tesseract') or (win_default if IS_WIN else 'tesseract')
@@ -76,3 +167,7 @@ def notify(title: str, text: str) -> None:
         ps = ('Add-Type -AssemblyName PresentationFramework; [System.Windows.MessageBox]::Show('
               f"'{safe}', '{title}', 'OK', 'Warning') | Out-Null")
         subprocess.Popen(['powershell', '-NoProfile', '-WindowStyle', 'Hidden', '-Command', ps])
+
+
+if __name__ == '__main__':
+    sys.exit(_cli(sys.argv[1:]))
