@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { findTemplates, parseTemplate } from './wikitext.mjs';
-import { readJson, writeJson } from './util.mjs';
+import { readJson, writeJson, writeAtomic } from './util.mjs';
 
 const API = 'https://liquipedia.net/overwatch/api.php';
 const UA = 'OWCSKR-fansite/0.1 (+https://github.com/dlworhs11-rgb/OWCSKR)';
@@ -20,7 +20,8 @@ async function once(url) {
   if (wait > 0) await sleep(wait);
   last = Date.now();
   const res = await cfg.fetch(url, { headers: { 'user-agent': UA, 'accept-encoding': 'gzip' }, signal: AbortSignal.timeout(cfg.timeout) });
-  const body = await res.json().catch(() => null);
+  // the timeout also covers reading the body: that is a network error (retried), not 'response is not JSON'
+  const body = await res.json().catch(e => { if (e?.name === 'TimeoutError' || e?.name === 'AbortError') throw e; return null; });
   return { res, body };
 }
 
@@ -48,8 +49,21 @@ async function api(params) {
 
 const cacheFile = (title, ext) => path.join(cfg.cache, title.replace(/[^a-z0-9]+/gi, '_') + ext);
 const fresh = async (file, maxAgeMs) => { try { return Date.now() - (await fs.stat(file)).mtimeMs < maxAgeMs; } catch { return false; } };
-// title -> ISO time it was found missing / title -> redirect target (a cached copy keeps where it came from)
+// title -> when it was found missing (epoch seconds) / title -> redirect target (a cached copy keeps where it came from).
+// Not '_missing.json': that is owcs-kr cloud_live.ensure_wiki's own file (epoch floats; a string there is a TypeError).
+// Earlier collector runs wrote ISO strings into it: removed once per cache dir, the site's numbers are left alone.
+const MISSING = '_missing_collector.json', SITE_MISSING = '_missing.json';
 const sideFile = name => path.join(cfg.cache, name);
+const missingMs = v => (typeof v === 'number' ? v * 1000 : typeof v === 'string' ? Date.parse(v) : NaN);
+const cleaned = new Set();
+async function dropOldMissing() {
+  if (cleaned.has(cfg.cache)) return;
+  cleaned.add(cfg.cache);
+  const m = await readJson(sideFile(SITE_MISSING));
+  if (!m || typeof m !== 'object') return;
+  const keep = Object.fromEntries(Object.entries(m).filter(([, v]) => typeof v !== 'string'));
+  if (Object.keys(keep).length !== Object.keys(m).length) await writeJson(sideFile(SITE_MISSING), keep);
+}
 async function sideSet(name, key, value) {
   const m = (await readJson(sideFile(name))) || {};
   if (value === undefined) { if (!(key in m)) return; delete m[key]; } else m[key] = value;
@@ -62,8 +76,9 @@ const pageOf = r => Object.values(r.query.pages || {})[0] || {};
 // is an error, so the caller does not replace the old matches with an empty list. Missing pages are not asked again for 6 h.
 export async function fetchPage(title, { maxAgeMs = 3600e3 } = {}) {
   const file = cacheFile(title, '.wiki');
-  const missingAt = ((await readJson(sideFile('_missing.json'))) || {})[title];
-  if (missingAt && Date.now() - Date.parse(missingAt) < cfg.missingTtl) return { text: null, redirect: null, missing: true, cached: true };
+  await dropOldMissing();
+  const missingAt = missingMs(((await readJson(sideFile(MISSING))) || {})[title]);
+  if (Date.now() - missingAt < cfg.missingTtl) return { text: null, redirect: null, missing: true, cached: true };
   if (await fresh(file, maxAgeMs)) {
     const text = await fs.readFile(file, 'utf8');
     if (isRedirectBody(text)) throw new Error('redirect not followed: ' + text.trim().slice(0, 120));
@@ -72,11 +87,10 @@ export async function fetchPage(title, { maxAgeMs = 3600e3 } = {}) {
   const r = await api({ action: 'query', prop: 'revisions', rvprop: 'content', rvslots: 'main', redirects: '1', titles: title });
   const page = pageOf(r), redirect = r.query.redirects?.length ? page.title ?? null : null;
   const text = page.revisions?.[0]?.slots?.main?.['*'];
-  if (text == null) { await sideSet('_missing.json', title, new Date().toISOString()); return { text: null, redirect, missing: true, cached: false }; }
-  await sideSet('_missing.json', title, undefined);
+  if (text == null) { await sideSet(MISSING, title, Date.now() / 1000); return { text: null, redirect, missing: true, cached: false }; }
+  await sideSet(MISSING, title, undefined);
   if (isRedirectBody(text)) throw new Error('redirect not followed: ' + text.trim().slice(0, 120));
-  await fs.mkdir(cfg.cache, { recursive: true });
-  await fs.writeFile(file, text);
+  await writeAtomic(file, text);   // a half-written copy would be read as fresh for 6 h (fewer matches, no SHRINK below half)
   await sideSet('_redirects.json', title, redirect ?? undefined);
   return { text, redirect, missing: false, cached: false };
 }
@@ -133,21 +147,27 @@ const num = v => (v === undefined || v === '' ? null : Number(v));
 const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 // 'Nov', 'Sept.', 'November': any 3+ letter start of a month name (2025 World Finals writes 'Nov 26, 2025 - 16:05')
 const monthOf = w => { const k = w.toLowerCase(); return k.length < 3 ? 0 : MONTHS.findIndex(n => n.startsWith(k)) + 1; };
-// Liquipedia writes "{{Abbr/KST}}" style zone markers; map the ones that show up in OWCS pages.
-const TZ = { KST: '+09:00', JST: '+09:00', CST: '+08:00', CET: '+01:00', CEST: '+02:00', BST: '+01:00', PDT: '-07:00', PST: '-08:00', EDT: '-04:00', EST: '-05:00', CDT: '-05:00', UTC: '+00:00', GMT: '+00:00' };
+// Liquipedia writes "{{Abbr/KST}}" style zone markers ('{{abbr/KST}}' too: a template's first letter is case-blind);
+// map the ones that show up in OWCS pages and the region's others. An unknown zone is read as UTC and reported in
+// info.zone ('TZ?' warning) so it is not silently hours off.
+const TZ = { KST: '+09:00', JST: '+09:00', CST: '+08:00', SGT: '+08:00', HKT: '+08:00', PHT: '+08:00', ICT: '+07:00', AEST: '+10:00', AEDT: '+11:00',
+  CET: '+01:00', CEST: '+02:00', EET: '+02:00', EEST: '+03:00', WET: '+00:00', WEST: '+01:00', BST: '+01:00', MSK: '+03:00',
+  PDT: '-07:00', PST: '-08:00', MDT: '-06:00', MST: '-07:00', EDT: '-04:00', EST: '-05:00', CDT: '-05:00', BRT: '-03:00', UTC: '+00:00', GMT: '+00:00' };
 
-export function parseDate(s) {
+export function parseDate(s, info = {}) {
   if (!s) return null;
-  const zone = (/Abbr\/(\w+)/.exec(s) || [])[1];
+  const zone = (/\{\{\s*abbr\/(\w+)/i.exec(s) || [])[1]?.toUpperCase();
+  if (zone && !TZ[zone]) info.zone = zone;
   const tz = TZ[zone] || '+00:00';
   let y, mo, d, m;
   if ((m = /(\d{4})-(\d{2})-(\d{2})/.exec(s))) { y = +m[1]; mo = +m[2]; d = +m[3]; }
   else if ((m = [...s.matchAll(/([A-Za-z]+)\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/g)].find(x => monthOf(x[1])))) { mo = monthOf(m[1]); d = +m[2]; y = +m[3]; }
   else return null;
   if (mo < 1 || mo > 12 || d < 1 || d > 31) return null;
-  const t = /(\d{1,2}):(\d{2})/.exec(s.replace(/\d{4}-\d{2}-\d{2}/, ''));
+  const t = /(\d{1,2}):(\d{2})(?:\s*([ap])\.?\s*m\b\.?)?/i.exec(s.replace(/\d{4}-\d{2}-\d{2}/, ''));
+  const h = !t ? 0 : t[3] ? +t[1] % 12 + (/p/i.test(t[3]) ? 12 : 0) : +t[1];
   const p = n => String(n).padStart(2, '0');
-  return `${y}-${p(mo)}-${p(d)}T${t ? p(t[1]) + ':' + t[2] : '00:00'}:00${tz}`;
+  return `${y}-${p(mo)}-${p(d)}T${t ? p(h) + ':' + t[2] : '00:00'}:00${tz}`;
 }
 
 // Where each {{Match}} sits on the page, in page order: the deepest heading under ==Results== ('Group A', 'Playoffs')
@@ -175,8 +195,9 @@ export function parseMatches(text, competition, stats = {}) {
   stats.dateless = 0;
   return findTemplates(text, 'Match').map((raw, idx) => {
     const { args } = parseTemplate(raw);
-    const date = parseDate(args.date);
+    const info = {}, date = parseDate(args.date, info);
     if (!date && args.date) { stats.dateless++; console.warn('DATE?', competition, idx, JSON.stringify(args.date)); }
+    if (date && info.zone) console.warn('TZ?', competition, idx, JSON.stringify(args.date), '(read as UTC)');
     const team = k => { const t = args[k] && findTemplates(args[k], 'TeamOpponent')[0]; return t ? parseTemplate(t).pos[0] : stripLinks(args[k] || ''); };
     const maps = Object.keys(args).filter(k => /^map\d+$/.test(k)).sort((a, b) => a.slice(3) - b.slice(3)).map((k, i) => {
       const t = findTemplates(args[k], 'Map')[0]; if (!t) return null;

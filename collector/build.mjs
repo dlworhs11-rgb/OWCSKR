@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { knownPlayer } from './util.mjs';
+import { knownPlayer, addPlayerRow } from './util.mjs';
 const aliases = JSON.parse(fs.readFileSync('data/aliases.json', 'utf8'));
 const canon = raw => {
   const n = (raw || '').replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
@@ -102,8 +102,7 @@ if (fs.existsSync(mapstatDir)) for (const file of fs.readdirSync(mapstatDir).fil
     // rows the name reader did not know ('?3', or name: null + unknownId) are not players: no per-player line for them
     for (const [team, rows] of Object.entries(sm.teams)) for (const r of rows.filter(knownPlayer)) {
       const k = normPlayer(r.name) + '|' + team;
-      const a = pAgg[k] ??= { handle: r.name, team, maps: 0, secs: 0, e: 0, a: 0, d: 0, dmg: 0, heal: 0, mit: 0 };
-      a.maps++; a.secs += dur || 0; a.e += r.e; a.a += r.a; a.d += r.d; a.dmg += r.dmg; a.heal += r.heal; a.mit += r.mit;
+      addPlayerRow(pAgg[k] ??= { handle: r.name, team, maps: 0, secs: 0, e: 0, a: 0, aMaps: 0, d: 0, dmg: 0, heal: 0, mit: 0 }, r, dur);
     }
   }
 }
@@ -111,7 +110,7 @@ function pairKey2(a, b) { return [a, b].sort().join('~'); }
 function normPlayer(n) { return (n || '').toLowerCase().replace(/[^a-z0-9]/g, ''); }
 const playerStats = Object.values(pAgg).map(a => {
   const per10 = v => (a.secs ? +(v / a.secs * 600).toFixed(0) : null);
-  return { ...a, minutes: +(a.secs / 60).toFixed(1), ed: a.d ? +(a.e / a.d).toFixed(2) : null, dmg10: per10(a.dmg), heal10: per10(a.heal), mit10: per10(a.mit), e10: a.secs ? +(a.e / a.secs * 600).toFixed(1) : null, d10: a.secs ? +(a.d / a.secs * 600).toFixed(1) : null };
+  return { ...a, a: a.aMaps ? a.a : null, minutes: +(a.secs / 60).toFixed(1), ed: a.d ? +(a.e / a.d).toFixed(2) : null, dmg10: per10(a.dmg), heal10: per10(a.heal), mit10: per10(a.mit), e10: a.secs ? +(a.e / a.secs * 600).toFixed(1) : null, d10: a.secs ? +(a.d / a.secs * 600).toFixed(1) : null };
 }).sort((x, y) => (y.ed ?? 0) - (x.ed ?? 0));
 console.log('mapstats: maps', msTotal, 'linked', msLinked, 'players', playerStats.length);
 

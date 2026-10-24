@@ -22,6 +22,20 @@ test('parseDate: abbreviated, dotted and full month names, ISO dates', () => {
   assert.equal(parseDate(undefined), null);
 });
 
+test('parseDate: lower-case {{abbr/..}}, 12 h times, unknown zones reported', () => {
+  assert.equal(parseDate('Oct 25, 2026 - 18:00 {{abbr/KST}}'), '2026-10-25T18:00:00+09:00');
+  assert.equal(parseDate('Oct 25, 2026 - 6:00 PM {{Abbr/KST}}'), '2026-10-25T18:00:00+09:00');
+  assert.equal(parseDate('Oct 25, 2026 - 12:30 a.m. {{Abbr/KST}}'), '2026-10-25T00:30:00+09:00');
+  assert.equal(parseDate('Oct 25, 2026 - 12:05pm {{Abbr/KST}}'), '2026-10-25T12:05:00+09:00');
+  assert.equal(parseDate('Feb 3, 2027 - 19:00 {{Abbr/AEDT}}'), '2027-02-03T19:00:00+11:00');
+  const info = {};
+  assert.equal(parseDate('Feb 3, 2027 - 19:00 {{Abbr/XYZT}}', info), '2027-02-03T19:00:00+00:00');
+  assert.equal(info.zone, 'XYZT');
+  const known = {}; parseDate('Feb 3, 2027 - 19:00 {{Abbr/KST}}', known); assert.equal(known.zone, undefined);
+  const [, warns] = quiet(() => parseMatches('{{Match|date=Feb 3, 2027 - 19:00 {{Abbr/XYZT}}|opponent1=A|opponent2=B}}', 'X'));
+  assert.deepEqual(warns.map(w => w[0]), ['TZ?']);
+});
+
 test('parseMatches: every written date parses or is counted as dateless with a DATE? warning', async () => {
   const stats = {};
   const [ms, warns] = quiet(() => parseMatches('', 'x', stats));
@@ -77,13 +91,29 @@ test('fetchPage: a #REDIRECT body is an error and is not cached', async () => {
   assert.equal(calls.length, 2);
 });
 
-test('fetchPage: a missing page is not asked again for 6 h', async () => {
+test('fetchPage: a missing page is not asked again for 6 h (collector file, epoch seconds)', async () => {
   replies.push(json({ query: { pages: { '-1': { ns: 0, title: 'Nope', missing: '' } } } }));
   assert.equal((await fetchPage('Nope')).missing, true);
   const again = await fetchPage('Nope');
   assert.equal(again.missing, true); assert.equal(again.cached, true); assert.equal(calls.length, 1);
-  const m = JSON.parse(await fs.readFile(path.join(dir, '_missing.json'), 'utf8'));
-  assert.ok(Date.parse(m.Nope) <= Date.now());
+  const m = JSON.parse(await fs.readFile(path.join(dir, '_missing_collector.json'), 'utf8'));
+  assert.equal(typeof m.Nope, 'number'); assert.ok(m.Nope * 1000 <= Date.now() && m.Nope * 1000 > Date.now() - 60e3);
+  await assert.rejects(fs.access(path.join(dir, '_missing.json')));   // the site's file is not created
+});
+
+test('fetchPage: own entries in seconds or ISO honoured; the site _missing.json is not read, only cleared of old ISO strings', async () => {
+  const now = Date.now();
+  await fs.writeFile(path.join(dir, '_missing_collector.json'), JSON.stringify({ Sec: now / 1000 - 60, Iso: new Date(now - 60e3).toISOString(), Old: now / 1000 - 7 * 3600, Bad: 'x' }));
+  await fs.writeFile(path.join(dir, '_missing.json'), JSON.stringify({ Site: now / 1000 - 60, Stale: new Date(now).toISOString() }));
+  assert.equal((await fetchPage('Sec')).cached, true);
+  assert.equal((await fetchPage('Iso')).cached, true);
+  assert.equal(calls.length, 0);
+  replies.push(pageReply('Old', 'back'), pageReply('Bad', 'here'), pageReply('Site', 'own copy'));
+  assert.equal((await fetchPage('Old')).text, 'back');
+  assert.equal((await fetchPage('Bad')).text, 'here');
+  assert.equal((await fetchPage('Site')).text, 'own copy');   // the site's note does not stop the collector
+  assert.deepEqual(Object.keys(JSON.parse(await fs.readFile(path.join(dir, '_missing_collector.json'), 'utf8'))).sort(), ['Iso', 'Sec']);
+  assert.deepEqual(JSON.parse(await fs.readFile(path.join(dir, '_missing.json'), 'utf8')), { Site: now / 1000 - 60 });
 });
 
 test('api: 429 throws RateLimited with Retry-After, no retry', async () => {
@@ -102,6 +132,15 @@ test('api: one retry on 5xx and on network errors, then gives up', async () => {
   replies.push(Object.assign(new Error('t'), { name: 'TimeoutError' }), Object.assign(new Error('t'), { name: 'TimeoutError' }));
   await assert.rejects(fetchPage('D'), /network: timeout 20s/);
   assert.equal(calls.length, 8);
+});
+
+test('api: a timeout while reading the body is a network error and is retried', async () => {
+  const slow = () => Object.assign(new Response('{}', { status: 200 }), { json: async () => { throw Object.assign(new Error('aborted'), { name: 'TimeoutError' }); } });
+  replies.push(slow, pageReply('A', 'ok'));
+  assert.equal((await fetchPage('A')).text, 'ok');
+  replies.push(slow, slow);
+  await assert.rejects(fetchPage('B'), /network: timeout 20s/);
+  assert.equal(calls.length, 4);
 });
 
 test('api: maxlag is retried once; other API errors and replies without query are failures', async () => {

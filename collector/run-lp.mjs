@@ -8,9 +8,12 @@
 // Prints 'ADDED <title>' per new page, 'ACTIVE+ <title>' / 'ACTIVE- <title>' per change of active.json, then
 // 'DISCOVER <today> added <n> active <n>'. Never removes pages from competitions.json. active.json = pages with a match
 // dated within today (KST) +-30 days, plus pages of this year or later with no dated match yet or undated matches still
-// to play (just announced). Same input -> same output (files are rewritten only when they change).
-// Exit code: 0 ok, 2 some page failed (ERR / SHRINK / 429 / missing page that had matches) or a --discover request
-// failed, 3 Node without fetch, 1 crash. A failed page keeps its old data/lp file. 429 stops the run (Retry-After logged).
+// to play (just announced). Pages without a data/lp file (missing on Liquipedia, just added) are left out: --active-only
+// fetches them anyway. Same input -> same output (files are rewritten only when they change).
+// Exit code: 0 ok, 3 Node without fetch, 1 crash. A page that failed (ERR / SHRINK / 429 / missing page that had
+// matches) or a --discover request that failed is logged ('ERR', 'SHRINK', 'STOP') and recorded in _status.json, and
+// still exits 0 unless --strict is given, then 2 (owcs-kr cloud_live treats any nonzero exit as a failed build;
+// tools/run_daily.sh passes --strict). A failed page keeps its old data/lp file. 429 stops the run (Retry-After logged).
 // data/lp/_status.json: { updatedAt, failures, rateLimit, pages: { [title]: { ok, matches, played, dateless, redirect,
 // shrinkFrom, error, lastOk } } }, merged with the previous file (pages not fetched this run keep their entry).
 // SHRINK: a new parse with fewer than half the matches of the old file is not written (template change, page emptied).
@@ -28,10 +31,11 @@ const exists = f => fs.access(f).then(() => true, () => false);
 // substring match, same as owcs-kr cloud_live.active_titles (old entries are short: '2026/Asia/Stage 3')
 export const isActive = (title, active) => active.some(a => title.includes(a));
 
-// core + World Cup pages that are active or already collected (the World Cup list also has qualifiers we never fetch)
+// core + World Cup pages that are active or already collected. The World Cup list also has qualifiers we never fetch:
+// a World Cup page counts as active only by its exact title ('Overwatch World Cup/2026' would substring-match them all)
 export async function titlesOf(comps, active, has = t => exists(fileOf(t))) {
   const wc = [];
-  for (const t of comps.world_cup || []) if (isActive(t, active) || await has(t)) wc.push(t);
+  for (const t of comps.world_cup || []) if (active.includes(t) || await has(t)) wc.push(t);
   return [...comps.core, ...wc];
 }
 
@@ -52,14 +56,18 @@ export async function collectPage(title, { page, prev, write }) {
     return { ...st, ok: true, matches: 0, played: 0, dateless: 0, missing: true };
   }
   const stats = {};
-  const matches = parseMatches(p.text, title, stats);
+  let matches;
+  // a page the parser chokes on, or a file that cannot be replaced (Windows: open elsewhere), fails this page, not the run
+  try { matches = parseMatches(p.text, title, stats); }
+  catch (e) { console.log('ERR', title, 'parse:', e.message); return { ...st, error: 'parse: ' + e.message }; }
   const played = matches.filter(m => m.played).length;
   Object.assign(st, { matches: matches.length, played, dateless: stats.dateless });
   if (before && matches.length < before * 0.5) {
     console.log('SHRINK', title, before, '->', matches.length, '(old file kept)');
     return { ...st, shrinkFrom: before, error: `shrink ${before} -> ${matches.length}` };
   }
-  await write(file, { title, matches });
+  try { await write(file, { title, matches }); }
+  catch (e) { console.log('ERR', title, 'write:', e.message); return { ...st, error: 'write: ' + e.message }; }
   console.log(String(matches.length).padStart(4), 'matches', String(played).padStart(4), 'played', title, stats.dateless ? `(${stats.dateless} dateless)` : '');
   return { ...st, ok: true };
 }
@@ -100,7 +108,7 @@ async function readComps() {
   return comps;
 }
 
-async function runFetch(activeOnly) {
+async function runFetch(activeOnly, strict) {
   const comps = await readComps();
   const active = (await readJson('data/active.json')) || [];
   const titles = await titlesOf(comps, active);
@@ -110,8 +118,8 @@ async function runFetch(activeOnly) {
   const now = new Date().toISOString();
   await writeJson('data/lp/_status.json', mergeStatus(await readJson('data/lp/_status.json'), results, { now, titles, failures, rateLimit }));
   if (!activeOnly) await writeJson('data/lp/_summary.json', Object.entries(results).map(([title, r]) => r.missing ? { title, missing: true } : r.ok ? { title, matches: r.matches, played: r.played } : { title, error: r.error }));
-  console.log('DONE', Object.keys(results).length, 'pages', failures, 'failed');
-  process.exitCode = failures ? 2 : 0;
+  console.log('DONE', Object.keys(results).length, 'pages', failures, 'failed', failures && !strict ? '(exit 0: pass --strict to exit 2)' : '');
+  process.exitCode = failures && strict ? 2 : 0;
 }
 
 // ---- --discover ----
@@ -147,11 +155,14 @@ export const tabLinksOf = text => [...(text || '').matchAll(/\|\s*link\d+\s*=\s*
 
 // pages to keep re-reading: a match dated within today +-days (KST), or (page of this year or later) nothing dated yet /
 // undated matches still to play: announced, schedule not out. pages: title -> matches of its data/lp file or null.
+// null (no file: missing on Liquipedia, or not fetched yet) is not listed: --active-only fetches such a page anyway, and
+// a missing overview page ('2026/Asia/Stage 3') listed for the whole year substring-matches every page of its stage
 export function computeActive({ titles, pages, today, days = 30 }) {
   const shift = n => new Date(Date.parse(today) + n * 864e5).toISOString().slice(0, 10);
   const lo = shift(-days), hi = shift(days), year = +today.slice(0, 4);
   return titles.filter(t => {
-    const ms = pages[t] || [];
+    const ms = pages[t];
+    if (!ms) return false;
     if (ms.some(m => m.date && kstDay(m.date) >= lo && kstDay(m.date) <= hi)) return true;
     if (yearOf(t) < year) return false;
     return !ms.some(m => m.date) || ms.some(m => !m.date && !m.played);
@@ -198,12 +209,13 @@ async function discover() {
 
 async function main() {
   if (typeof fetch !== 'function') { console.error(`run-lp: this Node (${process.version}) has no global fetch; Node 20+ is required`); process.exit(3); }
-  const argv = process.argv.slice(2);
-  try { await (argv.includes('--discover') ? discover() : runFetch(argv.includes('--active-only'))); }
+  const argv = process.argv.slice(2), strict = argv.includes('--strict');
+  try { await (argv.includes('--discover') ? discover() : runFetch(argv.includes('--active-only'), strict)); }
   catch (e) {
     // a --discover request failed (network, 429, API error): nothing was written
     if (!(e instanceof RateLimited) && !/^(network|liquipedia|redirect)/.test(e.message)) throw e;
-    console.log('ERR', e.message); process.exitCode = 2;
+    console.log('ERR', 'discover failed, nothing written:', e.message, strict ? '' : '(exit 0: pass --strict to exit 2)');
+    process.exitCode = strict ? 2 : 0;
   }
 }
 
