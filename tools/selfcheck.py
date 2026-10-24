@@ -50,11 +50,26 @@ def _labels(folder: str, label) -> list[str]:
     return [label(os.path.basename(f)[:-4]) for f in glob.glob(os.path.join(folder, '*.png'))]
 
 
+def check_name_lib(folder: str) -> list[Problem]:
+    """what ocr_names.load_lib will really use (<Name>__<tag>.png, 96x18): a folder of raw crops passed a plain
+    file count, and then assemble_day stopped at every map"""
+    import contextlib, io
+    import ocr_names
+    skipped = io.StringIO()
+    with contextlib.redirect_stderr(skipped):
+        usable = len(ocr_names.load_lib(folder))
+    bad = skipped.getvalue().count('name_lib: skipped')
+    if not usable:
+        why = f'no usable file ({bad} skipped: not <Name>__<tag>.png or not 96x18)' if bad else 'empty or missing'
+        return [Problem('fatal', 'data/name_lib', f'{why}: every player name would be unknown')]
+    if bad: return [Problem('warn', 'data/name_lib', f'{bad} file(s) skipped (not <Name>__<tag>.png or not 96x18)')]
+    return []
+
+
 def check_libs(root: str) -> list[Problem]:
     """name_lib, header_lib, digit_lib: present and non-empty (fatal); every digit 0-9 sampled (warn)"""
     out = []
-    names = _labels(os.path.join(root, 'data', 'name_lib'), lambda b: b.split('__')[0])
-    if not names: out.append(Problem('fatal', 'data/name_lib', 'empty or missing: every player name would be unknown'))
+    out += check_name_lib(os.path.join(root, 'data', 'name_lib'))
     header = _labels(os.path.join(root, 'data', 'header_lib'), lambda b: b.split('__')[0])
     hdigits = {h.split('_', 1)[1] for h in header if h.startswith('digit_')}
     bold = set(_labels(os.path.join(root, 'data', 'digit_lib'), lambda b: b.split('__')[0]))
