@@ -31,3 +31,7 @@ data/relay/
 # server settings and virtualenv (Linux)
 .env
 .venv/
+
+# glyph models: features of broadcast frames, built where data/vod is (see data/models/README.md)
+data/models/*.npz
+data/models/*.npz.tmp
