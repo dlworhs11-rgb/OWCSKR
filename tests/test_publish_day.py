@@ -65,7 +65,24 @@ def test_only_verified_and_labelled_maps_are_uploaded(tmp_path, gh):
 def test_nothing_verified_uploads_nothing(tmp_path, gh):
     write_day(tmp_path, [{'map': 'A', 'totalsVerified': None}])
     assert PD.main([DATE], root=str(tmp_path)) == 0
-    assert gh.calls == []
+    assert len(gh.calls) == 1 and gh.calls[0][0][0] != '-X'              # looked (404), no PUT
+
+
+def test_no_longer_verified_maps_are_withdrawn(tmp_path, gh):
+    write_day(tmp_path, [{'map': 'A', 'totalsVerified': True, 'labelVerified': False}])
+    gh.remote = {'date': DATE, 'maps': [{'map': 'A', 'totalsVerified': True}], 'matches': [{'match': 'X'}], 'note': 'n'}
+    assert PD.main([DATE], root=str(tmp_path)) == 0
+    body, day = gh.uploaded()
+    assert day['maps'] == [] and day['matches'] == [] and day['date'] == DATE and body['sha'] == 'abc'
+    assert 'withdrawn' in body['message']
+
+
+def test_withdrawal_spares_manual_files_and_is_idempotent(tmp_path, gh):
+    write_day(tmp_path, [{'map': 'A', 'totalsVerified': False}])
+    gh.remote = {'maps': [{'reading': 'manual'}]}
+    assert PD.main([DATE], root=str(tmp_path)) == 0 and len(gh.calls) == 1
+    gh.remote, gh.calls = {'date': DATE, 'maps': [], 'matches': []}, []
+    assert PD.main([DATE], root=str(tmp_path)) == 0 and len(gh.calls) == 1   # already withdrawn: no PUT
 
 
 def test_unchanged_remote_is_not_rewritten(tmp_path, gh):

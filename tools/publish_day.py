@@ -7,6 +7,7 @@ usage: python -I tools/publish_day.py YYYY-MM-DD [--branch main] [--as YYYY-MM-D
   (match/game label consistent) are uploaded
 - a remote file that contains hand-checked maps (reading=manual) is never overwritten
 - nothing is uploaded when the content did not change
+- when nothing is verified (any more), an existing remote file is rewritten with maps [] and matches [] (withdrawn)
 exit: 0 uploaded / nothing to do, 1 GitHub request failed, 2 gh (GitHub CLI) not installed
 """
 import base64, json, os, shutil, subprocess, sys
@@ -73,26 +74,36 @@ def main(argv=None, root=ROOT) -> int:
         day = json.load(fh)
     total = len(day['maps'])
     day['maps'] = [m for m in day['maps'] if publishable(m)]
-    if not day['maps']:
-        print(f'publish: no verified maps yet ({total} assembled)'); return 0
     day['date'] = target
-    path = f'data/manual/mapstats/{target}.json'
+    if not day['maps']:
+        day['matches'] = []          # nothing verified: no match results either (they come from the same maps)
+    return upload(day, total, f'data/manual/mapstats/{target}.json', target, branch)
+
+
+def upload(day: dict, total: int, path: str, target: str, branch: str) -> int:
+    """PUT day to path unless unchanged or the remote holds hand-checked maps. With no verified map the remote file is
+    only rewritten (withdrawn: maps []) when it exists - an earlier upload that a re-assembly no longer verifies
+    (e.g. wrong match labels) must not stay on main and in the site's player totals."""
     try:
         sha, remote = remote_file(path, branch)
     except RuntimeError as e:
         print('publish FAILED:', e, file=sys.stderr); return 1
+    n = len(day['maps'])
+    if remote is None and not n:
+        print(f'publish: no verified maps yet ({total} assembled)'); return 0
     if remote is not None:
         if any(m.get('reading') == 'manual' for m in remote.get('maps', [])):
             print('publish: remote file has hand-checked maps - not overwritten'); return 0
-        if remote == day:
+        if remote == day or (not n and not remote.get('maps')):
             print('publish: unchanged'); return 0
-    body = {'message': f'Live stats {target}: {len(day["maps"])} verified map(s)', 'branch': branch,
+    message = f'Live stats {target}: {n} verified map(s)' if n else f'Live stats {target}: 0 verified maps (withdrawn)'
+    body = {'message': message, 'branch': branch,
             'content': base64.b64encode(json.dumps(day, ensure_ascii=False, indent=1).encode('utf-8')).decode()}
     if sha: body['sha'] = sha
     code, out, err = gh('-X', 'PUT', f'repos/{REPO}/contents/{path}', '--input', '-', data=json.dumps(body))
     if code != 0:
         print('publish FAILED:', (err or out).strip()[:300], file=sys.stderr); return 1
-    print(f'publish: uploaded {path} ({len(day["maps"])} of {total} maps) to {branch}')
+    print(f'publish: uploaded {path} ({n} of {total} maps{", withdrawn" if not n else ""}) to {branch}')
     return 0
 
 
