@@ -132,6 +132,13 @@ def test_already_started_day_uses_systemd_run_now(linux):
     assert not any(c[0] in ('bash', '/bin/bash') for c in linux.calls)   # no plain child process
 
 
+def test_today_is_the_korean_date_on_a_utc_machine(linux):
+    """the boot run at 08:30 KST on a UTC server is still 10-24 there: today's capture must be the KST day's"""
+    now = datetime.datetime(2026, 10, 24, 23, 30, tzinfo=datetime.timezone.utc)    # 10-25 08:30 KST
+    assert S.main([], now=now) == 0
+    assert len(linux.runs(UNIT)) == 1
+
+
 def test_already_started_day_not_launched_twice(linux):
     linux.states[UNIT + '.service'] = 'activating'   # e.g. waiting for its automatic restart
     assert S.main([DAY], now=start_of() + datetime.timedelta(hours=1)) == 0

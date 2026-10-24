@@ -31,6 +31,7 @@ CHECKS = (   # kind, minutes after the first match, script
 FRESH_EVERY_MIN = 30
 WIN_TASK = {'live': 'LiveCapture', 'check': 'MatchdayCheck', 'soop': 'SoopQuality', 'fresh': 'Freshness'}
 FAILED = ('registration failed', 'start failed')
+KST = datetime.timezone(datetime.timedelta(hours=9))   # match days are Korean dates, whatever this machine's zone
 
 
 def load_matches(path: str | None = None) -> list[dict]:
@@ -335,7 +336,7 @@ def main(argv: list[str] | None = None, now: datetime.datetime | None = None) ->
     dry, upcoming = '--dry' in argv, '--upcoming' in argv
     args = [x for x in argv if not x.startswith('--')]
     matches = load_matches()
-    today = now.date()
+    today = now.astimezone(KST).date()
     if upcoming:            # every match day in the next 14 days, each with its own units / tasks
         days = [(today + datetime.timedelta(d)).isoformat() for d in range(15)]
         if not dry: cleanup(today.isoformat())
