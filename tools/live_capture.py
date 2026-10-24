@@ -583,6 +583,8 @@ def capture_loop(source, cap, end, out, log, alert, clock=time.time, sleep=time.
     try:
         while clock() < end:
             t0 = clock()
+            if os.path.exists(os.path.join(out, 'day_end.json')):   # site day_end.py: every match decided, POTM on GitHub
+                log('day_end.json - every match of the day is in'); break
             rest = paused(out)
             if rest:
                 frozen.reset(); sleep(min(rest, 10)); continue

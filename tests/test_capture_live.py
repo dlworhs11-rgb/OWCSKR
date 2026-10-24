@@ -362,6 +362,14 @@ def test_pause_file_skips_grabs(tmp_path):
     assert len(src.frames) == 1
 
 
+def test_day_end_file_stops_the_loop(tmp_path):
+    (tmp_path / 'day_end.json').write_text('{}', encoding='utf-8')
+    src, cap = FakeSource([RuntimeError('should not grab')]), StubCapture()
+    logs = loop(tmp_path, src, cap, 3600)
+    assert len(src.frames) == 1 and cap.closed
+    assert any('day_end.json' in ln for ln in logs)
+
+
 # ---- end of day -----------------------------------------------------------------------------------------------
 
 def write_day(out, ocr, maps, matches):
