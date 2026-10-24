@@ -59,7 +59,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=-aK498Dc0ZE",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -119,7 +121,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=utlWfABMc28",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -179,7 +183,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=utlWfABMc28",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -239,7 +245,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=cCzBhUIiU9Q",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -299,7 +307,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=T_WLlO3myno",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -372,7 +382,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=3yskMuEOWRU",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -432,7 +444,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=k2Qgx_YX0kE",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -492,7 +506,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=ZSXGvx2jYWc",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -552,7 +568,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=0uR1cZxLY90",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -638,7 +656,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=yjG7GYfzetE",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -698,7 +718,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=FeTX1HRKeS8",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -758,7 +780,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=u8OdRsKp-P4",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -844,7 +868,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=TSnCds2ITZU",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -930,7 +956,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=CCwWvjy5A_8",
-   "casters": []
+   "casters": [],
+   "section": "Playoffs",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Main Event",
@@ -977,7 +1005,9 @@
     "youtube": "ow_esports"
    },
    "vod": "https://www.youtube.com/watch?v=JoLpX6_bHfc",
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": "Grand Final"
   }
  ]
 }

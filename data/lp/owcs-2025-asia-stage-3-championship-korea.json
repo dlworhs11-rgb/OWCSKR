@@ -88,7 +88,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Play-In",
+   "round": "Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
@@ -164,7 +166,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Play-In",
+   "round": "Round 2"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
@@ -253,7 +257,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
@@ -342,7 +348,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
@@ -418,7 +426,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
@@ -481,7 +491,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
@@ -544,7 +556,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 3/Championship/Korea",
@@ -659,7 +673,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Grand Final"
   }
  ]
 }

@@ -62,7 +62,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -73,8 +75,8 @@
    "team2": "NTMR",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -112,7 +114,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -123,8 +127,8 @@
    "team2": "NRG Shock",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -162,7 +166,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -173,8 +179,8 @@
    "team2": "ENCE",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -212,7 +218,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -275,7 +283,9 @@
    "casters": [
     "Nekkra",
     "Jaws"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -338,7 +348,9 @@
    "casters": [
     "Nekkra",
     "Jaws"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -401,7 +413,9 @@
    "casters": [
     "Nekkra",
     "Jaws"
-   ]
+   ],
+   "section": "",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -477,7 +491,9 @@
    "casters": [
     "Nekkra",
     "Jaws"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -540,7 +556,9 @@
    "casters": [
     "Nekkra",
     "Jaws"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Round 1"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -629,7 +647,9 @@
    "casters": [
     "Nekkra",
     "Jaws"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -692,7 +712,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -755,7 +777,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -818,7 +842,9 @@
    "casters": [
     "Nekkra",
     "Jaws"
-   ]
+   ],
+   "section": "",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -907,7 +933,9 @@
    "casters": [
     "Uber",
     "Mr X"
-   ]
+   ],
+   "section": "",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2024/World Finals",
@@ -944,7 +972,9 @@
    "casters": [
     "Nekkra",
     "Jaws"
-   ]
+   ],
+   "section": "",
+   "round": "Grand Final"
   }
  ]
 }

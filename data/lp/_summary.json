@@ -32,7 +32,7 @@
  {
   "title": "Overwatch Champions Series/2024/World Finals",
   "matches": 15,
-  "played": 15
+  "played": 12
  },
  {
   "title": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -77,7 +77,7 @@
  {
   "title": "Overwatch Champions Series/2025/Champions Clash",
   "matches": 15,
-  "played": 15
+  "played": 12
  },
  {
   "title": "Overwatch Champions Series/2025/Midseason Championship",
@@ -92,12 +92,12 @@
  {
   "title": "Overwatch Champions Series/2025/World Finals",
   "matches": 23,
-  "played": 23
+  "played": 17
  },
  {
   "title": "Overwatch Champions Series/2026/Asia/Stage 1",
   "matches": 18,
-  "played": 17
+  "played": 7
  },
  {
   "title": "Overwatch Champions Series/2026/Asia/Stage 1/Korea",
@@ -136,7 +136,7 @@
  {
   "title": "Overwatch Champions Series/2026/Champions Clash",
   "matches": 16,
-  "played": 16
+  "played": 12
  },
  {
   "title": "Overwatch Champions Series/2026/Midseason Championship",
@@ -181,17 +181,7 @@
  {
   "title": "Overwatch Champions Series/2025/Midseason Championship/LCQ/Group Stage",
   "matches": 16,
-  "played": 16
- },
- {
-  "title": "Overwatch Champions Series/2025/Midseason Championship/Last Chance Qualifier",
-  "matches": 0,
-  "played": 0
- },
- {
-  "title": "Overwatch Champions Series/2025/Midseason Championship/Last Chance Qualifier/Group Stage",
-  "matches": 0,
-  "played": 0
+  "played": 15
  },
  {
   "title": "Overwatch Champions Series/2026/Asia/Stage 1/Korea/Regular Season",
@@ -206,17 +196,17 @@
  {
   "title": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
   "matches": 36,
-  "played": 15
+  "played": 30
  },
  {
   "title": "Overwatch Champions Series/2026/Midseason Championship/Group Stage",
   "matches": 20,
-  "played": 20
+  "played": 2
  },
  {
   "title": "Overwatch World Cup/2023",
   "matches": 32,
-  "played": 32
+  "played": 12
  },
  {
   "title": "Overwatch World Cup/2026",

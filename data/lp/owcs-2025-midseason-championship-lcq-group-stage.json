@@ -975,8 +975,8 @@
    "team2": "ZoneX",
    "score1": 1,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,

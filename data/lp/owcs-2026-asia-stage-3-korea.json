@@ -88,7 +88,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -177,7 +179,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -266,7 +270,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -355,7 +361,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -444,7 +452,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -533,7 +543,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Playoffs Seeding Decider Matches",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -622,7 +634,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Last Chance Qualifier",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -711,7 +725,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Last Chance Qualifier",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -800,7 +816,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Last Chance Qualifier",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -915,7 +933,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -1030,7 +1050,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Quarterfinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -1145,7 +1167,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -1260,7 +1284,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -1375,7 +1401,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Grand Final"
   },
   {
    "competition": "Overwatch Champions Series/2026/Asia/Stage 3/Korea",
@@ -1490,7 +1518,9 @@
     "",
     "",
     ""
-   ]
+   ],
+   "section": "Regional Playoffs",
+   "round": "Third Place Match"
   }
  ]
 }

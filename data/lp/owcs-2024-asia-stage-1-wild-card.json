@@ -59,7 +59,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=N98TF62YwsY",
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Wild Card",
@@ -132,7 +134,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=cDzKTV_M2P8",
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2024/Asia/Stage 1/Wild Card",
@@ -192,7 +196,9 @@
     "youtube": "OWEsports"
    },
    "vod": "https://www.youtube.com/watch?v=oemsCSi1dQc",
-   "casters": []
+   "casters": [],
+   "section": "",
+   "round": ""
   }
  ]
 }

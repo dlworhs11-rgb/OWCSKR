@@ -4,7 +4,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 0,
-   "date": null,
+   "date": "2025-11-26T16:05:00+01:00",
    "bestof": 3,
    "team1": "Spacestation Gaming",
    "team2": "Team Peps",
@@ -69,14 +69,14 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 1,
-   "date": null,
+   "date": "2025-11-26T15:00:00+01:00",
    "bestof": null,
    "team1": "Al Qadsiah",
    "team2": "Geekay Esports",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -121,14 +121,14 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 2,
-   "date": null,
+   "date": "2025-11-26T12:05:00+01:00",
    "bestof": null,
    "team1": "Team CC (Chinese orgless team)",
    "team2": "T1",
    "score1": 1,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -186,14 +186,14 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 3,
-   "date": null,
+   "date": "2025-11-26T13:40:00+01:00",
    "bestof": null,
    "team1": "Team Falcons",
    "team2": "VARREL",
    "score1": 2,
    "score2": 1,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -251,7 +251,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 4,
-   "date": null,
+   "date": "2025-11-27T12:15:00+01:00",
    "bestof": 5,
    "team1": "Crazy Raccoon",
    "team2": "Spacestation Gaming",
@@ -316,7 +316,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 5,
-   "date": null,
+   "date": "2025-11-27T13:30:00+01:00",
    "bestof": null,
    "team1": "Weibo Gaming",
    "team2": "Al Qadsiah",
@@ -381,7 +381,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 6,
-   "date": null,
+   "date": "2025-11-27T14:50:00+01:00",
    "bestof": null,
    "team1": "Twisted Minds",
    "team2": "T1",
@@ -472,7 +472,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 7,
-   "date": null,
+   "date": "2025-11-27T17:10:00+01:00",
    "bestof": null,
    "team1": "Team Liquid",
    "team2": "team falcons",
@@ -550,7 +550,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 8,
-   "date": null,
+   "date": "2025-11-29T11:05:00+01:00",
    "bestof": null,
    "team1": "Crazy Raccoon",
    "team2": "Al Qadsiah",
@@ -628,7 +628,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 9,
-   "date": null,
+   "date": "2025-11-29T12:55:00+01:00",
    "bestof": null,
    "team1": "Twisted Minds",
    "team2": "Team Falcons",
@@ -693,7 +693,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 10,
-   "date": null,
+   "date": "2025-11-30T11:15:00+01:00",
    "bestof": null,
    "team1": "Al Qadsiah",
    "team2": "Twisted Minds",
@@ -771,7 +771,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 11,
-   "date": null,
+   "date": "2025-11-28T16:00:00+01:00",
    "bestof": 3,
    "team1": "Team Liquid",
    "team2": "Team Peps",
@@ -823,14 +823,14 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 12,
-   "date": null,
+   "date": "2025-11-28T14:40:00+01:00",
    "bestof": null,
    "team1": "T1",
    "team2": "Geekay Esports",
    "score1": 2,
    "score2": 1,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -888,14 +888,14 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 13,
-   "date": null,
+   "date": "2025-11-28T12:30:00+01:00",
    "bestof": null,
    "team1": "Weibo Gaming",
    "team2": "Team CC (Chinese orgless team)",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -940,14 +940,14 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 14,
-   "date": null,
+   "date": "2025-11-28T13:45:00+01:00",
    "bestof": null,
    "team1": "Spacestation Gaming",
    "team2": "VARREL",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -992,7 +992,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 15,
-   "date": null,
+   "date": "2025-11-28T18:30:00+01:00",
    "bestof": 5,
    "team1": "Team Liquid",
    "team2": "T1",
@@ -1057,7 +1057,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 16,
-   "date": null,
+   "date": "2025-11-28T17:05:00+01:00",
    "bestof": null,
    "team1": "Weibo Gaming",
    "team2": "Spacestation Gaming",
@@ -1122,7 +1122,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 17,
-   "date": null,
+   "date": "2025-11-29T14:25:00+01:00",
    "bestof": null,
    "team1": "Crazy Raccoon",
    "team2": "T1",
@@ -1187,7 +1187,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 18,
-   "date": null,
+   "date": "2025-11-29T15:50:00+01:00",
    "bestof": null,
    "team1": "Team Falcons",
    "team2": "Weibo Gaming",
@@ -1252,7 +1252,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 19,
-   "date": null,
+   "date": "2025-11-29T17:50:00+01:00",
    "bestof": null,
    "team1": "Crazy Raccoon",
    "team2": "Team Falcons",
@@ -1343,7 +1343,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 20,
-   "date": null,
+   "date": "2025-11-30T13:10:00+01:00",
    "bestof": null,
    "team1": "Twisted Minds",
    "team2": "Crazy Raccoon",
@@ -1421,7 +1421,7 @@
   {
    "competition": "Overwatch Champions Series/2025/World Finals",
    "idx": 21,
-   "date": null,
+   "date": "2025-11-30T16:30:00+01:00",
    "bestof": 7,
    "team1": "Al Qadsiah",
    "team2": "Twisted Minds",

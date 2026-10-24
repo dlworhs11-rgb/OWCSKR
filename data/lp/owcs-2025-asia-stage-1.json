@@ -63,7 +63,9 @@
    "casters": [
     "Melt",
     "AKaros"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 1}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -127,7 +129,9 @@
    "casters": [
     "Melt",
     "AKaros"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 1}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -191,7 +195,9 @@
    "casters": [
     "Melt",
     "AKaros"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 1}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -255,7 +261,9 @@
    "casters": [
     "Melt",
     "ChangSik"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 2}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -319,7 +327,9 @@
    "casters": [
     "Melt",
     "ChangSik"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 2}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -383,7 +393,9 @@
    "casters": [
     "Melt",
     "ChangSik"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 2}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -447,7 +459,9 @@
    "casters": [
     "Melt",
     "Strings"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 3}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -537,7 +551,9 @@
    "casters": [
     "Melt",
     "Strings"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 3}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -614,7 +630,9 @@
    "casters": [
     "Melt",
     "Strings"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 3}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -678,7 +696,9 @@
    "casters": [
     "Sim Ji-soo",
     "AKaros"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 4}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -742,7 +762,9 @@
    "casters": [
     "Sim Ji-soo",
     "AKaros"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 4}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -806,7 +828,9 @@
    "casters": [
     "Sim Ji-soo",
     "AKaros"
-   ]
+   ],
+   "section": "{{HiddenSort|Day 4}}",
+   "round": ""
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -895,7 +919,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -971,7 +997,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Upper Bracket Semifinals"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -1047,7 +1075,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Upper Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -1123,7 +1153,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Lower Bracket Semifinal"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -1199,7 +1231,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Lower Bracket Final"
   },
   {
    "competition": "Overwatch Champions Series/2025/Asia/Stage 1",
@@ -1301,7 +1335,9 @@
    "casters": [
     "AVRL",
     "Legday"
-   ]
+   ],
+   "section": "Playoffs",
+   "round": "Grand Final"
   }
  ]
 }

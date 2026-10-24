@@ -4,7 +4,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
    "idx": 0,
-   "date": null,
+   "date": "2025-08-02T13:15:00+00:00",
    "bestof": 5,
    "team1": "Crazy Raccoon",
    "team2": "Twisted Minds",
@@ -95,7 +95,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
    "idx": 1,
-   "date": null,
+   "date": "2025-08-02T15:30:00+00:00",
    "bestof": null,
    "team1": "Al Qadsiah",
    "team2": "Virtus.Pro",
@@ -160,7 +160,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
    "idx": 2,
-   "date": null,
+   "date": "2025-08-02T17:00:00+00:00",
    "bestof": null,
    "team1": "T1",
    "team2": "Team Liquid",
@@ -225,7 +225,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
    "idx": 3,
-   "date": null,
+   "date": "2025-08-02T18:35:00+00:00",
    "bestof": null,
    "team1": "Team Falcons",
    "team2": "Geekay Esports",
@@ -316,7 +316,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
    "idx": 4,
-   "date": null,
+   "date": "2025-08-03T13:00:00+00:00",
    "bestof": null,
    "team1": "Twisted Minds",
    "team2": "Al Qadsiah",
@@ -420,7 +420,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
    "idx": 5,
-   "date": null,
+   "date": "2025-08-03T15:25:00+00:00",
    "bestof": null,
    "team1": "T1",
    "team2": "Team Falcons",
@@ -498,7 +498,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
    "idx": 6,
-   "date": null,
+   "date": "2025-08-03T19:20:00+00:00",
    "bestof": 7,
    "team1": "Al Qadsiah",
    "team2": "Team Falcons",
@@ -576,7 +576,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
    "idx": 7,
-   "date": null,
+   "date": "2025-08-03T17:30:00+00:00",
    "bestof": 5,
    "team1": "Twisted Minds",
    "team2": "T1",
@@ -654,7 +654,7 @@
   {
    "competition": "Overwatch Champions Series/2025/Midseason Championship",
    "idx": 8,
-   "date": null,
+   "date": "2025-08-03T20:40:00+00:00",
    "bestof": 7,
    "team1": "Bronze Baddies",
    "team2": "Diamond Dawgs",

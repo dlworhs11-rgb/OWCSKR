@@ -62,8 +62,8 @@
    "team2": "Crazy Raccoon",
    "score1": 0,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -114,8 +114,8 @@
    "team2": "Virtus.Pro",
    "score1": 1,
    "score2": 2,
-   "winner": 2,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -179,8 +179,8 @@
    "team2": "Spacestation Gaming",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
@@ -504,8 +504,8 @@
    "team2": "Spacestation Gaming",
    "score1": 2,
    "score2": 0,
-   "winner": 1,
-   "played": true,
+   "winner": null,
+   "played": false,
    "maps": [
     {
      "n": 1,
