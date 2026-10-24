@@ -4,6 +4,7 @@ import pytest
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'tools'))
 import publish_day as PD
+REAL_GH = PD.gh                          # the 'gh' fixture replaces PD.gh
 import republish_recent as RR
 
 DATE = '2026-10-25'
@@ -112,6 +113,19 @@ def test_find_gh_has_no_windows_default_on_linux(monkeypatch):
     monkeypatch.setattr(PD.PU, 'IS_WIN', False)
     assert PD.find_gh(lambda name: None) is None
     assert PD.find_gh(lambda name: '/usr/bin/gh') == '/usr/bin/gh'
+
+
+def test_hung_gh_is_a_failure_not_a_hang(tmp_path, monkeypatch):
+    import subprocess
+    monkeypatch.setattr(PD, 'find_gh', lambda which=None: '/usr/bin/gh')
+    seen = {}
+    def hangs(cmd, **kw):
+        seen.update(kw)
+        raise subprocess.TimeoutExpired(cmd, kw['timeout'])
+    monkeypatch.setattr(PD, 'gh', lambda *a, data=None: REAL_GH(*a, data=data, run=hangs))
+    write_day(tmp_path, [{'map': 'A', 'totalsVerified': True}])
+    assert PD.main([DATE], root=str(tmp_path)) == 1                    # the GET timed out: no PUT without the sha
+    assert seen['timeout'] == PD.GH_TIMEOUT
 
 
 def test_republish_reports_failure_and_skips_publish(tmp_path, monkeypatch):

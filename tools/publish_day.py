@@ -34,8 +34,17 @@ def opt(argv, name, default):
     return argv[argv.index(name) + 1] if name in argv else default
 
 
-def gh(*args, data=None):
-    r = subprocess.run([find_gh() or 'gh', 'api', *args], input=data, capture_output=True, text=True, encoding='utf-8')
+GH_TIMEOUT = 120    # s; live_capture runs this inside its capture loop: a hung request must not stop the frames for long
+
+
+def gh(*args, data=None, run=subprocess.run):
+    try:
+        r = run([find_gh() or 'gh', 'api', *args], input=data, capture_output=True, text=True, encoding='utf-8',
+                errors='replace', timeout=GH_TIMEOUT)
+    except subprocess.TimeoutExpired:
+        return 1, '', f'gh api timed out after {GH_TIMEOUT} s'
+    except OSError as e:
+        return 1, '', f'gh could not run: {type(e).__name__}: {e}'
     return r.returncode, r.stdout, r.stderr
 
 
