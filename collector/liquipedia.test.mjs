@@ -83,7 +83,20 @@ test('fetchPage: a missing page is not asked again for 6 h', async () => {
   const again = await fetchPage('Nope');
   assert.equal(again.missing, true); assert.equal(again.cached, true); assert.equal(calls.length, 1);
   const m = JSON.parse(await fs.readFile(path.join(dir, '_missing.json'), 'utf8'));
-  assert.ok(Date.parse(m.Nope) <= Date.now());
+  assert.equal(typeof m.Nope, 'number'); assert.ok(m.Nope * 1000 <= Date.now() && m.Nope * 1000 > Date.now() - 60e3);
+});
+
+test('fetchPage: _missing.json entries in seconds (cloud_live) and ISO (older runs) are honoured, old ones are asked again', async () => {
+  const now = Date.now();
+  await fs.writeFile(path.join(dir, '_missing.json'), JSON.stringify({ Py: now / 1000 - 60, Iso: new Date(now - 60e3).toISOString(), Old: now / 1000 - 7 * 3600, Bad: 'x' }));
+  assert.equal((await fetchPage('Py')).cached, true);
+  assert.equal((await fetchPage('Iso')).cached, true);
+  assert.equal(calls.length, 0);
+  replies.push(pageReply('Old', 'back'), pageReply('Bad', 'here'));
+  assert.equal((await fetchPage('Old')).text, 'back');
+  assert.equal((await fetchPage('Bad')).text, 'here');
+  const m = JSON.parse(await fs.readFile(path.join(dir, '_missing.json'), 'utf8'));
+  assert.deepEqual(Object.keys(m).sort(), ['Iso', 'Py']);
 });
 
 test('api: 429 throws RateLimited with Retry-After, no retry', async () => {

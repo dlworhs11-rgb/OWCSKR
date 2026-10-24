@@ -48,8 +48,11 @@ async function api(params) {
 
 const cacheFile = (title, ext) => path.join(cfg.cache, title.replace(/[^a-z0-9]+/gi, '_') + ext);
 const fresh = async (file, maxAgeMs) => { try { return Date.now() - (await fs.stat(file)).mtimeMs < maxAgeMs; } catch { return false; } };
-// title -> ISO time it was found missing / title -> redirect target (a cached copy keeps where it came from)
+// title -> when it was found missing / title -> redirect target (a cached copy keeps where it came from).
+// _missing.json is shared with owcs-kr cloud_live.ensure_wiki, which writes and reads epoch seconds (time.time()) and
+// fails on a string: written in seconds, read as seconds or as an ISO string (written by earlier collector runs)
 const sideFile = name => path.join(cfg.cache, name);
+const missingMs = v => (typeof v === 'number' ? v * 1000 : typeof v === 'string' ? Date.parse(v) : NaN);
 async function sideSet(name, key, value) {
   const m = (await readJson(sideFile(name))) || {};
   if (value === undefined) { if (!(key in m)) return; delete m[key]; } else m[key] = value;
@@ -62,8 +65,8 @@ const pageOf = r => Object.values(r.query.pages || {})[0] || {};
 // is an error, so the caller does not replace the old matches with an empty list. Missing pages are not asked again for 6 h.
 export async function fetchPage(title, { maxAgeMs = 3600e3 } = {}) {
   const file = cacheFile(title, '.wiki');
-  const missingAt = ((await readJson(sideFile('_missing.json'))) || {})[title];
-  if (missingAt && Date.now() - Date.parse(missingAt) < cfg.missingTtl) return { text: null, redirect: null, missing: true, cached: true };
+  const missingAt = missingMs(((await readJson(sideFile('_missing.json'))) || {})[title]);
+  if (Date.now() - missingAt < cfg.missingTtl) return { text: null, redirect: null, missing: true, cached: true };
   if (await fresh(file, maxAgeMs)) {
     const text = await fs.readFile(file, 'utf8');
     if (isRedirectBody(text)) throw new Error('redirect not followed: ' + text.trim().slice(0, 120));
@@ -72,7 +75,7 @@ export async function fetchPage(title, { maxAgeMs = 3600e3 } = {}) {
   const r = await api({ action: 'query', prop: 'revisions', rvprop: 'content', rvslots: 'main', redirects: '1', titles: title });
   const page = pageOf(r), redirect = r.query.redirects?.length ? page.title ?? null : null;
   const text = page.revisions?.[0]?.slots?.main?.['*'];
-  if (text == null) { await sideSet('_missing.json', title, new Date().toISOString()); return { text: null, redirect, missing: true, cached: false }; }
+  if (text == null) { await sideSet('_missing.json', title, Date.now() / 1000); return { text: null, redirect, missing: true, cached: false }; }
   await sideSet('_missing.json', title, undefined);
   if (isRedirectBody(text)) throw new Error('redirect not followed: ' + text.trim().slice(0, 120));
   await fs.mkdir(cfg.cache, { recursive: true });
