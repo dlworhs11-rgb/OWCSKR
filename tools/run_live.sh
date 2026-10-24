@@ -6,8 +6,8 @@
 # restarting never extends the day. A start after that time only finishes a day whose summary never went out
 # (a crash near the end), then exits. A day with data/live/<DATE>/summary.txt is finished: a start exits at once.
 # Exit: 0 ok / day finished or over / already running, 1 capture failed (systemd restarts it), 2 bad arguments or the
-# capture's self-check failed, 4 capture ended but its final OCR / publish failed (2 and 4 are not restarted:
-# RestartPreventExitStatus=2 4).
+# capture's self-check failed, 4 capture ended but its final OCR / publish failed, 78 bad .env (env.sh) (2, 4 and 78
+# are not restarted: RestartPreventExitStatus=2 4 78; a unit that fails for good alerts through OnFailure=).
 set -u
 . "$(dirname "$0")/env.sh"
 if [ $# -lt 2 ]; then echo "usage: $0 HOURS DATE [URL]" >&2; exit 2; fi
@@ -82,7 +82,11 @@ start_xvfb() {
   done
   return 1
 }
-if [ -z "${DISPLAY:-}" ] && command -v Xvfb >/dev/null 2>&1; then
+# OWCSKR_FRAME_SOURCE=hls: live_capture.py reads the SOOP stream with yt-dlp + ffmpeg, no OBS, so no display either
+SOURCE="$(printf '%s' "${OWCSKR_FRAME_SOURCE:-obs}" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')"
+if [ "$SOURCE" = hls ]; then
+  log "frame source hls - no Xvfb"
+elif [ -z "${DISPLAY:-}" ] && command -v Xvfb >/dev/null 2>&1; then
   if start_xvfb; then log "Xvfb on $DISPLAY"; else log "Xvfb did not start (see $DAYDIR/xvfb.log) - no display"; fi
 fi
 ARGS=(--until "$UNTIL" --date "$DAY")

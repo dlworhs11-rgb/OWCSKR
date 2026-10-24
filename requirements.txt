@@ -3,4 +3,7 @@ opencv-python-headless>=4.8
 numpy>=1.24
 pytesseract>=0.3.10
 websockets>=12
+# OWCSKR_FRAME_SOURCE=hls (tools/frames.py): pinned, SOOP's extractor changes often - bump it on purpose and
+# check with tools/frames_probe.py on the next match day
+yt-dlp==2026.8.19
 pytest>=8

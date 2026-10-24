@@ -73,6 +73,26 @@ def test_notify_without_webhook_on_linux_only_logs(monkeypatch, capsys):
     assert '[t] x' in capsys.readouterr().err
 
 
+def test_notify_message_box_escapes_quotes_in_the_title(monkeypatch):
+    """PowerShell single-quoted strings: a ' in the title must be doubled, like the one in the text"""
+    started = []
+    monkeypatch.delenv('OWCSKR_DISCORD_WEBHOOK', raising=False)
+    monkeypatch.setattr(PU, 'IS_WIN', True)
+    monkeypatch.setattr(PU.subprocess, 'Popen', lambda cmd, **k: started.append(cmd))
+    PU.notify("it's down", "can't read")
+    script = started[0][-1]
+    assert "'it''s down'" in script and "'can''t read'" in script
+
+
+def test_frame_source(monkeypatch, capsys):
+    monkeypatch.delenv('OWCSKR_FRAME_SOURCE', raising=False)
+    assert PU.frame_source() == 'obs'
+    monkeypatch.setenv('OWCSKR_FRAME_SOURCE', ' HLS ')
+    assert PU.frame_source() == 'hls'
+    monkeypatch.setenv('OWCSKR_FRAME_SOURCE', 'ffmpeg')
+    assert PU.frame_source() == 'obs' and 'not obs or hls' in capsys.readouterr().err
+
+
 def _import_with_env(tmp_path, content: bytes, **env):
     """import a copy of platform_util next to a test .env, in a fresh interpreter"""
     import shutil, subprocess

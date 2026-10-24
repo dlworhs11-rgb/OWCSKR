@@ -66,6 +66,19 @@ def obs_installed() -> bool:
     return os.path.isfile(cmd[0]) or bool(shutil.which(cmd[0]))
 
 
+FRAME_SOURCES = ('obs', 'hls')
+
+
+def frame_source() -> str:
+    """where the capture takes its frames: OWCSKR_FRAME_SOURCE=obs (default, OBS browser source) or hls (SOOP HLS
+    through yt-dlp + ffmpeg, no OBS). An unknown value counts as obs, with a warning."""
+    value = (os.environ.get('OWCSKR_FRAME_SOURCE') or 'obs').strip().lower()
+    if value in FRAME_SOURCES:
+        return value
+    print(f'platform_util: OWCSKR_FRAME_SOURCE={value!r} is not obs or hls - using obs', file=sys.stderr)
+    return 'obs'
+
+
 ENV_FILE = os.path.join(ROOT, '.env')
 _ENV_KEY = re.compile(r'([A-Za-z_][A-Za-z0-9_]*)=(.*)')
 
@@ -171,9 +184,9 @@ def notify(title: str, text: str) -> None:
         except Exception as e:
             print(f'notify: Discord webhook failed: {type(e).__name__} {e}', file=sys.stderr, flush=True)
     if IS_WIN and not hook:
-        safe = text.replace("'", "''")
+        safe, safe_title = text.replace("'", "''"), title.replace("'", "''")
         ps = ('Add-Type -AssemblyName PresentationFramework; [System.Windows.MessageBox]::Show('
-              f"'{safe}', '{title}', 'OK', 'Warning') | Out-Null")
+              f"'{safe}', '{safe_title}', 'OK', 'Warning') | Out-Null")
         subprocess.Popen(['powershell', '-NoProfile', '-WindowStyle', 'Hidden', '-Command', ps])
 
 

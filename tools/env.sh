@@ -4,7 +4,9 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # .env is read as plain KEY=VALUE lines, never run as shell code: the same file is the EnvironmentFile= of the
 # systemd units, and the two must read the same values (tools/platform_util.py parse_env_lines has the same rules).
-# A bad file stops the calling script: a half-read .env makes jobs skip things silently.
+# A bad file stops the calling script: a half-read .env makes jobs skip things silently. Exit 78 (EX_CONFIG), not 1:
+# the capture unit does not restart on it (RestartPreventExitStatus) and the unit's OnFailure= alert is not taken for
+# one the script sent itself (tools/notify.py SELF_ALERTED).
 load_env() {
   local f="$1" line key val n=0 i
   local re_kv='^([A-Za-z_][A-Za-z0-9_]*)=(.*)$' re_dq='^"([^"]*)"$' re_sq="^'([^']*)'\$"
@@ -29,11 +31,14 @@ load_env() {
   done < "$f"
   for ((i = 0; i < ${#keys[@]}; i++)); do export "${keys[i]}=${vals[i]}"; done
 }
-load_env "$ROOT/.env" || exit 1
+ENV_BAD=78
+load_env "$ROOT/.env" || exit "$ENV_BAD"
 
 if [ -n "${OWCSKR_PYTHON:-}" ]; then PY="$OWCSKR_PYTHON"
 elif [ -x "$ROOT/.venv/bin/python" ]; then PY="$ROOT/.venv/bin/python"
 else PY=python3; fi
+# what pip installs into the venv (yt-dlp for OWCSKR_FRAME_SOURCE=hls) is on PATH too: systemd units have no venv
+if [ -d "$ROOT/.venv/bin" ]; then PATH="$ROOT/.venv/bin:$PATH"; export PATH; fi
 LOG_DIR="$ROOT/data/live"
 mkdir -p "$LOG_DIR"
 cd "$ROOT" || exit 1
@@ -76,17 +81,49 @@ capture_running() {
   fi
 }
 
+UNIT_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user"
+
+# alert_on_failure UNIT: the OnFailure= property that alerts when UNIT fails for good. The instance is the unit's full
+# name, spelled out: systemd-run -p passes the value as it is (no %n specifier expansion for transient units).
+alert_on_failure() { printf 'OnFailure=owcskr-alert@%s.service' "$1"; }
+
+# ensure_alert_unit: write ~/.config/systemd/user/owcskr-alert@.service (the OnFailure= target of the capture, recorder
+# and daily units: tools/notify.py --unit-failed) when it is missing or differs, then daemon-reload. Returns nonzero
+# when it could not be written.
+ensure_alert_unit() {
+  local f="$UNIT_DIR/owcskr-alert@.service" py r text
+  py="$(command -v "$PY" 2>/dev/null)" || py="$PY"
+  r="${ROOT//%/%%}"; py="${py//%/%%}"      # a literal % in a unit file is written %%
+  text="[Unit]
+Description=OWCSKR alert: %i failed
+# no OnFailure= here: a failed alert must not alert about itself
+
+[Service]
+Type=oneshot
+WorkingDirectory=$r
+EnvironmentFile=-$r/.env
+ExecStart=\"$py\" -I \"$r/tools/notify.py\" --unit-failed %i
+TimeoutStartSec=2min"
+  if [ -f "$f" ] && [ "$(cat "$f")" = "$text" ]; then return 0; fi
+  mkdir -p "$UNIT_DIR" && printf '%s\n' "$text" > "$f" || return 1
+  systemctl --user daemon-reload
+}
+
 # detach [--once] NAME WORKDIR LOGFILE CMD...: run CMD in the background so it outlives the calling job.
 # Under systemd a plain '&' child is killed with the job's cgroup, so it gets its own transient unit, with the .env
 # values (a systemd-run unit gets the user manager's environment, not ours) and restarts after a crash (--once: no
-# restart, for one-shot jobs that must not run twice). Returns systemd-run's exit code.
+# restart, for one-shot jobs that must not run twice). A crash loop gives up after 5 starts in 10 minutes: the unit
+# fails and OnFailure= alerts (owcskr-alert@.service). Returns systemd-run's exit code.
 detach() {
   local restart=1
   if [ "$1" = "--once" ]; then restart=0; shift; fi
   local name="$1" dir="$2" log="$3"; shift 3
   if have_systemd; then
     local props=(-p "EnvironmentFile=-$ROOT/.env" -p "StandardOutput=append:$log" -p "StandardError=append:$log")
-    if [ "$restart" = 1 ]; then props+=(-p Restart=on-failure -p RestartSec=30 -p StartLimitIntervalSec=0); fi
+    if [ "$restart" = 1 ]; then
+      props+=(-p Restart=on-failure -p RestartSec=30 -p StartLimitIntervalSec=10min -p StartLimitBurst=5
+              -p "$(alert_on_failure "owcskr-$name.service")")
+    fi
     systemctl --user reset-failed "owcskr-$name.service" >/dev/null 2>&1
     systemd-run --user --quiet --unit "owcskr-$name" --working-directory "$dir" "${props[@]}" "$@"
   else

@@ -98,7 +98,8 @@ def test_register_systemd_command_line(linux):
     assert cmd[-4:] == ['/bin/bash', os.path.join(S.ROOT, 'tools', 'run_live.sh'), '6.2', DAY]
     p = props(cmd)
     assert S.ENV_PROP in p and S.ENV_PROP.startswith('EnvironmentFile=-')
-    assert {'Restart=on-failure', 'RestartSec=60', 'TimeoutStopSec=5min', 'RestartPreventExitStatus=2 4'} <= set(p)
+    assert {'Restart=on-failure', 'RestartSec=60', 'TimeoutStopSec=5min', 'RestartPreventExitStatus=2 4 78'} <= set(p)
+    assert f'OnFailure=owcskr-alert@{UNIT}.service.service' in p          # alerts once it gives up
     assert f'RuntimeMaxSec={round(7.2 * 3600)}s' in p          # planned length + 1 h
     assert ['systemctl', '--user', 'stop', UNIT + '.timer'] in linux.calls
     assert not any('stop' in c and UNIT + '.service' in c for c in linux.calls)
@@ -172,10 +173,25 @@ def test_future_day_registers_capture_and_checks(linux):
     assert check[check.index('--on-calendar') + 1] == S.utc_calendar(first - datetime.timedelta(minutes=5))
     assert soop[soop.index('--on-calendar') + 1] == S.utc_calendar(first + datetime.timedelta(minutes=2))
     assert check[-1].endswith('matchday_check.py') and soop[-1].endswith('soop_quality.py')
-    assert fresh[-1].endswith('healthcheck.py') and '--timer-property=OnUnitActiveSec=30min' in fresh
+    assert fresh[-1].endswith('healthcheck.py') and '--timer-property=OnUnitActiveSec=15min' in fresh
     for cmd in (check, soop, fresh):
         assert S.ENV_PROP in props(cmd)
     assert len(linux.runs(UNIT)) == 1
+
+
+def test_site_dispatch_only_when_turned_on(linux, monkeypatch):
+    now = start_of() - datetime.timedelta(hours=5)
+    monkeypatch.delenv('OWCSKR_SITE_DISPATCH', raising=False)
+    S.main([DAY], now=now)
+    assert linux.runs(f'owcskr-dispatch-{DAY}') == []
+    monkeypatch.setenv('OWCSKR_SITE_DISPATCH', '1')
+    S.main([DAY], now=now)
+    dispatch, = linux.runs(f'owcskr-dispatch-{DAY}')
+    end = start_of() + datetime.timedelta(hours=6.2)
+    assert dispatch[dispatch.index('--on-calendar') + 1] == S.utc_calendar(start_of())   # from the capture start
+    assert '--timer-property=OnUnitActiveSec=10min' in dispatch
+    assert dispatch[-3:] == [os.path.join(S.TOOLS, 'dispatch_site.py'), '--until', end.isoformat()]
+    assert S.ENV_PROP in props(dispatch)                                                   # GH_TOKEN from .env
 
 
 def test_already_started_day_skips_past_checks(linux):
@@ -199,10 +215,21 @@ def test_dry_registers_nothing(linux):
     assert linux.calls == []
 
 
-def test_cleanup_systemd_stops_only_past_days(linux):
-    listing = '\n'.join(f'{u}.timer loaded active waiting x' for u in (
+CLEANUP_LISTING = '\n'.join([
+    *(f'{u}.timer loaded active waiting x' for u in (
         'owcskr-live-2026-10-24', 'owcskr-check-2026-10-24', 'owcskr-fresh-2026-10-24', 'owcskr-live-2026-10-25',
-        'owcskr-daily'))
+        'owcskr-dispatch-2026-10-24', 'owcskr-daily')),
+    '● owcskr-soop-2026-10-24.service loaded failed failed OWCSKR soop 2026-10-24',
+    'owcskr-live-2026-10-24.service loaded active running OWCSKR live capture 2026-10-24',
+    'owcskr-alert@owcskr-live-2026-10-23.service.service loaded failed failed OWCSKR alert: owcskr-live-2026-10-23.service failed',
+    'owcskr-replay-comment-2026-10-24.service loaded failed failed replay',
+    'owcskr-score_watch.service loaded failed failed recorder',
+    'owcskr-fresh-2026-10-25.service loaded failed failed OWCSKR fresh 2026-10-25',
+])
+
+
+def test_cleanup_systemd_stops_only_past_days(linux):
+    listing = CLEANUP_LISTING
     linux.calls.clear()
     orig = linux.__call__
 
@@ -213,8 +240,14 @@ def test_cleanup_systemd_stops_only_past_days(linux):
         return orig(cmd)
     S.run = run
     S.cleanup_systemd('2026-10-25')
-    stopped = [c[-1] for c in linux.calls if c[:3] == ['systemctl', '--user', 'stop']]
-    assert stopped == ['owcskr-live-2026-10-24.timer', 'owcskr-check-2026-10-24.timer', 'owcskr-fresh-2026-10-24.timer']
+    stopped = {c[-1] for c in linux.calls if c[:3] == ['systemctl', '--user', 'stop']}
+    assert stopped == {'owcskr-live-2026-10-24.timer', 'owcskr-check-2026-10-24.timer', 'owcskr-fresh-2026-10-24.timer',
+                       'owcskr-dispatch-2026-10-24.timer'}        # the running service of 10-24 is not stopped
+    reset = {c[-1] for c in linux.calls if c[:3] == ['systemctl', '--user', 'reset-failed']}
+    assert reset == stopped | {'owcskr-soop-2026-10-24.service', 'owcskr-live-2026-10-24.service',
+                               'owcskr-alert@owcskr-live-2026-10-23.service.service',
+                               'owcskr-replay-comment-2026-10-24.service'}
+    assert not any('2026-10-25' in u or 'score_watch' in u or 'daily' in u for u in reset)
 
 
 # ---------------------------------------------------------------- Windows
@@ -266,6 +299,12 @@ def test_windows_check_tasks(win):
     assert f"'Freshness_{DAY}'" in script and '-RepetitionInterval (New-TimeSpan -Minutes 30)' in script
     assert S.register_check_win('check', DAY, when, 'matchday_check.py', 0, when) == 'registered'
     assert f"'MatchdayCheck_{DAY}'" in fake.calls[-1][-1] and 'Repetition' not in fake.calls[-1][-1]
+    end = when + datetime.timedelta(hours=6)
+    assert S.register_check_win('dispatch', DAY, when, 'dispatch_site.py', 10, end,
+                                ('--until', end.isoformat())) == 'registered'
+    script = fake.calls[-1][-1]
+    assert f"'SiteDispatch_{DAY}'" in script and '-RepetitionInterval (New-TimeSpan -Minutes 10)' in script
+    assert rf'python -I tools\dispatch_site.py --until {end.isoformat()} >> data\live\dispatch.log 2>&1' in script
 
 
 def test_calendar_time_is_utc():

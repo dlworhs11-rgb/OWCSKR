@@ -5,9 +5,13 @@ Finds that day's Korean-league matches in data/site/matches.json (run collector/
            when GAME DATA screens stop for 75 minutes); restarted after a crash, never past the planned end
   check    tools/matchday_check.py 5 minutes before the first match
   soop     tools/soop_quality.py 2 minutes after the first match
-  fresh    tools/healthcheck.py every 30 minutes from the capture start
-  Windows: Task Scheduler tasks OWCSKR\LiveCapture_<date>, MatchdayCheck_<date>, SoopQuality_<date>, Freshness_<date>
-  Linux:   systemd user timers owcskr-live-<date>, owcskr-check-<date>, owcskr-soop-<date>, owcskr-fresh-<date>
+  fresh    tools/healthcheck.py every 15 minutes from the capture start
+  dispatch tools/dispatch_site.py every 10 minutes from the capture start to its end (starts a site build), only
+           with OWCSKR_SITE_DISPATCH=1
+  Windows: Task Scheduler tasks OWCSKR\LiveCapture_<date>, MatchdayCheck_<date>, SoopQuality_<date>, Freshness_<date>,
+           SiteDispatch_<date>
+  Linux:   systemd user timers owcskr-live-<date>, owcskr-check-<date>, owcskr-soop-<date>, owcskr-fresh-<date>,
+           owcskr-dispatch-<date>; the next morning's run stops past days' timers and reset-failed's their units
 A capture that is already running is never touched (re-registering would kill it). A day whose start has passed but
 not its end starts at once, in its own unit / task, so it outlives the daily job that started it.
 Exit 1 when a registration failed."""
@@ -28,8 +32,10 @@ CHECKS = (   # kind, minutes after the first match, script
     ('check', -5, 'matchday_check.py'),
     ('soop', 2, 'soop_quality.py'),
 )
-FRESH_EVERY_MIN = 30
-WIN_TASK = {'live': 'LiveCapture', 'check': 'MatchdayCheck', 'soop': 'SoopQuality', 'fresh': 'Freshness'}
+DISPATCH_EVERY_MIN = 10   # dispatch_site.py (OWCSKR_SITE_DISPATCH=1): a site build at least this often in a match
+FRESH_EVERY_MIN = 15      # healthcheck.py: alerts past 30 min during a match, so a stale site is seen within 45 min
+WIN_TASK = {'live': 'LiveCapture', 'check': 'MatchdayCheck', 'soop': 'SoopQuality', 'fresh': 'Freshness',
+            'dispatch': 'SiteDispatch'}
 FAILED = ('registration failed', 'start failed')
 KST = datetime.timezone(datetime.timedelta(hours=9))   # match days are Korean dates, whatever this machine's zone
 
@@ -125,12 +131,20 @@ def free_name(unit: str) -> None:
     systemctl('reset-failed', unit + '.timer', unit + '.service')
 
 
-def capture_props(hours: float) -> list[str]:
+def alert_on_failure(unit: str) -> str:
+    """[Unit] OnFailure= naming the alert unit (tools/register_tasks.sh installs owcskr-alert@.service). Spelled out:
+    systemd-run -p hands the value over as it is, there is no %n expansion for transient units."""
+    return f'OnFailure=owcskr-alert@{unit}.service'
+
+
+def capture_props(hours: float, unit: str) -> list[str]:
     """the capture unit, the same whether a timer or launch_now starts it. RuntimeMaxSec is only a backstop: run_live.sh
     ends at the planned time itself (until.txt). Not restarted: exit 2 = live_capture's self-check failed, 4 = the capture
-    ended but its final OCR / publish failed (a restart would capture an empty screen until the end time)."""
+    ended but its final OCR / publish failed (a restart would capture an empty screen until the end time), 78 = bad .env
+    (tools/env.sh). A unit that fails for good (one of those, killed, a stop timeout) alerts through OnFailure=;
+    run_live.sh alerts on 1, 2 and 4 itself, so tools/notify.py --unit-failed skips those."""
     return [ENV_PROP, f'RuntimeMaxSec={round((hours + 1) * 3600)}s', 'Restart=on-failure', 'RestartSec=60',
-            'RestartPreventExitStatus=2 4', 'TimeoutStopSec=5min']
+            'RestartPreventExitStatus=2 4 78', 'TimeoutStopSec=5min', alert_on_failure(unit + '.service')]
 
 
 def utc_calendar(when: datetime.datetime) -> str:
@@ -169,7 +183,7 @@ def register_systemd(day: str, start: datetime.datetime, hours: float) -> str:
     free_name(unit)
     clear_until(day)
     r = systemd_run(unit, f'OWCSKR live capture {day}', ['/bin/bash', live_script(), str(hours), day],
-                    capture_props(hours), when=start)
+                    capture_props(hours, unit), when=start)
     return _result(r, 'registered', 'registration failed')
 
 
@@ -181,12 +195,12 @@ def launch_now_systemd(day: str, hours: float) -> str:
         return 'capture already running'
     free_name(unit)
     r = systemd_run(unit, f'OWCSKR live capture {day}', ['/bin/bash', live_script(), str(hours), day],
-                    capture_props(hours))
+                    capture_props(hours, unit))
     return _result(r, 'started', 'start failed')
 
 
 def register_check_systemd(kind: str, day: str, when: datetime.datetime, script: str, repeat_min: int,
-                           end: datetime.datetime) -> str:
+                           end: datetime.datetime, args: tuple[str, ...] = ()) -> str:
     """one-shot timer for a check script (repeat_min: again every n minutes after the first run, until the next
     morning's cleanup stops the timer); the .env values come with EnvironmentFile="""
     unit = f'owcskr-{kind}-{day}'
@@ -194,17 +208,38 @@ def register_check_systemd(kind: str, day: str, when: datetime.datetime, script:
         return 'running - left as is'
     free_name(unit)
     tprops = (f'OnUnitActiveSec={repeat_min}min',) if repeat_min else ()
-    r = systemd_run(unit, f'OWCSKR {kind} {day}', [PY, '-I', os.path.join(TOOLS, script)],
+    r = systemd_run(unit, f'OWCSKR {kind} {day}', [PY, '-I', os.path.join(TOOLS, script), *args],
                     [ENV_PROP, 'RuntimeMaxSec=10min'], when=when, timer_props=tprops)
     return _result(r, 'registered', 'registration failed')
 
 
+# a unit of some day: owcskr-live-<date>, owcskr-fresh-<date>, owcskr-replay-comment-<date>, ... and the alert units
+# owcskr-alert@owcskr-live-<date>.service.service
+DAY_UNIT = re.compile(r'owcskr-\S*?(\d{4}-\d{2}-\d{2})\S*\.(?:timer|service)')
+
+
+def listed_units(out: str) -> list[str]:
+    """unit names from 'systemctl list-units --plain --no-legend' output: the first column, past a status mark
+    ('●' / '*') that some versions print before a failed unit even with --plain (never a word of the description)"""
+    names = []
+    for line in out.splitlines():
+        words = [w for w in line.split() if w not in ('●', '*', '○')]
+        if words and words[0].startswith('owcskr-'):
+            names.append(words[0])
+    return names
+
+
 def cleanup_systemd(today: str) -> None:
-    """stop the timers of past days (transient units disappear on their own after a reboot)"""
-    out = systemctl('list-units', '--all', '--plain', '--no-legend', 'owcskr-*.timer').stdout
-    for kind, day in re.findall(r'owcskr-(live|check|soop|fresh)-(\d{4}-\d{2}-\d{2})\.timer', out):
-        if day < today:
-            systemctl('stop', f'owcskr-{kind}-{day}.timer')
+    """stop the timers of past days and forget their failed runs (reset-failed), so 'systemctl --user --failed'
+    shows only what is still to be fixed. A running service is not stopped (the day before's capture runs past
+    midnight); transient units disappear on their own after a reboot."""
+    out = systemctl('list-units', '--all', '--plain', '--no-legend', '--full', 'owcskr-*').stdout
+    units = sorted({u for u in listed_units(out) if (m := DAY_UNIT.fullmatch(u)) and m.group(1) < today})
+    for unit in units:
+        if unit.endswith('.timer'):
+            systemctl('stop', unit)
+    for unit in units:
+        systemctl('reset-failed', unit)
 
 
 # ---------------------------------------------------------------- Windows: Task Scheduler
@@ -264,12 +299,12 @@ def launch_now_win(day: str, hours: float) -> str:
 
 
 def register_check_win(kind: str, day: str, when: datetime.datetime, script: str, repeat_min: int,
-                       end: datetime.datetime) -> str:
+                       end: datetime.datetime, args: tuple[str, ...] = ()) -> str:
     name = f'{WIN_TASK[kind]}_{day}'
     if win_task_state(name) == 'Running':
         return 'running - left as is'
-    log = 'healthcheck.log' if kind == 'fresh' else 'checks.log'
-    command = rf'python -I tools\{script} >> data\live\{log} 2>&1'
+    log = {'fresh': 'healthcheck.log', 'dispatch': 'dispatch.log'}.get(kind, 'checks.log')
+    command = ' '.join([rf'python -I tools\{script}', *args, rf'>> data\live\{log} 2>&1'])
     span = max(repeat_min, round((end - when).total_seconds() / 60) + 60) if repeat_min else 0
     return register_task_win(name, when, command, 10, repeat_min, span)
 
@@ -277,7 +312,7 @@ def register_check_win(kind: str, day: str, when: datetime.datetime, script: str
 def cleanup_win(today: str) -> None:
     """remove the tasks of past days (and the old single 'LiveCapture' task)"""
     script = (r"Get-ScheduledTask -TaskPath '\OWCSKR\' -ErrorAction SilentlyContinue | Where-Object { $_.TaskName -eq 'LiveCapture' -or "
-              r"($_.TaskName -match '^(LiveCapture|MatchdayCheck|SoopQuality|Freshness)_(\d{4}-\d{2}-\d{2})$' -and $Matches[2] -lt "
+              r"($_.TaskName -match '^(LiveCapture|MatchdayCheck|SoopQuality|Freshness|SiteDispatch)_(\d{4}-\d{2}-\d{2})$' -and $Matches[2] -lt "
               + q(today) + ") } | Unregister-ScheduledTask -Confirm:$false")
     ps(script)
 
@@ -293,9 +328,9 @@ def launch_now(day: str, hours: float) -> str:
 
 
 def register_check(kind: str, day: str, when: datetime.datetime, script: str, repeat_min: int,
-                   end: datetime.datetime) -> str:
+                   end: datetime.datetime, args: tuple[str, ...] = ()) -> str:
     fn = register_check_win if IS_WIN else register_check_systemd
-    return fn(kind, day, when, script, repeat_min, end)
+    return fn(kind, day, when, script, repeat_min, end, args)
 
 
 def cleanup(today: str) -> None:
@@ -304,16 +339,26 @@ def cleanup(today: str) -> None:
 
 def register_checks(day: str, first: datetime.datetime, start: datetime.datetime, end: datetime.datetime,
                     now: datetime.datetime) -> list[str]:
-    """the match-day checks next to the capture; a check whose time has passed is left out"""
-    items = [(kind, first + datetime.timedelta(minutes=mins), script, 0) for kind, mins, script in CHECKS]
-    items.append(('fresh', max(start, now + datetime.timedelta(minutes=1)), 'healthcheck.py', FRESH_EVERY_MIN))
+    """the match-day checks next to the capture (and the site build trigger with OWCSKR_SITE_DISPATCH=1); a check
+    whose time has passed is left out"""
+    items = [(kind, first + datetime.timedelta(minutes=mins), script, 0, ()) for kind, mins, script in CHECKS]
+    soon = max(start, now + datetime.timedelta(minutes=1))
+    items.append(('fresh', soon, 'healthcheck.py', FRESH_EVERY_MIN, ()))
+    if site_dispatch_on():
+        items.append(('dispatch', soon, 'dispatch_site.py', DISPATCH_EVERY_MIN, ('--until', end.isoformat())))
     out = []
-    for kind, when, script, repeat in items:
+    for kind, when, script, repeat, args in items:
         if when <= now or (repeat and when >= end):
             out.append(f'{kind}: time passed - not scheduled')
             continue
-        out.append(f"{kind} {when.astimezone():%H:%M}: {register_check(kind, day, when, script, repeat, end)}")
+        res = register_check(kind, day, when, script, repeat, end, args)
+        out.append(f"{kind} {when.astimezone():%H:%M}: {res}")
     return out
+
+
+def site_dispatch_on() -> bool:
+    """OWCSKR_SITE_DISPATCH=1: a site build every DISPATCH_EVERY_MIN minutes during the capture (dispatch_site.py)"""
+    return os.environ.get('OWCSKR_SITE_DISPATCH', '0').strip() == '1'
 
 
 def schedule(day: str, ms: list[dict], start: datetime.datetime, hours: float, now: datetime.datetime) -> bool:
