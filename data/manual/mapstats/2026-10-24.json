@@ -253,7 +253,7 @@
    "matchNo": 1,
    "mapWins": {
     "Cheeseburger": 1,
-    "ZETA DIVISION": 1
+    "ZETA DIVISION": 2
    },
    "potm": null
   }
@@ -343,8 +343,38 @@
    "id": "?17",
    "map": "03",
    "row": 9
+  },
+  {
+   "id": "?18",
+   "map": "04",
+   "row": 1
+  },
+  {
+   "id": "?19",
+   "map": "04",
+   "row": 5
+  },
+  {
+   "id": "?20",
+   "map": "04",
+   "row": 6
+  },
+  {
+   "id": "?21",
+   "map": "04",
+   "row": 7
+  },
+  {
+   "id": "?22",
+   "map": "04",
+   "row": 8
   }
  ],
- "unknownMaps": [],
+ "unknownMaps": [
+  {
+   "map": "04",
+   "frame": "m04_table1_1792828168.png"
+  }
+ ],
  "note": "reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; mapTime = damage / damage-per-minute from the totals page."
 }
