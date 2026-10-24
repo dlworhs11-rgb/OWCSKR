@@ -71,3 +71,28 @@ def test_notify_without_webhook_on_linux_only_logs(monkeypatch, capsys):
     monkeypatch.setattr(PU.subprocess, 'Popen', lambda *a, **k: (_ for _ in ()).throw(AssertionError('no popup on Linux')))
     PU.notify('t', 'x')
     assert '[t] x' in capsys.readouterr().err
+
+
+def _import_with_env(tmp_path, content: bytes, **env):
+    """import a copy of platform_util next to a test .env, in a fresh interpreter"""
+    import shutil, subprocess
+    (tmp_path / 'tools').mkdir(exist_ok=True)
+    shutil.copy(PU.__file__, tmp_path / 'tools' / 'platform_util.py')
+    (tmp_path / '.env').write_bytes(content)
+    code = 'import os, platform_util as P; print(os.environ.get("OWCSKR_HC_LIVE"), P.SITE_DIR)'
+    clean = {k: v for k, v in os.environ.items() if not k.startswith('OWCSKR_')}
+    return subprocess.run([sys.executable, '-c', code], cwd=tmp_path / 'tools', capture_output=True, text=True,
+                          env=dict(clean, **env), timeout=60)
+
+
+def test_env_file_is_read_at_import(tmp_path):
+    r = _import_with_env(tmp_path, b'OWCSKR_HC_LIVE=https://hc.example/x\nOWCSKR_SITE_DIR="/srv/OWCS KR Home"\n')
+    assert r.stdout.split(None, 1) == ['https://hc.example/x', '/srv/OWCS KR Home\n']
+
+
+def test_env_file_never_overrides_and_a_bad_one_only_warns(tmp_path):
+    r = _import_with_env(tmp_path, b'OWCSKR_HC_LIVE=from-file\r\n')
+    assert r.returncode == 0 and r.stdout.startswith('None ')    # CRLF file: refused as a whole, nothing set
+    assert '.env not loaded' in r.stderr
+    r = _import_with_env(tmp_path, b'OWCSKR_HC_LIVE=from-file\n', OWCSKR_HC_LIVE='already')
+    assert r.stdout.startswith('already ')

@@ -1,6 +1,7 @@
 """Windows / Linux differences in one place: folders, process checks, OBS locations, Tesseract, notifications.
 
-Settings come from environment variables (on the server: .env in the repo root, loaded by the tools/*.sh scripts):
+Settings come from environment variables; .env in the repo root fills in the ones not set (read at import here,
+and on the server also by the tools/*.sh scripts and the units' EnvironmentFile=):
   OWCSKR_SITE_DIR         folder with the site recorders (score_watch.py, pick_watch.py, ...); empty = not on this machine
   OWCSKR_DISCORD_WEBHOOK  Discord webhook for alerts (match-day check, SOOP quality); empty = log only
   TESSERACT_CMD           tesseract binary when it is not on PATH
@@ -16,7 +17,6 @@ IS_WIN = os.name == 'nt'
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LIVE_DIR = os.path.join(ROOT, 'data', 'live')
 _LEGACY_SITE_DIR = r'C:\Users\dlwor\Documents\Obsidian\LeeJaeGon\02_Projects\OWCS KR Home'   # the original capture PC
-SITE_DIR = os.environ.get('OWCSKR_SITE_DIR') or (_LEGACY_SITE_DIR if IS_WIN and os.path.isdir(_LEGACY_SITE_DIR) else '')
 OBS_PROC = 'obs64.exe' if IS_WIN else 'obs'
 
 
@@ -105,6 +105,14 @@ def load_env_file(path: str = ENV_FILE) -> dict[str, str]:
     for k, v in values.items():
         os.environ.setdefault(k, v)
     return values
+
+
+# every python entry point sees .env, also on Windows where no env.sh / EnvironmentFile= loads it first
+try:
+    load_env_file()
+except (OSError, ValueError) as _e:
+    print(f'platform_util: .env not loaded: {_e}', file=sys.stderr)
+SITE_DIR = os.environ.get('OWCSKR_SITE_DIR') or (_LEGACY_SITE_DIR if IS_WIN and os.path.isdir(_LEGACY_SITE_DIR) else '')
 
 
 def live_until(day: str, hours: float, now: datetime.datetime | None = None) -> tuple[str, bool]:
