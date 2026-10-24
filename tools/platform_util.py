@@ -80,6 +80,34 @@ def frame_source() -> str:
     return 'obs'
 
 
+KST = datetime.timezone(datetime.timedelta(hours=9))   # match days are Korean dates, whatever this machine's zone
+DAY_START = {4: '17:00', 5: '15:00', 6: '15:00'}   # usual first-match time per weekday (same as the site's owcs_build.py)
+DAY_START_OTHER = '19:00'
+
+
+def match_start(date: str) -> tuple[datetime.datetime, bool]:
+    """(start in KST, time known?) of a schedule date. Liquipedia's date-only matches come as 00:00 UTC (the collector's
+    parseDate without a zone) or 00:00 KST: no start time yet, so the KST calendar date of that match at the weekday's
+    usual first-match time (DAY_START, KST). Every other time is kept as written, in KST."""
+    dt = datetime.datetime.fromisoformat(date)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=KST)
+    kst = dt.astimezone(KST)
+    utc_midnight = dt.utcoffset() == datetime.timedelta(0) and (dt.hour, dt.minute) == (0, 0)
+    if not utc_midnight and (kst.hour, kst.minute) != (0, 0):
+        return kst, True
+    h, mi = map(int, DAY_START.get(kst.weekday(), DAY_START_OTHER).split(':'))
+    return kst.replace(hour=h, minute=mi, second=0, microsecond=0), False
+
+
+def kst_day(date: str) -> str:
+    """the Korean calendar date (YYYY-MM-DD) of a schedule date; '' when it is empty or not a date"""
+    try:
+        return match_start(date)[0].date().isoformat() if date else ''
+    except (TypeError, ValueError):
+        return ''
+
+
 ENV_FILE = os.path.join(ROOT, '.env')
 _ENV_KEY = re.compile(r'([A-Za-z_][A-Za-z0-9_]*)=(.*)')
 

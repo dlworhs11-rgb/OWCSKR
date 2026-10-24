@@ -514,8 +514,7 @@ def todays_matches(day: str, log, matches_path=None, lp_dir=None) -> list[dict]:
             got = ST.plan(day, ms, lp_dir)
             return got[0] if got else []
         # no Liquipedia pages on this machine: the regular matches only (plan's own filter)
-        return sorted((m for m in ms if m['date'].startswith(day) and '/Korea' in m['competitionTitle']),
-                      key=lambda m: m['date'])
+        return sorted(ST.korean_matches(day, ms), key=lambda m: m['date'])
     except (OSError, ValueError, KeyError, TypeError, AttributeError) as e:
         log('schedule not usable:', type(e).__name__, e); return []
 

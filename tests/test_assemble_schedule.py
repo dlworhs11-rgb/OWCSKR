@@ -149,3 +149,17 @@ def test_numbering_counts_everything_without_stream_information():
     assert [s['no'] for s in AD.number_matches(AD.day_schedule(no_field, FX['date'], {}))] == [1, 2, 3]
     one_unstreamed = copy.deepcopy(FX['schedule']); one_unstreamed[1]['broadcast'] = {}   # 2024 stage 1: one '{}'
     assert [s['no'] for s in AD.number_matches(AD.day_schedule(one_unstreamed, FX['date'], {}))] == [1, 2, 3]
+
+
+# ---- dates without a start time (N-01) -----------------------------------------------------------------------------
+
+def test_date_only_matches_are_untimed_on_their_kst_date():
+    """00:00 UTC (collector parseDate without a zone) and 00:00 KST are "no time yet": timed False, start on the
+    weekday's usual first-match time in KST (10-25 is a Sunday: 15:00); a real time stays timed"""
+    rs = lambda date, idx: {'date': date, 'team1': 'A', 'team2': 'B', 'competitionTitle': RS, 'idx': idx}
+    day = [rs('2026-10-25T00:00:00+00:00', 0), rs('2026-10-25T00:00:00+09:00', 1), rs('2026-10-25T17:00:00+09:00', 2)]
+    sched = AD.day_schedule(day, '2026-10-25', {})
+    guess = int(AD.datetime(2026, 10, 25, 15, tzinfo=AD.KST).timestamp())
+    real = int(AD.datetime(2026, 10, 25, 17, tzinfo=AD.KST).timestamp())
+    assert [(s['idx'], s['timed'], s['start']) for s in sched] == [(0, False, guess), (1, False, guess), (2, True, real)]
+    assert AD.day_schedule(day, '2026-10-24', {}) == []

@@ -29,7 +29,7 @@ MATCHES = os.path.join(ROOT, 'data', 'site', 'matches.json')
 LP_DIR = os.path.join(ROOT, 'data', 'lp')
 PY = sys.executable
 ENV_PROP = 'EnvironmentFile=-' + os.path.join(ROOT, '.env')   # '-': no .env is fine
-DAY_START = {4: '17:00', 5: '15:00', 6: '15:00'}   # usual first-match time per weekday (same as owcs_build.py)
+DAY_START = PU.DAY_START   # usual first-match time per weekday (KST), for a match without a start time
 CHECKS = (   # kind, minutes after the first match, script
     ('check', -5, 'matchday_check.py'),
     ('soop', 2, 'soop_quality.py'),
@@ -47,12 +47,25 @@ def load_matches(path: str | None = None) -> list[dict]:
         return json.load(f)
 
 
+def at_kst(m: dict) -> dict:
+    """the match with its date in KST (platform_util.match_start). No start time on Liquipedia (00:00 UTC or 00:00 KST):
+    the weekday's usual first-match time (DAY_START) on its KST date, guessed=True"""
+    dt, known = PU.match_start(m['date'])
+    return dict(m, date=dt.isoformat()) if known else dict(m, date=dt.isoformat(), guessed=True)
+
+
+def korean_matches(day: str, matches: list[dict]) -> list[dict]:
+    """the Korean-league matches of data/site/matches.json on that KST date, through at_kst"""
+    return [at_kst(m) for m in matches if '/Korea' in m['competitionTitle'] and PU.kst_day(m['date']) == day]
+
+
 def playoff_matches(day: str, lp_dir: str | None = None) -> list[dict]:
     """playoff / seeding-decider matches of that day from the stage's Liquipedia page (data/lp/*-korea.json).
     site/matches.json drops matches whose teams are still TBD, which is every playoff match until the round before
-    is over, so the capture of a playoff day would never get scheduled. A match without a start time comes as 00:00 KST:
-    it gets the usual first-match time of that weekday (re-registered each morning once Liquipedia has the time).
-    Liquipedia writes 'bestof' only on a round's first match: the rest of the round carries it over."""
+    is over, so the capture of a playoff day would never get scheduled. A match without a start time (00:00 UTC or
+    00:00 KST) gets the usual first-match time of that weekday in KST (at_kst; re-registered each morning once
+    Liquipedia has the time). Liquipedia writes 'bestof' only on a round's first match: the rest of the round carries
+    it over."""
     lp_dir = lp_dir or LP_DIR
     out = []
     for f in sorted(os.listdir(lp_dir)):
@@ -63,22 +76,15 @@ def playoff_matches(day: str, lp_dir: str | None = None) -> list[dict]:
             page = json.load(fh)
         for m in page.get('matches', []):
             bo = m.get('bestof') or bo
-            m = dict(m, bestof=bo)
-            d = m.get('date') or ''
-            if not d.startswith(day):
-                continue
-            dt = datetime.datetime.fromisoformat(d)
-            if dt.strftime('%H:%M') == '00:00':
-                h, mi = map(int, DAY_START.get(dt.weekday(), '19:00').split(':'))
-                dt = dt.replace(hour=h, minute=mi)
-                m = dict(m, guessed=True)
-            out.append(dict(m, date=dt.isoformat()))
+            if PU.kst_day(m.get('date') or '') == day:
+                out.append(at_kst(dict(m, bestof=bo)))
     return out
 
 
 def plan(day: str, matches: list[dict], lp_dir: str | None = None):
-    """(matches, capture start as local time, hours) of that day, or None without Korean-league matches"""
-    ms = [m for m in matches if m['date'].startswith(day) and '/Korea' in m['competitionTitle']]
+    """(matches, capture start as local time, hours) of that day, or None without Korean-league matches. Dates are in
+    KST; a match without a start time sits on the weekday's usual first-match time (guessed)."""
+    ms = korean_matches(day, matches)
     seen = {m['date'] for m in ms}
     ms += [m for m in playoff_matches(day, lp_dir) if m['date'] not in seen]
     ms = sorted(ms, key=lambda m: m['date'])

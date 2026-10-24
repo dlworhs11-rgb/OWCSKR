@@ -1,4 +1,4 @@
-import importlib, json, os, sys
+import datetime, importlib, json, os, sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'tools'))
 import platform_util as PU
@@ -116,3 +116,25 @@ def test_env_file_never_overrides_and_a_bad_one_only_warns(tmp_path):
     assert '.env not loaded' in r.stderr
     r = _import_with_env(tmp_path, b'OWCSKR_HC_LIVE=from-file\n', OWCSKR_HC_LIVE='already')
     assert r.stdout.startswith('already ')
+
+
+def test_match_start_date_only_is_the_weekday_guess_in_kst():
+    """N-01: 00:00 UTC (collector parseDate without a zone) and 00:00 KST both mean "no start time yet"; the guess is
+    the weekday's usual first-match time on the KST clock (2026-10-25 is a Sunday: 15:00)"""
+    for date in ('2026-10-25T00:00:00+00:00', '2026-10-25T00:00:00+09:00', '2026-10-24T15:00:00+00:00'):
+        dt, known = PU.match_start(date)
+        assert (dt.isoformat(), known) == ('2026-10-25T15:00:00+09:00', False), date
+    assert PU.match_start('2026-10-23T00:00:00+00:00')[0].isoformat() == '2026-10-23T17:00:00+09:00'   # Friday
+    assert PU.match_start('2026-10-21T00:00:00+09:00')[0].isoformat() == '2026-10-21T19:00:00+09:00'   # other days
+
+
+def test_match_start_keeps_a_real_time_in_kst():
+    assert PU.match_start('2026-10-25T17:00:00+09:00') == (datetime.datetime(2026, 10, 25, 17, tzinfo=PU.KST), True)
+    assert PU.match_start('2026-10-25T09:00:00+09:00')[1] is True        # 00:00 UTC written as KST is a real time
+    assert PU.match_start('2026-10-24T16:00:00+00:00')[0].isoformat() == '2026-10-25T01:00:00+09:00'
+
+
+def test_kst_day():
+    assert PU.kst_day('2026-10-25T00:00:00+00:00') == '2026-10-25'
+    assert PU.kst_day('2026-10-24T16:00:00+00:00') == '2026-10-25'
+    assert PU.kst_day('') == '' and PU.kst_day('not a date') == ''

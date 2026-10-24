@@ -56,11 +56,14 @@ def on_air(m: dict) -> bool | None:
 
 
 def schedule_entry(m: dict, aliases: dict) -> dict:
-    dt, idx = datetime.fromisoformat(m['date']), m.get('idx')
+    """timed False: no start time on Liquipedia (00:00 UTC or 00:00 KST, platform_util.match_start); start is then the
+    weekday's usual first-match time on the match's KST date, a guess that orders the day but never labels a map"""
+    import platform_util as PU
+    (dt, timed), idx = PU.match_start(m['date']), m.get('idx')
     title = m.get('competitionTitle', '')
     has_idx = isinstance(idx, int) and not isinstance(idx, bool)
     return {'team1': NM.canon_team(m['team1'], aliases), 'team2': NM.canon_team(m['team2'], aliases),
-            'start': int(dt.timestamp()), 'timed': (dt.hour, dt.minute) != (0, 0), 'need': series_need(m),
+            'start': int(dt.timestamp()), 'timed': timed, 'need': series_need(m),
             'maps': m.get('maps') or [], 'page': title, 'idx': idx if has_idx else None,
             'key': f'{title}#{idx}' if title and has_idx else None, 'onAir': on_air(m)}
 
@@ -68,9 +71,11 @@ def schedule_entry(m: dict, aliases: dict) -> dict:
 def day_schedule(matches: list, date: str, aliases: dict) -> list:
     """Korean matches of the day in time order (one page: Liquipedia order when the times tie):
     [{'team1', 'team2', 'start' (unix s), 'timed', 'need', 'maps', 'page', 'idx', 'key', 'onAir'}].
-    timed False = Liquipedia has no start time yet (written as 00:00). key = '<competitionTitle>#<idx>' (matchKey)."""
+    The day is each match's KST date. timed False = Liquipedia has no start time yet (00:00 UTC or 00:00 KST).
+    key = '<competitionTitle>#<idx>' (matchKey)."""
+    import platform_util as PU
     out = [schedule_entry(m, aliases) for m in matches
-           if (m.get('date') or '').startswith(date) and '/Korea' in m.get('competitionTitle', '')]
+           if PU.kst_day(m.get('date') or '') == date and '/Korea' in m.get('competitionTitle', '')]
     return sorted(out, key=lambda m: (m['start'], m['page'], m['idx'] if m['idx'] is not None else 1 << 30))
 
 
@@ -98,6 +103,7 @@ def playoff_slots(date: str, root: str) -> list:
     """the day's matches with a TBD team from the stage pages (data/lp/*-korea.json), in the shape of
     data/site/matches.json: that file drops them, so a playoff match decided earlier the same day had no schedule
     entry (same source as schedule_today.playoff_matches; 'bestof' is written on a round's first match only)"""
+    import platform_util as PU
     lp_dir, out = os.path.join(root, 'data', 'lp'), []
     if not os.path.isdir(lp_dir): return out
     for f in sorted(os.listdir(lp_dir)):
@@ -106,7 +112,7 @@ def playoff_slots(date: str, root: str) -> list:
         title = page.get('title') or ''
         for m in page.get('matches', []):
             bo = m.get('bestof') or bo
-            if not (m.get('date') or '').startswith(date) or not (is_slot(m.get('team1')) or is_slot(m.get('team2'))): continue
+            if PU.kst_day(m.get('date') or '') != date or not (is_slot(m.get('team1')) or is_slot(m.get('team2'))): continue
             out.append(dict(m, bestof=bo, competitionTitle=title or m.get('competitionTitle') or m.get('competition', '')))
     return out
 

@@ -309,9 +309,9 @@ def test_playoff_day_tbd_matches_come_from_the_stage_page(tmp_path, monkeypatch)
             {'competition': title, 'date': '2026-10-24T00:00:00+09:00', 'team1': '', 'team2': ''}]
     write(tmp_path, 'data/lp/owcs-2026-asia-stage-3-korea.json', {'matches': page})
     ctx = AD.load_context(FX['date'], str(tmp_path))
+    # bestof carried over; the untimed slots sit on Friday's usual 17:00 KST, after CB-O2 (17:00, Liquipedia order)
     assert [(m['team1'], m['team2'], m['need']) for m in ctx['schedule']] == [
-        (None, None, 3), ('TBD', None, 3), ('Cheeseburger', 'O2 Blast', None)]          # bestof carried over
-    ctx['schedule'] = sorted(ctx['schedule'], key=lambda m: AD.is_slot(m['team1']))      # CB-O2 first, as on air
+        ('Cheeseburger', 'O2 Blast', None), (None, None, 3), ('TBD', None, 3)]
     res = run_day(monkeypatch, ctx=ctx)
     m = by_map(res)
     assert [(m[k]['match'], m[k]['matchNo'], m[k]['game'], m[k]['labelVerified']) for k in ('01', '04', '06', '07', '08')] == [

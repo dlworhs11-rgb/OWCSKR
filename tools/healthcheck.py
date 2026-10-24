@@ -68,10 +68,11 @@ def match_list(now: datetime.datetime) -> list[dict]:
 
 
 def in_match_window(now: datetime.datetime, matches: list[dict]) -> bool:
-    """a match is on (15 min before its start to its likely end + 30 min; a BO7 can run 4 h, a BO5 about 2.5 h)"""
+    """a match is on (15 min before its start to its likely end + 30 min; a BO7 can run 4 h, a BO5 about 2.5 h).
+    A match without a start time counts from the weekday's usual first-match time (platform_util.match_start)."""
     for m in matches:
         try:
-            start = datetime.datetime.fromisoformat(m['date'])
+            start = PU.match_start(m['date'])[0]
         except (KeyError, TypeError, ValueError):
             continue
         length = datetime.timedelta(hours=4 if (m.get('bestof') or 5) >= 7 else 2.5)

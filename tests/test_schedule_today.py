@@ -83,6 +83,38 @@ def test_plan_guessed_playoff_day_adds_up_every_match(linux, tmp_path):
     assert hours == round(4 + 4 + 1 + 10 / 60, 1)
 
 
+def test_date_only_playoff_match_guesses_on_the_kst_clock(linux, tmp_path):
+    """N-01: Liquipedia's date without a time is stored as 00:00 UTC (= 09:00 KST); the guess went on the UTC clock
+    (15:00 UTC = 00:00 KST the next day) and the capture started at 23:50 KST"""
+    page = {'matches': [{'date': f'{DAY}T00:00:00+00:00', 'bestof': 5, 'team1': 'TBD', 'team2': 'TBD'}]}
+    (tmp_path / 'lp' / 'owcs-2026-asia-stage-3-korea.json').write_text(json.dumps(page), encoding='utf-8')
+    ms, start, hours = S.plan(DAY, [])
+    assert [(m['date'], m['guessed']) for m in ms] == [(f'{DAY}T15:00:00+09:00', True)]   # Sunday's usual 15:00 KST
+    assert start == start_of(DAY, '14:50')
+
+
+@pytest.mark.parametrize('date', [f'{DAY}T00:00:00+00:00', f'{DAY}T00:00:00+09:00'])
+def test_date_only_regular_match_is_guessed_too(linux, date):
+    """a matches.json entry without a time got no guess at all: capture at 08:50 KST, over before the broadcast"""
+    ms, start, hours = S.plan(DAY, [kr(date), kr(date)])
+    assert [(m['date'], m.get('guessed')) for m in ms] == [(f'{DAY}T15:00:00+09:00', True)] * 2
+    assert start == start_of(DAY, '14:50')
+    assert hours == round(2.5 + 2.5 + 1 + 10 / 60, 1)          # every guessed match added up
+
+
+def test_timed_match_is_kept_as_written(linux):
+    ms, start, _ = S.plan(DAY, [kr(f'{DAY}T17:00:00+09:00')])
+    assert [(m['date'], m.get('guessed')) for m in ms] == [(f'{DAY}T17:00:00+09:00', None)]
+    assert start == start_of(DAY, '16:50')
+
+
+def test_match_day_is_the_kst_date(linux):
+    """a time written in UTC belongs to its KST date: 16:00 UTC on the 24th is 01:00 KST on the 25th"""
+    late = kr('2026-10-24T16:00:00+00:00')
+    assert [m['date'] for m in S.plan(DAY, [late])[0]] == [f'{DAY}T01:00:00+09:00']
+    assert S.plan('2026-10-24', [late]) is None
+
+
 def test_import_has_no_side_effects():
     assert callable(S.main) and os.getcwd()   # importing did not chdir, read matches.json or schedule anything
 

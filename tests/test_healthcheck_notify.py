@@ -19,6 +19,13 @@ def test_match_window():
     assert not H.in_match_window(NOW, [{'date': None}, {}])
 
 
+def test_date_only_match_window_is_the_kst_guess():
+    """a date without a time (00:00 UTC = 09:00 KST) counts from Sunday's usual 15:00 KST, not from 09:00"""
+    untimed = [{'date': '2026-10-25T00:00:00+00:00', 'bestof': 5}]
+    assert H.in_match_window(NOW, untimed)
+    assert not H.in_match_window(datetime.datetime(2026, 10, 25, 9, 30, tzinfo=KST), untimed)
+
+
 @pytest.mark.parametrize('age_min, matches, ok', [(20, MATCH, True), (45, MATCH, False), (45, [], True), (400, [], False)])
 def test_check_limits(age_min, matches, ok):
     assert H.check(NOW, NOW - datetime.timedelta(minutes=age_min), matches)[0] is ok
