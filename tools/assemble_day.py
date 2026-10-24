@@ -167,8 +167,10 @@ for label, ms in by_match.items():
         potm = {'name': nm, 'team': pick[1] if pick else None,
                 'elims': p.get('elims'), 'deaths': p.get('deaths'), 'dmgPerMin': p.get('dmgPerMin'), 'screenName': p.get('name'), 'method': method}
     # last map of the match: decided by the final score (the leader won), POTM team only breaks a tie
+    # Only once the POTM card proves the match is over: mid-match the newest map is not the last one (10-24 CB-ZETA:
+    # with map 3 not yet read, map 2 at 1-0 was handed to the leader CB, ZETA had won it 3-2)
     lm = ms[-1]
-    if lm.get('seriesBefore') and 'winner' not in lm:
+    if potm and lm.get('seriesBefore') and 'winner' not in lm:
         sb = lm['seriesBefore']; (ta, a_), (tb, b_) = list(sb.items())
         if a_ != b_: lm['winner'], lm['winnerSource'] = (ta if a_ > b_ else tb), 'match end (leader)'
         elif potm and potm.get('team') in sb: lm['winner'], lm['winnerSource'] = potm['team'], 'match end (POTM team)'
