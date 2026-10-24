@@ -16,9 +16,9 @@ set "LOG=%ROOT%\data\live\daily.log"
 set "FAILED="
 set "WARNED="
 echo === %DATE% %TIME% daily>> "%LOG%"
-node collector\run-lp.mjs --discover >> "%LOG%" 2>&1
+node collector\run-lp.mjs --discover --strict >> "%LOG%" 2>&1
 call :lp run-lp-discover %ERRORLEVEL%
-node collector\run-lp.mjs --active-only >> "%LOG%" 2>&1
+node collector\run-lp.mjs --active-only --strict >> "%LOG%" 2>&1
 call :lp run-lp %ERRORLEVEL%
 node collector\build.mjs >> "%LOG%" 2>&1
 if errorlevel 1 set "FAILED=%FAILED% build.mjs"

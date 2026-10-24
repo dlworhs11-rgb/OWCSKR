@@ -3,6 +3,8 @@ rem Match-day live recorders for the site (series score + POTM, map name / bans 
 rem Started by run_live.bat (scheduled task OWCSKR\LiveCapture_<date>) so they run every match day without a hand start.
 rem Each one is skipped when it is already running.
 rem match_watch.py --shadow (10-23..25 only): the one-recorder rewrite reads alongside, writes only to data\live\<date>\shadow
+rem setlocal: run_live.bat calls this and must keep its own LOG / ROOT
+setlocal
 pushd "%~dp0.."
 set "ROOT=%CD%"
 popd

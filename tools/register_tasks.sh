@@ -37,8 +37,8 @@ Description=OWCSKR daily job at 09:00 KST and after each boot
 
 [Timer]
 OnCalendar=*-*-* 09:00:00 Asia/Seoul
+# no Persistent=true: a boot after a missed 09:00 would run it at once, before the network is up, and again at 3 min
 OnStartupSec=3min
-Persistent=true
 
 [Install]
 WantedBy=timers.target

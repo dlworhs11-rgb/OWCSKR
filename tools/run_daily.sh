@@ -19,7 +19,8 @@ record() {
 }
 
 # step LEVEL NAME CMD...: run CMD, output to the log. A nonzero exit counts as LEVEL: fail, warn, or lp (the
-# collector's codes: 2 = some pages failed, old copies kept -> warn; 3 = Node too old and anything else -> fail).
+# collector's codes under --strict: 2 = some pages failed, old copies kept -> warn; 3 = Node too old and anything
+# else -> fail). Without --strict run-lp exits 0 on failed pages (what the site's cloud_live.py expects).
 step() {
   local level="$1" name="$2" rc; shift 2
   "$@" > "$OUT" 2>&1; rc=$?
@@ -30,21 +31,41 @@ step() {
   return "$rc"
 }
 
-# push the discovery commit; publish_day.py commits to the same branch through the API, so rebase once if needed
+# this job's own outputs: tracked and rewritten by every run, so they never make the pull skip; a pull that has to
+# reset them loses nothing (fetched again below)
+JOB_OUT=(data/lp data/competitions.json data/active.json)
+NOT_JOB_OUT=(':(exclude)data/lp' ':(exclude)data/competitions.json' ':(exclude)data/active.json')
+DISCOVER_MSG="data: discovered competitions $(date +%F)"
+
+# pull_code: git pull --ff-only never overwrites local changes, it refuses. When it refused over the job's outputs
+# (an incoming commit touches data/lp), reset them to HEAD, drop new untracked pages, and pull once more.
+pull_code() {
+  git pull --ff-only && return 0
+  if git diff --quiet HEAD -- "${JOB_OUT[@]}" && [ -z "$(git ls-files -o --exclude-standard -- data/lp)" ]; then return 1; fi
+  echo "run_daily: pull failed - resetting ${JOB_OUT[*]} to HEAD (fetched again below) and pulling again"
+  git checkout -q HEAD -- "${JOB_OUT[@]}" && git clean -q -f -- data/lp && git pull --ff-only
+}
+
+# push the discovery commit. Rejected (the remote moved since the pull above, or the pull was skipped): undo the local
+# commit, keeping the files changed, so tomorrow's 'git pull --ff-only' still works and the commit is made again then.
 push_commit() {
   git push -q && return 0
-  if git pull -q --rebase && git push -q; then return 0; fi
-  git rebase --abort >/dev/null 2>&1
+  if [ "$(git log -1 --format=%s)" = "$DISCOVER_MSG" ]; then
+    git reset -q HEAD~1 && echo "run_daily: push failed - discovery commit undone, the change stays in the work tree"
+  fi
   return 1
 }
 
 # 1. new code first, but never under a running capture (its python would differ from the files on disk)
 if [ -z "${OWCSKR_DAILY_PULLED:-}" ]; then
+  changes="$(git status --porcelain --untracked-files=no -- . "${NOT_JOB_OUT[@]}" 2>&1)"
   if capture_running; then log "capture running - git pull skipped"
-  elif [ -n "$(git status --porcelain --untracked-files=no 2>&1)" ]; then log "local changes in the work tree - git pull skipped"
+  elif [ -n "$changes" ]; then
+    log "local changes in the work tree - git pull skipped"
+    record warn "git pull skipped" "local changes in the work tree (commit, stash or 'git checkout' them):"$'\n'"$changes"
   else
     before="$(git rev-parse HEAD 2>/dev/null)"
-    if step warn "git pull --ff-only" git pull --ff-only && [ "$(git rev-parse HEAD 2>/dev/null)" != "$before" ]; then
+    if step warn "git pull --ff-only" pull_code && [ "$(git rev-parse HEAD 2>/dev/null)" != "$before" ]; then
       log "updated $before -> $(git rev-parse --short HEAD); restarting with the new code"
       rm -f "$OUT"   # exec skips the EXIT trap
       OWCSKR_DAILY_PULLED=1 exec bash "$ROOT/tools/run_daily.sh"
@@ -54,10 +75,10 @@ fi
 
 # 2. new stages and events on Liquipedia -> data/competitions.json, data/active.json
 LISTS=(data/competitions.json data/active.json)
-step lp "run-lp --discover" node collector/run-lp.mjs --discover
+step lp "run-lp --discover" node collector/run-lp.mjs --discover --strict
 if ! git diff --quiet -- "${LISTS[@]}" 2>/dev/null; then
   if [ "${OWCSKR_AUTOCOMMIT:-0}" = 1 ]; then
-    if step warn "git commit (discover)" git commit -q -m "data: discovered competitions $(date +%F)" -- "${LISTS[@]}" \
+    if step warn "git commit (discover)" git commit -q -m "$DISCOVER_MSG" -- "${LISTS[@]}" \
        && [ "${OWCSKR_AUTOPUSH:-0}" = 1 ]; then
       step warn "git push (discover)" push_commit
     fi
@@ -67,7 +88,7 @@ if ! git diff --quiet -- "${LISTS[@]}" 2>/dev/null; then
 fi
 
 # 3. data
-step lp "run-lp --active-only" node collector/run-lp.mjs --active-only
+step lp "run-lp --active-only" node collector/run-lp.mjs --active-only --strict
 step fail "build.mjs" node collector/build.mjs
 step fail "republish_recent.py" "$PY" -I tools/republish_recent.py
 step fail "schedule_today.py --upcoming" "$PY" -I tools/schedule_today.py --upcoming

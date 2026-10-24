@@ -94,11 +94,11 @@ def test_register_systemd_command_line(linux):
     assert S.register_systemd(DAY, start, 6.2) == 'registered'
     (cmd,) = linux.runs(UNIT)
     assert cmd[:4] == ['systemd-run', '--user', '--unit', UNIT]
-    assert cmd[cmd.index('--on-calendar') + 1] == start.strftime('%Y-%m-%d %H:%M:%S')
+    assert cmd[cmd.index('--on-calendar') + 1] == start.astimezone(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
     assert cmd[-4:] == ['/bin/bash', os.path.join(S.ROOT, 'tools', 'run_live.sh'), '6.2', DAY]
     p = props(cmd)
     assert S.ENV_PROP in p and S.ENV_PROP.startswith('EnvironmentFile=-')
-    assert {'Restart=on-failure', 'RestartSec=60', 'TimeoutStopSec=5min', 'RestartPreventExitStatus=2'} <= set(p)
+    assert {'Restart=on-failure', 'RestartSec=60', 'TimeoutStopSec=5min', 'RestartPreventExitStatus=2 4'} <= set(p)
     assert f'RuntimeMaxSec={round(7.2 * 3600)}s' in p          # planned length + 1 h
     assert ['systemctl', '--user', 'stop', UNIT + '.timer'] in linux.calls
     assert not any('stop' in c and UNIT + '.service' in c for c in linux.calls)
@@ -113,12 +113,14 @@ def test_register_systemd_leaves_running_capture_alone(linux):
 
 def test_register_clears_old_until_but_launch_now_keeps_it(linux):
     path = os.path.join(PU.LIVE_DIR, DAY, 'until.txt')
+    mark = os.path.join(PU.LIVE_DIR, DAY, 'summary.txt')
     os.makedirs(os.path.dirname(path))
     open(path, 'w').write('2026-10-25T21:00:00+09:00')
+    open(mark, 'w').write('sent')
     S.launch_now_systemd(DAY, 3.0)
-    assert os.path.exists(path)                      # a restart must end at the old time
+    assert os.path.exists(path) and os.path.exists(mark)   # a restart must end at the old time, a finished day stays
     S.register_systemd(DAY, start_of(), 6.2)
-    assert not os.path.exists(path)                  # a newly planned start is a new run
+    assert not os.path.exists(path) and not os.path.exists(mark)   # a newly planned start is a new run
 
 
 def test_already_started_day_uses_systemd_run_now(linux):
@@ -130,6 +132,28 @@ def test_already_started_day_uses_systemd_run_now(linux):
     assert cmd[-2] == '5.2'
     assert f'RuntimeMaxSec={round(6.2 * 3600)}s' in props(cmd)
     assert not any(c[0] in ('bash', '/bin/bash') for c in linux.calls)   # no plain child process
+
+
+def test_today_is_the_korean_date_on_a_utc_machine(linux):
+    """the boot run at 08:30 KST on a UTC server is still 10-24 there: today's capture must be the KST day's"""
+    now = datetime.datetime(2026, 10, 24, 23, 30, tzinfo=datetime.timezone.utc)    # 10-25 08:30 KST
+    assert S.main([], now=now) == 0
+    assert len(linux.runs(UNIT)) == 1
+
+
+def test_upcoming_relaunches_yesterdays_capture_after_midnight(linux):
+    """a reboot at 00:30 KST: the day before's capture (until ~01:00) is still on and must be started again"""
+    late = [kr(f'{DAY}T19:00:00+09:00'), kr(f'{DAY}T21:30:00+09:00')]   # capture 18:50 .. 01:00
+    S.load_matches = lambda path=None: late
+    now = datetime.datetime.fromisoformat('2026-10-26T00:30:00+09:00')
+    assert S.main(['--upcoming'], now=now) == 0
+    (cmd,) = linux.runs(UNIT)
+    assert '--on-calendar' not in cmd and cmd[-1] == DAY
+
+
+def test_upcoming_leaves_yesterday_alone_once_it_is_over(linux):
+    assert S.main(['--upcoming'], now=datetime.datetime.fromisoformat('2026-10-26T08:00:00+09:00')) == 0
+    assert linux.runs(UNIT) == []
 
 
 def test_already_started_day_not_launched_twice(linux):
@@ -145,8 +169,8 @@ def test_future_day_registers_capture_and_checks(linux):
     soop, = linux.runs(f'owcskr-soop-{DAY}')
     fresh, = linux.runs(f'owcskr-fresh-{DAY}')
     first = datetime.datetime.fromisoformat(f'{DAY}T15:00:00+09:00')
-    assert check[check.index('--on-calendar') + 1] == (first - datetime.timedelta(minutes=5)).astimezone().strftime('%Y-%m-%d %H:%M:%S')
-    assert soop[soop.index('--on-calendar') + 1] == (first + datetime.timedelta(minutes=2)).astimezone().strftime('%Y-%m-%d %H:%M:%S')
+    assert check[check.index('--on-calendar') + 1] == S.utc_calendar(first - datetime.timedelta(minutes=5))
+    assert soop[soop.index('--on-calendar') + 1] == S.utc_calendar(first + datetime.timedelta(minutes=2))
     assert check[-1].endswith('matchday_check.py') and soop[-1].endswith('soop_quality.py')
     assert fresh[-1].endswith('healthcheck.py') and '--timer-property=OnUnitActiveSec=30min' in fresh
     for cmd in (check, soop, fresh):
@@ -242,6 +266,10 @@ def test_windows_check_tasks(win):
     assert f"'Freshness_{DAY}'" in script and '-RepetitionInterval (New-TimeSpan -Minutes 30)' in script
     assert S.register_check_win('check', DAY, when, 'matchday_check.py', 0, when) == 'registered'
     assert f"'MatchdayCheck_{DAY}'" in fake.calls[-1][-1] and 'Repetition' not in fake.calls[-1][-1]
+
+
+def test_calendar_time_is_utc():
+    assert S.utc_calendar(datetime.datetime.fromisoformat('2026-11-01T17:50:00+09:00')) == '2026-11-01 08:50:00 UTC'
 
 
 def test_powershell_quoting():
