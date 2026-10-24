@@ -1,8 +1,10 @@
 """Start-of-capture self-check: everything the capture -> OCR -> assemble -> publish chain needs on this machine.
 
-usage: python -I tools/selfcheck.py [--notify]      exit 2 when a fatal problem was found, else 0
-API:   check(root) -> [Problem(severity 'fatal'|'warn', item, detail)]; fatal(problems) -> the fatal ones
-live_capture.py runs check() at start and exits 2 (with an alert) on any fatal problem.
+usage: python -I tools/selfcheck.py [--notify] [--source obs|hls]      exit 2 when a fatal problem was found, else 0
+API:   check(root, source=...) -> [Problem(severity 'fatal'|'warn', item, detail)]; fatal(problems) -> the fatal ones
+live_capture.py runs check(source=<its frame source>) at start and exits 2 (with an alert) on any fatal problem.
+Frame source (--source, default env OWCSKR_FRAME_SOURCE, else obs): with hls, ffmpeg and yt-dlp (FFMPEG_CMD /
+YTDLP_CMD or on PATH) are fatal - nothing else can produce a frame; with obs they are only reported as warnings.
 """
 import glob, importlib.util, json, os, shutil, subprocess, sys
 from dataclasses import dataclass
@@ -19,6 +21,16 @@ REFERENCE_IMAGES = [
     ('data/ref/potm_960.jpg', 'POTM screen reference (ocr_screens)'),
 ]
 WIN_TESSERACT = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+FRAME_SOURCES = ('obs', 'hls')
+SOURCE_ENV = 'OWCSKR_FRAME_SOURCE'
+HLS_TOOLS = (('ffmpeg', 'FFMPEG_CMD'), ('yt-dlp', 'YTDLP_CMD'))     # the same lookup as tools/frames.py
+
+
+def frame_source(env=None) -> str:
+    """the frame source live_capture uses when --source is not given: env OWCSKR_FRAME_SOURCE, else 'obs'
+    (lower-cased, not validated here: check_frame_source / live_capture reject a value outside FRAME_SOURCES)"""
+    env = os.environ if env is None else env
+    return (env.get(SOURCE_ENV) or 'obs').strip().lower()
 
 
 @dataclass(frozen=True)
@@ -119,7 +131,25 @@ def _gh_token(gh: str, env, run) -> Problem | None:
     return Problem('fatal', 'GitHub token', 'no GH_TOKEN and gh is not logged in (gh auth login)')
 
 
-def check_tools(env=None, which=shutil.which, run=subprocess.run, find_spec=importlib.util.find_spec) -> list[Problem]:
+def _found(tool: str, var: str, env, which) -> bool:
+    cmd = env.get(var) or tool
+    return bool(os.path.isfile(cmd) or which(cmd))
+
+
+def check_frame_source(source: str, env, which=shutil.which) -> list[Problem]:
+    """hls: ffmpeg + yt-dlp are the frame source (fatal); obs: OBS is started by live_capture itself, the HLS tools are
+    only noted (warn) so a later switch to --source hls does not fail on the match day"""
+    if source not in FRAME_SOURCES:
+        return [Problem('fatal', 'frame source', f'unknown frame source {source!r} (--source / {SOURCE_ENV}: obs or hls)')]
+    if source == 'hls':
+        sev, why = 'fatal', 'not found ({var} or PATH): the HLS frame source (--source hls) cannot produce a frame'
+    else:
+        sev, why = 'warn', 'not found (needed only with --source hls; the OBS source is in use)'
+    return [Problem(sev, tool, why.format(var=var)) for tool, var in HLS_TOOLS if not _found(tool, var, env, which)]
+
+
+def check_tools(env=None, which=shutil.which, run=subprocess.run, find_spec=importlib.util.find_spec,
+                source: str = 'obs') -> list[Problem]:
     import publish_day as PD
     env = os.environ if env is None else env
     out = []
@@ -134,18 +164,19 @@ def check_tools(env=None, which=shutil.which, run=subprocess.run, find_spec=impo
         out.append(Problem('fatal', 'tesseract', 'Tesseract OCR binary not found (set TESSERACT_CMD or install it)'))
     if find_spec('pytesseract') is None:
         out.append(Problem('fatal', 'pytesseract', 'Python package missing (ban / POTM screens cannot be read)'))
-    for tool in ('ffmpeg', 'yt-dlp'):
-        if not which(tool): out.append(Problem('warn', tool, 'not found (needed only for the HLS frame source)'))
-    return out
+    return out + check_frame_source(source, env, which)
 
 
-def check(root: str = ROOT, env=None, which=shutil.which, run=subprocess.run, find_spec=importlib.util.find_spec) -> list[Problem]:
-    return check_references(root) + check_libs(root) + check_data(root) + check_tools(env, which, run, find_spec)
+def check(root: str = ROOT, env=None, which=shutil.which, run=subprocess.run, find_spec=importlib.util.find_spec,
+          source: str | None = None) -> list[Problem]:
+    source = frame_source(env) if source is None else source
+    return check_references(root) + check_libs(root) + check_data(root) + check_tools(env, which, run, find_spec, source)
 
 
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
-    problems = check()
+    source = argv[argv.index('--source') + 1] if '--source' in argv and argv.index('--source') + 1 < len(argv) else None
+    problems = check(source=source)
     for p in problems: print(p)
     bad = fatal(problems)
     if bad and '--notify' in argv:
