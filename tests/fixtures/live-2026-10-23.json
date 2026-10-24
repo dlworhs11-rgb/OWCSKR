@@ -1,5 +1,5 @@
 {
- "_comment": "2026-10-23 as captured (numbers/names from owcs-kr data/live_maps/2026-10-23.json, schedule from data/site/matches.json); headers of m04-m06 misread as MATCH 1, ban screens synthetic at map-900s",
+ "_comment": "2026-10-23 as captured (numbers/names from owcs-kr data/live_maps/2026-10-23.json, schedule from data/site/matches.json); headers of m04-m06 misread as MATCH 1 with match 1's map names on m05/m06; ban screens as read on the day (owcs-kr data/live_sets/2026-10-23.json: times, teams - m01 left team unreadable -, maps, hero bans), series scores set to the true ones (that reader's scores were noise)",
  "date": "2026-10-23",
  "schedule": [
   {
@@ -1332,7 +1332,29 @@
  },
  "bans": [
   [
-   1792744403,
+   1792743004,
+   {
+    "teams": [
+     "OEE SEBUARG BIR 4021",
+     "O2 Blast"
+    ],
+    "score": [
+     0,
+     0
+    ],
+    "map": "Samoa",
+    "initial": {
+     "team": "OEE SEBUARG BIR 4021",
+     "hero": "mercy"
+    },
+    "followUp": {
+     "team": "O2 Blast",
+     "hero": "dmon"
+    }
+   }
+  ],
+  [
+   1792743994,
    {
     "teams": [
      "Cheeseburger",
@@ -1344,17 +1366,17 @@
     ],
     "map": "New Junk City",
     "initial": {
-     "team": "Cheeseburger",
-     "hero": "x"
+     "team": "O2 Blast",
+     "hero": "cassidy"
     },
     "followUp": {
-     "team": "O2 Blast",
-     "hero": "y"
+     "team": "Cheeseburger",
+     "hero": "mauga"
     }
    }
   ],
   [
-   1792745352,
+   1792745398,
    {
     "teams": [
      "Cheeseburger",
@@ -1366,17 +1388,17 @@
     ],
     "map": "Esperança",
     "initial": {
-     "team": "Cheeseburger",
-     "hero": "x"
+     "team": "O2 Blast",
+     "hero": "jetpack cat"
     },
     "followUp": {
-     "team": "O2 Blast",
-     "hero": "y"
+     "team": "Cheeseburger",
+     "hero": "junkerqueen"
     }
    }
   ],
   [
-   1792748277,
+   1792747926,
    {
     "teams": [
      "Team Falcons",
@@ -1389,16 +1411,16 @@
     "map": "Nepal",
     "initial": {
      "team": "Team Falcons",
-     "hero": "x"
+     "hero": "vendetta"
     },
     "followUp": {
      "team": "ZANSIDE GAMING",
-     "hero": "y"
+     "hero": "sombra"
     }
    }
   ],
   [
-   1792749184,
+   1792749271,
    {
     "teams": [
      "Team Falcons",
@@ -1408,41 +1430,41 @@
      1,
      0
     ],
-    "map": "New Junk City",
+    "map": "Aatlis",
     "initial": {
-     "team": "Team Falcons",
-     "hero": "x"
+     "team": "ZANSIDE GAMING",
+     "hero": "doctrine"
     },
     "followUp": {
-     "team": "ZANSIDE GAMING",
-     "hero": "y"
+     "team": "Team Falcons",
+     "hero": "bastion"
     }
    }
   ],
   [
-   1792750115,
+   1792750233,
    {
     "teams": [
      "Team Falcons",
      "ZANSIDE GAMING"
     ],
     "score": [
-     1,
-     1
+     2,
+     0
     ],
-    "map": "Esperança",
+    "map": "Colosseo",
     "initial": {
-     "team": "Team Falcons",
-     "hero": "x"
+     "team": "ZANSIDE GAMING",
+     "hero": "dva"
     },
     "followUp": {
-     "team": "ZANSIDE GAMING",
-     "hero": "y"
+     "team": "Team Falcons",
+     "hero": "jetpack cat"
     }
    }
   ],
   [
-   1792752748,
+   1792752744,
    {
     "teams": [
      "Crazy Raccoon",
@@ -1454,17 +1476,17 @@
     ],
     "map": "Samoa",
     "initial": {
-     "team": "Crazy Raccoon",
-     "hero": "x"
+     "team": "SEIJI ESPORTS",
+     "hero": "sierra"
     },
     "followUp": {
-     "team": "SEIJI ESPORTS",
-     "hero": "y"
+     "team": "Crazy Raccoon",
+     "hero": "hazard"
     }
    }
   ],
   [
-   1792754133,
+   1792753764,
    {
     "teams": [
      "Crazy Raccoon",
@@ -1476,12 +1498,34 @@
     ],
     "map": "Colosseo",
     "initial": {
-     "team": "Crazy Raccoon",
-     "hero": "x"
+     "team": "SEIJI ESPORTS",
+     "hero": "cassidy"
     },
     "followUp": {
+     "team": "Crazy Raccoon",
+     "hero": "jetpack cat"
+    }
+   }
+  ],
+  [
+   1792755231,
+   {
+    "teams": [
+     "Crazy Raccoon",
+     "SEIJI ESPORTS"
+    ],
+    "score": [
+     2,
+     0
+    ],
+    "map": "Aatlis",
+    "initial": {
      "team": "SEIJI ESPORTS",
-     "hero": "y"
+     "hero": "doctrine"
+    },
+    "followUp": {
+     "team": "Crazy Raccoon",
+     "hero": "bastion"
     }
    }
   ]
