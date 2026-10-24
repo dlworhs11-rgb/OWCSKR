@@ -1,5 +1,5 @@
 {
- "_comment": "2026-10-23 as captured (numbers/names from owcs-kr data/live_maps/2026-10-23.json, schedule from data/site/matches.json); headers of m04-m06 misread as MATCH 1 with match 1's map names on m05/m06; ban screens as read on the day (owcs-kr data/live_sets/2026-10-23.json: times, teams - m01 left team unreadable -, maps, hero bans), series scores set to the true ones (that reader's scores were noise)",
+ "_comment": "2026-10-23 as captured (numbers/names from owcs-kr data/live_maps/2026-10-23.json, schedule from data/site/matches.json, idx/broadcast as in data/lp); headers of m04-m06 misread as MATCH 1 with match 1's map names on m05/m06; ban screens as read on the day (owcs-kr data/live_sets/2026-10-23.json: times, teams - m01 left team unreadable -, maps, hero bans), series scores set to the true ones (that reader's scores were noise)",
  "date": "2026-10-23",
  "schedule": [
   {
@@ -7,6 +7,10 @@
    "team1": "Cheeseburger",
    "team2": "O2 Blast",
    "competitionTitle": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 27,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
    "maps": [
     {
      "map": null
@@ -30,6 +34,10 @@
    "team1": "Team Falcons",
    "team2": "ZANSIDE GAMING",
    "competitionTitle": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 28,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
    "maps": [
     {
      "map": null
@@ -53,6 +61,10 @@
    "team1": "Crazy Raccoon",
    "team2": "SEIJI ESPORTS",
    "competitionTitle": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "idx": 29,
+   "broadcast": {
+    "afreeca": "owesports"
+   },
    "maps": [
     {
      "map": null

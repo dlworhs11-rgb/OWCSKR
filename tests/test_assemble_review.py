@@ -92,6 +92,52 @@ def test_missed_ban_screen_of_game_2_uses_map_order_untrusted(monkeypatch):
     assert m05['labelVerified'] is True and 'game from header' in m05['labelIssues']   # stale header 'GAME 2' = next game
 
 
+# ---- a misread known name of a third team (RA-14; 10-23 m09 'Soae' of Poker Face in CR vs SEIJI) -------------------
+
+def run_m09(monkeypatch, row_names=None, header=None, bans=None):
+    """10-23 with m09's names (index -> name, None = unknown) and header changed"""
+    ocr = ocr_copy()
+    if header is not None: ocr[8]['header'].update(header)
+    names = copy.deepcopy(FX['names'])
+    for r, n in (row_names or {}).items(): names[ocr[8]['frame']][r] = n
+    import test_assemble_labels as T
+    T.fake_rows(monkeypatch, names)
+    res = AD.assemble(ocr, lambda e: None, [tuple(b) for b in (FX['bans'] if bans is None else bans)], [], ctx_of(), [],
+                      'unused')
+    return by_map(res)['09']
+
+
+def test_two_names_of_a_third_team_still_veto(monkeypatch):
+    m09 = run_m09(monkeypatch, {3: 'SORI'})                     # Soae + SORI (both Poker Face) in the upper panel
+    assert m09['labelVerified'] is False and 'match unresolved' in m09['labelIssues']
+    assert 'known players of Poker Face in match 3 (Crazy Raccoon vs SEIJI ESPORTS)' in m09['labelIssues']
+
+
+def test_two_third_teams_one_name_each_still_veto(monkeypatch):
+    m09 = run_m09(monkeypatch, {6: 'Irony'})                    # Soae (Poker Face) up, Irony (ZAN) down, LIP gone
+    assert m09['labelVerified'] is False
+
+
+def test_lone_third_team_name_loses_to_header_and_ban_screen(monkeypatch):
+    m09 = run_m09(monkeypatch, {6: None})                       # LIP not read: Soae is the only known name
+    assert (m09['match'], m09['game'], m09['labelVerified']) == ('Crazy Raccoon vs SEIJI ESPORTS', 3, True)
+    assert list(m09['teams']) == ['Crazy Raccoon', 'SEIJI ESPORTS']   # no known player left: ban-screen order
+    assert 'panel sides from ban-screen order (no known player)' in m09['labelIssues']
+
+
+def test_lone_third_team_name_against_the_header_alone_vetoes(monkeypatch):
+    bans = [b for b in FX['bans'] if b[1].get('map') != 'Aatlis' or b[1]['teams'][0] != 'Crazy Raccoon']
+    m09 = run_m09(monkeypatch, {6: None}, bans=bans)            # header only: it may be a stale graphic (m04-m06)
+    assert m09['labelVerified'] is False and 'match unresolved' in m09['labelIssues']
+
+
+def test_ban_screen_and_a_player_of_the_pair_also_overrule_one_name(monkeypatch):
+    m09 = run_m09(monkeypatch, header={'match': None, 'game': None})   # header unread; ban screen + LIP vs Soae
+    assert (m09['matchNo'], m09['game'], m09['labelVerified']) == (3, 3, True)
+    assert 'match from ban screen' in m09['labelIssues']
+    assert [r['name'] for r in m09['teams']['SEIJI ESPORTS']] == [None] * 5
+
+
 # ---- schedule without times, ties, early header ------------------------------------------------------------------
 
 def midnight(fx):
@@ -183,10 +229,22 @@ def test_last_map_winner_only_when_it_ends_the_series(monkeypatch):
     res = run_day(monkeypatch)
     m = by_map(res)
     assert (m['03'].get('winner'), m['03'].get('winnerSource')) == ('Cheeseburger', 'match end (leader)')   # 2-0 -> 3-0
-    assert m['08'].get('winner') is None              # 1-0 before CR-SEIJI's last resolved map: game 3 was not resolved
+    assert (m['08'].get('winner'), m['08'].get('winnerSource')) == ('Crazy Raccoon', 'series score')     # m09 ban 2-0
+    assert (m['09'].get('winner'), m['09'].get('winnerSource')) == ('Crazy Raccoon', 'match end (leader)')  # LP: 3-0
     assert (m['01'].get('winner'), m['01'].get('winnerSource')) == ('Cheeseburger', 'series score')   # game 1 = 0-0
     wins = {r['match']: r['mapWins'] for r in res['matches']}
     assert wins['Cheeseburger vs O2 Blast'] == {'Cheeseburger': 3}
+
+
+def test_unresolved_last_map_gives_the_leader_no_win(monkeypatch):
+    ocr = ocr_copy(); ocr[8]['header'].update(match=None, game=None)             # m09 header unread
+    names = copy.deepcopy(FX['names']); names[ocr[8]['frame']][6] = None             # LIP not read: Soae alone
+    import test_assemble_labels as T
+    T.fake_rows(monkeypatch, names)
+    res = AD.assemble(ocr, lambda e: None, [tuple(b) for b in FX['bans']], [], ctx_of(), [], 'unused')
+    m = by_map(res)
+    assert m['09']['labelVerified'] is False and 'match unresolved' in m['09']['labelIssues']
+    assert m['08'].get('winner') is None              # 1-0 before CR-SEIJI's last resolved map: game 3 was not resolved
 
 
 def test_missed_last_map_does_not_hand_its_winner_to_the_previous_one(monkeypatch):

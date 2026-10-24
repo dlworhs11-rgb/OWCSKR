@@ -6,12 +6,15 @@ usage: python -I tools/assemble_day.py YYYY-MM-DD
   across runs), feature and raw crop saved to data/live/<date>/unknown/<k>_m<map>_r<row>.feat.png / .raw.png
   (label them with tools/label_unknown.py)
 - team of each panel: roster overlap with data/manual/players.json (community sheet)
-- match: the header number ("MATCH 2") only when it agrees with time order, the ban screen before the map and the
-  known players' teams; otherwise the ban-screen teams, then the scheduled start times (Korean matches of the day in
-  data/site/matches.json). A map whose match, game or panel sides cannot be trusted gets labelVerified False.
+- match: the header number ("MATCH 2", counting the broadcast's matches) only when it agrees with time order, the ban
+  screen before the map and the known players' teams; otherwise the ban-screen teams, then the scheduled start times
+  (Korean matches of the day in data/site/matches.json). One known name of a third team is overruled (read as unknown)
+  when two other sources agree. A map whose match, game or panel sides cannot be trusted gets labelVerified False.
+  matchKey = '<competitionTitle>#<idx>' of the schedule entry (keeps a same-day rematch apart; 'match' is the label).
+- ban / POTM screen readings are cached per frame in data/live/<date>/screens_cache.json
 - writes data/live/<date>/mapstats.json (tools/publish_day.py uploads the verified maps)
 """
-import contextlib, glob, json, os, re, sys, time
+import contextlib, glob, hashlib, json, os, re, sys, time
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 
@@ -45,17 +48,44 @@ def series_need(m: dict) -> int | None:
     return 3 if 'Regular Season' in title or 'Group Stage' in title else None
 
 
+def on_air(m: dict) -> bool | None:
+    """Liquipedia lists a stream for the match: True / False ({} = not broadcast: open qualifier, relegation) /
+    None when the schedule entry has no broadcast field"""
+    b = m.get('broadcast')
+    return bool(b) if isinstance(b, dict) else None
+
+
+def schedule_entry(m: dict, aliases: dict) -> dict:
+    dt, idx = datetime.fromisoformat(m['date']), m.get('idx')
+    title = m.get('competitionTitle', '')
+    has_idx = isinstance(idx, int) and not isinstance(idx, bool)
+    return {'team1': NM.canon_team(m['team1'], aliases), 'team2': NM.canon_team(m['team2'], aliases),
+            'start': int(dt.timestamp()), 'timed': (dt.hour, dt.minute) != (0, 0), 'need': series_need(m),
+            'maps': m.get('maps') or [], 'page': title, 'idx': idx if has_idx else None,
+            'key': f'{title}#{idx}' if title and has_idx else None, 'onAir': on_air(m)}
+
+
 def day_schedule(matches: list, date: str, aliases: dict) -> list:
-    """Korean matches of the day in time order: [{'team1', 'team2', 'start' (unix s), 'timed', 'need', 'maps'}].
-    timed False = Liquipedia has no start time yet (written as 00:00)."""
-    out = []
-    for m in matches:
-        if not (m.get('date') or '').startswith(date) or '/Korea' not in m.get('competitionTitle', ''): continue
-        dt = datetime.fromisoformat(m['date'])
-        out.append({'team1': NM.canon_team(m['team1'], aliases), 'team2': NM.canon_team(m['team2'], aliases),
-                    'start': int(dt.timestamp()), 'timed': (dt.hour, dt.minute) != (0, 0), 'need': series_need(m),
-                    'maps': m.get('maps') or []})
-    return sorted(out, key=lambda m: m['start'])
+    """Korean matches of the day in time order (one page: Liquipedia order when the times tie):
+    [{'team1', 'team2', 'start' (unix s), 'timed', 'need', 'maps', 'page', 'idx', 'key', 'onAir'}].
+    timed False = Liquipedia has no start time yet (written as 00:00). key = '<competitionTitle>#<idx>' (matchKey)."""
+    out = [schedule_entry(m, aliases) for m in matches
+           if (m.get('date') or '').startswith(date) and '/Korea' in m.get('competitionTitle', '')]
+    return sorted(out, key=lambda m: (m['start'], m['page'], m['idx'] if m['idx'] is not None else 1 << 30))
+
+
+def number_matches(sched: list) -> list:
+    """sets 'no' = the header number ('MATCH n') of each match the broadcast counts, None for the others.
+    The header counts the matches of the day's broadcast. A day with a second Korea page none of whose matches
+    has a stream on Liquipedia (an open qualifier or relegation next to the regular season, RA-19) counts the
+    broadcast pages only; with no stream information at all every match counts (time order)."""
+    pages = {m['page'] for m in sched if m.get('onAir')}
+    n = 0
+    for m in sched:
+        counted = not pages or m['page'] in pages
+        n += counted
+        m['no'] = n if counted else None
+    return sched
 
 
 def known_teams(aliases: dict, sched: list, rosters: dict) -> set:
@@ -72,11 +102,12 @@ def playoff_slots(date: str, root: str) -> list:
     if not os.path.isdir(lp_dir): return out
     for f in sorted(os.listdir(lp_dir)):
         if not f.endswith('-korea.json'): continue
-        bo = None
-        for m in NM.load_json(os.path.join('data', 'lp', f), root).get('matches', []):
+        page, bo = NM.load_json(os.path.join('data', 'lp', f), root), None
+        title = page.get('title') or ''
+        for m in page.get('matches', []):
             bo = m.get('bestof') or bo
             if not (m.get('date') or '').startswith(date) or not (is_slot(m.get('team1')) or is_slot(m.get('team2'))): continue
-            out.append(dict(m, bestof=bo, competitionTitle=m.get('competitionTitle') or m.get('competition', '')))
+            out.append(dict(m, bestof=bo, competitionTitle=title or m.get('competitionTitle') or m.get('competition', '')))
     return out
 
 
@@ -95,12 +126,28 @@ def load_context(date: str, root: str | None = None) -> dict:
 
 # ---- match / game / panel sides (pure) ---------------------------------------------------------------------------
 
-def panel_team(names: list, ctx: dict) -> str | None:
-    """roster team most of the panel's known names belong to; None when none is known or two teams tie"""
-    votes = Counter(t for t in (NM.team_of(n, ctx['rosters'], ctx['h']) for n in names if n) if t)
+def vote(teams) -> str | None:
+    """the team most of a panel's known names belong to; None when none is known or two teams tie"""
+    votes = Counter(t for t in teams if t)
     if not votes: return None
     top = votes.most_common(2)
     return top[0][0] if len(top) == 1 or top[0][1] > top[1][1] else None
+
+
+def name_teams(names: list, ctx: dict) -> list:
+    """[[name, roster team]] of a panel's names that are on exactly one roster"""
+    pairs = [[n, NM.team_of(n, ctx['rosters'], ctx['h'])] for n in names if n]
+    return [p for p in pairs if p[1]]
+
+
+def panel_team(names: list, ctx: dict) -> str | None:
+    """roster team most of the panel's known names belong to; None when none is known or two teams tie"""
+    return vote(t for _, t in name_teams(names, ctx))
+
+
+def panel_teams(rec: dict, drop=frozenset()) -> list:
+    """the two panels' teams by vote of their known names, the names in `drop` (overruled misreads) left out"""
+    return [vote(t for n, t in p if n not in drop) for p in rec['nameTeams']]
 
 
 def ban_before(ts: int, prev_ts: int | None, bans: list):
@@ -143,33 +190,66 @@ def outside_teams(rec: dict, pair: list) -> list:
     return sorted({t for t in rec['panelTeams'] if t} - set(pair))
 
 
+def name_veto(rec: dict, pair: list, support: int, where: str) -> tuple:
+    """-> (issues, names to read as unknown) for a map given to `pair`. A panel whose known players are of a third
+    team vetoes the match, unless that rests on one name against at least two other sources: a header whose
+    number checks out, the ban screen, known players of the pair (10-23 m09: 'Soae' of Poker Face in CR vs SEIJI,
+    header and ban screen agree, LIP is CR). That one name is a misread and is dropped. Two such names, or one
+    with less support (a stale header alone, 10-23 m04 'Irony'), still veto. support = header + ban screen."""
+    teams = outside_teams(rec, pair)
+    if not teams: return [], set()
+    odd = [n for p in rec['nameTeams'] for n, t in p if t not in pair]
+    support += any(t in pair for p in rec['nameTeams'] for _, t in p)
+    if len(odd) == 1 and support >= 2:
+        why = f'known name {odd[0]} ({teams[0]}) is not {pair[0]} vs {pair[1]}'
+        return [f'{why}: overruled by {support} sources, read as unknown'], {odd[0]}
+    return [f"known players of {', '.join(teams)} in match {where}"], set()
+
+
+def counted(m: dict) -> bool:
+    """the broadcast's header counts this match (number_matches; an unnumbered schedule counts every match)"""
+    return m.get('no', 0) is not None
+
+
+def match_no(sched: list, idx: int) -> int:
+    """the header number of a schedule entry (its position + 1 for one the broadcast does not count)"""
+    return sched[idx].get('no') or idx + 1
+
+
+def header_index(no: int, sched: list) -> int | None:
+    """schedule index of header 'MATCH no'"""
+    return next((i for i, m in enumerate(sched) if m.get('no', i + 1) == no), None)
+
+
 def clock(ts: int) -> str:
     return datetime.fromtimestamp(ts, KST).strftime('%H:%M')
 
 
 def header_issues(no: int, rec: dict, sched: list, prev_idx: int | None) -> list:
-    """reasons not to trust the header's match number (empty = trust it)"""
-    if not 1 <= no <= len(sched): return [f'header match {no} not on the schedule ({len(sched)} matches)']
-    m = sched[no - 1]
+    """reasons not to trust the header's match number, the known players aside (empty = the number checks out)"""
+    idx = header_index(no, sched)
+    if idx is None: return [f'header match {no} not on the schedule ({sum(map(counted, sched))} matches)']
+    m = sched[idx]
     pair, out = scheduled_pair(m, rec), []
-    if prev_idx is not None and no - 1 < prev_idx: out.append(f'header match {no} after match {prev_idx + 1}')
+    if prev_idx is not None and idx < prev_idx: out.append(f'header match {no} after match {match_no(sched, prev_idx)}')
     if m['timed'] and m['start'] - rec['ts'] > EARLY:
         out.append(f"header match {no} starts {clock(m['start'])}, this map ended {clock(rec['ts'])}")
     if any(map(is_slot, pair)): out.append(f'header match {no} is TBD on the schedule')
     if rec['banTeams'] and set(rec['banTeams']) != set(pair):
         out.append(f"ban screen {' vs '.join(rec['banTeams'])} is not {pair[0]} vs {pair[1]}")
-    if outside_teams(rec, pair):
-        out.append(f"known players of {', '.join(outside_teams(rec, pair))} in match {no} ({pair[0]} vs {pair[1]})")
     return out
 
 
 def match_by_time(ts: int, sched: list) -> tuple:
-    """-> (index of the last match started before the map | None, issues); no guess from missing or tied times"""
-    if not sched or not all(m['timed'] for m in sched): return None, ['no start times on the schedule']
-    started = [i for i, m in enumerate(sched) if m['start'] <= ts]
+    """-> (index of the last match started before the map | None, issues); no guess from missing or tied times.
+    Only the matches the broadcast counts (number_matches): a parallel open qualifier is not on air."""
+    cand = [i for i, m in enumerate(sched) if counted(m)]
+    if not cand or not all(sched[i]['timed'] for i in cand): return None, ['no start times on the schedule']
+    started = [i for i in cand if sched[i]['start'] <= ts]
     if not started: return None, ['no scheduled match started before this map']
     last = sched[started[-1]]['start']
-    if sum(1 for m in sched if m['start'] == last) > 1: return None, [f'matches scheduled at the same time ({clock(last)})']
+    if sum(1 for i in cand if sched[i]['start'] == last) > 1:
+        return None, [f'matches scheduled at the same time ({clock(last)})']
     return started[-1], []
 
 
@@ -192,32 +272,40 @@ def fallback_match(rec: dict, sched: list, prev_idx: int | None) -> tuple:
     if rec['banTeams']:
         idx, issues = ban_match(rec['banTeams'], sched, prev_idx, rec['ts'])
         if idx is not None and prev_idx is not None and idx < prev_idx:
-            issues.append(f'ban screen gives match {idx + 1} after match {prev_idx + 1} (played out of order)')
+            issues.append(f'ban screen gives match {match_no(sched, idx)} after match {match_no(sched, prev_idx)} '
+                          '(played out of order)')
         return idx, 'ban screen', issues
     idx, issues = match_by_time(rec['ts'], sched)
     if idx is not None and prev_idx is not None and idx < prev_idx:
-        return None, 'schedule time', [f'schedule time gives match {idx + 1}, after match {prev_idx + 1}']
+        why = f'schedule time gives match {match_no(sched, idx)}, after match {match_no(sched, prev_idx)}'
+        return None, 'schedule time', [why]
     return idx, 'schedule time', issues
 
 
 def resolve_match(rec: dict, sched: list, prev_idx: int | None) -> tuple:
-    """-> (schedule index | None, source 'header' | 'ban screen' | 'schedule time' | None, header state, issues);
-    header state: 'ok', 'unread' (no or an ambiguous digit) or 'rejected' (read, but contradicted)"""
+    """-> (schedule index | None, source 'header' | 'ban screen' | 'schedule time' | None, header state, issues,
+    names to read as unknown); header state: 'ok', 'unread' (no or an ambiguous digit) or 'rejected' (read, but
+    contradicted)"""
     no, issues = rec['header'].get('match'), []
     if no is None:
         issues.append('header match digit ambiguous' if rec['header'].get('matchAmbiguous') else 'header match not read')
     else:
         bad = header_issues(no, rec, sched, prev_idx)
-        if not bad: return no - 1, 'header', 'ok', issues
+        if not bad:
+            idx = header_index(no, sched)
+            pair = scheduled_pair(sched[idx], rec)
+            veto, drop = name_veto(rec, pair, 1 + bool(rec['banTeams']), f'{no} ({pair[0]} vs {pair[1]})')
+            if drop or not veto: return idx, 'header', 'ok', issues + veto, drop
+            bad = veto
         issues += bad
     state = 'unread' if no is None else 'rejected'
     idx, src, more = fallback_match(rec, sched, prev_idx)
     issues += more
-    if idx is None: return None, None, state, issues
-    pair = scheduled_pair(sched[idx], rec)
-    if outside_teams(rec, pair):
-        return None, None, state, issues + [f"known players of {', '.join(outside_teams(rec, pair))} in match {idx + 1} ({src})"]
-    return idx, src, state, issues + [f'match from {src}']
+    if idx is None: return None, None, state, issues, set()
+    where = f'{match_no(sched, idx)} ({src})'
+    veto, drop = name_veto(rec, scheduled_pair(sched[idx], rec), int(src == 'ban screen'), where)
+    if veto and not drop: return None, None, state, issues + veto, set()
+    return idx, src, state, issues + veto + [f'match from {src}'], drop
 
 
 def assign_panels(panel_teams: list, pair: list, bteams: list | None) -> tuple:
@@ -272,9 +360,11 @@ def ignore_foreign_ban(rec: dict, sched: list) -> tuple:
 
 def unresolved(rec: dict, sched: list, issues: list) -> dict:
     no = rec['header'].get('match')
-    guess = rec['banTeams'] or ([sched[no - 1]['team1'], sched[no - 1]['team2']] if no and 1 <= no <= len(sched) else None)
+    hi = header_index(no, sched) if no else None
+    guess = rec['banTeams'] or ([sched[hi]['team1'], sched[hi]['team2']] if hi is not None else None)
     panels = [t or f'panel{i + 1}' for i, t in enumerate(rec['panelTeams'])]
-    return {'idx': None, 'src': None, 'matchNo': no, 'game': rec['header'].get('game'), 'pair': guess,
+    return {'idx': None, 'src': None, 'matchNo': no, 'game': rec['header'].get('game'), 'pair': guess, 'key': None,
+            'dropNames': [],
             'label': ' vs '.join(t or 'TBD' for t in (guess or panels)), 'panels': panels,
             'labelVerified': False, 'labelIssues': issues + ['match unresolved']}
 
@@ -282,15 +372,17 @@ def unresolved(rec: dict, sched: list, issues: list) -> dict:
 def label_one(rec: dict, sched: list, prev_idx: int | None, games: dict) -> dict:
     """match, game, panel teams and labelVerified of one map; games = {schedule index: last game given}"""
     rec, pre = ignore_foreign_ban(rec, sched)
-    idx, src, state, issues = resolve_match(rec, sched, prev_idx)
+    idx, src, state, issues, drop = resolve_match(rec, sched, prev_idx)
     issues = pre + issues
     if idx is None: return unresolved(rec, sched, issues)
+    if drop: rec = dict(rec, panelTeams=panel_teams(rec, drop))
     pair = scheduled_pair(sched[idx], rec)
     open_slot = any(map(is_slot, pair))
     if open_slot: issues.append('a team of this match is still TBD on the schedule')
     panels, p_issues, p_ok = assign_panels(rec['panelTeams'], pair, rec['banTeams'])
     game, g_issues, g_ok = resolve_game(rec, state, games.get(idx, 0))
-    return {'idx': idx, 'src': src, 'gameTrusted': g_ok, 'matchNo': idx + 1, 'game': game, 'pair': pair,
+    return {'idx': idx, 'src': src, 'gameTrusted': g_ok, 'matchNo': match_no(sched, idx), 'game': game, 'pair': pair,
+            'key': sched[idx].get('key'), 'dropNames': sorted(drop),
             'label': ' vs '.join(t or 'TBD' for t in pair), 'panels': [t or f'panel{i + 1}' for i, t in enumerate(panels)],
             'labelVerified': p_ok and g_ok and not open_slot, 'labelIssues': issues + p_issues + g_issues}
 
@@ -299,7 +391,7 @@ def label_maps(recs: list, sched: list) -> list:
     """labels for the maps of a day in time order. rec = {'ts', 'header', 'ban' (dict|None), 'banTeams', 'panelTeams'}.
     Only a header or ban-screen match moves the 'no going back' mark: a time guess must not reject the next header."""
     out, prev_idx, games = [], None, {}
-    sched = [dict(m) for m in sched]
+    sched = number_matches([dict(m) for m in sched])
     for rec in recs:
         lab = label_one(rec, sched, prev_idx, games)
         if lab['idx'] is not None and rec['banTeams'] and lab['src'] in ('header', 'ban screen'):
@@ -321,9 +413,9 @@ def claim_slots(m: dict, pair: list) -> None:
 def mark_duplicates(labels: list) -> None:
     """the same (match, game) twice on a day: neither can be trusted (10-23: two 'match 1 game 1'). A game number
     that is only a guess (map order, a contradicted score) is unverified already and does not make another a duplicate."""
-    seen = Counter((x['matchNo'], x['game']) for x in labels if x['idx'] is not None and x['gameTrusted'])
+    seen = Counter((x['idx'], x['game']) for x in labels if x['idx'] is not None and x['gameTrusted'])
     for x in labels:
-        if x['idx'] is not None and seen[(x['matchNo'], x['game'])] > 1:
+        if x['idx'] is not None and seen[(x['idx'], x['game'])] > 1:
             x['labelVerified'] = False
             x['labelIssues'].append(f"duplicate match {x['matchNo']} game {x['game']}")
 
@@ -439,7 +531,8 @@ def match_results(out_maps: list, cards: list, ctx: dict) -> list:
         set_winners(ms, potm, ctx['schedule'][idx].get('need') if idx < len(ctx['schedule']) else None)
         for m in ms:          # an unverified map's game may be a guess: no winner the site could put on another game
             if not m['labelVerified']: m.pop('winner', None); m.pop('winnerSource', None)
-        res = {'match': ok[0]['match'], 'matchNo': idx + 1,
+        res = {'match': ok[0]['match'], 'matchNo': ok[0]['matchNo'],
+               **({'matchKey': ok[0]['matchKey']} if ok[0].get('matchKey') else {}),
                'mapWins': dict(Counter(m['winner'] for m in ok if m.get('winner'))), 'potm': potm}
         if idx in owner and potm is None:
             res['potmMethod'], res['potmScreenName'] = method, owner[idx][1].get('name')
@@ -510,25 +603,107 @@ def frame_ts(frame: str) -> int:
     return int(os.path.splitext(frame)[0].rsplit('_', 1)[1])
 
 
-def read_bans(frames_dir: str) -> list:
+SCREENS_CACHE = 'screens_cache.json'
+SCREENS_CACHE_VERSION = 1    # bump when ocr_screens.read_ban / read_potm change what they return
+
+
+def frame_sig(path: str) -> list:
+    """[size, mtime ns]: a frame file rewritten under the same name is read again"""
+    st = os.stat(path)
+    return [st.st_size, st.st_mtime_ns]
+
+
+def screens_stamp(lists, digit_lib: str) -> str:
+    """everything a cached screen reading depends on besides the frame: the code version, the word lists the
+    readings snap to (data/site/matches.json, aliases), the bold-digit library and its cutoff override"""
+    lib = sorted((os.path.basename(f), os.path.getsize(f)) for f in glob.glob(os.path.join(digit_lib, '*.png')))
+    blob = json.dumps([SCREENS_CACHE_VERSION, lists, lib, os.environ.get('OWCSKR_DIGIT_CUTOFF')],
+                      ensure_ascii=False, sort_keys=True)
+    return hashlib.sha1(blob.encode('utf-8')).hexdigest()
+
+
+def load_screen_cache(path: str, stamp: str) -> dict:
+    """{frame file name: {'sig', 'read'}} of an earlier assembly; {} when missing, unreadable or stale"""
+    try:
+        with open(path, encoding='utf-8') as f: data = json.load(f)
+    except FileNotFoundError:
+        return {}
+    except (OSError, ValueError) as e:
+        print(f'{path}: unreadable ({e}), reading every ban/POTM screen again', file=sys.stderr); return {}
+    ok = isinstance(data, dict) and data.get('version') == SCREENS_CACHE_VERSION and data.get('stamp') == stamp
+    return data['frames'] if ok and isinstance(data.get('frames'), dict) else {}
+
+
+def save_screen_cache(path: str, stamp: str, frames: dict) -> None:
+    """whole-file replace; a failure only costs the next assembly its OCR time"""
+    tmp = f'{path}.{os.getpid()}.tmp'
+    try:
+        with open(tmp, 'w', encoding='utf-8') as f:
+            json.dump({'version': SCREENS_CACHE_VERSION, 'stamp': stamp, 'frames': frames}, f, ensure_ascii=False)
+        os.replace(tmp, path)
+    except OSError as e:
+        print(f'{path}: not written ({e})', file=sys.stderr)
+        with contextlib.suppress(OSError): os.remove(tmp)
+
+
+def cached_reads(paths: list, reader, cache: dict, fresh: dict) -> list:
+    """[(path, reading)]: the cached reading when the frame's size and mtime are unchanged, else reader(path).
+    fresh gets the entries of the frames that exist now; a frame reader() cannot open (None) is skipped, not cached."""
+    out = []
+    for path in paths:
+        name = os.path.basename(path)
+        try:
+            sig = frame_sig(path)
+        except OSError:
+            continue
+        hit = cache.get(name)
+        read = hit['read'] if isinstance(hit, dict) and hit.get('sig') == sig and isinstance(hit.get('read'), dict) else reader(path)
+        if read is None: continue
+        fresh[name] = {'sig': sig, 'read': read}
+        out.append((path, read))
+    return out
+
+
+def frame_no(path: str) -> int:
+    """<kind>_<ts>_<k>.png -> ts"""
+    return int(os.path.basename(path).split('_')[1])
+
+
+def bans_from(reads: list, maps: list) -> list:
     """[(ts, ban)] of the ban screens; mapKnown = the map name snapped to one Liquipedia has (else the raw reading)"""
-    import cv2
-    import ocr_screens as SCR
-    lists, ev = SCR.word_lists(), {}
-    for f in sorted(glob.glob(os.path.join(frames_dir, 'ban_*_1.png'))):
-        b = SCR.read_ban(cv2.imread(f), lists)
-        ev[int(os.path.basename(f).split('_')[1])] = dict(b, mapKnown=b.get('map') in lists[1])
-    return sorted(ev.items())
+    return sorted({frame_no(f): dict(b, mapKnown=b.get('map') in maps) for f, b in reads}.items())
 
 
-def read_cards(frames_dir: str) -> list:
+def cards_from(reads: list) -> list:
     """one POTM card = the frames with the same first timestamp (potm_<ts>_<k>.png, potm_<ts>_t<k>.png)"""
-    import cv2
-    import ocr_screens as SCR
     groups = {}
-    for f in sorted(glob.glob(os.path.join(frames_dir, 'potm_*.png'))):
-        groups.setdefault(int(os.path.basename(f).split('_')[1]), []).append(SCR.read_potm(cv2.imread(f)))
-    return [(ts, potm_card(reads)) for ts, reads in sorted(groups.items())]
+    for f, r in reads: groups.setdefault(frame_no(f), []).append(r)
+    return [(ts, potm_card(rs)) for ts, rs in sorted(groups.items())]
+
+
+def image_reader(read):
+    """path -> read(image), None (logged) for a frame that cannot be decoded (still being written)"""
+    import cv2
+    def run(path):
+        img = cv2.imread(path)
+        if img is None: print(f'{path}: cannot be read, skipped', file=sys.stderr); return None
+        return read(img)
+    return run
+
+
+def read_screens(day: str, frames_dir: str) -> tuple:
+    """(bans, cards) of the day's ban and POTM frames. Readings are cached per frame in <day>/screens_cache.json
+    (file name + size + mtime), so an assembly after every map reads only the new screens with Tesseract."""
+    import ocr_screens as SCR
+    lists = SCR.word_lists()
+    path, stamp = os.path.join(day, SCREENS_CACHE), screens_stamp(lists, SCR.DIGIT_LIB)
+    cache, fresh = load_screen_cache(path, stamp), {}
+    ban_files = sorted(glob.glob(os.path.join(frames_dir, 'ban_*_1.png')))
+    bans = bans_from(cached_reads(ban_files, image_reader(lambda im: SCR.read_ban(im, lists)), cache, fresh), lists[1])
+    potm_files = sorted(glob.glob(os.path.join(frames_dir, 'potm_*.png')))
+    cards = cards_from(cached_reads(potm_files, image_reader(SCR.read_potm), cache, fresh))
+    if fresh != cache: save_screen_cache(path, stamp, fresh)
+    return bans, cards
 
 
 # ---- assembly ----------------------------------------------------------------------------------------------------
@@ -544,9 +719,16 @@ def pick_map(hd: dict, ban: dict | None, lab: dict, m: dict | None) -> tuple:
     return name, [f'map: header {head}, ban screen {seen}'] if head and seen and head != seen else []
 
 
+def drop_names(panels_rows: list, drop) -> list:
+    """rows of names overruled as misreads (name_veto) read as unknown: name None, the reading kept as misreadName"""
+    if not drop: return panels_rows
+    return [[dict(r, name=None, misreadName=r['name']) if r['name'] in drop else r for r in rows] for rows in panels_rows]
+
+
 def build_map(entry: dict, panels_rows: list, lab: dict, rec: dict, sched: list) -> dict:
     m = sched[lab['idx']] if lab['idx'] is not None else None
     map_name, m_issues = pick_map(entry.get('header') or {}, rec.get('ban'), lab, m)
+    panels_rows = drop_names(panels_rows, lab.get('dropNames'))
     known = sum(1 for rows in panels_rows for r in rows if r['name'])
     issues = lab['labelIssues'] + m_issues + ([f'known names {known}/10'] if known < MIN_KNOWN * 10 else [])
     out = {'match': lab['label'], 'matchNo': lab['matchNo'], 'game': lab['game'], 'map': map_name or '?',
@@ -555,6 +737,7 @@ def build_map(entry: dict, panels_rows: list, lab: dict, rec: dict, sched: list)
            'totalsVerified': entry.get('totalsOK') is True, 'labelVerified': lab['labelVerified'], 'labelIssues': issues,
            'reading': 'ocr', '_ts': rec['ts'], '_known': known, '_pair': lab['pair'], '_idx': lab['idx']}
     out.update({k: entry[k] for k in COPY_FIELDS if k in entry})
+    if lab.get('key'): out['matchKey'] = lab['key']
     b = rec.get('ban')
     if b and len(out['teams']) == 2 and set(b.get('teams') or []) == set(out['teams']):
         out['bans'] = {'initial': b['initial'], 'followUp': b['followUp']}
@@ -567,8 +750,9 @@ def map_record(ts: int, entry: dict, panels_rows: list, prev_ts: int | None, ban
     """what the labelling needs to know about one map"""
     hit = ban_before(ts, prev_ts, bans)
     ban = dict(hit[1], teams=[NM.canon_team(t, ctx['aliases']) for t in hit[1].get('teams') or []]) if hit else None
-    return {'ts': ts, 'header': entry.get('header') or {}, 'ban': ban, 'banTeams': ban_teams(ban, ctx),
-            'panelTeams': [panel_team([r['name'] for r in p], ctx) for p in panels_rows]}
+    rec = {'ts': ts, 'header': entry.get('header') or {}, 'ban': ban, 'banTeams': ban_teams(ban, ctx),
+           'nameTeams': [name_teams([r['name'] for r in p], ctx) for p in panels_rows]}
+    return dict(rec, panelTeams=panel_teams(rec))
 
 
 def assemble(ocr: list, read_frame, bans: list, cards: list, ctx: dict, lib: list, unknown_dir: str) -> dict:
@@ -666,9 +850,9 @@ def main(date: str) -> int:
     try:
         with day_lock(day):
             with open(os.path.join(day, 'ocr.json'), encoding='utf-8') as f: ocr = json.load(f)
-            frames_dir = os.path.join(day, 'frames')
-            res = assemble(ocr, lambda e: cv2.imread(os.path.join(e['dir'], e['frame'])), read_bans(frames_dir),
-                           read_cards(frames_dir), ctx, lib, prepare_unknown_dir(day))
+            bans, cards = read_screens(day, os.path.join(day, 'frames'))
+            res = assemble(ocr, lambda e: cv2.imread(os.path.join(e['dir'], e['frame'])), bans, cards, ctx, lib,
+                           prepare_unknown_dir(day))
             line = summary(date, res)
             write_result(date, day, res)
     except TimeoutError as e:
