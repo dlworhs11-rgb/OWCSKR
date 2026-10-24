@@ -608,7 +608,131 @@
    "seriesBefore": {
     "Team Falcons": 0,
     "T1": 2
-   }
+   },
+   "winner": "Team Falcons",
+   "winnerSource": "series score"
+  },
+  {
+   "match": "Team Falcons vs T1",
+   "matchNo": 2,
+   "game": 4,
+   "map": "Shambali Monastery",
+   "mapTime": "12:12",
+   "frame": "m09_table1_1792835321.png",
+   "teams": {
+    "Team Falcons": [
+     {
+      "name": "?59",
+      "e": 25,
+      "a": 0,
+      "d": 3,
+      "dmg": 7688,
+      "heal": 114,
+      "mit": 90
+     },
+     {
+      "name": "?60",
+      "e": 14,
+      "a": 20,
+      "d": 7,
+      "dmg": 3892,
+      "heal": 9411,
+      "mit": 3500
+     },
+     {
+      "name": "?61",
+      "e": 12,
+      "a": 20,
+      "d": 5,
+      "dmg": 4358,
+      "heal": 13787,
+      "mit": 393
+     },
+     {
+      "name": "?62",
+      "e": 21,
+      "a": 5,
+      "d": 9,
+      "dmg": 11073,
+      "heal": 0,
+      "mit": 700
+     },
+     {
+      "name": "?63",
+      "e": 23,
+      "a": 4,
+      "d": 3,
+      "dmg": 10026,
+      "heal": 1335,
+      "mit": 15546
+     }
+    ],
+    "T1": [
+     {
+      "name": "?64",
+      "e": 7,
+      "a": 14,
+      "d": 6,
+      "dmg": 4122,
+      "heal": 8472,
+      "mit": 983
+     },
+     {
+      "name": "?65",
+      "e": 17,
+      "a": 5,
+      "d": 9,
+      "dmg": 10463,
+      "heal": 1170,
+      "mit": 8685
+     },
+     {
+      "name": "?66",
+      "e": 14,
+      "a": 1,
+      "d": 9,
+      "dmg": 12061,
+      "heal": 22,
+      "mit": 853
+     },
+     {
+      "name": "?67",
+      "e": 7,
+      "a": 8,
+      "d": 8,
+      "dmg": 7476,
+      "heal": 6526,
+      "mit": 752
+     },
+     {
+      "name": "?68",
+      "e": 14,
+      "a": 0,
+      "d": 4,
+      "dmg": 7468,
+      "heal": 45,
+      "mit": 135
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "bans": {
+    "initial": {
+     "team": "T1",
+     "hero": "genji"
+    },
+    "followUp": {
+     "team": "Team Falcons",
+     "hero": "ramattra"
+    }
+   },
+   "seriesBefore": {
+    "Team Falcons": 1,
+    "T1": 2
+   },
+   "winner": "T1",
+   "winnerSource": "match end (leader)"
   }
  ],
  "matches": [
@@ -633,9 +757,18 @@
    "match": "Team Falcons vs T1",
    "matchNo": 2,
    "mapWins": {
-    "T1": 2
+    "T1": 3,
+    "Team Falcons": 1
    },
-   "potm": null
+   "potm": {
+    "name": "Proud",
+    "team": "Team Falcons",
+    "elims": 2,
+    "deaths": 3,
+    "dmgPerMin": 3,
+    "screenName": "Proud",
+    "method": "closest elims+deaths"
+   }
   }
  ],
  "unknownNames": [
@@ -927,6 +1060,56 @@
   {
    "id": "?58",
    "map": "08",
+   "row": 9
+  },
+  {
+   "id": "?59",
+   "map": "09",
+   "row": 0
+  },
+  {
+   "id": "?60",
+   "map": "09",
+   "row": 1
+  },
+  {
+   "id": "?61",
+   "map": "09",
+   "row": 2
+  },
+  {
+   "id": "?62",
+   "map": "09",
+   "row": 3
+  },
+  {
+   "id": "?63",
+   "map": "09",
+   "row": 4
+  },
+  {
+   "id": "?64",
+   "map": "09",
+   "row": 5
+  },
+  {
+   "id": "?65",
+   "map": "09",
+   "row": 6
+  },
+  {
+   "id": "?66",
+   "map": "09",
+   "row": 7
+  },
+  {
+   "id": "?67",
+   "map": "09",
+   "row": 8
+  },
+  {
+   "id": "?68",
+   "map": "09",
    "row": 9
   }
  ],
