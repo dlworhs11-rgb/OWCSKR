@@ -46,3 +46,24 @@ export function addPlayerRow(acc, r, dur) {
 // add_next_stage) keeps substring matching
 export const isActiveTitle = (title, active) =>
   (active || []).some(a => typeof a === 'string' && a !== '' && (a.startsWith('Overwatch ') ? title === a : title.includes(a)));
+
+// broadcast handle -> per-player key: latin letters / digits as before ('Hee-Sang' = 'heesang'); a handle with none
+// (Hangul, CJK) keeps its letters and digits in any script, so two such players are not merged under ''
+export function normPlayer(n) {
+  const s = String(n ?? '').normalize('NFKC').toLowerCase();
+  return s.replace(/[^a-z0-9]/g, '') || s.replace(/[^\p{L}\p{N}]/gu, '') || s.replace(/\s+/g, ' ').trim();
+}
+
+// mapstats match key (RA-17): '<competitionTitle>#<idx>' of a match in data/site/matches.json / data/lp
+export const matchKeyOf = m => `${m.competitionTitle}#${m.idx}`;
+const pairOf = (a, b) => [a, b].sort().join('~');
+
+// a mapstats maps[] / matches[] entry -> its KR match. With matchKey: that match exactly (byKey: matchKey -> match);
+// without one, or one that is not known: the first match of that day (date prefix) with the same two teams.
+// -> { match, by: 'key' | 'date' | null }
+export function linkMapstat({ matchKey, date, teams }, { byKey, matches }) {
+  if (matchKey != null && byKey.has(matchKey)) return { match: byKey.get(matchKey), by: 'key' };
+  const pk = pairOf(...teams);
+  const match = matches.find(x => x.date.startsWith(date) && pairOf(x.team1, x.team2) === pk) ?? null;
+  return { match, by: match ? 'date' : null };
+}

@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { testFiles } from './run-tests.mjs';
-import { knownPlayer, kstDay, readJson, writeJson, renameRetry, addPlayerRow, isActiveTitle } from './util.mjs';
+import { knownPlayer, kstDay, readJson, writeJson, renameRetry, addPlayerRow, isActiveTitle, normPlayer, matchKeyOf, linkMapstat } from './util.mjs';
 
 test('knownPlayer skips unknown broadcast names in both published shapes', () => {
   assert.equal(knownPlayer({ name: 'HeeSang' }), true);
@@ -73,4 +73,28 @@ test('run-tests lists every collector/*.test.mjs file itself (no shell or Node 2
   assert.ok(names.includes('util.test.mjs') && names.includes('run-lp.test.mjs') && names.includes('liquipedia.test.mjs'), names.join());
   assert.ok(names.every(n => n.endsWith('.test.mjs')));
   assert.ok(testFiles().every(f => path.isAbsolute(f)));
+});
+
+test('normPlayer: latin handles as before, handles without latin letters stay distinct (RC-18)', () => {
+  assert.equal(normPlayer('Hee-Sang'), 'heesang');
+  assert.equal(normPlayer('LIP'), 'lip');
+  assert.equal(normPlayer('희상'), '희상');
+  assert.notEqual(normPlayer('희상'), normPlayer('준혁'));   // were both '' and merged into one row
+  assert.equal(normPlayer(' 희 상 '), '희상');
+  assert.equal(normPlayer('ＬＩＰ'), 'lip');   // full-width latin is latin
+  assert.equal(normPlayer(' ★ '), '★');       // no letter or digit at all: the trimmed handle, not ''
+  assert.equal(normPlayer(null), '');
+});
+
+test('linkMapstat: matchKey links exactly (same-day rematch), otherwise the first match that day with the same teams', () => {
+  const T = 'Overwatch Champions Series/2026/Asia/Stage 3/Korea';
+  const first = { competitionTitle: T, idx: 4, date: '2026-10-25T15:00:00+09:00', team1: 'T1', team2: 'O2 Blast' };
+  const rematch = { competitionTitle: T, idx: 7, date: '2026-10-25T20:00:00+09:00', team1: 'O2 Blast', team2: 'T1' };
+  const matches = [first, rematch], byKey = new Map(matches.map(m => [matchKeyOf(m), m]));
+  assert.equal(matchKeyOf(rematch), T + '#7');
+  const ctx = { byKey, matches };
+  assert.deepEqual(linkMapstat({ matchKey: T + '#7', date: '2026-10-25', teams: ['T1', 'O2 Blast'] }, ctx), { match: rematch, by: 'key' });
+  assert.deepEqual(linkMapstat({ date: '2026-10-25', teams: ['T1', 'O2 Blast'] }, ctx), { match: first, by: 'date' });
+  assert.deepEqual(linkMapstat({ matchKey: T + '#99', date: '2026-10-25', teams: ['O2 Blast', 'T1'] }, ctx), { match: first, by: 'date' });
+  assert.deepEqual(linkMapstat({ date: '2026-10-26', teams: ['T1', 'O2 Blast'] }, ctx), { match: null, by: null });
 });
