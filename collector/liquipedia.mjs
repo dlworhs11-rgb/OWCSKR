@@ -136,21 +136,27 @@ const num = v => (v === undefined || v === '' ? null : Number(v));
 const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 // 'Nov', 'Sept.', 'November': any 3+ letter start of a month name (2025 World Finals writes 'Nov 26, 2025 - 16:05')
 const monthOf = w => { const k = w.toLowerCase(); return k.length < 3 ? 0 : MONTHS.findIndex(n => n.startsWith(k)) + 1; };
-// Liquipedia writes "{{Abbr/KST}}" style zone markers; map the ones that show up in OWCS pages.
-const TZ = { KST: '+09:00', JST: '+09:00', CST: '+08:00', CET: '+01:00', CEST: '+02:00', BST: '+01:00', PDT: '-07:00', PST: '-08:00', EDT: '-04:00', EST: '-05:00', CDT: '-05:00', UTC: '+00:00', GMT: '+00:00' };
+// Liquipedia writes "{{Abbr/KST}}" style zone markers ('{{abbr/KST}}' too: a template's first letter is case-blind);
+// map the ones that show up in OWCS pages and the region's others. An unknown zone is read as UTC and reported in
+// info.zone ('TZ?' warning) so it is not silently hours off.
+const TZ = { KST: '+09:00', JST: '+09:00', CST: '+08:00', SGT: '+08:00', HKT: '+08:00', PHT: '+08:00', ICT: '+07:00', AEST: '+10:00', AEDT: '+11:00',
+  CET: '+01:00', CEST: '+02:00', EET: '+02:00', EEST: '+03:00', WET: '+00:00', WEST: '+01:00', BST: '+01:00', MSK: '+03:00',
+  PDT: '-07:00', PST: '-08:00', MDT: '-06:00', MST: '-07:00', EDT: '-04:00', EST: '-05:00', CDT: '-05:00', BRT: '-03:00', UTC: '+00:00', GMT: '+00:00' };
 
-export function parseDate(s) {
+export function parseDate(s, info = {}) {
   if (!s) return null;
-  const zone = (/Abbr\/(\w+)/.exec(s) || [])[1];
+  const zone = (/\{\{\s*abbr\/(\w+)/i.exec(s) || [])[1]?.toUpperCase();
+  if (zone && !TZ[zone]) info.zone = zone;
   const tz = TZ[zone] || '+00:00';
   let y, mo, d, m;
   if ((m = /(\d{4})-(\d{2})-(\d{2})/.exec(s))) { y = +m[1]; mo = +m[2]; d = +m[3]; }
   else if ((m = [...s.matchAll(/([A-Za-z]+)\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})/g)].find(x => monthOf(x[1])))) { mo = monthOf(m[1]); d = +m[2]; y = +m[3]; }
   else return null;
   if (mo < 1 || mo > 12 || d < 1 || d > 31) return null;
-  const t = /(\d{1,2}):(\d{2})/.exec(s.replace(/\d{4}-\d{2}-\d{2}/, ''));
+  const t = /(\d{1,2}):(\d{2})(?:\s*([ap])\.?\s*m\b\.?)?/i.exec(s.replace(/\d{4}-\d{2}-\d{2}/, ''));
+  const h = !t ? 0 : t[3] ? +t[1] % 12 + (/p/i.test(t[3]) ? 12 : 0) : +t[1];
   const p = n => String(n).padStart(2, '0');
-  return `${y}-${p(mo)}-${p(d)}T${t ? p(t[1]) + ':' + t[2] : '00:00'}:00${tz}`;
+  return `${y}-${p(mo)}-${p(d)}T${t ? p(h) + ':' + t[2] : '00:00'}:00${tz}`;
 }
 
 // Where each {{Match}} sits on the page, in page order: the deepest heading under ==Results== ('Group A', 'Playoffs')
@@ -178,8 +184,9 @@ export function parseMatches(text, competition, stats = {}) {
   stats.dateless = 0;
   return findTemplates(text, 'Match').map((raw, idx) => {
     const { args } = parseTemplate(raw);
-    const date = parseDate(args.date);
+    const info = {}, date = parseDate(args.date, info);
     if (!date && args.date) { stats.dateless++; console.warn('DATE?', competition, idx, JSON.stringify(args.date)); }
+    if (date && info.zone) console.warn('TZ?', competition, idx, JSON.stringify(args.date), '(read as UTC)');
     const team = k => { const t = args[k] && findTemplates(args[k], 'TeamOpponent')[0]; return t ? parseTemplate(t).pos[0] : stripLinks(args[k] || ''); };
     const maps = Object.keys(args).filter(k => /^map\d+$/.test(k)).sort((a, b) => a.slice(3) - b.slice(3)).map((k, i) => {
       const t = findTemplates(args[k], 'Map')[0]; if (!t) return null;

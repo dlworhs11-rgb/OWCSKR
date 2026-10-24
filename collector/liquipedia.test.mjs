@@ -22,6 +22,20 @@ test('parseDate: abbreviated, dotted and full month names, ISO dates', () => {
   assert.equal(parseDate(undefined), null);
 });
 
+test('parseDate: lower-case {{abbr/..}}, 12 h times, unknown zones reported', () => {
+  assert.equal(parseDate('Oct 25, 2026 - 18:00 {{abbr/KST}}'), '2026-10-25T18:00:00+09:00');
+  assert.equal(parseDate('Oct 25, 2026 - 6:00 PM {{Abbr/KST}}'), '2026-10-25T18:00:00+09:00');
+  assert.equal(parseDate('Oct 25, 2026 - 12:30 a.m. {{Abbr/KST}}'), '2026-10-25T00:30:00+09:00');
+  assert.equal(parseDate('Oct 25, 2026 - 12:05pm {{Abbr/KST}}'), '2026-10-25T12:05:00+09:00');
+  assert.equal(parseDate('Feb 3, 2027 - 19:00 {{Abbr/AEDT}}'), '2027-02-03T19:00:00+11:00');
+  const info = {};
+  assert.equal(parseDate('Feb 3, 2027 - 19:00 {{Abbr/XYZT}}', info), '2027-02-03T19:00:00+00:00');
+  assert.equal(info.zone, 'XYZT');
+  const known = {}; parseDate('Feb 3, 2027 - 19:00 {{Abbr/KST}}', known); assert.equal(known.zone, undefined);
+  const [, warns] = quiet(() => parseMatches('{{Match|date=Feb 3, 2027 - 19:00 {{Abbr/XYZT}}|opponent1=A|opponent2=B}}', 'X'));
+  assert.deepEqual(warns.map(w => w[0]), ['TZ?']);
+});
+
 test('parseMatches: every written date parses or is counted as dateless with a DATE? warning', async () => {
   const stats = {};
   const [ms, warns] = quiet(() => parseMatches('', 'x', stats));
