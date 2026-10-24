@@ -27,3 +27,7 @@ data/digit_lib/
 
 # relay signing key and topic: never published (live_relay.py)
 data/relay/
+
+# server settings and virtualenv (Linux)
+.env
+.venv/

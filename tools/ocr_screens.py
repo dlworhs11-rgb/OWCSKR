@@ -6,10 +6,12 @@ POTM screen (after a match): player name + ELIMS DEATH E/D DMG DMG/M for the who
 
 All coordinates are measured on a 960x540 frame; frames of any 16:9 size are resized to 1920x1080 and scaled by 2.
 """
-import difflib, json, os, re
+import difflib, json, os, re, sys
 import cv2, numpy as np, pytesseract
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from platform_util import tesseract_cmd
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = tesseract_cmd()
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REF_BAN = cv2.imread(os.path.join(ROOT, 'data', 'ref', 'ban_960.jpg'))
 REF_POTM = cv2.imread(os.path.join(ROOT, 'data', 'ref', 'potm_960.jpg'))

@@ -1,0 +1,6 @@
+# tools/*.py (broadcast capture + OCR). System packages: see docs/linux-server.md
+opencv-python-headless>=4.8
+numpy>=1.24
+pytesseract>=0.3.10
+websockets>=12
+pytest>=8

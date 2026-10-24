@@ -2,14 +2,15 @@
 with it 720p, when its login cookie runs out: AuthTicket, valid to 2026-11-17 as of 10-20).
 Six OBS frames over about a minute. A 540p picture loses almost nothing when shrunk to 960x540, so its 540/720 loss
 ratio is low: 10-17 VOD frames gave 1.66-1.86 at 720p and 0.69-0.92 for the same frames cut to 540p, on game and
-waiting screens alike. Below 1.2 a window asks the user to log in again (OBS: SOOP source > Interact).
+waiting screens alike. Below 1.2 an alert (platform_util.notify) asks the user to log in again (OBS: SOOP source > Interact).
 usage: python soop_quality.py      (scheduled tasks OWCSKR\\SoopQuality_<date>, 2 minutes after the first match)"""
-import asyncio, datetime, os, subprocess, sys
+import asyncio, datetime, os, sys
 import cv2, numpy as np
-sys.path.insert(0, r'C:\Users\dlwor\Documents\Obsidian\LeeJaeGon\02_Projects\OWCS KR Home')
-import score_watch as W
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import platform_util as PU
+if PU.SITE_DIR: sys.path.insert(0, PU.SITE_DIR)
 
-LOG = r'C:\Users\dlwor\OWCSKR\data\live\soop_quality.log'
+LOG = os.path.join(PU.LIVE_DIR, 'soop_quality.log')
 LOW = 1.2
 
 
@@ -19,6 +20,7 @@ def loss(img, w, h):
 
 
 async def ratios():
+    import score_watch as W          # site recorder (OWCSKR_SITE_DIR); a missing one is reported by main()
     src = await W.ObsSource().open()
     out = []
     try:
@@ -34,9 +36,7 @@ async def ratios():
 
 
 def popup(text):
-    ps = ('Add-Type -AssemblyName PresentationFramework; [System.Windows.MessageBox]::Show('
-          f"'{text}', 'OWCS 기록기 화질', 'OK', 'Warning') | Out-Null")
-    subprocess.Popen(['powershell', '-NoProfile', '-WindowStyle', 'Hidden', '-Command', ps])
+    PU.notify('OWCS 기록기 화질', text)
 
 
 def main():
@@ -47,10 +47,11 @@ def main():
     else:
         err = ''
     r = float(np.median(rs)) if rs else None
+    os.makedirs(PU.LIVE_DIR, exist_ok=True)
     with open(LOG, 'a', encoding='utf-8') as f:
         f.write(f"{datetime.datetime.now():%Y-%m-%d %H:%M:%S} ratio {r if r is None else round(r, 2)} {[round(x, 2) for x in rs]} {err}\n")
     if r is None:
-        popup('OBS 화면을 못 읽었어요. OBS가 켜져 있는지 확인해 주세요.')
+        popup('OBS 화면을 못 읽었어요. OBS가 켜져 있는지 확인해 주세요.' + (f'\n({err[:200]})' if err else ''))
     elif r < LOW:
         popup('SOOP 화질이 540p로 떨어졌어요 (로그아웃 의심).\n'
               'OBS → SOOP 소스 우클릭 → 상호작용 → SOOP 로그인 → 720p 선택.')

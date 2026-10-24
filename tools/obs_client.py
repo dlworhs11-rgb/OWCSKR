@@ -1,8 +1,10 @@
 """Minimal obs-websocket v5 client (only what OWCSKR needs). Uses the `websockets` package."""
-import asyncio, base64, hashlib, json, os, uuid
+import asyncio, base64, hashlib, json, os, sys, uuid
 import websockets
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from platform_util import obs_config_dir
 
-CONFIG = os.path.join(os.environ.get('APPDATA', ''), 'obs-studio', 'plugin_config', 'obs-websocket', 'config.json')
+CONFIG = os.path.join(obs_config_dir(), 'plugin_config', 'obs-websocket', 'config.json')
 
 
 def local_password():

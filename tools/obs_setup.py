@@ -8,8 +8,8 @@ import asyncio, json, os, secrets, subprocess, sys, time
 import sys as _sys; _sys.stdout.reconfigure(encoding='utf-8', errors='replace'); _sys.stderr.reconfigure(encoding='utf-8', errors='replace')   # logs may contain names like 'Esperança'
 sys.path.insert(0, os.path.dirname(__file__))
 from obs_client import OBS, CONFIG
+import platform_util as PU
 
-OBS_DIR = r'C:\Program Files\obs-studio\bin\64bit'
 SCENE, SOURCE, COLLECTION = 'OWCSKR', 'SOOP', 'OWCSKR'
 LIVE_URL = 'https://play.sooplive.com/owesports/embed?autoPlay=true&mutePlay=true'   # official embed player: video only, full frame
 CSS = ('body{background:#000!important;overflow:hidden!important}'
@@ -29,7 +29,7 @@ def config():
     print('obs-websocket enabled on 127.0.0.1:4455 (password stored only in OBS config)')
 
 
-SCENES_DIR = os.path.join(os.environ.get('APPDATA', ''), 'obs-studio', 'basic', 'scenes')
+SCENES_DIR = os.path.join(PU.obs_config_dir(), 'basic', 'scenes')
 
 
 def write_collection(url):
@@ -54,8 +54,7 @@ def write_collection(url):
 
 
 def running():
-    out = subprocess.run(['tasklist', '/FI', 'IMAGENAME eq obs64.exe'], capture_output=True, text=True).stdout
-    return 'obs64.exe' in out
+    return PU.process_running(PU.OBS_PROC)
 
 
 async def ensure_scene(url):
@@ -80,7 +79,7 @@ def clear_crash_marks():
     """live_capture force-closes OBS (tray mode turns a normal close into 'hide'), which leaves run markers in
     obs-studio/.sentinel; newer OBS then opens an 'unclean shutdown' dialog at the next start (ignoring
     --disable-shutdown-check) and the websocket never comes up. Only called while OBS is not running."""
-    d = os.path.join(os.environ.get('APPDATA', ''), 'obs-studio', '.sentinel')
+    d = os.path.join(PU.obs_config_dir(), '.sentinel')
     if os.path.isdir(d):
         for f in os.listdir(d):
             if f.startswith('run_'):
@@ -92,8 +91,10 @@ def start(url):
     write_collection(url)
     if not running():
         clear_crash_marks()
-        subprocess.Popen([os.path.join(OBS_DIR, 'obs64.exe'), '--collection', COLLECTION, '--scene', SCENE,
-                          '--minimize-to-tray', '--disable-shutdown-check', '--disable-updater'], cwd=OBS_DIR)
+        exe, cwd = PU.obs_command()
+        flags = ['--collection', COLLECTION, '--scene', SCENE, '--minimize-to-tray', '--disable-shutdown-check']
+        if PU.IS_WIN: flags.append('--disable-updater')          # the Linux build has no updater
+        subprocess.Popen(exe + flags, cwd=cwd)
     for _ in range(60):                       # wait for the websocket server
         try:
             asyncio.run(ensure_scene(url)); return

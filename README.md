@@ -21,4 +21,7 @@ node collector/run-lp.mjs   # Liquipedia 수집 (2.2초 간격, 캐시 사용)
 node collector/build.mjs    # 정규화/집계 -> data/site/*.json (새 홈페이지가 쓸 데이터)
 python -I tools/live_capture.py --hours 6   # 방송 캡처 (보통은 예약 작업이 실행)
 ```
-계획 문서: `plan/`, 실시간 캡처 설명: `docs/vod-stats.md`
+계획 문서: `plan/`, 실시간 캡처 설명: `docs/vod-stats.md`, 리눅스 서버 설치: `docs/linux-server.md`
+
+윈도우는 `tools/*.bat`(작업 스케줄러), 리눅스는 `tools/*.sh`(systemd 사용자 타이머)로 같은 작업을 돌린다.
+설정은 환경변수(`.env.example` 참고)로 받는다.

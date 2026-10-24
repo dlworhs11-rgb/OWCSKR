@@ -1,10 +1,14 @@
 r"""Schedule today's (or a given day's) live capture from the Liquipedia match list.
 usage: python -I tools/schedule_today.py [YYYY-MM-DD | --upcoming] [--dry]
 Finds that day's Korean-league matches in data/site/matches.json (run collector/build.mjs first), and registers a
-one-shot Windows task 'OWCSKR\LiveCapture' that starts 10 minutes before the first match and runs until 3.5 hours
-after the last one (live_capture.py also stops by itself when GAME DATA screens stop for 75 minutes)."""
-import datetime, json, os, subprocess, sys
+one-shot job that starts 10 minutes before the first match and runs until 3.5 hours after the last one
+(live_capture.py also stops by itself when GAME DATA screens stop for 75 minutes):
+  Windows: Task Scheduler task 'OWCSKR\LiveCapture_<date>' running tools/run_live.bat
+  Linux:   systemd user timer 'owcskr-live-<date>' (systemd-run) running tools/run_live.sh"""
+import datetime, json, os, re, subprocess, sys
 import sys as _sys; _sys.stdout.reconfigure(encoding='utf-8', errors='replace'); _sys.stderr.reconfigure(encoding='utf-8', errors='replace')   # logs may contain names like 'Esperança'
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from platform_util import IS_WIN
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 args = [x for x in sys.argv[1:] if not x.startswith('--')]
@@ -55,15 +59,59 @@ def plan(day):
     return ms, start, hours
 
 
+LIVE_SCRIPT = os.path.join(ROOT, 'tools', 'run_live.bat' if IS_WIN else 'run_live.sh')
+
+
 def register(day, start, hours):
-    ps = (f"$a = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c {os.path.join(ROOT, 'tools', 'run_live.bat')} {hours} {day}' -WorkingDirectory '{ROOT}';"
+    return register_win(day, start, hours) if IS_WIN else register_systemd(day, start, hours)
+
+
+def cleanup(today):
+    return cleanup_win(today) if IS_WIN else cleanup_systemd(today)
+
+
+def launch_now(day, hours):
+    if IS_WIN:
+        subprocess.Popen(['cmd', '/c', LIVE_SCRIPT, str(hours), day])
+    else:   # own session: the capture keeps running after the daily job that started it ends
+        subprocess.Popen(['bash', LIVE_SCRIPT, str(hours), day], cwd=ROOT, start_new_session=True,
+                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def systemctl(*a):
+    return subprocess.run(['systemctl', '--user', *a], capture_output=True, text=True)
+
+
+def register_systemd(day, start, hours):
+    """transient user timer; re-registering a day replaces it (same as -Force on Windows).
+    Needs 'loginctl enable-linger <user>' so user timers run without a login session (tools/register_tasks.sh)."""
+    unit = f'owcskr-live-{day}'
+    systemctl('stop', unit + '.timer', unit + '.service')
+    systemctl('reset-failed', unit + '.timer', unit + '.service')
+    r = subprocess.run(['systemd-run', '--user', '--unit', unit, '--description', f'OWCSKR live capture {day}',
+                        '--on-calendar', start.strftime('%Y-%m-%d %H:%M:%S'), '--timer-property=AccuracySec=1s',
+                        '--working-directory', ROOT, '-p', 'RuntimeMaxSec=12h',
+                        '/bin/bash', LIVE_SCRIPT, str(hours), day], capture_output=True, text=True)
+    return 'registered' if r.returncode == 0 else 'registration failed: ' + (r.stderr or r.stdout).strip()[:200]
+
+
+def cleanup_systemd(today):
+    """stop capture timers of past days (transient units disappear on their own after a reboot)"""
+    out = systemctl('list-units', '--all', '--plain', '--no-legend', 'owcskr-live-*.timer').stdout
+    for unit in re.findall(r'owcskr-live-(\d{4}-\d{2}-\d{2})\.timer', out):
+        if unit < today:
+            systemctl('stop', f'owcskr-live-{unit}.timer')
+
+
+def register_win(day, start, hours):
+    ps = (f"$a = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument '/c {LIVE_SCRIPT} {hours} {day}' -WorkingDirectory '{ROOT}';"
           f"$t = New-ScheduledTaskTrigger -Once -At '{start.strftime('%Y-%m-%dT%H:%M:%S')}';"
           "$s = New-ScheduledTaskSettingsSet -WakeToRun -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 12);"
           rf"Register-ScheduledTask -TaskPath '\OWCSKR\' -TaskName 'LiveCapture_{day}' -Action $a -Trigger $t -Settings $s -Force | Out-Null; 'registered'")
     return subprocess.run(['powershell', '-NoProfile', '-Command', ps], capture_output=True, text=True).stdout.strip() or 'registration failed'
 
 
-def cleanup(today):
+def cleanup_win(today):
     """remove capture tasks of past days (and the old single 'LiveCapture' task)"""
     ps = (r"Get-ScheduledTask -TaskPath '\OWCSKR\' -ErrorAction SilentlyContinue | Where-Object { $_.TaskName -eq 'LiveCapture' -or "
           f"($_.TaskName -like 'LiveCapture_*' -and $_.TaskName.Substring(12) -lt '{today}') }} | Unregister-ScheduledTask -Confirm:$false")
@@ -87,7 +135,7 @@ for day in days:
     if start < datetime.datetime.now().astimezone():
         if datetime.datetime.now().astimezone() < start + datetime.timedelta(hours=hours):
             print('-> already started time, launching now')
-            subprocess.Popen(['cmd', '/c', os.path.join(ROOT, 'tools', 'run_live.bat'), str(hours), day])
+            launch_now(day, hours)
         else: print('-> past')
         continue
     print('->', register(day, start, hours))

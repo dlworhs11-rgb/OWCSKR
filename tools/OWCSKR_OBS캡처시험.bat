@@ -1,6 +1,10 @@
 @echo off
 rem OWCSKR: start OBS (tray, dedicated scene collection) with a SOOP page and take 6 test captures.
-cd /d C:\Users\dlwor\OWCSKR
+pushd "%~dp0.."
+set "ROOT=%CD%"
+popd
+if not exist "%ROOT%\tools\live_capture.py" if defined OWCSKR_ROOT set "ROOT=%OWCSKR_ROOT%"
+cd /d "%ROOT%"
 set "URL=%~1"
 if "%URL%"=="" set "URL=https://vod.sooplive.com/player/209539901?change_second=3440"
 echo [1/2] Starting OBS and preparing the scene...
@@ -11,7 +15,7 @@ timeout /t 20 >nul
 python -I tools\obs_snap.py 6 10
 if errorlevel 1 goto fail
 echo.
-echo DONE. Report: C:\Users\dlwor\OWCSKR\data\live\snap_report.txt
+echo DONE. Report: %ROOT%\data\live\snap_report.txt
 pause
 exit /b 0
 :fail

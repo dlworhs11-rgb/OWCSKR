@@ -1,5 +1,5 @@
 # Registers the daily OWCSKR job (09:00). The job refreshes Liquipedia and schedules that day's capture task.
-$root = 'C:\Users\dlwor\OWCSKR'
+$root = Split-Path -Parent $PSScriptRoot
 $a = New-ScheduledTaskAction -Execute 'cmd.exe' -Argument ('/c "' + $root + '\tools\run_daily.bat"') -WorkingDirectory $root
 $t = New-ScheduledTaskTrigger -Daily -At '09:00'
 $s = New-ScheduledTaskSettingsSet -StartWhenAvailable -WakeToRun -ExecutionTimeLimit (New-TimeSpan -Hours 1)
