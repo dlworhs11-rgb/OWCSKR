@@ -852,7 +852,9 @@
    "seriesBefore": {
     "Poker Face": 2,
     "SEIJI ESPORTS": 1
-   }
+   },
+   "winner": "SEIJI ESPORTS",
+   "winnerSource": "series score"
   }
  ],
  "matches": [
@@ -894,10 +896,18 @@
    "match": "Poker Face vs SEIJI ESPORTS",
    "matchNo": 3,
    "mapWins": {
-    "Poker Face": 2,
-    "SEIJI ESPORTS": 1
+    "Poker Face": 3,
+    "SEIJI ESPORTS": 2
    },
-   "potm": null
+   "potm": {
+    "name": "SoLA",
+    "team": "Poker Face",
+    "elims": 82,
+    "deaths": 33,
+    "dmgPerMin": 871,
+    "screenName": "een",
+    "method": "closest elims+deaths"
+   }
   }
  ],
  "unknownNames": [
@@ -1400,6 +1410,46 @@
    "id": "?100",
    "map": "13",
    "row": 9
+  },
+  {
+   "id": "?101",
+   "map": "14",
+   "row": 0
+  },
+  {
+   "id": "?102",
+   "map": "14",
+   "row": 1
+  },
+  {
+   "id": "?103",
+   "map": "14",
+   "row": 2
+  },
+  {
+   "id": "?104",
+   "map": "14",
+   "row": 5
+  },
+  {
+   "id": "?105",
+   "map": "14",
+   "row": 6
+  },
+  {
+   "id": "?106",
+   "map": "14",
+   "row": 7
+  },
+  {
+   "id": "?107",
+   "map": "14",
+   "row": 8
+  },
+  {
+   "id": "?108",
+   "map": "14",
+   "row": 9
   }
  ],
  "unknownMaps": [
@@ -1418,6 +1468,10 @@
   {
    "map": "08",
    "frame": "m08_table1_1792834302.png"
+  },
+  {
+   "map": "14",
+   "frame": "m14_table1_1792844319.png"
   }
  ],
  "note": "reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; mapTime = damage / damage-per-minute from the totals page."
