@@ -50,11 +50,26 @@ def _labels(folder: str, label) -> list[str]:
     return [label(os.path.basename(f)[:-4]) for f in glob.glob(os.path.join(folder, '*.png'))]
 
 
+def check_name_lib(folder: str) -> list[Problem]:
+    """what ocr_names.load_lib will really use (<Name>__<tag>.png, 96x18): a folder of raw crops passed a plain
+    file count, and then assemble_day stopped at every map"""
+    import contextlib, io
+    import ocr_names
+    skipped = io.StringIO()
+    with contextlib.redirect_stderr(skipped):
+        usable = len(ocr_names.load_lib(folder))
+    bad = skipped.getvalue().count('name_lib: skipped')
+    if not usable:
+        why = f'no usable file ({bad} skipped: not <Name>__<tag>.png or not 96x18)' if bad else 'empty or missing'
+        return [Problem('fatal', 'data/name_lib', f'{why}: every player name would be unknown')]
+    if bad: return [Problem('warn', 'data/name_lib', f'{bad} file(s) skipped (not <Name>__<tag>.png or not 96x18)')]
+    return []
+
+
 def check_libs(root: str) -> list[Problem]:
     """name_lib, header_lib, digit_lib: present and non-empty (fatal); every digit 0-9 sampled (warn)"""
     out = []
-    names = _labels(os.path.join(root, 'data', 'name_lib'), lambda b: b.split('__')[0])
-    if not names: out.append(Problem('fatal', 'data/name_lib', 'empty or missing: every player name would be unknown'))
+    out += check_name_lib(os.path.join(root, 'data', 'name_lib'))
     header = _labels(os.path.join(root, 'data', 'header_lib'), lambda b: b.split('__')[0])
     hdigits = {h.split('_', 1)[1] for h in header if h.startswith('digit_')}
     bold = set(_labels(os.path.join(root, 'data', 'digit_lib'), lambda b: b.split('__')[0]))
@@ -88,14 +103,20 @@ def check_data(root: str) -> list[Problem]:
     return out
 
 
-def _gh_token(gh: str, env, run) -> str | None:
-    """None when a token is available, else why not"""
+def _gh_token(gh: str, env, run) -> Problem | None:
+    """None when a token is available. 'gh auth token' only reads the local login (no request): 'gh auth status' asks
+    api.github.com and fails without network, and a fatal there (exit 2, never restarted) would lose the whole day.
+    The token itself is never printed or kept."""
     if env.get('GH_TOKEN') or env.get('GITHUB_TOKEN'): return None
     try:
-        r = run([gh, 'auth', 'status'], capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=30)
+        r = run([gh, 'auth', 'token'], capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=20)
     except (OSError, subprocess.SubprocessError) as e:
-        return f'gh auth status failed: {type(e).__name__}: {e}'
-    return None if r.returncode == 0 else 'no GH_TOKEN and gh is not logged in (gh auth status)'
+        return Problem('warn', 'GitHub token', f'gh auth token could not run: {type(e).__name__}: {e}')
+    if r.returncode == 0 and (r.stdout or '').strip(): return None
+    err = (r.stderr or '').strip()
+    if 'unknown command' in err:
+        return Problem('warn', 'GitHub token', 'gh is too old for "gh auth token" - login not checked')
+    return Problem('fatal', 'GitHub token', 'no GH_TOKEN and gh is not logged in (gh auth login)')
 
 
 def check_tools(env=None, which=shutil.which, run=subprocess.run, find_spec=importlib.util.find_spec) -> list[Problem]:
@@ -106,8 +127,8 @@ def check_tools(env=None, which=shutil.which, run=subprocess.run, find_spec=impo
     if not gh:
         out.append(Problem('fatal', 'gh', 'GitHub CLI not found: verified maps cannot be uploaded'))
     else:
-        why = _gh_token(gh, env, run)
-        if why: out.append(Problem('fatal', 'GitHub token', why))
+        token = _gh_token(gh, env, run)
+        if token: out.append(token)
     tess = env.get('TESSERACT_CMD') or which('tesseract') or (WIN_TESSERACT if PU.IS_WIN and os.path.isfile(WIN_TESSERACT) else None)
     if not tess or not (os.path.isfile(tess) or which(tess)):
         out.append(Problem('fatal', 'tesseract', 'Tesseract OCR binary not found (set TESSERACT_CMD or install it)'))

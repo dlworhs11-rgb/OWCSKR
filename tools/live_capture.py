@@ -15,8 +15,11 @@ usage: python -I tools/live_capture.py [--url URL] [--date YYYY-MM-DD] (--until 
   when no GAME DATA screen was seen for --idle-stop minutes after at least one map
 - recovers by itself: loop errors are logged and skipped, the frame source is restarted after a minute of failed
   grabs or when OBS is gone, a frozen / black frame for 60 s refreshes the browser source; alerts go through
-  platform_util.notify (each kind at most once per 15 min); an end-of-day summary is sent at the end
-exit: 0 ok, 1 unexpected error or a failed final OCR / assemble / publish, 2 self-check failed or OBS busy
+  platform_util.notify (each kind at most once per 15 min, also across restarts: data/live/<date>/alerts.json);
+  an end-of-day summary is sent at the end
+exit: 0 ok, 1 unexpected error (the capture crashed: systemd restarts it), 2 self-check failed or OBS busy,
+      4 the capture ended (--until / idle stop / signal) but the final OCR / assemble / publish failed - alerted,
+      and a restart would only capture an empty stream until --until (not restarted: RestartPreventExitStatus=2 4)
 """
 import argparse, asyncio, datetime, glob, hashlib, json, os, re, signal, subprocess, sys, time, traceback
 
@@ -32,6 +35,8 @@ ROOT = PU.ROOT
 REF_TABLE, REF_TOTALS = 'data/vod/maps/m_3480.png', 'data/vod/maps/m_9465.png'
 TITLE = (slice(48, 95), slice(128, 300)); BODY = (slice(110, 460), slice(200, 900))
 ALERT_PERIOD = 15 * 60          # one alert of a kind per 15 min
+PARTIAL_ALERT_PERIOD = 24 * 3600  # the same 'map could not be read' message: once a day
+ALERT_STATE = 'alerts.json'     # in data/live/<date>: alert times, kept across restarts
 STEP_TIMEOUT = 30 * 60          # an OCR / assemble / publish step that hangs longer is killed
 RESTART_AFTER = 60              # s of failed grabs before the frame source is restarted
 DOWN_ALERT_AFTER = 3 * 60       # s of failed grabs (restarts included) before an alert
@@ -40,6 +45,8 @@ TABLE_SETTLE = 2.0              # s after the first TABLE frame of a map before 
 TOTALS_STEP = 5.0               # TOTALS frames at +0 / +5 / +10 s
 MAX_TABLES = MAX_TOTALS = 3
 SUMMARY_MARK = 'summary.txt'    # written once the end-of-day summary went out (a restart after the window resends none)
+FINALIZE_FAILED = 4             # exit code: the day was captured, only the final steps failed
+SUMMARY_NEAR_END = 5 * 60       # a crash / stop this close to --until has no successor run: it sends the summary itself
 _REFS = None
 
 
@@ -72,14 +79,34 @@ def screens():
 # ---- alerts and sub-steps -------------------------------------------------------------------------------------
 
 class Alerter:
-    """platform_util.notify, at most once per key per period"""
-    def __init__(self, notify=None, period=ALERT_PERIOD, clock=time.time):
-        self.notify, self.period, self.clock, self.last = notify or PU.notify, period, clock, {}
+    """platform_util.notify, at most once per key per period. With `state` (a JSON file) the times survive a restart:
+    systemd restarts a failed capture after a minute, and a limit kept only in memory alerted again on every start."""
+    def __init__(self, notify=None, period=ALERT_PERIOD, clock=time.time, state=None):
+        self.notify, self.period, self.clock, self.state = notify or PU.notify, period, clock, state
+        self.last = self._load()
 
-    def __call__(self, key: str, title: str, text: str) -> bool:
+    def _load(self) -> dict:
+        if not self.state: return {}
+        try:
+            with open(self.state, encoding='utf-8') as fh:
+                return {str(k): float(v) for k, v in json.load(fh).items()}
+        except (OSError, ValueError, TypeError, AttributeError):
+            return {}
+
+    def _save(self) -> None:
+        if not self.state: return
+        tmp = self.state + '.tmp'
+        try:
+            with open(tmp, 'w', encoding='utf-8') as fh: json.dump(self.last, fh)
+            os.replace(tmp, self.state)
+        except OSError as e:
+            print(f'alert state not saved ({self.state}): {e}', file=sys.stderr)
+
+    def __call__(self, key: str, title: str, text: str, period: float | None = None) -> bool:
         now = self.clock()
-        if key in self.last and now - self.last[key] < self.period: return False
+        if key in self.last and now - self.last[key] < (self.period if period is None else period): return False
         self.last[key] = now
+        self._save()
         try:
             self.notify(title, text)
         except Exception as e:                       # an alert must never stop the capture
@@ -91,8 +118,10 @@ def last_line(text: str) -> str:
     return (text.strip().splitlines() or [''])[-1]
 
 
-def run_script(args, log, alert, timeout=STEP_TIMEOUT):
-    """python -I <args> in the repo root; -> CompletedProcess, or None after logging + alerting a failure"""
+def run_script(args, log, alert, timeout=STEP_TIMEOUT, partial_rc=None):
+    """python -I <args> in the repo root; -> CompletedProcess, or None after logging + alerting a failure.
+    partial_rc: the exit code of 'done, but something was left out' (ocr_run 1 = a map could not be read). ocr_run
+    reads the whole day again after every map, so the same map fails every time: that is alerted once per message."""
     name = os.path.basename(args[0])
     try:
         r = subprocess.run([sys.executable, '-I', *args], capture_output=True, text=True, encoding='utf-8', errors='replace',
@@ -104,12 +133,16 @@ def run_script(args, log, alert, timeout=STEP_TIMEOUT):
     if r.returncode == 0: return r
     tail = (r.stderr or '').strip()[-500:] or last_line(r.stdout or '')
     log(f'  {name} FAILED (exit {r.returncode}):', tail)
-    alert(name, 'OWCSKR 캡처', f'{name} {" ".join(args[1:])} failed (exit {r.returncode}): {tail[-300:]}')
+    text = f'{name} {" ".join(args[1:])} failed (exit {r.returncode}): {tail[-300:]}'
+    if partial_rc is not None and r.returncode == partial_rc:
+        alert(f'{name}:{last_line(r.stderr or "")[:200]}', 'OWCSKR 캡처', text, period=PARTIAL_ALERT_PERIOD)
+    else:
+        alert(name, 'OWCSKR 캡처', text)
     return None
 
 
 def run_ocr(out, frames, log, alert) -> bool:
-    r = run_script(['tools/ocr_run.py', os.path.join(out, 'ocr.json'), frames], log, alert)
+    r = run_script(['tools/ocr_run.py', os.path.join(out, 'ocr.json'), frames], log, alert, partial_rc=1)
     if r: log('  ocr:', last_line(r.stdout))
     return r is not None
 
@@ -151,6 +184,8 @@ class ObsSource:
         if not obs_setup.running(): self.started = True
         try:
             obs_setup.start(self.url)
+        except StopRequested:                        # SIGTERM while waiting for OBS: still a stop, not an error
+            raise
         except SystemExit as e:                      # obs_setup gives up with SystemExit after ~2 min
             raise RuntimeError(str(e)) from None
         self.connect()
@@ -233,12 +268,15 @@ class Grabber:
 
     def _restart(self, why):
         self.log('restarting the frame source:', why)
-        self.fail_since = self.clock()               # the next restart only after another full minute
         try:
             self.source.restart(); self.log('frame source restarted')
         except Exception as e:
             self.log('frame source restart FAILED:', type(e).__name__, e)
             self.alert('restart', 'OWCSKR 캡처', f'frame source restart failed ({why}): {type(e).__name__} {e}'[:400])
+        finally:
+            # the next restart a full minute after this one ended: obs_setup.start waits up to 2 min, and counting
+            # from its start killed a slow OBS again right after every failed wait
+            self.fail_since = self.clock()
 
 
 class FrozenDetector:
@@ -417,11 +455,21 @@ def capture_loop(source, cap, end, out, log, alert, clock=time.time, sleep=time.
 _STOPPING = False
 
 
+class StopRequested(SystemExit):
+    """SIGTERM: told apart from obs_setup's SystemExit, which ObsSource turns into an error"""
+
+
 def _on_sigterm(signum, frame):
     global _STOPPING
     if _STOPPING: return           # a second signal while finishing: let the final OCR / publish complete
     _STOPPING = True
-    raise SystemExit(0)
+    raise StopRequested(0)
+
+
+def finishing():
+    """from here on a SIGTERM must not cut the final OCR / publish short (systemd kills after TimeoutStopSec)"""
+    global _STOPPING
+    _STOPPING = True
 
 
 def install_sigterm():
@@ -460,7 +508,7 @@ def day_summary(out, frames) -> dict:
             'published': sum(1 for m in day.get('maps', []) if PD.publishable(m)),
             'failed': [f"m{e['map']} ({e.get('verifyReason') or 'not verified'})" for e in ocr if e.get('totalsOK') is not True],
             'unknown': unknown, 'rows': len(rows),
-            'potm': [f"{r.get('match')}: {(r.get('potm') or {}).get('method') or 'none'}" for r in day.get('matches', [])]}
+            'potm': [f"{r.get('match')}: {(r.get('potm') or {}).get('method') or r.get('potmMethod') or 'none'}" for r in day.get('matches', [])]}
 
 
 def summary_text(date, s) -> str:
@@ -506,8 +554,8 @@ def preflight(log) -> bool:
     return not bad
 
 
-def capture(a, out, frames, log, alert, end, source) -> int:
-    """the capture itself -> 0 or 1 (unexpected error); the source is always closed here"""
+def capture(a, out, frames, log, alert, end, source) -> str:
+    """the capture itself -> 'done' (--until / idle stop), 'stopped' (signal) or 'crashed'; the source is always closed"""
     def after_map():
         run_ocr(out, frames, log, alert)
         update_and_publish(a.date, log, alert)
@@ -516,36 +564,59 @@ def capture(a, out, frames, log, alert, end, source) -> int:
         source.start()
         log('capture start', a.url, 'until', datetime.datetime.fromtimestamp(end).astimezone().isoformat(timespec='seconds'))
         capture_loop(source, cap, end, out, log, alert)
-        return 0
+        return 'done'
     except SystemExit:
-        log('stop requested - finishing the day'); return 0
+        log('stop requested - finishing the day'); return 'stopped'
     except KeyboardInterrupt:
-        log('interrupted - finishing the day'); return 0
+        log('interrupted - finishing the day'); return 'stopped'
     except Exception as e:
         log('capture FAILED:', traceback.format_exc().strip()[-1500:])
         alert('capture', 'OWCSKR 캡처', f'capture stopped by an error: {type(e).__name__} {e}'[:400])
-        return 1
+        return 'crashed'
     finally:
         try: source.close()
         except Exception as e: log('closing the frame source failed:', type(e).__name__, e)
+
+
+def summary_due(how, end, now, out) -> bool:
+    """one summary per day, from the run that finishes it. A crash or a stop before the end (reboot, systemctl stop) is
+    followed by a run that does, unless the window is (nearly) over: then run_live.sh starts nothing more."""
+    if os.path.exists(os.path.join(out, SUMMARY_MARK)): return False
+    return how == 'done' or now >= end - SUMMARY_NEAR_END
+
+
+def source_busy(source, log, alert) -> int | None:
+    """None when the capture may start, else the exit code: 2 = OBS runs with another scene collection (not ours to
+    touch, a restart would not help), 1 = OBS runs but did not answer (systemd retries; alerted once per period)"""
+    try:
+        if source.ready(): return None
+    except Exception as e:
+        log('OBS is running but did not answer:', type(e).__name__, e)
+        alert('obs-ready', 'OWCSKR 캡처 시작 실패', f'OBS is running but its websocket did not answer: {type(e).__name__} {e}'[:400])
+        return 1
+    log('OBS is already running with another scene collection - not touching it. Close OBS and retry.')
+    PU.notify('OWCSKR 캡처 시작 실패', 'OBS is running with another scene collection - capture not started')
+    return 2
 
 
 def run(a, out, frames, log, alert, source_factory=ObsSource) -> int:
     end = end_time(a, time.time())
     if end <= time.time():           # restarted after the window: only redo the final OCR / publish
         log('capture window already over - final OCR and publish only')
-        rc = finalize(a, out, frames, log, alert)
+        finishing()
+        rc = FINALIZE_FAILED if finalize(a, out, frames, log, alert) != 0 else 0
         if not os.path.exists(os.path.join(out, SUMMARY_MARK)): send_summary(a.date, out, frames, log)
         return rc
     if not preflight(log): return 2
     source = source_factory(a.url, log)
-    if not source.ready():
-        log('OBS is already running with another scene collection - not touching it. Close OBS and retry.')
-        PU.notify('OWCSKR 캡처 시작 실패', 'OBS is running with another scene collection - capture not started')
-        return 2
-    crashed = capture(a, out, frames, log, alert, end, source) != 0
-    rc = 1 if finalize(a, out, frames, log, alert) != 0 or crashed else 0
-    if not crashed: send_summary(a.date, out, frames, log)     # a crashed run is restarted: its successor sends it
+    busy = source_busy(source, log, alert)
+    if busy is not None: return busy
+    how = capture(a, out, frames, log, alert, end, source)
+    finishing()
+    finalized = finalize(a, out, frames, log, alert) == 0
+    rc = 1 if how == 'crashed' else (0 if finalized else FINALIZE_FAILED)
+    if summary_due(how, end, time.time(), out): send_summary(a.date, out, frames, log)
+    else: log(f'capture {how} - no summary from this run')
     log('done')
     return rc
 
@@ -561,13 +632,14 @@ def main(argv=None) -> int:
         def log(*x):
             line = time.strftime('%H:%M:%S ') + ' '.join(str(v) for v in x)
             print(line, flush=True); logf.write(line + '\n'); logf.flush()
+        alert = Alerter(state=os.path.join(out, ALERT_STATE))
         try:
-            return run(a, out, frames, log, Alerter())
+            return run(a, out, frames, log, alert)
         except SystemExit:
             log('stopped by signal'); return 0
         except Exception as e:
             log('FAILED:', traceback.format_exc().strip()[-1500:])
-            PU.notify('OWCSKR 캡처', f'live_capture failed: {type(e).__name__} {e}'[:400])
+            alert('live_capture', 'OWCSKR 캡처', f'live_capture failed: {type(e).__name__} {e}'[:400])
             return 1
 
 

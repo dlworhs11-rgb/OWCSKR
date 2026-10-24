@@ -53,6 +53,26 @@ def test_sigterm_raises_systemexit_once(monkeypatch):
         signal.signal(signal.SIGTERM, old)
 
 
+def test_sigterm_during_final_ocr_does_not_cut_it_short(tmp_path, monkeypatch):
+    old = signal.getsignal(signal.SIGTERM)
+    monkeypatch.setattr(LC, '_STOPPING', False)
+    done = []
+    def ocr(*x):
+        signal.getsignal(signal.SIGTERM)(signal.SIGTERM, None)        # systemctl stop while the final OCR runs
+        done.append('ocr'); return True
+    monkeypatch.setattr(LC, 'run_ocr', ocr)
+    monkeypatch.setattr(LC, 'update_and_publish', lambda *x: done.append('publish') or True)
+    monkeypatch.setattr(LC, 'send_summary', lambda *x, **k: done.append('summary'))
+    (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
+    a = LC.parse_args(['--date', '2026-10-25', '--until', '2020-01-01T00:00:00+00:00'])
+    try:
+        LC.install_sigterm()
+        assert LC.run(a, str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None)) == 0
+    finally:
+        signal.signal(signal.SIGTERM, old)
+    assert done == ['ocr', 'publish', 'summary']
+
+
 def test_alerts_are_rate_limited_per_key():
     clock, sent = Clock(), []
     alert = LC.Alerter(lambda t, x: sent.append(x), clock=clock)
@@ -63,6 +83,32 @@ def test_alerts_are_rate_limited_per_key():
     clock.t += 61
     assert alert('ocr_run.py', 'T', 'e')
     assert sent == ['a', 'c', 'e']
+
+
+def test_alert_limits_survive_a_restart(tmp_path):
+    clock, sent, state = Clock(), [], str(tmp_path / 'alerts.json')
+    assert LC.Alerter(lambda t, x: sent.append(x), clock=clock, state=state)('capture', 'T', 'first run')
+    clock.t += 90                                                   # systemd restarts the crashed capture
+    assert not LC.Alerter(lambda t, x: sent.append(x), clock=clock, state=state)('capture', 'T', 'second run')
+    clock.t += 15 * 60
+    assert LC.Alerter(lambda t, x: sent.append(x), clock=clock, state=state)('capture', 'T', 'later')
+    assert sent == ['first run', 'later']
+    (tmp_path / 'alerts.json').write_text('[not a dict', encoding='utf-8')
+    assert LC.Alerter(lambda t, x: None, clock=clock, state=state).last == {}
+
+
+def test_unreadable_map_is_alerted_once_not_after_every_map(monkeypatch):
+    sent, clock = [], Clock()
+    msg = {'err': 'Traceback ...\nocr_run: maps that could not be read: 03'}
+    monkeypatch.setattr(LC.subprocess, 'run', lambda cmd, **kw: types.SimpleNamespace(returncode=1, stdout='5 maps', stderr=msg['err']))
+    alert = LC.Alerter(lambda t, x: sent.append(x), clock=clock)
+    for _ in range(4):                                              # ocr_run re-reads the whole day after each map
+        assert LC.run_ocr('out', 'frames', lambda *x: None, alert) is False
+        clock.t += 20 * 60
+    assert len(sent) == 1
+    msg['err'] = 'ocr_run: maps that could not be read: 03, 07'
+    LC.run_ocr('out', 'frames', lambda *x: None, alert)
+    assert len(sent) == 2
 
 
 def test_alert_failure_never_raises(capsys):
@@ -238,6 +284,18 @@ def test_source_restarted_at_once_when_process_is_gone(tmp_path):
     assert src.restarts == 1 and src.reconnects == 0
 
 
+def test_slow_failed_restart_is_not_repeated_at_once(tmp_path):
+    clock, starts = Clock(), []
+    class Slow(FakeSource):
+        def restart(self):
+            starts.append(clock.t); clock.t += 120                # obs_setup.start waits ~2 min, then gives up
+            raise RuntimeError('could not reach OBS websocket')
+    src = Slow([RuntimeError('down')] * 200, alive=True)
+    LC.capture_loop(src, StubCapture(), clock() + 900, str(tmp_path), lambda *x: None, lambda *a, **k: True,
+                    clock=clock, sleep=clock.sleep)
+    assert len(starts) >= 2 and all(b - a >= 120 + 60 for a, b in zip(starts, starts[1:]))
+
+
 def test_long_outage_alerts(tmp_path):
     src, sent = FakeSource([RuntimeError('down')] * 60), []
     loop(tmp_path, src, StubCapture(), 600, alert=lambda key, t, x: sent.append(key))
@@ -290,7 +348,8 @@ def test_summary_counts(tmp_path):
               [{'totalsVerified': True, 'teams': {'A': [{'name': 'Faith'}, {'name': None, 'unknownId': '?1'}]}},
                {'totalsVerified': True, 'labelVerified': False, 'teams': {'B': [{'name': '?2'}, {'name': 'Bliss'}]}},
                {'totalsVerified': False, 'teams': {}}],
-              [{'match': 'CR vs O2', 'potm': {'method': 'name'}}, {'match': 'ZAN vs TF', 'potm': None}])
+              [{'match': 'CR vs O2', 'potm': {'method': 'name'}}, {'match': 'ZAN vs TF', 'potm': None},
+               {'match': 'WAY vs FS', 'potm': None, 'potmMethod': 'unresolved'}])
     for n in ('01', '02', '03', '04'):
         open(os.path.join(out, 'frames', f'm{n}_table1_1.png'), 'wb').close()
     s = LC.day_summary(out, os.path.join(out, 'frames'))
@@ -299,6 +358,7 @@ def test_summary_counts(tmp_path):
     assert (s['unknown'], s['rows']) == (2, 4)
     text = LC.summary_text('2026-10-25', s)
     assert 'unknown names 2/4 (50%)' in text and 'CR vs O2: name' in text and 'ZAN vs TF: none' in text
+    assert 'WAY vs FS: unresolved' in text
 
 
 def test_zero_maps_sends_a_warning(tmp_path):
@@ -334,6 +394,13 @@ def test_selfcheck_failure_exits_2(tmp_path, monkeypatch, steps):
     assert rc == 2 and 'tesseract' in sent[0] and steps == []
 
 
+def test_window_over_failed_finalize_exits_4(tmp_path, monkeypatch, steps):
+    monkeypatch.setattr(LC, 'update_and_publish', lambda *x: False)
+    (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
+    a = args(until=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc))
+    assert LC.run(a, str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None)) == 4
+
+
 def test_window_over_only_finalizes(tmp_path, steps):
     a = args(until=datetime.datetime(2020, 1, 1, tzinfo=datetime.timezone.utc))
     (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
@@ -358,7 +425,26 @@ def test_sigterm_during_capture_finishes_the_day(tmp_path, monkeypatch, steps):
     monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: (_ for _ in ()).throw(SystemExit(0)))
     (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
     rc = LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None), source_factory=lambda *a: src)
-    assert rc == 0 and src.started and src.closed and steps == ['ocr', 'publish', 'summary']
+    assert rc == 0 and src.started and src.closed and steps == ['ocr', 'publish']
+    # stopped an hour before --until (reboot, systemctl stop): the run after it sends the day's one summary
+
+
+def test_crash_at_the_end_sends_the_summary(tmp_path, monkeypatch, steps):
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    end = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=2)
+    monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: (_ for _ in ()).throw(RuntimeError('boom')))
+    rc = LC.run(args(until=end), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
+                source_factory=lambda *a: ReadySource())
+    assert rc == 1 and steps == ['ocr', 'summary']                 # its restart would find the day over: nothing follows
+
+
+def test_summary_due_rules(tmp_path):
+    out, end = str(tmp_path), 10_000.0
+    assert LC.summary_due('done', end, 100.0, out)                              # idle stop: the day is over
+    assert not LC.summary_due('stopped', end, 100.0, out) and not LC.summary_due('crashed', end, 100.0, out)
+    assert LC.summary_due('stopped', end, end - 60, out) and LC.summary_due('crashed', end, end - 60, out)
+    (tmp_path / LC.SUMMARY_MARK).write_text('sent', encoding='utf-8')
+    assert not LC.summary_due('done', end, end, out)                            # never twice a day
 
 
 def test_crash_exits_1_without_summary(tmp_path, monkeypatch, steps):
@@ -370,14 +456,14 @@ def test_crash_exits_1_without_summary(tmp_path, monkeypatch, steps):
     assert rc == 1 and src.closed and 'summary' not in steps and 'boom' in sent[0]
 
 
-def test_failed_final_publish_exits_1(tmp_path, monkeypatch, steps):
+def test_failed_final_publish_exits_4_not_restarted(tmp_path, monkeypatch, steps):
     monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
     monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: None)
     monkeypatch.setattr(LC, 'update_and_publish', lambda *x: False)
     (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
     rc = LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
                 source_factory=lambda *a: ReadySource())
-    assert rc == 1 and steps == ['ocr', 'summary']                # the day still gets its summary
+    assert rc == LC.FINALIZE_FAILED == 4 and steps == ['ocr', 'summary']                # the day still gets its summary
 
 
 def test_busy_obs_exits_2(tmp_path, monkeypatch, steps):
@@ -387,6 +473,17 @@ def test_busy_obs_exits_2(tmp_path, monkeypatch, steps):
     assert LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
                   source_factory=lambda *a: src) == 2
     assert not src.started
+
+
+def test_obs_not_answering_exits_1_and_alerts(tmp_path, monkeypatch, steps):
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    sent = []
+    src = ReadySource()
+    def ready(): raise TimeoutError('websocket')
+    src.ready = ready
+    assert LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: sent.append(x)),
+                  source_factory=lambda *a: src) == 1
+    assert not src.started and steps == [] and 'did not answer' in sent[0]
 
 
 # ---- OBS frame source (no OBS: obs_setup and the websocket client are faked) ---------------------------------
@@ -439,6 +536,21 @@ def test_obs_source_start_failure_is_an_error_not_an_exit(obs):
     src = LC.ObsSource('url', lambda *x: None)
     with pytest.raises(RuntimeError, match='could not reach'):
         src.start()
+
+
+def test_sigterm_while_waiting_for_obs_is_a_stop_not_an_error(obs, monkeypatch, tmp_path):
+    def start(url): raise LC.StopRequested(0)
+    monkeypatch.setattr(LC.obs_setup, 'start', start)
+    src = LC.ObsSource('url', lambda *x: None)
+    with pytest.raises(LC.StopRequested):
+        src.start()
+
+    class Dead(FakeSource):
+        def restart(self): src.restart()                          # the real ObsSource restart, OBS start interrupted
+    cap = StubCapture()
+    with pytest.raises(LC.StopRequested):                         # not swallowed as 'restart FAILED' by the loop
+        loop(tmp_path, Dead([RuntimeError('gone')], alive=False), cap, 30)
+    assert cap.closed
 
 
 def test_foreign_obs_is_not_ours(obs, monkeypatch):
