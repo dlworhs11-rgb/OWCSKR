@@ -245,6 +245,128 @@
    },
    "winner": "ZETA DIVISION",
    "winnerSource": "series score"
+  },
+  {
+   "match": "Cheeseburger vs ZETA DIVISION",
+   "matchNo": 1,
+   "game": 5,
+   "map": "Colosseo",
+   "mapTime": "4:52",
+   "frame": "m05_table1_1792828700.png",
+   "teams": {
+    "Cheeseburger": [
+     {
+      "name": "?23",
+      "e": 1,
+      "a": 0,
+      "d": 4,
+      "dmg": 5667,
+      "heal": 294,
+      "mit": 6358
+     },
+     {
+      "name": "?24",
+      "e": 1,
+      "a": 0,
+      "d": 5,
+      "dmg": 3065,
+      "heal": 0,
+      "mit": 0
+     },
+     {
+      "name": "?25",
+      "e": 0,
+      "a": 0,
+      "d": 3,
+      "dmg": 2853,
+      "heal": 0,
+      "mit": 0
+     },
+     {
+      "name": "TenTen",
+      "e": 2,
+      "a": 1,
+      "d": 3,
+      "dmg": 4408,
+      "heal": 2938,
+      "mit": 233
+     },
+     {
+      "name": "?26",
+      "e": 0,
+      "a": 1,
+      "d": 5,
+      "dmg": 2124,
+      "heal": 6234,
+      "mit": 931
+     }
+    ],
+    "ZETA DIVISION": [
+     {
+      "name": "Bernar",
+      "e": 14,
+      "a": 6,
+      "d": 0,
+      "dmg": 7044,
+      "heal": 218,
+      "mit": 6355
+     },
+     {
+      "name": "?27",
+      "e": 12,
+      "a": 0,
+      "d": 0,
+      "dmg": 4383,
+      "heal": 0,
+      "mit": 0
+     },
+     {
+      "name": "Proper",
+      "e": 16,
+      "a": 0,
+      "d": 1,
+      "dmg": 3862,
+      "heal": 50,
+      "mit": 0
+     },
+     {
+      "name": "Shu",
+      "e": 8,
+      "a": 11,
+      "d": 1,
+      "dmg": 2507,
+      "heal": 6642,
+      "mit": 550
+     },
+     {
+      "name": "?28",
+      "e": 6,
+      "a": 12,
+      "d": 0,
+      "dmg": 2781,
+      "heal": 6469,
+      "mit": 0
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "bans": {
+    "initial": {
+     "team": "ZETA DIVISION",
+     "hero": "jetpack cat"
+    },
+    "followUp": {
+     "team": "Cheeseburger",
+     "hero": "dva"
+    }
+   },
+   "seriesBefore": {
+    "Cheeseburger": 2,
+    "ZETA DIVISION": 2
+   },
+   "winner": "ZETA DIVISION",
+   "winnerSource": "match end (POTM team)"
   }
  ],
  "matches": [
@@ -252,10 +374,18 @@
    "match": "Cheeseburger vs ZETA DIVISION",
    "matchNo": 1,
    "mapWins": {
-    "Cheeseburger": 1,
-    "ZETA DIVISION": 2
+    "Cheeseburger": 2,
+    "ZETA DIVISION": 3
    },
-   "potm": null
+   "potm": {
+    "name": "Proper",
+    "team": "ZETA DIVISION",
+    "elims": 98,
+    "deaths": 23,
+    "dmgPerMin": 848,
+    "screenName": "Proper",
+    "method": "name"
+   }
   }
  ],
  "unknownNames": [
@@ -368,12 +498,46 @@
    "id": "?22",
    "map": "04",
    "row": 8
+  },
+  {
+   "id": "?23",
+   "map": "05",
+   "row": 0
+  },
+  {
+   "id": "?24",
+   "map": "05",
+   "row": 1
+  },
+  {
+   "id": "?25",
+   "map": "05",
+   "row": 2
+  },
+  {
+   "id": "?26",
+   "map": "05",
+   "row": 4
+  },
+  {
+   "id": "?27",
+   "map": "05",
+   "row": 6
+  },
+  {
+   "id": "?28",
+   "map": "05",
+   "row": 9
   }
  ],
  "unknownMaps": [
   {
    "map": "04",
    "frame": "m04_table1_1792828168.png"
+  },
+  {
+   "map": "05",
+   "frame": "m05_table1_1792828700.png"
   }
  ],
  "note": "reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; mapTime = damage / damage-per-minute from the totals page."
