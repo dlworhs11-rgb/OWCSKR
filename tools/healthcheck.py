@@ -9,10 +9,11 @@ task (schedule_today.py). One alert per stale spell (again after 3 h), one when 
 the site" alerts only from the 2nd failed read in a row (a network blip is not worth an alert and a "recovered").
 Exit: 0 fresh, 1 stale, 2 could not read the site.
 
-Which time: owcs-ver.json is {"v": content hash, "checked": time of the last full site build} (owcs-kr cloud_live.py).
-'checked' moves on every build, also one whose data step failed and redeployed the old data, so this catches "no
-builds" (cron trigger gone, Actions broken) but not "builds run, data stale". A 'dataBuilt' field (owcs-kr P1-04)
-is used instead as soon as owcs-ver.json has it."""
+Which time: 'dataBuilt' of owcs-ver.json, the time of the last successful data build (owcs-kr P1-04). It does not move
+when a build's data step fails and the old data is redeployed, so it catches "no builds" (trigger gone, Actions
+broken) and "builds run, data stale" alike; 'buildFails' (failed data builds since) goes into the message when there.
+A site deployed before that change has only 'checked' (time of the last site build, moves on every build, also a
+failed one): then that is used, which catches "no builds" only."""
 import datetime, json, os, sys, time, urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -37,7 +38,7 @@ def fetch_version(site: str) -> dict:
 
 
 def built_at(ver: dict) -> datetime.datetime:
-    """build time from owcs-ver.json (dataBuilt once the site has it, else checked); ValueError when missing"""
+    """last successful data build (dataBuilt; checked on a site deployed before it existed); ValueError when missing"""
     text = ver.get('dataBuilt') or ver.get('checked')
     if not text:
         raise ValueError(f'no dataBuilt/checked in owcs-ver.json: {ver!r:.200}')
@@ -132,16 +133,20 @@ def report(ok: bool, msg: str, now: datetime.datetime, site: str, unreadable: bo
     if last and now - datetime.datetime.fromisoformat(last) < REALERT:
         print(f'healthcheck: alert already sent at {last}', file=sys.stderr)
         return
-    PU.notify('OWCSKR 사이트 갱신 멈춤', f'{site}: {msg}\n사이트 빌드(GitHub Actions pages.yml, cron-job.org 트리거)를 확인해 주세요.')
+    PU.notify('OWCSKR 사이트 갱신 멈춤', f'{site}: {msg}\n사이트 빌드(GitHub Actions pages.yml)를 확인해 주세요: '
+              '사이트 저장소 README의 "빌드는 누가 일으키나" 참고.')
     _save_state(dict(state, alerted=now.isoformat(timespec='seconds')))
 
 
 def read_built(site: str, fetch) -> tuple[datetime.datetime | None, str]:
-    """(build time, '') or (None, why the site could not be read)"""
+    """(build time, note for the message: failed data builds since) or (None, why the site could not be read)"""
     try:
-        return built_at(fetch(site)), ''
+        ver = fetch(site)
+        built = built_at(ver)
     except Exception as e:      # network, HTTP, JSON or field problem: the site is not readable
         return None, f'{type(e).__name__}: {e}'
+    fails = ver.get('buildFails')
+    return built, (f', {fails} failed data build(s) since' if isinstance(fails, int) and fails > 0 else '')
 
 
 def main(argv: list[str] | None = None, now: datetime.datetime | None = None, fetch=fetch_version,
@@ -150,15 +155,16 @@ def main(argv: list[str] | None = None, now: datetime.datetime | None = None, fe
     quiet = '--quiet' in argv
     site = argv[argv.index('--url') + 1] if '--url' in argv[:-1] else (os.environ.get('OWCSKR_SITE_URL') or SITE)
     now = now or datetime.datetime.now().astimezone()
-    built, err = read_built(site, fetch)
+    built, info = read_built(site, fetch)
     if built is None and quiet:
-        print(f'healthcheck: read failed ({err}) - trying again in {QUIET_RETRY_SEC} s', file=sys.stderr)
+        print(f'healthcheck: read failed ({info}) - trying again in {QUIET_RETRY_SEC} s', file=sys.stderr)
         sleep(QUIET_RETRY_SEC)
-        built, err = read_built(site, fetch)
+        built, info = read_built(site, fetch)
     if built is None:
-        ok, msg, code = False, f'could not read owcs-ver.json: {err}', 2
+        ok, msg, code = False, f'could not read owcs-ver.json: {info}', 2
     else:
         ok, msg = check(now, built, match_list(now))
+        msg += info                                    # failed data builds since, if any
         code = 0 if ok else 1
     print(f"{now:%Y-%m-%d %H:%M:%S} healthcheck {'OK' if ok else 'STALE'} {site} {msg}")
     if not quiet:

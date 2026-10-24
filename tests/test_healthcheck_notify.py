@@ -177,3 +177,14 @@ def test_unit_failed_skips_what_the_script_alerted(unit_alerts, unit, show, aler
     fake[unit] = show
     N.main(['--unit-failed', unit])
     assert bool(sent) is alerted
+
+
+def test_databuilt_wins_and_build_fails_are_named(alerts, monkeypatch, capsys):
+    """a site whose builds run but whose data step fails: checked is fresh, dataBuilt is not"""
+    texts = []
+    monkeypatch.setattr(H.PU, 'notify', lambda title, text: texts.append(text))
+    ver = {'v': 'h', 'checked': NOW.isoformat(), 'buildFails': 4,
+           'dataBuilt': (NOW - datetime.timedelta(minutes=50)).isoformat()}
+    assert H.main([], now=NOW, fetch=lambda site: ver) == 1
+    assert '4 failed data build(s) since' in capsys.readouterr().out
+    assert '빌드는 누가 일으키나' in texts[0] and 'cron-job.org' not in texts[0]
