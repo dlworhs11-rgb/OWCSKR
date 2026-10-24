@@ -176,3 +176,63 @@ test('real Korea stage page header: tab links, empty |next=', async () => {
   const got = await discoverCandidates([OCS + '2026/Asia/Stage 3/Korea'], [2026, 2027], { page: async () => ({ text: k }), list: async () => [] });
   assert.deepEqual(got, [OCS + '2026/Asia/Stage 3/Korea/Open Qualifier', OCS + '2026/Asia/Stage 3/Korea/Regular Season']);
 });
+
+// ---- the CLI end to end: exit codes and files, with fetch swapped by a preload (no request leaves the machine) ----
+import { spawnSync } from 'node:child_process';
+import os from 'node:os';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+const RUN_LP = fileURLToPath(new URL('./run-lp.mjs', import.meta.url));
+const PRELOAD = `import { cfg } from ${JSON.stringify(new URL('./liquipedia.mjs', import.meta.url).href)};
+cfg.delay = 0;
+const mode = process.env.LP_FAKE, text = process.env.LP_TEXT;
+if (mode === 'nofetch') delete globalThis.fetch;
+cfg.fetch = async () => {
+  if (mode === 'down') throw new TypeError('fetch failed');
+  if (mode === '429') return new Response('{}', { status: 429, headers: { 'retry-after': '90' } });
+  return new Response(JSON.stringify({ query: { pages: { 1: { title: 'X', revisions: [{ slots: { main: { '*': text } } }] } } } }), { status: 200 });
+};`;
+async function cli(args, mode, { core = [OCS + '2026/A', OCS + '2026/B'], lp = {} } = {}) {
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'run-lp-cli-'));
+  await fs.mkdir(path.join(dir, 'data/lp'), { recursive: true });
+  await fs.writeFile(path.join(dir, 'data/competitions.json'), JSON.stringify({ core }));
+  await fs.writeFile(path.join(dir, 'data/active.json'), '[]');
+  for (const [f, d] of Object.entries(lp)) await fs.writeFile(path.join(dir, f), JSON.stringify(d));
+  await fs.writeFile(path.join(dir, 'preload.mjs'), PRELOAD);
+  const r = spawnSync(process.execPath, ['--import', pathToFileURL(path.join(dir, 'preload.mjs')).href, RUN_LP, ...args],
+    { cwd: dir, encoding: 'utf8', env: { ...process.env, LP_FAKE: mode, LP_TEXT: DATES }, timeout: 60e3 });
+  const read = async f => JSON.parse(await fs.readFile(path.join(dir, f), 'utf8'));
+  return { code: r.status, out: r.stdout + r.stderr, read, done: () => fs.rm(dir, { recursive: true, force: true }) };
+}
+
+test('CLI: network down -> exit 2, per-page errors in _status.json, old data/lp file kept', async () => {
+  const r = await cli([], 'down', { lp: { [fileOf(OCS + '2026/A')]: oldMatches(3) } });
+  try {
+    assert.equal(r.code, 2, r.out);
+    const st = await r.read('data/lp/_status.json');
+    assert.equal(st.failures, 2);
+    assert.match(st.pages[OCS + '2026/A'].error, /^network: fetch failed/); assert.equal(st.pages[OCS + '2026/A'].lastOk, null);
+    assert.equal((await r.read(fileOf(OCS + '2026/A'))).matches.length, 3);
+  } finally { await r.done(); }
+});
+
+test('CLI: every page read -> exit 0; 429 -> exit 2 with rateLimit; no fetch -> exit 3; --discover offline -> exit 2', async () => {
+  const ok = await cli(['--active-only'], 'ok');
+  try {
+    assert.equal(ok.code, 0, ok.out);
+    const st = await ok.read('data/lp/_status.json');
+    assert.equal(st.failures, 0); assert.equal(st.pages[OCS + '2026/B'].matches, 5);
+  } finally { await ok.done(); }
+  const rl = await cli([], '429');
+  try {
+    assert.equal(rl.code, 2, rl.out);
+    const st = await rl.read('data/lp/_status.json');
+    assert.equal(st.rateLimit.retryAfter, '90'); assert.equal(st.rateLimit.skipped, 1); assert.equal(st.pages[OCS + '2026/B'], undefined);
+  } finally { await rl.done(); }
+  const old = await cli([], 'nofetch');
+  try { assert.equal(old.code, 3, old.out); assert.match(old.out, /Node 20\+ is required/); } finally { await old.done(); }
+  const core = [OCS + '2026/Asia/Stage 3/Korea'];
+  const disc = await cli(['--discover'], 'down', { core });
+  try { assert.equal(disc.code, 2, disc.out); assert.deepEqual((await disc.read('data/competitions.json')).core, core); } finally { await disc.done(); }
+});
