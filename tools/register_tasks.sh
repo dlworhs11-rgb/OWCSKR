@@ -14,13 +14,15 @@ if ! systemctl --user show-environment >/dev/null 2>&1; then
   echo "Log in as $USER directly (ssh $USER@<server>), not via sudo -u / su; on minimal images: sudo apt install dbus-user-session, then log in again." >&2
   exit 1
 fi
-# the timer's environment has no nvm / login-shell PATH: node must be a system install (docs/linux-server.md)
+# the timer's environment has no nvm / login-shell PATH: node must be a system install (docs/linux-server.md).
+# 20+: package.json engines (run-lp.mjs says "Node 20+" too); the docs install NodeSource 22.x
+NODE_NEEDS="needs Node 20+ (NodeSource 22.x)"
 NODE="$(command -v node || true)"
-if [ -z "$NODE" ]; then echo "warning: node not found - the daily job needs Node 18+ (NodeSource 20.x)" >&2
+if [ -z "$NODE" ]; then echo "warning: node not found - the daily job $NODE_NEEDS" >&2
 else
   case "$NODE" in "$HOME"/*) echo "warning: node is $NODE (nvm?): the systemd timer will not find it - install Node system-wide" >&2 ;; esac
   major="$(node -p 'process.versions.node.split(".")[0]' 2>/dev/null || echo 0)"
-  if [ "$major" -lt 18 ]; then echo "warning: node $(node --version 2>/dev/null) is too old: the collector needs 18+" >&2; fi
+  if ! [ "$major" -ge 20 ] 2>/dev/null; then echo "warning: node $(node --version 2>/dev/null) is too old: the collector $NODE_NEEDS" >&2; fi
 fi
 mkdir -p "$UNIT_DIR"
 # owcskr-alert@<unit>.service: the alert when a capture, recorder or daily unit fails for good (OnFailure=)

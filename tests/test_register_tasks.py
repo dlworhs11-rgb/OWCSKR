@@ -17,8 +17,8 @@ class Registered(tuple):
     """(daily timer, daily service, calls) plus .alert (owcskr-alert@.service)"""
 
 
-@pytest.fixture
-def registered(tmp_path):
+def register(tmp_path, node='20'):
+    """run register_tasks.sh with stubs; node: what the node stub prints (its major version, '' = no node)"""
     bash = shutil.which('bash')
     if not bash or 'system32' in bash.lower():
         pytest.skip('no bash')
@@ -29,13 +29,29 @@ def registered(tmp_path):
         shutil.copy(os.path.join(HERE, 'tools', f), root / 'tools' / f)
     _script(stubs / 'systemctl', LOGGER)
     _script(stubs / 'loginctl', LOGGER + '[ "$1" = show-user ] && echo yes\nexit 0\n')
-    _script(stubs / 'node', '#!/usr/bin/env bash\necho 20\n')
+    if node:
+        _script(stubs / 'node', f'#!/usr/bin/env bash\necho {node}\n')
     log = tmp_path / 'calls.log'
     env = {k: v for k, v in os.environ.items() if not k.startswith('OWCSKR_')}
-    env.update(PATH=str(stubs) + os.pathsep + os.environ.get('PATH', ''), XDG_CONFIG_HOME=(tmp_path / 'cfg').as_posix(),
+    path = os.environ.get('PATH', '') if node else os.pathsep.join(  # no node: also none from this machine's PATH
+        p for p in os.environ.get('PATH', '').split(os.pathsep) if not shutil.which('node', path=p))
+    env.update(PATH=str(stubs) + os.pathsep + path, XDG_CONFIG_HOME=(tmp_path / 'cfg').as_posix(),
                FAKE_LOG=log.as_posix(), USER='owcskr', HOME=tmp_path.as_posix())
     r = subprocess.run([bash, 'tools/register_tasks.sh'], cwd=root, env=env, capture_output=True, text=True, timeout=60)
     assert r.returncode == 0, r.stderr
+    return r, log
+
+
+@pytest.mark.parametrize('node, warned', [('22', False), ('20', False), ('18', True), ('', True)])
+def test_node_below_20_is_warned_about(tmp_path, node, warned):
+    """package.json engines >=20, the docs install NodeSource 22.x; run-lp.mjs refuses an older Node"""
+    r, _ = register(tmp_path, node)
+    assert ('needs Node 20+ (NodeSource 22.x)' in r.stderr) is warned, r.stderr
+
+
+@pytest.fixture
+def registered(tmp_path):
+    r, log = register(tmp_path)
     units = tmp_path / 'cfg' / 'systemd' / 'user'
     out = Registered(((units / 'owcskr-daily.timer').read_text(), (units / 'owcskr-daily.service').read_text(),
                       log.read_text()))
