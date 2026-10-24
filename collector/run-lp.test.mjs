@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { RateLimited } from './liquipedia.mjs';
-import { fileOf, titlesOf, tabLinksOf, collectPage, collectAll, mergeStatus, acceptTitle, nextOf, koreaRootOf, newestKorea, computeActive, discoverCandidates } from './run-lp.mjs';
+import { fileOf, titlesOf, tabLinksOf, collectPage, collectAll, mergeStatus, acceptTitle, nextOf, koreaRootOf, newestKorea, computeActive, discoverCandidates, optionValues } from './run-lp.mjs';
 
 const fixture = name => fs.readFile(new URL('./fixtures/' + name, import.meta.url), 'utf8');
 const DATES = await fixture('dates.wiki');
@@ -39,6 +39,28 @@ test('SHRINK: fewer than half the old matches -> old file kept, failure', async 
   // half or more is a normal update
   const [half] = await quiet(() => collectPage(t, { ...store({ [fileOf(t)]: oldMatches(10) }), page: async () => ({ text: DATES }) }));
   assert.equal(half.ok, true);
+});
+
+test('--accept-shrink: that page is written though it shrank, logged SHRINK accepted, ok with shrinkFrom', async () => {
+  const t = OCS + '2026/Asia/Stage 3/Korea', s = store({ [fileOf(t)]: oldMatches(12) });
+  const [st, log] = await quiet(() => collectPage(t, { ...s, acceptShrink: new Set([t]), page: async () => ({ text: DATES, redirect: null }) }));
+  assert.deepEqual(st, { ok: true, matches: 5, played: 1, dateless: 1, redirect: null, shrinkFrom: 12, error: null });
+  assert.equal(s.files[fileOf(t)].matches.length, 5);
+  assert.ok(log.some(l => l.startsWith('SHRINK accepted ' + t + ' 12 -> 5')));
+  // 1 -> 0 accepted too; another page's shrink is still refused
+  const z = store({ [fileOf(t)]: oldMatches(1) });
+  const [zero] = await quiet(() => collectPage(t, { ...z, acceptShrink: new Set([t]), page: async () => ({ text: 'no matches' }) }));
+  assert.equal(zero.ok, true); assert.deepEqual(z.files[fileOf(t)].matches, []);
+  const o = store({ [fileOf(t)]: oldMatches(12) });
+  const [other] = await quiet(() => collectPage(t, { ...o, acceptShrink: new Set([t + '/Other']), page: async () => ({ text: DATES }) }));
+  assert.equal(other.ok, false); assert.equal(o.files[fileOf(t)].matches.length, 12);
+});
+
+test('optionValues: repeatable --accept-shrink, both spellings, titles normalized, missing value is an error', () => {
+  assert.deepEqual(optionValues(['--active-only', '--accept-shrink', 'A_B', '--accept-shrink=C  D', '--strict'], '--accept-shrink'), ['A B', 'C D']);
+  assert.deepEqual(optionValues(['--strict'], '--accept-shrink'), []);
+  assert.throws(() => optionValues(['--accept-shrink'], '--accept-shrink'), /needs a page title/);
+  assert.throws(() => optionValues(['--accept-shrink', '--strict'], '--accept-shrink'), /needs a page title/);
 });
 
 test('collectPage: fetch errors and missing pages that had matches fail, a never-seen missing page does not', async () => {
@@ -256,4 +278,21 @@ test('CLI --active-only: an active full title re-reads only that page, not the c
   } finally { await r.done(); }
   const legacy = await cli(['--active-only'], 'ok', { core: [K, OQ], active: ['2026/Asia/Stage 3/Korea'], lp: { [fileOf(K)]: oldMatches(5), [fileOf(OQ)]: oldMatches(5) } });
   try { assert.deepEqual(Object.keys((await legacy.read('data/lp/_status.json')).pages), [K, OQ]); } finally { await legacy.done(); }
+});
+
+test('CLI --accept-shrink: the shrunk page is fetched even with --active-only and replaces its file; exit 0 with --strict', async () => {
+  const A = OCS + '2026/A';
+  const refused = await cli(['--strict'], 'ok', { lp: { [fileOf(A)]: oldMatches(20) } });
+  try { assert.equal(refused.code, 2, refused.out); assert.equal((await refused.read(fileOf(A))).matches.length, 20); } finally { await refused.done(); }
+  const r = await cli(['--active-only', '--strict', '--accept-shrink', A], 'ok', { lp: { [fileOf(A)]: oldMatches(20), [fileOf(OCS + '2026/B')]: oldMatches(5) } });
+  try {
+    assert.equal(r.code, 0, r.out);
+    assert.match(r.out, /SHRINK accepted Overwatch Champions Series\/2026\/A 20 -> 5/);
+    assert.equal((await r.read(fileOf(A))).matches.length, 5);
+    const st = await r.read('data/lp/_status.json');
+    assert.equal(st.pages[A].ok, true); assert.equal(st.pages[A].shrinkFrom, 20);
+    assert.equal(st.pages[OCS + '2026/B'], undefined);   // not active, has a file: still skipped
+  } finally { await r.done(); }
+  const bad = await cli(['--accept-shrink'], 'ok');
+  try { assert.equal(bad.code, 1, bad.out); assert.match(bad.out, /needs a page title/); } finally { await bad.done(); }
 });

@@ -19,7 +19,8 @@
 // data/lp/_status.json: { updatedAt, failures, rateLimit, pages: { [title]: { ok, matches, played, dateless, redirect,
 // shrinkFrom, error, lastOk } } }, merged with the previous file (pages not fetched this run keep their entry).
 // SHRINK: a new parse with fewer than half the matches of the old file is not written (template change, page emptied).
-// Delete the data/lp file by hand if the page really shrank.
+// If the page really shrank (rebuilt, 1 -> 0), rerun with --accept-shrink '<title>' (repeatable, also --accept-shrink=<title>):
+// that page is fetched (even with --active-only), written, logged 'SHRINK accepted' and counts as ok (shrinkFrom kept).
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -44,8 +45,9 @@ export async function titlesOf(comps, active, has = t => exists(fileOf(t))) {
 
 const EMPTY = { ok: false, matches: null, played: null, dateless: null, redirect: null, shrinkFrom: null, error: null };
 
-// One page -> status entry (without lastOk). deps: page(title) -> fetchPage result, prev(file) -> old json, write(file, json)
-export async function collectPage(title, { page, prev, write }) {
+// One page -> status entry (without lastOk). deps: page(title) -> fetchPage result, prev(file) -> old json, write(file, json),
+// acceptShrink: titles whose shrink is written anyway
+export async function collectPage(title, { page, prev, write, acceptShrink = new Set() }) {
   const file = fileOf(title);
   const before = (await prev(file))?.matches?.length ?? 0;
   let p;
@@ -66,8 +68,12 @@ export async function collectPage(title, { page, prev, write }) {
   const played = matches.filter(m => m.played).length;
   Object.assign(st, { matches: matches.length, played, dateless: stats.dateless });
   if (before && matches.length < before * 0.5) {
-    console.log('SHRINK', title, before, '->', matches.length, '(old file kept)');
-    return { ...st, shrinkFrom: before, error: `shrink ${before} -> ${matches.length}` };
+    st.shrinkFrom = before;
+    if (!acceptShrink.has(title)) {
+      console.log('SHRINK', title, before, '->', matches.length, '(old file kept; --accept-shrink to write it)');
+      return { ...st, error: `shrink ${before} -> ${matches.length}` };
+    }
+    console.log('SHRINK accepted', title, before, '->', matches.length);
   }
   try { await write(file, { title, matches }); }
   catch (e) { console.log('ERR', title, 'write:', e.message); return { ...st, error: 'write: ' + e.message }; }
@@ -111,13 +117,14 @@ async function readComps() {
   return comps;
 }
 
-async function runFetch(activeOnly, strict) {
+async function runFetch(activeOnly, strict, acceptShrink = new Set()) {
   const comps = await readComps();
   const active = (await readJson('data/active.json')) || [];
   const titles = await titlesOf(comps, active);
+  for (const t of acceptShrink) if (!titles.includes(t)) console.log('WARN --accept-shrink', JSON.stringify(t), 'is not a collected page title');
   // --active-only: everything else is kept from data/lp/*.json
-  const skip = async t => activeOnly && !isActive(t, active) && await exists(fileOf(t));
-  const { results, failures, rateLimit } = await collectAll(titles, skip);
+  const skip = async t => activeOnly && !acceptShrink.has(t) && !isActive(t, active) && await exists(fileOf(t));
+  const { results, failures, rateLimit } = await collectAll(titles, skip, { ...liveDeps, acceptShrink });
   const now = new Date().toISOString();
   await writeJson('data/lp/_status.json', mergeStatus(await readJson('data/lp/_status.json'), results, { now, titles, failures, rateLimit }));
   if (!activeOnly) await writeJson('data/lp/_summary.json', Object.entries(results).map(([title, r]) => r.missing ? { title, missing: true } : r.ok ? { title, matches: r.matches, played: r.played } : { title, error: r.error }));
@@ -210,10 +217,26 @@ async function discover() {
   console.log('DISCOVER', today, 'added', added.length, 'active', active.length);
 }
 
+// every value of a repeatable '--name value' / '--name=value' option (titles normalized like competitions.json)
+export function optionValues(argv, name) {
+  const out = [];
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i].startsWith(name + '=')) out.push(argv[i].slice(name.length + 1));
+    else if (argv[i] === name) {
+      if (i + 1 >= argv.length || argv[i + 1].startsWith('--')) throw new Error(`${name} needs a page title`);
+      out.push(argv[++i]);
+    }
+  }
+  return out.map(normTitle).filter(Boolean);
+}
+
 async function main() {
   if (typeof fetch !== 'function') { console.error(`run-lp: this Node (${process.version}) has no global fetch; Node 20+ is required`); process.exit(3); }
   const argv = process.argv.slice(2), strict = argv.includes('--strict');
-  try { await (argv.includes('--discover') ? discover() : runFetch(argv.includes('--active-only'), strict)); }
+  let acceptShrink;
+  try { acceptShrink = new Set(optionValues(argv, '--accept-shrink')); }
+  catch (e) { console.error('run-lp:', e.message); process.exit(1); }
+  try { await (argv.includes('--discover') ? discover() : runFetch(argv.includes('--active-only'), strict, acceptShrink)); }
   catch (e) {
     // a --discover request failed (network, 429, API error): nothing was written
     if (!(e instanceof RateLimited) && !/^(network|liquipedia|redirect)/.test(e.message)) throw e;
