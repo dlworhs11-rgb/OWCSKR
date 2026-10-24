@@ -106,7 +106,23 @@
     ]
    },
    "totalsVerified": true,
-   "reading": "ocr"
+   "reading": "ocr",
+   "bans": {
+    "initial": {
+     "team": "Cheeseburger",
+     "hero": "mercy"
+    },
+    "followUp": {
+     "team": "O2 Blast",
+     "hero": "dmon"
+    }
+   },
+   "seriesBefore": {
+    "Cheeseburger": 0,
+    "O2 Blast": 0
+   },
+   "winner": "Cheeseburger",
+   "winnerSource": "series score"
   },
   {
    "match": "Cheeseburger vs O2 Blast",
@@ -586,7 +602,7 @@
    "match": "Cheeseburger vs O2 Blast",
    "matchNo": 1,
    "mapWins": {
-    "Cheeseburger": 1
+    "Cheeseburger": 2
    },
    "potm": {
     "name": "Someone",
