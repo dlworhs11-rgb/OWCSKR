@@ -1,4 +1,4 @@
-import datetime, os, sys
+import datetime, json, os, sys
 
 import pytest
 
@@ -36,8 +36,26 @@ def alerts(monkeypatch, tmp_path):
     sent = []
     monkeypatch.setattr(H, 'STATE', str(tmp_path / 'healthcheck.json'))
     monkeypatch.setattr(H, 'load_matches', lambda path=None: MATCH)
+    monkeypatch.setattr(H.S, 'LP_DIR', str(tmp_path / 'lp'))
+    os.makedirs(tmp_path / 'lp')
     monkeypatch.setattr(H.PU, 'notify', lambda title, text: sent.append(title))
     return sent
+
+
+def test_tbd_playoff_match_opens_the_match_window(alerts, tmp_path, monkeypatch):
+    """matches.json leaves out playoff matches whose teams are TBD: the stage page in data/lp still has them"""
+    monkeypatch.setattr(H, 'load_matches', lambda path=None: [])
+    page = {'matches': [{'date': '2026-10-31T15:00:00+09:00', 'bestof': 7, 'team1': 'TBD', 'team2': 'TBD'}]}
+    (tmp_path / 'lp' / 'owcs-2026-asia-stage-3-korea.json').write_text(json.dumps(page), encoding='utf-8')
+    during = datetime.datetime(2026, 10, 31, 17, 0, tzinfo=KST)
+    assert H.main(['--quiet'], now=during, fetch=ver(45, during)) == 1          # 30 min limit: a match is on
+    after = during + datetime.timedelta(days=1)
+    assert H.main(['--quiet'], now=after, fetch=ver(45, after)) == 0             # no match: 6 h limit
+
+
+def test_playoff_page_problems_do_not_stop_the_check(alerts, tmp_path):
+    (tmp_path / 'lp' / 'x-korea.json').write_text('{not json', encoding='utf-8')
+    assert H.main([], now=NOW, fetch=ver(20)) == 0
 
 
 def ver(minutes_ago, now=NOW):
@@ -57,10 +75,38 @@ def test_quiet_never_alerts(alerts):
     assert alerts == [] and not os.path.exists(H.STATE)
 
 
-def test_unreadable_site_is_exit_2(alerts):
-    def boom(site): raise OSError('no route')
+def boom(site): raise OSError('no route')
+
+
+def test_unreadable_site_alerts_from_the_second_failed_read(alerts):
     assert H.main([], now=NOW, fetch=boom) == 2
-    assert len(alerts) == 1
+    assert alerts == []                                       # one blip: no alert
+    assert H.main([], now=NOW + datetime.timedelta(minutes=15), fetch=boom) == 2
+    assert len(alerts) == 1 and '멈춤' in alerts[0]
+    later = NOW + datetime.timedelta(minutes=30)
+    assert H.main([], now=later, fetch=ver(5, later)) == 0
+    assert len(alerts) == 2 and '회복' in alerts[-1]
+
+
+def test_a_good_read_resets_the_failed_reads(alerts):
+    assert H.main([], now=NOW, fetch=boom) == 2
+    assert H.main([], now=NOW + datetime.timedelta(minutes=15), fetch=ver(5, NOW + datetime.timedelta(minutes=15))) == 0
+    assert H.main([], now=NOW + datetime.timedelta(minutes=30), fetch=boom) == 2
+    assert alerts == []
+
+
+def test_quiet_reads_again_before_giving_up(alerts):
+    calls, slept = [], []
+
+    def flaky(site):
+        calls.append(site)
+        if len(calls) == 1:
+            raise OSError('blip')
+        return ver(5)(site)
+    assert H.main(['--quiet'], now=NOW, fetch=flaky, sleep=slept.append) == 0
+    assert len(calls) == 2 and slept == [H.QUIET_RETRY_SEC]
+    assert H.main(['--quiet'], now=NOW, fetch=boom, sleep=slept.append) == 2
+    assert alerts == [] and not os.path.exists(H.STATE)
 
 
 def test_notify_cli_calls_platform_notify(monkeypatch):

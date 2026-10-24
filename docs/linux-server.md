@@ -61,7 +61,7 @@ bash tools/register_tasks.sh                       # 매일 09:00 KST + 부팅 3
 - 서버 권장값은 `OWCSKR_AUTOCOMMIT=1`과 `OWCSKR_AUTOPUSH=1`을 **함께** 켜는 것이다(사이트가 서버가 찾은 스테이지 목록을 쓰게 하려면). `AUTOCOMMIT=1`만 켜면 로컬 커밋이 쌓여 원격이 바뀐 날부터 `git pull --ff-only`가 계속 실패한다.
 - `owcskr-live-<날짜>`: `run_live.sh HOURS DATE`. 처음 시작할 때 끝나는 시각(지금 + HOURS)을 `data/live/<날짜>/until.txt`에 적고 `live_capture.py --until`로 넘긴다. 죽으면 60초 뒤 다시 시작하고(`Restart=on-failure`), 다시 시작해도 같은 시각에 끝난다. `live_capture.py` 시작 점검 실패(종료 코드 2)와 "캡처는 끝났는데 마지막 판독·발행 실패"(종료 코드 4)는 다시 시작하지 않는다(`RestartPreventExitStatus=2 4`). 하루 요약이 나간 날(`data/live/<날짜>/summary.txt`)은 다시 시작해도 바로 끝난다. 끝 시각이 지난 뒤의 재시작은 프레임은 있는데 요약이 없을 때(끝 무렵 충돌)만 마지막 판독·발행·요약을 한 번 돌린다. 화면이 없는 서버에서는 `Xvfb`를 직접 띄운다(`xvfb-run`은 멈출 때 먼저 죽어서 쓰지 않는다). 같은 날 두 번 뜨지 않게 `flock`으로 잠근다. 자정을 넘긴 캡처는 그사이 재부팅해도 부팅 일일 작업이 어제 날짜까지 보고 다시 띄운다. `RuntimeMaxSec`는 일정 길이 + 1시간(안전장치), 멈출 때는 SIGTERM 후 5분(`TimeoutStopSec`) 동안 마지막 판독·발행을 기다린다. 이미 돌고 있는 캡처는 일일 작업이 다시 돌아도 건드리지 않는다.
 - 기록기(`start_watchers.sh`)는 각각 `owcskr-<이름>` 유닛으로 뜨고, 죽으면 30초 뒤 다시 시작한다. 모든 `systemd-run` 유닛은 `.env`를 `EnvironmentFile=`로 받는다 (안 그러면 `GH_TOKEN` 등이 없다).
-- 경기일마다: 첫 경기 5분 전 `matchday_check.py`, 2분 뒤 `soop_quality.py`, 캡처 시작부터 30분마다 `healthcheck.py`. OBS나 기록기가 없는 서버에서는 그 점검을 건너뛰고 로그에만 남긴다. 지난 날짜의 타이머는 다음 날 일일 작업이 정리한다.
+- 경기일마다: 첫 경기 5분 전 `matchday_check.py`, 2분 뒤 `soop_quality.py`, 캡처 시작부터 15분마다 `healthcheck.py`. OBS나 기록기가 없는 서버에서는 그 점검을 건너뛰고 로그에만 남긴다. 지난 날짜의 타이머는 다음 날 일일 작업이 정리한다.
 
 ## 감시 (healthchecks, 최신성)
 - [healthchecks.io](https://healthchecks.io)(무료)에 체크 두 개를 만들고 ping URL을 `.env`에 넣는다.
@@ -69,7 +69,7 @@ bash tools/register_tasks.sh                       # 매일 09:00 KST + 부팅 3
   - `OWCSKR_HC_LIVE`: 캡처 시작 때 `/start`, 정상 종료 때 ping, 실패 때 `/fail`. healthchecks는 `/start` 뒤 유예 시간 안에 끝 ping이 없으면 알리므로 **유예는 가장 긴 캡처보다 길게(14시간)** 잡는다. 경기일에만 오므로 주기는 길게(예: 7일) 잡고, 스테이지 사이 휴식기(몇 주)에는 체크를 일시 정지한다(안 그러면 휴식기마다 알림).
 - 윈도우 PC: 파이썬 도구는 모두 `.env`를 읽지만(`platform_util`이 가져올 때 읽음), `run_*.bat`의 healthchecks ping(`curl`)은 bat이 직접 보내므로 `OWCSKR_HC_*`를 **사용자 환경 변수**로 넣어야 한다.
   - ping은 `curl -fsS -m 10 --retry 3`. ping이 실패해도 작업은 실패하지 않는다.
-- `tools/healthcheck.py`: 배포된 사이트(`https://owticker.com/owcs-ver.json`)의 빌드 시각을 읽어 경기 중에는 30분, 평소에는 6시간보다 오래됐으면 알린다 (한 번 알리고 3시간 뒤 다시, 회복되면 한 번). 지금 읽는 값은 `checked`(마지막 사이트 빌드 시각)다. 데이터 빌드가 실패해도 이전 데이터를 다시 배포하면서 이 값은 새로 찍히므로, "빌드가 아예 안 돈다"는 잡지만 "빌드는 도는데 데이터가 멈췄다"는 못 잡는다. 사이트에 `dataBuilt` 필드가 생기면(사이트 쪽 수정 P1-04) 자동으로 그 값을 쓴다.
+- `tools/healthcheck.py`: 배포된 사이트(`https://owticker.com/owcs-ver.json`)의 빌드 시각을 읽어 경기 중에는 30분, 평소에는 6시간보다 오래됐으면 알린다 (한 번 알리고 3시간 뒤 다시, 회복되면 한 번). 경기일에는 캡처 시작부터 **15분마다** 돌므로 사이트 빌드가 멈추면 30~45분 안에 알림이 온다. "경기 중"은 `matches.json`의 경기와, 팀이 아직 TBD라 `matches.json`에 없는 플레이오프 경기(`data/lp`, `schedule_today.playoff_matches`)를 함께 본다(경기 시작 15분 전부터 예상 종료 + 30분까지). 사이트를 못 읽으면(네트워크 등) **두 번 연속** 실패했을 때만 알린다. 일일 작업의 `--quiet` 실행은 한 번뿐이라 30초 뒤 한 번 더 읽어 본다. 지금 읽는 값은 `checked`(마지막 사이트 빌드 시각)다. 데이터 빌드가 실패해도 이전 데이터를 다시 배포하면서 이 값은 새로 찍히므로, "빌드가 아예 안 돈다"는 잡지만 "빌드는 도는데 데이터가 멈췄다"는 못 잡는다. 사이트에 `dataBuilt` 필드가 생기면(사이트 쪽 수정 P1-04) 자동으로 그 값을 쓴다.
 
 ## 서버로 따로 옮겨야 하는 것 (저장소에 없음)
 저작권이나 비공개 문제로 git에 없는 파일들이다. 기존 PC에서 `scp`/`rsync`로 같은 경로에 복사한다.

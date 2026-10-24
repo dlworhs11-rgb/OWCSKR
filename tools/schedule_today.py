@@ -5,7 +5,7 @@ Finds that day's Korean-league matches in data/site/matches.json (run collector/
            when GAME DATA screens stop for 75 minutes); restarted after a crash, never past the planned end
   check    tools/matchday_check.py 5 minutes before the first match
   soop     tools/soop_quality.py 2 minutes after the first match
-  fresh    tools/healthcheck.py every 30 minutes from the capture start
+  fresh    tools/healthcheck.py every 15 minutes from the capture start
   Windows: Task Scheduler tasks OWCSKR\LiveCapture_<date>, MatchdayCheck_<date>, SoopQuality_<date>, Freshness_<date>
   Linux:   systemd user timers owcskr-live-<date>, owcskr-check-<date>, owcskr-soop-<date>, owcskr-fresh-<date>
 A capture that is already running is never touched (re-registering would kill it). A day whose start has passed but
@@ -28,7 +28,7 @@ CHECKS = (   # kind, minutes after the first match, script
     ('check', -5, 'matchday_check.py'),
     ('soop', 2, 'soop_quality.py'),
 )
-FRESH_EVERY_MIN = 30
+FRESH_EVERY_MIN = 15      # healthcheck.py: alerts past 30 min during a match, so a stale site is seen within 45 min
 WIN_TASK = {'live': 'LiveCapture', 'check': 'MatchdayCheck', 'soop': 'SoopQuality', 'fresh': 'Freshness'}
 FAILED = ('registration failed', 'start failed')
 KST = datetime.timezone(datetime.timedelta(hours=9))   # match days are Korean dates, whatever this machine's zone

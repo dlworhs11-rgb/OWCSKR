@@ -172,7 +172,7 @@ def test_future_day_registers_capture_and_checks(linux):
     assert check[check.index('--on-calendar') + 1] == S.utc_calendar(first - datetime.timedelta(minutes=5))
     assert soop[soop.index('--on-calendar') + 1] == S.utc_calendar(first + datetime.timedelta(minutes=2))
     assert check[-1].endswith('matchday_check.py') and soop[-1].endswith('soop_quality.py')
-    assert fresh[-1].endswith('healthcheck.py') and '--timer-property=OnUnitActiveSec=30min' in fresh
+    assert fresh[-1].endswith('healthcheck.py') and '--timer-property=OnUnitActiveSec=15min' in fresh
     for cmd in (check, soop, fresh):
         assert S.ENV_PROP in props(cmd)
     assert len(linux.runs(UNIT)) == 1
