@@ -206,8 +206,13 @@ async function cli(args, mode, { core = [OCS + '2026/A', OCS + '2026/B'], lp = {
   return { code: r.status, out: r.stdout + r.stderr, read, done: () => fs.rm(dir, { recursive: true, force: true }) };
 }
 
-test('CLI: network down -> exit 2, per-page errors in _status.json, old data/lp file kept', async () => {
-  const r = await cli([], 'down', { lp: { [fileOf(OCS + '2026/A')]: oldMatches(3) } });
+test('CLI: network down -> exit 2 with --strict, 0 without; per-page errors in _status.json, old data/lp file kept', async () => {
+  const soft = await cli([], 'down');
+  try {
+    assert.equal(soft.code, 0, soft.out); assert.match(soft.out, /2 failed \(exit 0: pass --strict to exit 2\)/);
+    assert.equal((await soft.read('data/lp/_status.json')).failures, 2);
+  } finally { await soft.done(); }
+  const r = await cli(['--strict'], 'down', { lp: { [fileOf(OCS + '2026/A')]: oldMatches(3) } });
   try {
     assert.equal(r.code, 2, r.out);
     const st = await r.read('data/lp/_status.json');
@@ -217,14 +222,14 @@ test('CLI: network down -> exit 2, per-page errors in _status.json, old data/lp 
   } finally { await r.done(); }
 });
 
-test('CLI: every page read -> exit 0; 429 -> exit 2 with rateLimit; no fetch -> exit 3; --discover offline -> exit 2', async () => {
-  const ok = await cli(['--active-only'], 'ok');
+test('CLI: every page read -> exit 0; 429 -> exit 2 with rateLimit (--strict); no fetch -> exit 3; --discover offline -> 2 / 0', async () => {
+  const ok = await cli(['--active-only', '--strict'], 'ok');
   try {
     assert.equal(ok.code, 0, ok.out);
     const st = await ok.read('data/lp/_status.json');
     assert.equal(st.failures, 0); assert.equal(st.pages[OCS + '2026/B'].matches, 5);
   } finally { await ok.done(); }
-  const rl = await cli([], '429');
+  const rl = await cli(['--strict'], '429');
   try {
     assert.equal(rl.code, 2, rl.out);
     const st = await rl.read('data/lp/_status.json');
@@ -233,6 +238,8 @@ test('CLI: every page read -> exit 0; 429 -> exit 2 with rateLimit; no fetch -> 
   const old = await cli([], 'nofetch');
   try { assert.equal(old.code, 3, old.out); assert.match(old.out, /Node 20\+ is required/); } finally { await old.done(); }
   const core = [OCS + '2026/Asia/Stage 3/Korea'];
-  const disc = await cli(['--discover'], 'down', { core });
+  const disc = await cli(['--discover', '--strict'], 'down', { core });
   try { assert.equal(disc.code, 2, disc.out); assert.deepEqual((await disc.read('data/competitions.json')).core, core); } finally { await disc.done(); }
+  const soft = await cli(['--discover'], 'down', { core });
+  try { assert.equal(soft.code, 0, soft.out); assert.match(soft.out, /ERR discover failed, nothing written: network/); } finally { await soft.done(); }
 });
