@@ -85,6 +85,32 @@ def test_alerts_are_rate_limited_per_key():
     assert sent == ['a', 'c', 'e']
 
 
+def test_alert_limits_survive_a_restart(tmp_path):
+    clock, sent, state = Clock(), [], str(tmp_path / 'alerts.json')
+    assert LC.Alerter(lambda t, x: sent.append(x), clock=clock, state=state)('capture', 'T', 'first run')
+    clock.t += 90                                                   # systemd restarts the crashed capture
+    assert not LC.Alerter(lambda t, x: sent.append(x), clock=clock, state=state)('capture', 'T', 'second run')
+    clock.t += 15 * 60
+    assert LC.Alerter(lambda t, x: sent.append(x), clock=clock, state=state)('capture', 'T', 'later')
+    assert sent == ['first run', 'later']
+    (tmp_path / 'alerts.json').write_text('[not a dict', encoding='utf-8')
+    assert LC.Alerter(lambda t, x: None, clock=clock, state=state).last == {}
+
+
+def test_unreadable_map_is_alerted_once_not_after_every_map(monkeypatch):
+    sent, clock = [], Clock()
+    msg = {'err': 'Traceback ...\nocr_run: maps that could not be read: 03'}
+    monkeypatch.setattr(LC.subprocess, 'run', lambda cmd, **kw: types.SimpleNamespace(returncode=1, stdout='5 maps', stderr=msg['err']))
+    alert = LC.Alerter(lambda t, x: sent.append(x), clock=clock)
+    for _ in range(4):                                              # ocr_run re-reads the whole day after each map
+        assert LC.run_ocr('out', 'frames', lambda *x: None, alert) is False
+        clock.t += 20 * 60
+    assert len(sent) == 1
+    msg['err'] = 'ocr_run: maps that could not be read: 03, 07'
+    LC.run_ocr('out', 'frames', lambda *x: None, alert)
+    assert len(sent) == 2
+
+
 def test_alert_failure_never_raises(capsys):
     alert = LC.Alerter(lambda t, x: (_ for _ in ()).throw(OSError('no network')))
     assert alert('k', 'T', 'x') is True
@@ -407,6 +433,17 @@ def test_busy_obs_exits_2(tmp_path, monkeypatch, steps):
     assert LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
                   source_factory=lambda *a: src) == 2
     assert not src.started
+
+
+def test_obs_not_answering_exits_1_and_alerts(tmp_path, monkeypatch, steps):
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    sent = []
+    src = ReadySource()
+    def ready(): raise TimeoutError('websocket')
+    src.ready = ready
+    assert LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: sent.append(x)),
+                  source_factory=lambda *a: src) == 1
+    assert not src.started and steps == [] and 'did not answer' in sent[0]
 
 
 # ---- OBS frame source (no OBS: obs_setup and the websocket client are faked) ---------------------------------
