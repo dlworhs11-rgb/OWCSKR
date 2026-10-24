@@ -6,7 +6,7 @@
 |---|---|
 | 작업 스케줄러 `OWCSKR\Daily` | systemd 사용자 타이머 `owcskr-daily` (09:00 KST + 부팅 3분 뒤) |
 | `OWCSKR\LiveCapture_<날짜>` | `owcskr-live-<날짜>` (타이머 + 서비스, 죽으면 다시 시작) |
-| `OWCSKR\MatchdayCheck_<날짜>`, `SoopQuality_<날짜>`, `Freshness_<날짜>` | `owcskr-check-<날짜>`, `owcskr-soop-<날짜>`, `owcskr-fresh-<날짜>` |
+| `OWCSKR\MatchdayCheck_<날짜>`, `SoopQuality_<날짜>`, `Freshness_<날짜>`, `SiteDispatch_<날짜>` | `owcskr-check-<날짜>`, `owcskr-soop-<날짜>`, `owcskr-fresh-<날짜>`, `owcskr-dispatch-<날짜>` |
 | `tools/*.bat`, `register_tasks.ps1` | `tools/*.sh` (`register_tasks.sh`, `run_daily.sh`, `run_live.sh`, `start_watchers.sh`) |
 | 메시지 창 (`popup`) | 디스코드 웹훅 (`OWCSKR_DISCORD_WEBHOOK`), 없으면 로그만 |
 | `%APPDATA%\obs-studio` | `~/.config/obs-studio` |
@@ -73,7 +73,8 @@ bash tools/register_tasks.sh                       # 매일 09:00 KST + 부팅 3
 - **유닛 실패 알림**: `register_tasks.sh`가 `~/.config/systemd/user/owcskr-alert@.service`를 설치한다(일일 작업도 빠졌거나 바뀌었으면 다시 쓴다). 캡처(`owcskr-live-<날짜>`), 기록기, 일일 작업(`owcskr-daily.service`)은 `OnFailure=owcskr-alert@<유닛 이름>.service`를 달고 있어서, 유닛이 완전히 실패하면(재시작 한도 초과, 재시작 안 하는 종료 코드, 강제 종료, 시간 초과) `tools/notify.py --unit-failed <유닛>`이 결과, `journalctl --user -u <유닛>` 마지막 30줄, 그 유닛의 로그 파일(`task.log`, `daily.log`, `<기록기>.log`) 끝을 알린다. 스크립트가 이미 스스로 알린 종료 코드(일일 작업 1, 캡처 1·2·4)는 건너뛰고, 같은 유닛은 30분에 한 번만 알린다. `.env` 형식 오류는 종료 코드 78(`EX_CONFIG`)이라 캡처가 재시작을 반복하지 않고 이 알림으로 온다. **이번 갱신 뒤에는 `bash tools/register_tasks.sh`를 한 번 다시 실행한다**(일일 작업 유닛 파일에 `OnFailure=`를 넣기 위해).
   - `systemd-run -p`로 `[Unit]` 설정(`OnFailure=`, `StartLimitBurst=`, `StartLimitIntervalSec=`)을 넘긴다. systemd 236부터 transient 유닛이 이 설정을 받는다(Ubuntu 22.04는 249, 24.04는 255). 유닛 파일과 달리 `-p` 값은 지정자(`%n`)를 풀지 않으므로 유닛 이름을 그대로 적는다(`owcskr-alert@owcskr-live-2026-10-25.service.service`: 인스턴스가 유닛의 전체 이름). 서버에서 확인: `systemctl --user show -p OnFailure,StartLimitBurst owcskr-live-<날짜>.service`, 알림 시험은 `systemctl --user start owcskr-alert@owcskr-test.service.service`(없는 유닛이라 "result success, exit status 0" 알림이 한 번 온다).
   - 캡처 유닛은 재시작 한도를 따로 두지 않는다(60초 간격이라 기본 한도 10초에 5번에 걸리지 않음). 충돌은 `run_live.sh`가 30분에 한 번 알리고, 끝 시각(`until.txt`)이 반복을 끝낸다.
-- 경기일마다: 첫 경기 5분 전 `matchday_check.py`, 2분 뒤 `soop_quality.py`, 캡처 시작부터 15분마다 `healthcheck.py`. OBS나 기록기가 없는 서버(`OWCSKR_FRAME_SOURCE=hls` 포함)에서는 그 점검을 건너뛰고 로그에만 남긴다. 지난 날짜의 타이머는 다음 날 일일 작업이 정리한다.
+- 경기일마다: 첫 경기 5분 전 `matchday_check.py`, 2분 뒤 `soop_quality.py`, 캡처 시작부터 15분마다 `healthcheck.py`. OBS나 기록기가 없는 서버(`OWCSKR_FRAME_SOURCE=hls` 포함)에서는 그 점검을 건너뛰고 로그에만 남긴다. 지난 날짜의 타이머는 다음 날 일일 작업이 멈추고, 지난 날짜의 유닛(점검, 캡처, 다시보기 댓글, 알림 유닛)은 `reset-failed`로 실패 기록을 지운다: `systemctl --user --failed`에는 아직 손볼 것만 남는다. 돌고 있는 서비스(자정을 넘긴 어제 캡처)는 멈추지 않는다.
+- **사이트 빌드 호출 (선택, `OWCSKR_SITE_DISPATCH=1`)**: 캡처 시작부터 끝까지 10분마다 `tools/dispatch_site.py`가 `gh workflow run pages.yml -R dlworhs11-rgb/owcs-kr`를 부른다(`owcskr-dispatch-<날짜>`, 윈도우는 `OWCSKR\SiteDispatch_<날짜>` 작업). cron-job.org 외의 두 번째 트리거다(P1-15). 끝 시각 뒤에는 타이머가 다음 날 아침 정리까지 돌아도 아무것도 하지 않고, 값을 0으로 바꾸면 다음 실행부터 바로 멈춘다. **`GH_TOKEN`에 사이트 저장소(owcs-kr)의 Actions 읽기·쓰기 권한이 필요하다**(fine-grained 토큰: Repository access에 owcs-kr 추가, Permissions → Actions: Read and write. 만료일을 적어 두고 갱신). 3번 연속 실패하면 알리고(3시간 뒤 다시), 다시 되면 한 번 알린다. 로그: `journalctl --user -u 'owcskr-dispatch-*'`, 윈도우 `data\live\dispatch.log`.
 
 ## 감시 (healthchecks, 최신성)
 - [healthchecks.io](https://healthchecks.io)(무료)에 체크 두 개를 만들고 ping URL을 `.env`에 넣는다.
