@@ -3,8 +3,8 @@
 //   node collector/run-lp.mjs --active-only  only the pages matching data/active.json (and pages with no data/lp file yet)
 //   node collector/run-lp.mjs --discover     find new stage / event pages, update data/competitions.json (core) and
 //                                            data/active.json, print them, fetch no matches. Run it before --active-only.
-// --discover reads the newest Korea stage page's |next=, the links of 'Overwatch Champions Series/<year>' (this year and
-// next) and of the newest / new Korea stage pages; keeps titles of the shapes in SHAPES that exist (redirects followed).
+// --discover reads the newest Korea stage page (tabs, |next=) and the list of pages named
+// 'Overwatch Champions Series/<year>/...' for this year and next; keeps titles of the shapes in SHAPES that exist.
 // Prints 'ADDED <title>' per new page, 'ACTIVE+ <title>' / 'ACTIVE- <title>' per change of active.json, then
 // 'DISCOVER <today> added <n> active <n>'. Never removes pages from competitions.json. active.json = pages with a match
 // dated within today (KST) +-30 days, plus pages of this year or later with no dated match yet or undated matches still
@@ -18,7 +18,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { fetchPage, linksOf, resolveTitles, parseMatches, RateLimited } from './liquipedia.mjs';
+import { fetchPage, pagesWithPrefix, resolveTitles, parseMatches, RateLimited } from './liquipedia.mjs';
 import { readJson, writeJson, kstDay } from './util.mjs';
 
 const OCS = 'Overwatch Champions Series/';
@@ -158,20 +158,18 @@ export function computeActive({ titles, pages, today, days = 30 }) {
   });
 }
 
-// the overview links the stage pages; Korea sub-pages (Regular Season, Open Qualifier, ...) hang off the Korea page:
-// its tabs for the newest one, the links of the next / new ones
-export async function discoverCandidates(core, years, { page = t => fetchPage(t, { maxAgeMs: MAX_AGE }), links = linksOf } = {}) {
-  const out = new Set(), roots = new Set();
+// Liquipedia has no 'Overwatch Champions Series/<year>' overview page, so the season's pages come from the page list
+// (allpages, prefix '<year>/'), plus the newest Korea page's tabs and its |next= (may point to a page not created yet)
+export async function discoverCandidates(core, years, { page = t => fetchPage(t, { maxAgeMs: MAX_AGE }), list = pagesWithPrefix } = {}) {
+  const out = new Set();
   const newest = newestKorea(core);
   if (newest) {
     const { text } = await page(newest);
-    for (const t of tabLinksOf(text)) out.add(t);   // its own sub-pages: no extra request
+    for (const t of tabLinksOf(text)) out.add(t);
     const nxt = nextOf(text);
-    if (nxt) { out.add(nxt); if (koreaRootOf(nxt)) roots.add(koreaRootOf(nxt)); }
+    if (nxt) { out.add(nxt); if (koreaRootOf(nxt)) out.add(koreaRootOf(nxt)); }
   }
-  for (const y of years) for (const l of await links(OCS + y)) out.add(normTitle(l));
-  for (const t of out) { const r = koreaRootOf(t); if (r && r !== newest && acceptTitle(r, years) && !core.includes(r)) roots.add(r); }
-  for (const r of roots) for (const l of await links(r)) out.add(normTitle(l));
+  for (const y of years) for (const t of await list(`${OCS}${y}/`)) out.add(normTitle(t));
   return [...out].filter(t => acceptTitle(t, years) && !core.includes(t)).sort();
 }
 

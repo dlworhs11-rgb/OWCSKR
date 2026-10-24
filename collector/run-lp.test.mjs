@@ -132,20 +132,19 @@ test('computeActive: dated within +-30 days (KST), or this year and nothing date
   assert.ok(computeActive({ titles, pages, today: '2027-01-20' }).every(t => /\/2027\//.test(t)));
 });
 
-test('discoverCandidates: |next= of the newest Korea page, season overview links, Korea sub-page links', async () => {
+test('discoverCandidates: |next= of the newest Korea page and the page list of this year and next', async () => {
   const core = [OCS + '2026/Asia/Stage 2/Korea', OCS + '2026/Asia/Stage 3/Korea', OCS + '2026/World Finals'];
-  const asked = { page: [], links: [] };
-  const links = {
-    [OCS + '2026']: [OCS + '2026/World Finals', OCS + '2026/Asia/Stage 3/Korea/Relegation', OCS + '2025/World Finals', 'Crazy Raccoon', OCS + '2026/EMEA/Stage 3'],
-    [OCS + '2027']: [OCS + '2027/Champions Clash', OCS + '2027/Asia/Stage 2'],
-    [OCS + '2027/Asia/Stage 1/Korea']: [OCS + '2027/Asia/Stage 1/Korea/Regular_Season', OCS + '2027/Asia/Stage 1/Korea/Open Qualifier#Results'],
-    [OCS + '2027/Asia/Stage 2/Korea']: [OCS + '2027/Asia/Stage 2/Korea/Regular Season'],
+  const asked = { page: [], list: [] };
+  const lists = {
+    [OCS + '2026/']: [OCS + '2026/World Finals', OCS + '2026/Asia/Stage 3/Korea/Relegation', OCS + '2026/NA/Stage 3', OCS + '2026/Stage 1/Pre-Season Bootcamp', OCS + '2026/Asia/Stage 3/Korea/Regular_Season'],
+    [OCS + '2027/']: [OCS + '2027/Champions Clash', OCS + '2027/Asia/Stage 1/Korea/Open Qualifier', OCS + '2027/EMEA/Stage 1'],
   };
-  const deps = { page: async t => { asked.page.push(t); return { text: DATES }; }, links: async t => { asked.links.push(t); return links[t] || []; } };
+  const deps = { page: async t => { asked.page.push(t); return { text: DATES }; }, list: async p => { asked.list.push(p); return lists[p] || []; } };
   const got = await discoverCandidates(core, [2026, 2027], deps);
   assert.deepEqual(asked.page, [OCS + '2026/Asia/Stage 3/Korea']);
-  assert.deepEqual(got, [OCS + '2026/Asia/Stage 3/Korea/Relegation', OCS + '2027/Asia/Stage 1/Korea', OCS + '2027/Asia/Stage 1/Korea/Open Qualifier',
-    OCS + '2027/Asia/Stage 1/Korea/Regular Season', OCS + '2027/Asia/Stage 2', OCS + '2027/Asia/Stage 2/Korea/Regular Season', OCS + '2027/Champions Clash']);
+  assert.deepEqual(asked.list, [OCS + '2026/', OCS + '2027/']);
+  assert.deepEqual(got, [OCS + '2026/Asia/Stage 3/Korea/Regular Season', OCS + '2026/Asia/Stage 3/Korea/Relegation', OCS + '2027/Asia/Stage 1/Korea',
+    OCS + '2027/Asia/Stage 1/Korea/Open Qualifier', OCS + '2027/Champions Clash']);
   // everything known already: nothing new (idempotent)
   assert.deepEqual(await discoverCandidates([...core, ...got], [2026, 2027], deps), []);
 });
@@ -154,8 +153,6 @@ test('real Korea stage page header: tab links, empty |next=', async () => {
   const k = await fixture('korea-2026-s3-infobox.wiki');
   assert.deepEqual(tabLinksOf(k), [OCS + '2026/Asia/Stage 3/Korea', OCS + '2026/Asia/Stage 3/Korea/Regular Season', OCS + '2026/Asia/Stage 3/Korea/Open Qualifier']);
   assert.equal(nextOf(k), null);
-  const asked = [];
-  const got = await discoverCandidates([OCS + '2026/Asia/Stage 3/Korea'], [2026, 2027], { page: async () => ({ text: k }), links: async t => { asked.push(t); return []; } });
+  const got = await discoverCandidates([OCS + '2026/Asia/Stage 3/Korea'], [2026, 2027], { page: async () => ({ text: k }), list: async () => [] });
   assert.deepEqual(got, [OCS + '2026/Asia/Stage 3/Korea/Open Qualifier', OCS + '2026/Asia/Stage 3/Korea/Regular Season']);
-  assert.deepEqual(asked, [OCS + '2026', OCS + '2027']);   // the newest Korea page's own links come from its tabs
 });

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { cfg, parseDate, parseMatches, fetchPage, linksOf, resolveTitles, isRedirectBody, RateLimited } from './liquipedia.mjs';
+import { cfg, parseDate, parseMatches, fetchPage, linksOf, pagesWithPrefix, resolveTitles, isRedirectBody, RateLimited } from './liquipedia.mjs';
 
 const fixture = name => fs.readFile(new URL('./fixtures/' + name, import.meta.url), 'utf8');
 const DATES = await fixture('dates.wiki'), WF = await fixture('wf2025-excerpt.wiki');
@@ -111,11 +111,16 @@ test('api: maxlag is retried once; other API errors and replies without query ar
   await assert.rejects(fetchPage('E'), /not JSON/);
 });
 
-test('linksOf follows plcontinue and caches; resolveTitles follows redirects and flags missing pages', async () => {
+test('linksOf / pagesWithPrefix follow continue and cache; resolveTitles follows redirects and flags missing pages', async () => {
   replies.push(json({ continue: { plcontinue: 'x' }, query: { pages: { 1: { title: 'P', links: [{ title: 'A' }] } } } }), json({ query: { pages: { 1: { title: 'P', links: [{ title: 'B' }] } } } }));
   assert.deepEqual(await linksOf('P'), ['A', 'B']);
   assert.deepEqual(await linksOf('P'), ['A', 'B']);
   assert.equal(calls.length, 2); assert.equal(calls[1].url.searchParams.get('plcontinue'), 'x');
+  replies.push(json({ continue: { apcontinue: 'n' }, query: { allpages: [{ title: 'P/1' }] } }), json({ query: { allpages: [{ title: 'P/2' }] } }));
+  assert.deepEqual(await pagesWithPrefix('P/'), ['P/1', 'P/2']);
+  assert.deepEqual(await pagesWithPrefix('P/'), ['P/1', 'P/2']);
+  assert.equal(calls.length, 4); assert.equal(calls[2].url.searchParams.get('apprefix'), 'P/'); assert.equal(calls[3].url.searchParams.get('apcontinue'), 'n');
+  assert.equal(calls[2].url.searchParams.get('apfilterredir'), 'nonredirects');
   replies.push(json({ query: { normalized: [{ from: 'a_b', to: 'A b' }], redirects: [{ from: 'A b', to: 'C' }], pages: { 1: { title: 'C' }, '-1': { title: 'D', missing: '' } } } }));
   assert.deepEqual(await resolveTitles(['a_b', 'D']), { a_b: { exists: true, title: 'C' }, D: { exists: false, title: 'D' } });
 });

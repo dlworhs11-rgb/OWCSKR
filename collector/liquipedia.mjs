@@ -97,6 +97,20 @@ export async function linksOf(title, { maxAgeMs = 6 * 3600e3 } = {}) {
   return out;
 }
 
+// existing main-namespace pages whose title starts with prefix (redirects left out), cached like the wikitext
+export async function pagesWithPrefix(prefix, { maxAgeMs = 6 * 3600e3 } = {}) {
+  const file = cacheFile(prefix, '.pages.json');
+  if (await fresh(file, maxAgeMs)) return readJson(file);
+  const out = []; let cont = {};
+  for (let i = 0; i < 10 && cont; i++) {
+    const r = await api({ action: 'query', list: 'allpages', apnamespace: '0', apfilterredir: 'nonredirects', aplimit: 'max', apprefix: prefix, ...cont });
+    out.push(...(r.query.allpages || []).map(p => p.title));
+    cont = r.continue?.apcontinue ? { apcontinue: r.continue.apcontinue } : null;
+  }
+  await writeJson(file, out);
+  return out;
+}
+
 // title -> { exists, title (after redirects) }, 50 titles per request (the API limit)
 export async function resolveTitles(titles) {
   const out = {};
