@@ -1,0 +1,1489 @@
+{
+ "_comment": "2026-10-23 as captured (numbers/names from owcs-kr data/live_maps/2026-10-23.json, schedule from data/site/matches.json); headers of m04-m06 misread as MATCH 1, ban screens synthetic at map-900s",
+ "date": "2026-10-23",
+ "schedule": [
+  {
+   "date": "2026-10-23T17:00:00+09:00",
+   "team1": "Cheeseburger",
+   "team2": "O2 Blast",
+   "competitionTitle": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "maps": [
+    {
+     "map": null
+    },
+    {
+     "map": null
+    },
+    {
+     "map": null
+    },
+    {
+     "map": null
+    },
+    {
+     "map": null
+    }
+   ]
+  },
+  {
+   "date": "2026-10-23T18:30:00+09:00",
+   "team1": "Team Falcons",
+   "team2": "ZANSIDE GAMING",
+   "competitionTitle": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "maps": [
+    {
+     "map": null
+    },
+    {
+     "map": null
+    },
+    {
+     "map": null
+    },
+    {
+     "map": null
+    },
+    {
+     "map": null
+    }
+   ]
+  },
+  {
+   "date": "2026-10-23T20:00:00+09:00",
+   "team1": "Crazy Raccoon",
+   "team2": "SEIJI ESPORTS",
+   "competitionTitle": "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season",
+   "maps": [
+    {
+     "map": null
+    },
+    {
+     "map": null
+    },
+    {
+     "map": null
+    },
+    {
+     "map": null
+    },
+    {
+     "map": null
+    }
+   ]
+  }
+ ],
+ "players": [
+  {
+   "region": "KR",
+   "team": "CRAZY RACCOON",
+   "name": "준빈 JunBin"
+  },
+  {
+   "region": "KR",
+   "team": "CRAZY RACCOON",
+   "name": "스토커 Stalk3r"
+  },
+  {
+   "region": "KR",
+   "team": "CRAZY RACCOON",
+   "name": "맥스 MAX"
+  },
+  {
+   "region": "KR",
+   "team": "CRAZY RACCOON",
+   "name": "초롱 CH0R0NG"
+  },
+  {
+   "region": "KR",
+   "team": "CRAZY RACCOON",
+   "name": "립 LIP"
+  },
+  {
+   "region": "KR",
+   "team": "CRAZY RACCOON",
+   "name": "비질란테 vigilante"
+  },
+  {
+   "region": "KR",
+   "team": "CRAZY RACCOON",
+   "name": "희상 HeeSang"
+  },
+  {
+   "region": "KR",
+   "team": "TEAM FALCONS",
+   "name": "한빈 Hanbin"
+  },
+  {
+   "region": "KR",
+   "team": "TEAM FALCONS",
+   "name": "체크메이트 Checkmate"
+  },
+  {
+   "region": "KR",
+   "team": "TEAM FALCONS",
+   "name": "썸원 SOMEONE"
+  },
+  {
+   "region": "KR",
+   "team": "TEAM FALCONS",
+   "name": "필더 Fielder"
+  },
+  {
+   "region": "KR",
+   "team": "TEAM FALCONS",
+   "name": "메리트 MER1T"
+  },
+  {
+   "region": "KR",
+   "team": "TEAM FALCONS",
+   "name": "치요 ChiYo"
+  },
+  {
+   "region": "KR",
+   "team": "TEAM FALCONS",
+   "name": "스핀트 SP1NT"
+  },
+  {
+   "region": "KR",
+   "team": "RODE ZANSIDE GAMING",
+   "name": "희성 HEESUNG"
+  },
+  {
+   "region": "KR",
+   "team": "RODE ZANSIDE GAMING",
+   "name": "베키 Bekey"
+  },
+  {
+   "region": "KR",
+   "team": "RODE ZANSIDE GAMING",
+   "name": "헤이저 Heiser"
+  },
+  {
+   "region": "KR",
+   "team": "RODE ZANSIDE GAMING",
+   "name": "아이러니 iR0NY"
+  },
+  {
+   "region": "KR",
+   "team": "RODE ZANSIDE GAMING",
+   "name": "태종 Taejong"
+  },
+  {
+   "region": "KR",
+   "team": "RODE ZANSIDE GAMING",
+   "name": "오프너 OPENER"
+  },
+  {
+   "region": "KR",
+   "team": "RODE ZANSIDE GAMING",
+   "name": "킬로 Kilo"
+  },
+  {
+   "region": "KR",
+   "team": "O2 BLAST",
+   "name": "페이트 Fate"
+  },
+  {
+   "region": "KR",
+   "team": "O2 BLAST",
+   "name": "에일리언 A1lEN"
+  },
+  {
+   "region": "KR",
+   "team": "O2 BLAST",
+   "name": "홈런볼 homerunball"
+  },
+  {
+   "region": "KR",
+   "team": "O2 BLAST",
+   "name": "페이쓰 Faith"
+  },
+  {
+   "region": "KR",
+   "team": "O2 BLAST",
+   "name": "페르 perr"
+  },
+  {
+   "region": "KR",
+   "team": "O2 BLAST",
+   "name": "감정이 Gamjung"
+  },
+  {
+   "region": "KR",
+   "team": "O2 BLAST",
+   "name": "우티안 WuTian"
+  },
+  {
+   "region": "KR",
+   "team": "CHEESEBURGER",
+   "name": "벨로스레아 Belosrea"
+  },
+  {
+   "region": "KR",
+   "team": "CHEESEBURGER",
+   "name": "에이전트 Azent"
+  },
+  {
+   "region": "KR",
+   "team": "CHEESEBURGER",
+   "name": "프로핏 Profit"
+  },
+  {
+   "region": "KR",
+   "team": "CHEESEBURGER",
+   "name": "트레스트 Trest"
+  },
+  {
+   "region": "KR",
+   "team": "CHEESEBURGER",
+   "name": "케인 K4NE"
+  },
+  {
+   "region": "KR",
+   "team": "CHEESEBURGER",
+   "name": "텐텐 TenTen"
+  },
+  {
+   "region": "KR",
+   "team": "POKER FACE",
+   "name": "스우 SWOO"
+  },
+  {
+   "region": "KR",
+   "team": "POKER FACE",
+   "name": "카페인 Caffeine"
+  },
+  {
+   "region": "KR",
+   "team": "POKER FACE",
+   "name": "SoLA 솔라"
+  },
+  {
+   "region": "KR",
+   "team": "POKER FACE",
+   "name": "소애 Soae"
+  },
+  {
+   "region": "KR",
+   "team": "POKER FACE",
+   "name": "소리 SORI"
+  },
+  {
+   "region": "KR",
+   "team": "POKER FACE",
+   "name": "덤벨 Dumbbell"
+  },
+  {
+   "region": "KR",
+   "team": "POKER FACE",
+   "name": "파이널리 F1nally"
+  },
+  {
+   "region": "KR",
+   "team": "RTplz",
+   "name": "독스 DOX"
+  },
+  {
+   "region": "KR",
+   "team": "RTplz",
+   "name": "미닛 M1nut2"
+  },
+  {
+   "region": "KR",
+   "team": "RTplz",
+   "name": "센티어 SENTIER"
+  },
+  {
+   "region": "KR",
+   "team": "RTplz",
+   "name": "오프 OFF"
+  },
+  {
+   "region": "KR",
+   "team": "RTplz",
+   "name": "다트 D4RT"
+  },
+  {
+   "region": "KR",
+   "team": "RTplz",
+   "name": "라벤더 Lavender"
+  }
+ ],
+ "aliases": {
+  "_comment": "key: lowercase name seen on Liquipedia -> canonical display name. Edit freely.",
+  "zan esports": "ZANSIDE GAMING",
+  "zanside gaming": "ZANSIDE GAMING",
+  "rode zanside gaming": "ZANSIDE GAMING",
+  "zeta division": "ZETA DIVISION",
+  "team falcons": "Team Falcons",
+  "from the gamer": "From The Gamer",
+  "onside academy": "ONSIDE Academy",
+  "onside gaming": "ONSIDE Gaming",
+  "all gamers": "All Gamers Global",
+  "all gamers global": "All Gamers Global",
+  "ha.na": "HA.NA",
+  "t1": "T1",
+  "o2 blast": "O2 Blast",
+  "poker face": "Poker Face",
+  "crazy raccoon": "Crazy Raccoon",
+  "cheeseburger": "Cheeseburger",
+  "seiji esports": "SEIJI ESPORTS",
+  "superbad": "SuperBad",
+  "yeti (korean team)": "YETI",
+  "sga": "Spacestation Gaming",
+  "rtplz": "SEIJI ESPORTS"
+ },
+ "handleAliases": {
+  "d0nghak": "donghak"
+ },
+ "ocr": [
+  {
+   "dir": "frames",
+   "map": "01",
+   "frame": "m01_table1_1792743915.png",
+   "framesAgree": true,
+   "totalsOK": true,
+   "rows": [
+    {
+     "e": 13,
+     "a": 5,
+     "d": 2,
+     "dmg": 9356,
+     "heal": 422,
+     "mit": 10648
+    },
+    {
+     "e": 21,
+     "a": 1,
+     "d": 2,
+     "dmg": 9428,
+     "heal": 0,
+     "mit": 348
+    },
+    {
+     "e": 16,
+     "a": 0,
+     "d": 2,
+     "dmg": 5641,
+     "heal": 65,
+     "mit": 80
+    },
+    {
+     "e": 12,
+     "a": 18,
+     "d": 0,
+     "dmg": 1825,
+     "heal": 10763,
+     "mit": 0
+    },
+    {
+     "e": 9,
+     "a": 13,
+     "d": 6,
+     "dmg": 4385,
+     "heal": 5941,
+     "mit": 784
+    },
+    {
+     "e": 7,
+     "a": 0,
+     "d": 7,
+     "dmg": 8815,
+     "heal": 86,
+     "mit": 565
+    },
+    {
+     "e": 3,
+     "a": 7,
+     "d": 6,
+     "dmg": 1082,
+     "heal": 6717,
+     "mit": 0
+    },
+    {
+     "e": 6,
+     "a": 3,
+     "d": 7,
+     "dmg": 6815,
+     "heal": 1471,
+     "mit": 7288
+    },
+    {
+     "e": 4,
+     "a": 6,
+     "d": 6,
+     "dmg": 2876,
+     "heal": 5523,
+     "mit": 677
+    },
+    {
+     "e": 10,
+     "a": 0,
+     "d": 2,
+     "dmg": 6380,
+     "heal": 106,
+     "mit": 59
+    }
+   ],
+   "totals": null,
+   "header": {
+    "match": 1,
+    "game": 1,
+    "map": "Samoa",
+    "mapTime": "8:41"
+   },
+   "durationSec": null,
+   "mapTime": "8:41"
+  },
+  {
+   "dir": "frames",
+   "map": "02",
+   "frame": "m02_table2_1792745303.png",
+   "framesAgree": true,
+   "totalsOK": true,
+   "rows": [
+    {
+     "e": 21,
+     "a": 5,
+     "d": 3,
+     "dmg": 12438,
+     "heal": 1696,
+     "mit": 11184
+    },
+    {
+     "e": 18,
+     "a": 0,
+     "d": 9,
+     "dmg": 9358,
+     "heal": 0,
+     "mit": 0
+    },
+    {
+     "e": 14,
+     "a": 0,
+     "d": 5,
+     "dmg": 6095,
+     "heal": 55,
+     "mit": 143
+    },
+    {
+     "e": 15,
+     "a": 21,
+     "d": 3,
+     "dmg": 4537,
+     "heal": 10296,
+     "mit": 0
+    },
+    {
+     "e": 14,
+     "a": 16,
+     "d": 7,
+     "dmg": 5893,
+     "heal": 8428,
+     "mit": 1290
+    },
+    {
+     "e": 16,
+     "a": 0,
+     "d": 8,
+     "dmg": 9243,
+     "heal": 0,
+     "mit": 0
+    },
+    {
+     "e": 15,
+     "a": 15,
+     "d": 4,
+     "dmg": 4095,
+     "heal": 11064,
+     "mit": 0
+    },
+    {
+     "e": 13,
+     "a": 6,
+     "d": 7,
+     "dmg": 8342,
+     "heal": 1377,
+     "mit": 14604
+    },
+    {
+     "e": 7,
+     "a": 15,
+     "d": 7,
+     "dmg": 5422,
+     "heal": 8269,
+     "mit": 813
+    },
+    {
+     "e": 15,
+     "a": 0,
+     "d": 6,
+     "dmg": 8158,
+     "heal": 15,
+     "mit": 351
+    }
+   ],
+   "totals": null,
+   "header": {
+    "match": 1,
+    "game": 2,
+    "map": "New Junk City",
+    "mapTime": "12:28"
+   },
+   "durationSec": null,
+   "mapTime": "12:28"
+  },
+  {
+   "dir": "frames",
+   "map": "03",
+   "frame": "m03_table1_1792746252.png",
+   "framesAgree": true,
+   "totalsOK": false,
+   "rows": [
+    {
+     "e": 21,
+     "a": 5,
+     "d": 3,
+     "dmg": 10395,
+     "heal": 2090,
+     "mit": 18263
+    },
+    {
+     "e": 15,
+     "a": 0,
+     "d": 6,
+     "dmg": 7177,
+     "heal": 0,
+     "mit": 0
+    },
+    {
+     "e": 18,
+     "a": 0,
+     "d": 1,
+     "dmg": 6438,
+     "heal": 52,
+     "mit": 264
+    },
+    {
+     "e": 6,
+     "a": 19,
+     "d": 6,
+     "dmg": 3746,
+     "heal": 7860,
+     "mit": 1107
+    },
+    {
+     "e": 11,
+     "a": 12,
+     "d": 6,
+     "dmg": 5196,
+     "heal": 6617,
+     "mit": 0
+    },
+    {
+     "e": 10,
+     "a": 1,
+     "d": 6,
+     "dmg": 9175,
+     "heal": 0,
+     "mit": 374
+    },
+    {
+     "e": 4,
+     "a": 13,
+     "d": 5,
+     "dmg": 1550,
+     "heal": 8608,
+     "mit": 172
+    },
+    {
+     "e": 16,
+     "a": 5,
+     "d": 6,
+     "dmg": 8319,
+     "heal": 1842,
+     "mit": 11640
+    },
+    {
+     "e": 9,
+     "a": 10,
+     "d": 5,
+     "dmg": 3492,
+     "heal": 8510,
+     "mit": 486
+    },
+    {
+     "e": 16,
+     "a": 0,
+     "d": 4,
+     "dmg": 7327,
+     "heal": 0,
+     "mit": 235
+    }
+   ],
+   "totals": null,
+   "header": {
+    "match": 1,
+    "game": 3,
+    "map": "Esperança",
+    "mapTime": "10:13"
+   },
+   "durationSec": null,
+   "mapTime": "10:13"
+  },
+  {
+   "dir": "frames",
+   "map": "04",
+   "frame": "m04_table1_1792749177.png",
+   "framesAgree": true,
+   "totalsOK": true,
+   "rows": [
+    {
+     "e": 14,
+     "a": 0,
+     "d": 4,
+     "dmg": 10807,
+     "heal": 46,
+     "mit": 454
+    },
+    {
+     "e": 8,
+     "a": 8,
+     "d": 8,
+     "dmg": 4262,
+     "heal": 10749,
+     "mit": 5308
+    },
+    {
+     "e": 14,
+     "a": 17,
+     "d": 5,
+     "dmg": 6969,
+     "heal": 16314,
+     "mit": 1238
+    },
+    {
+     "e": 15,
+     "a": 0,
+     "d": 6,
+     "dmg": 13493,
+     "heal": 0,
+     "mit": 0
+    },
+    {
+     "e": 13,
+     "a": 4,
+     "d": 5,
+     "dmg": 13491,
+     "heal": 2455,
+     "mit": 18400
+    },
+    {
+     "e": 17,
+     "a": 6,
+     "d": 6,
+     "dmg": 16899,
+     "heal": 1097,
+     "mit": 14007
+    },
+    {
+     "e": 7,
+     "a": 14,
+     "d": 4,
+     "dmg": 6975,
+     "heal": 15590,
+     "mit": 2213
+    },
+    {
+     "e": 12,
+     "a": 0,
+     "d": 9,
+     "dmg": 10911,
+     "heal": 0,
+     "mit": 0
+    },
+    {
+     "e": 9,
+     "a": 14,
+     "d": 6,
+     "dmg": 5670,
+     "heal": 10686,
+     "mit": 0
+    },
+    {
+     "e": 11,
+     "a": 0,
+     "d": 2,
+     "dmg": 10800,
+     "heal": 50,
+     "mit": 529
+    }
+   ],
+   "totals": null,
+   "header": {
+    "match": 1,
+    "game": 1,
+    "map": "Nepal",
+    "mapTime": "13:37"
+   },
+   "durationSec": null,
+   "mapTime": "13:37"
+  },
+  {
+   "dir": "frames",
+   "map": "05",
+   "frame": "m05_table1_1792750084.png",
+   "framesAgree": true,
+   "totalsOK": false,
+   "rows": [
+    {
+     "e": 13,
+     "a": 0,
+     "d": 1,
+     "dmg": 5941,
+     "heal": 7,
+     "mit": 100
+    },
+    {
+     "e": 13,
+     "a": 14,
+     "d": 1,
+     "dmg": 2450,
+     "heal": 6281,
+     "mit": 3756
+    },
+    {
+     "e": 18,
+     "a": 14,
+     "d": 0,
+     "dmg": 4199,
+     "heal": 9064,
+     "mit": 0
+    },
+    {
+     "e": 14,
+     "a": 4,
+     "d": 1,
+     "dmg": 6548,
+     "heal": 0,
+     "mit": 159
+    },
+    {
+     "e": 19,
+     "a": 5,
+     "d": 1,
+     "dmg": 8635,
+     "heal": 518,
+     "mit": 6303
+    },
+    {
+     "e": 3,
+     "a": 2,
+     "d": 9,
+     "dmg": 7458,
+     "heal": 444,
+     "mit": 6995
+    },
+    {
+     "e": 1,
+     "a": 3,
+     "d": 5,
+     "dmg": 3428,
+     "heal": 5238,
+     "mit": 0
+    },
+    {
+     "e": 1,
+     "a": 0,
+     "d": 6,
+     "dmg": 4288,
+     "heal": 0,
+     "mit": 0
+    },
+    {
+     "e": 2,
+     "a": 0,
+     "d": 8,
+     "dmg": 2325,
+     "heal": 6734,
+     "mit": 0
+    },
+    {
+     "e": 4,
+     "a": 0,
+     "d": 3,
+     "dmg": 4812,
+     "heal": 750,
+     "mit": 50
+    }
+   ],
+   "totals": null,
+   "header": {
+    "match": 1,
+    "game": 2,
+    "map": "New Junk City",
+    "mapTime": null
+   },
+   "durationSec": null,
+   "mapTime": null
+  },
+  {
+   "dir": "frames",
+   "map": "06",
+   "frame": "m06_table1_1792751015.png",
+   "framesAgree": true,
+   "totalsOK": false,
+   "rows": [
+    {
+     "e": 27,
+     "a": 0,
+     "d": 3,
+     "dmg": 6788,
+     "heal": 15,
+     "mit": 176
+    },
+    {
+     "e": 16,
+     "a": 23,
+     "d": 7,
+     "dmg": 3722,
+     "heal": 7321,
+     "mit": 3971
+    },
+    {
+     "e": 15,
+     "a": 22,
+     "d": 4,
+     "dmg": 4683,
+     "heal": 10699,
+     "mit": 1480
+    },
+    {
+     "e": 23,
+     "a": 0,
+     "d": 7,
+     "dmg": 10560,
+     "heal": 0,
+     "mit": 370
+    },
+    {
+     "e": 29,
+     "a": 9,
+     "d": 3,
+     "dmg": 11268,
+     "heal": 2862,
+     "mit": 15246
+    },
+    {
+     "e": 18,
+     "a": 4,
+     "d": 8,
+     "dmg": 10389,
+     "heal": 1483,
+     "mit": 9593
+    },
+    {
+     "e": 11,
+     "a": 14,
+     "d": 7,
+     "dmg": 5349,
+     "heal": 10231,
+     "mit": 0
+    },
+    {
+     "e": 11,
+     "a": 0,
+     "d": 10,
+     "dmg": 8918,
+     "heal": 0,
+     "mit": 0
+    },
+    {
+     "e": 6,
+     "a": 12,
+     "d": 8,
+     "dmg": 3967,
+     "heal": 6494,
+     "mit": 1449
+    },
+    {
+     "e": 17,
+     "a": 0,
+     "d": 6,
+     "dmg": 7811,
+     "heal": 100,
+     "mit": 620
+    }
+   ],
+   "totals": null,
+   "header": {
+    "match": 1,
+    "game": 3,
+    "map": "Esperança",
+    "mapTime": "10:10"
+   },
+   "durationSec": null,
+   "mapTime": "10:10"
+  },
+  {
+   "dir": "frames",
+   "map": "07",
+   "frame": "m07_table1_1792753648.png",
+   "framesAgree": true,
+   "totalsOK": true,
+   "rows": [
+    {
+     "e": 10,
+     "a": 12,
+     "d": 3,
+     "dmg": 3754,
+     "heal": 10154,
+     "mit": 428
+    },
+    {
+     "e": 17,
+     "a": 0,
+     "d": 2,
+     "dmg": 6616,
+     "heal": 0,
+     "mit": 156
+    },
+    {
+     "e": 12,
+     "a": 3,
+     "d": 2,
+     "dmg": 9257,
+     "heal": 644,
+     "mit": 7924
+    },
+    {
+     "e": 18,
+     "a": 2,
+     "d": 3,
+     "dmg": 9682,
+     "heal": 105,
+     "mit": 452
+    },
+    {
+     "e": 13,
+     "a": 16,
+     "d": 3,
+     "dmg": 3981,
+     "heal": 5240,
+     "mit": 381
+    },
+    {
+     "e": 6,
+     "a": 0,
+     "d": 4,
+     "dmg": 5299,
+     "heal": 92,
+     "mit": 200
+    },
+    {
+     "e": 7,
+     "a": 5,
+     "d": 6,
+     "dmg": 3435,
+     "heal": 9038,
+     "mit": 1409
+    },
+    {
+     "e": 5,
+     "a": 1,
+     "d": 9,
+     "dmg": 9819,
+     "heal": 160,
+     "mit": 602
+    },
+    {
+     "e": 7,
+     "a": 6,
+     "d": 3,
+     "dmg": 1421,
+     "heal": 7429,
+     "mit": 0
+    },
+    {
+     "e": 5,
+     "a": 2,
+     "d": 4,
+     "dmg": 5601,
+     "heal": 1232,
+     "mit": 18270
+    }
+   ],
+   "totals": null,
+   "header": {
+    "match": 3,
+    "game": 1,
+    "map": "Samoa",
+    "mapTime": "8:42"
+   },
+   "durationSec": null,
+   "mapTime": "8:42"
+  },
+  {
+   "dir": "frames",
+   "map": "08",
+   "frame": "m08_table2_1792755033.png",
+   "framesAgree": true,
+   "totalsOK": true,
+   "rows": [
+    {
+     "e": 19,
+     "a": 4,
+     "d": 10,
+     "dmg": 9115,
+     "heal": 426,
+     "mit": 958
+    },
+    {
+     "e": 6,
+     "a": 17,
+     "d": 4,
+     "dmg": 2378,
+     "heal": 15712,
+     "mit": 0
+    },
+    {
+     "e": 12,
+     "a": 0,
+     "d": 7,
+     "dmg": 7167,
+     "heal": 0,
+     "mit": 0
+    },
+    {
+     "e": 6,
+     "a": 7,
+     "d": 6,
+     "dmg": 2730,
+     "heal": 7114,
+     "mit": 2360
+    },
+    {
+     "e": 14,
+     "a": 6,
+     "d": 6,
+     "dmg": 7512,
+     "heal": 150,
+     "mit": 6385
+    },
+    {
+     "e": 17,
+     "a": 20,
+     "d": 5,
+     "dmg": 3977,
+     "heal": 9195,
+     "mit": 884
+    },
+    {
+     "e": 28,
+     "a": 8,
+     "d": 3,
+     "dmg": 10956,
+     "heal": 50,
+     "mit": 138
+    },
+    {
+     "e": 19,
+     "a": 7,
+     "d": 4,
+     "dmg": 9433,
+     "heal": 0,
+     "mit": 9899
+    },
+    {
+     "e": 21,
+     "a": 3,
+     "d": 6,
+     "dmg": 11311,
+     "heal": 0,
+     "mit": 702
+    },
+    {
+     "e": 10,
+     "a": 21,
+     "d": 4,
+     "dmg": 2546,
+     "heal": 9056,
+     "mit": 0
+    }
+   ],
+   "totals": null,
+   "header": {
+    "match": 3,
+    "game": 2,
+    "map": "Colosseo",
+    "mapTime": "8:55"
+   },
+   "durationSec": null,
+   "mapTime": "8:55"
+  },
+  {
+   "dir": "frames",
+   "map": "09",
+   "frame": "m09_table1_1792756167.png",
+   "framesAgree": true,
+   "totalsOK": false,
+   "rows": [
+    {
+     "e": 13,
+     "a": 2,
+     "d": 11,
+     "dmg": 8173,
+     "heal": 442,
+     "mit": 379
+    },
+    {
+     "e": 7,
+     "a": 4,
+     "d": 10,
+     "dmg": 9573,
+     "heal": 1857,
+     "mit": 4851
+    },
+    {
+     "e": 5,
+     "a": 11,
+     "d": 9,
+     "dmg": 3697,
+     "heal": 11818,
+     "mit": 0
+    },
+    {
+     "e": 13,
+     "a": 0,
+     "d": 9,
+     "dmg": 8195,
+     "heal": 0,
+     "mit": 576
+    },
+    {
+     "e": 11,
+     "a": 16,
+     "d": 7,
+     "dmg": 2731,
+     "heal": 10276,
+     "mit": 0
+    },
+    {
+     "e": 28,
+     "a": 3,
+     "d": 5,
+     "dmg": 9049,
+     "heal": 0,
+     "mit": 411
+    },
+    {
+     "e": 27,
+     "a": 28,
+     "d": 4,
+     "dmg": 5145,
+     "heal": 9357,
+     "mit": 813
+    },
+    {
+     "e": 25,
+     "a": 7,
+     "d": 3,
+     "dmg": 15177,
+     "heal": 563,
+     "mit": 10337
+    },
+    {
+     "e": 27,
+     "a": 8,
+     "d": 7,
+     "dmg": 11930,
+     "heal": 0,
+     "mit": 0
+    },
+    {
+     "e": 22,
+     "a": 73,
+     "d": 5,
+     "dmg": 4414,
+     "heal": 11092,
+     "mit": 0
+    }
+   ],
+   "totals": null,
+   "header": {
+    "match": 3,
+    "game": 3,
+    "map": "Aatlis",
+    "mapTime": "11:11"
+   },
+   "durationSec": null,
+   "mapTime": "11:11"
+  }
+ ],
+ "names": {
+  "m01_table1_1792743915.png": [
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   "Wutian"
+  ],
+  "m02_table2_1792745303.png": [
+   null,
+   null,
+   "Profit",
+   "TenTen",
+   null,
+   null,
+   null,
+   null,
+   "Gamjung",
+   "Wutian"
+  ],
+  "m03_table1_1792746252.png": [
+   null,
+   null,
+   null,
+   "TenTen",
+   null,
+   null,
+   null,
+   null,
+   "Gamjung",
+   "Wutian"
+  ],
+  "m04_table1_1792749177.png": [
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   "Irony",
+   null,
+   null,
+   null
+  ],
+  "m05_table1_1792750084.png": [
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   "Irony",
+   null,
+   null,
+   null
+  ],
+  "m06_table1_1792751015.png": [
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   "Irony",
+   null,
+   null,
+   null
+  ],
+  "m07_table1_1792753648.png": [
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "m08_table2_1792755033.png": [
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+  "m09_table1_1792756167.png": [
+   null,
+   "Soae",
+   null,
+   null,
+   null,
+   null,
+   "LIP",
+   null,
+   null,
+   null
+  ]
+ },
+ "bans": [
+  [
+   1792744403,
+   {
+    "teams": [
+     "Cheeseburger",
+     "O2 Blast"
+    ],
+    "score": [
+     1,
+     0
+    ],
+    "map": "New Junk City",
+    "initial": {
+     "team": "Cheeseburger",
+     "hero": "x"
+    },
+    "followUp": {
+     "team": "O2 Blast",
+     "hero": "y"
+    }
+   }
+  ],
+  [
+   1792745352,
+   {
+    "teams": [
+     "Cheeseburger",
+     "O2 Blast"
+    ],
+    "score": [
+     2,
+     0
+    ],
+    "map": "Esperança",
+    "initial": {
+     "team": "Cheeseburger",
+     "hero": "x"
+    },
+    "followUp": {
+     "team": "O2 Blast",
+     "hero": "y"
+    }
+   }
+  ],
+  [
+   1792748277,
+   {
+    "teams": [
+     "Team Falcons",
+     "ZANSIDE GAMING"
+    ],
+    "score": [
+     0,
+     0
+    ],
+    "map": "Nepal",
+    "initial": {
+     "team": "Team Falcons",
+     "hero": "x"
+    },
+    "followUp": {
+     "team": "ZANSIDE GAMING",
+     "hero": "y"
+    }
+   }
+  ],
+  [
+   1792749184,
+   {
+    "teams": [
+     "Team Falcons",
+     "ZANSIDE GAMING"
+    ],
+    "score": [
+     1,
+     0
+    ],
+    "map": "New Junk City",
+    "initial": {
+     "team": "Team Falcons",
+     "hero": "x"
+    },
+    "followUp": {
+     "team": "ZANSIDE GAMING",
+     "hero": "y"
+    }
+   }
+  ],
+  [
+   1792750115,
+   {
+    "teams": [
+     "Team Falcons",
+     "ZANSIDE GAMING"
+    ],
+    "score": [
+     1,
+     1
+    ],
+    "map": "Esperança",
+    "initial": {
+     "team": "Team Falcons",
+     "hero": "x"
+    },
+    "followUp": {
+     "team": "ZANSIDE GAMING",
+     "hero": "y"
+    }
+   }
+  ],
+  [
+   1792752748,
+   {
+    "teams": [
+     "Crazy Raccoon",
+     "SEIJI ESPORTS"
+    ],
+    "score": [
+     0,
+     0
+    ],
+    "map": "Samoa",
+    "initial": {
+     "team": "Crazy Raccoon",
+     "hero": "x"
+    },
+    "followUp": {
+     "team": "SEIJI ESPORTS",
+     "hero": "y"
+    }
+   }
+  ],
+  [
+   1792754133,
+   {
+    "teams": [
+     "Crazy Raccoon",
+     "SEIJI ESPORTS"
+    ],
+    "score": [
+     1,
+     0
+    ],
+    "map": "Colosseo",
+    "initial": {
+     "team": "Crazy Raccoon",
+     "hero": "x"
+    },
+    "followUp": {
+     "team": "SEIJI ESPORTS",
+     "hero": "y"
+    }
+   }
+  ]
+ ]
+}
