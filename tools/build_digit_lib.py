@@ -1,4 +1,10 @@
-"""Seed data/digit_lib (bold digits of the series-score bar and the POTM card) from 1080p grabs of 2026-10-11."""
+"""Seed data/digit_lib (bold digits of the series-score bar and the POTM card) from 1080p grabs of 2026-10-11.
+
+These values contain no 6 and few 3/5/8/9, so assemble_day warns that the library is incomplete. To add samples:
+save a ban or POTM frame whose numbers show the missing digits as data/live/grab/<sec>_BAN.png / <sec>_POTM.png,
+add its true values below (scores: (left, right); potm: elims / deaths / dmgPerMin as strings) and run this again.
+Target: every digit 0-9 at least ocr_screens.DIGIT_MIN_SAMPLES times. Glyph counts that do not match the
+text are skipped and printed."""
 import cv2, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

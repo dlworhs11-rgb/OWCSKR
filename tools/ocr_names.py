@@ -1,5 +1,5 @@
 """Match player-name crops of a GAME DATA table against a library built from hand-labelled maps."""
-import cv2, numpy as np, json, glob, os
+import cv2, numpy as np, json, glob, os, sys
 X0, Y0 = 250, 95
 ROWS = [133, 198, 262, 327, 391, 530, 594, 658, 723, 787]
 NX = (600, 775)       # name column (crop coords x), measured from the 1080p crop
@@ -32,12 +32,28 @@ def match(lib, f, exclude_map=None):
     return best
 
 
+FEAT_SHAPE = (18, 96)
+
+
+def feat_png(f):
+    """name feature (float 0..1, 18x96) as the uint8 image stored in data/name_lib"""
+    return (f * 255).astype(np.uint8)
+
+
 def load_lib(path='data/name_lib'):
-    """[(name, feature, tag)] from data/name_lib/<Name>__<tag>.png"""
+    """[(name, feature, tag)] from data/name_lib/<Name>__<tag>.png; files that are not 96x18 name features
+    (e.g. a raw crop copied from unknown/) are skipped with a warning instead of breaking every match"""
     lib = []
     for f in glob.glob(os.path.join(path, '*.png')):
-        nm, tag = os.path.basename(f)[:-4].split('__', 1)
-        lib.append((nm, cv2.imread(f, cv2.IMREAD_GRAYSCALE).astype(np.float32) / 255, tag))
+        base = os.path.basename(f)[:-4]
+        if '__' not in base:
+            print(f'name_lib: skipped {f}: name is not <Name>__<tag>.png', file=sys.stderr); continue
+        nm, tag = base.split('__', 1)
+        im = cv2.imdecode(np.fromfile(f, np.uint8), cv2.IMREAD_GRAYSCALE)     # non-ASCII names on Windows
+        if im is None or im.shape != FEAT_SHAPE:
+            print(f'name_lib: skipped {f}: shape {None if im is None else im.shape}, expected {FEAT_SHAPE} '
+                  '(use tools/label_unknown.py to add names)', file=sys.stderr); continue
+        lib.append((nm, im.astype(np.float32) / 255, tag))
     return lib
 
 UNKNOWN_DIST = 175.0     # nearest-name distance above this = a name we have not seen yet

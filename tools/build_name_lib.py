@@ -1,7 +1,8 @@
 """(one-off) Seed the player-name crop library from the hand-checked maps and the OCR maps of 2026-10-11.
-Library = data/name_lib/<Name>__<tag>.png (binarised name crops). Add a new player by saving a crop with their name."""
+Library = data/name_lib/<Name>__<tag>.png (binarised name crops). Add a new player with tools/label_unknown.py (unknown/ crops of a capture day)."""
 import cv2, json, os, sys, glob
 sys.path.insert(0, os.path.dirname(__file__))
+import ocr_header as H
 import ocr_names as N
 
 LIB = 'data/name_lib'
@@ -19,5 +20,5 @@ for m in gt['maps']:
     for r, nm in enumerate(names):
         feat, _ = N.name_feat(im, r)
         if feat is None: continue
-        cv2.imwrite(f'{LIB}/{nm}__{m["vodSec"]}_{r}.png', (feat * 255).astype('uint8')); n += 1
+        H.imwrite_u(f'{LIB}/{nm}__{m["vodSec"]}_{r}.png', N.feat_png(feat)); n += 1     # cv2.imwrite fails on non-ASCII names
 print('name crops saved:', n, '| distinct names:', len({os.path.basename(p).split('__')[0] for p in glob.glob(LIB + '/*.png')}))

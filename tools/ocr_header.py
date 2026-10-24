@@ -130,24 +130,47 @@ def load_header_lib(path=HEADER_LIB):
     return digits, maps
 
 
-def _nn(lib, f, exclude=None, blur=False):
-    best = (None, 1e9)
+def _nn2(lib, f, exclude=None, blur=False):
+    """-> (label, nearest distance, nearest distance of a different label); 1e9 when there is none"""
+    best = {}
     if blur: f = cv2.GaussianBlur(f, (5, 5), 1.2)
     for lb, arr, tag in lib:
         if exclude and tag.startswith(exclude): continue
         if blur: arr = cv2.GaussianBlur(arr, (5, 5), 1.2)
         d = float(((arr - f) ** 2).sum())
-        if d < best[1]: best = (lb, d)
-    return best
+        if d < best.get(lb, 1e9): best[lb] = d
+    if not best: return None, 1e9, 1e9
+    ranked = sorted(best.items(), key=lambda kv: kv[1])
+    return ranked[0][0], ranked[0][1], ranked[1][1] if len(ranked) > 1 else 1e9
+
+
+def _nn(lib, f, exclude=None, blur=False):
+    lb, d, _ = _nn2(lib, f, exclude, blur)
+    return lb, d
+
+
+AMBIGUOUS_RATIO = 0.7      # nearest / second-nearest label above this: the glyph sits between two digits, do not guess
+
+
+def read_number(digits, feats, exclude=None):
+    """-> (int | None, [(label, d1, d2)]); None when any glyph is ambiguous (10-23: 'MATCH 2' read as 1)"""
+    if not feats or not digits: return None, []
+    hits = [_nn2(digits, f, exclude, blur=True) for f in feats]
+    dists = [(lb, round(d1, 1), round(d2, 1)) for lb, d1, d2 in hits]
+    if any(lb is None or d1 > AMBIGUOUS_RATIO * d2 for lb, d1, d2 in hits): return None, dists
+    return int(''.join(lb for lb, _, _ in hits)), dists
 
 
 def read_header(im, lib=None, exclude=None):
-    """-> dict(match=int|None, game=int|None, map=str|None ('?' if unknown), mapTime='M:SS'|None)"""
+    """-> dict(match=int|None, game=int|None, map=str|None ('?' if unknown), mapTime='M:SS'|None,
+    matchDist/gameDist=[(label, nearest, 2nd nearest)], matchAmbiguous/gameAmbiguous=bool)"""
     digits, maps = lib or load_header_lib()
     p = header_parts(im); r = {'match': None, 'game': None, 'map': None, 'mapTime': None}
-    num = lambda fs: int(''.join(_nn(digits, f, exclude, blur=True)[0] for f in fs)) if fs and digits else None
-    if 'match' in p: r['match'], r['game'] = num(p['match']), num(p['game'])
-    if 'time' in p:
+    for k in ('match', 'game'):
+        if k not in p: continue
+        r[k], r[k + 'Dist'] = read_number(digits, p[k], exclude)
+        r[k + 'Ambiguous'] = r[k] is None and bool(r[k + 'Dist'])
+    if 'time' in p and digits:
         fs, nm = p['time']; s = ''.join(_nn(digits, f, exclude, blur=True)[0] for f in fs)
         r['mapTime'] = f'{int(s[:nm])}:{s[nm:]}' if len(s) == nm + 2 else None
     if 'map' in p and maps:
