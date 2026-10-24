@@ -15,8 +15,8 @@
 // like a core page, so the first run after it is added fetches it.
 // Prints 'ADDED <title>' per new page, 'ACTIVE+ <title>' / 'ACTIVE- <title>' per change of active.json, then
 // 'DISCOVER <today> added <n> active <n>'. Never removes pages from competitions.json. active.json = pages with a match
-// dated within today (KST) +-30 days, plus pages of this year or later with no dated match yet or undated matches still
-// to play (just announced). Pages without a data/lp file (missing on Liquipedia, just added) are left out: --active-only
+// dated within today (KST) +-30 days, plus pages of this year or later with no dated match yet, or with undated matches
+// still to play while their last dated match is at most 30 days old (unused TBD slots of a finished bracket drop out). Pages without a data/lp file (missing on Liquipedia, just added) are left out: --active-only
 // fetches them anyway. Same input -> same output (files are rewritten only when they change).
 // Exit code: 0 ok, 3 Node without fetch, 1 crash. A page that failed (ERR / SHRINK / 429 / missing page that had
 // matches) or a --discover request that failed is logged ('ERR', 'SHRINK', 'STOP') and recorded in _status.json, and
@@ -174,7 +174,7 @@ export function nextOf(text) {
 export const tabLinksOf = text => [...(text || '').matchAll(/\|\s*link\d+\s*=\s*([^|\n}]+)/g)].map(m => normTitle(m[1]));
 
 // pages to keep re-reading: a match dated within today +-days (KST), or (page of this year or later) nothing dated yet /
-// undated matches still to play: announced, schedule not out. pages: title -> matches of its data/lp file or null.
+// undated matches still to play while its last dated match is at most 'days' old: announced, schedule not out. pages: title -> matches of its data/lp file or null.
 // null (no file: missing on Liquipedia, or not fetched yet) is not listed: --active-only fetches such a page anyway, and
 // a missing overview page ('2026/Asia/Stage 3') listed for the whole year substring-matches every page of its stage
 export function computeActive({ titles, pages, today, days = 30 }) {
@@ -185,7 +185,11 @@ export function computeActive({ titles, pages, today, days = 30 }) {
     if (!ms || !t.startsWith('Overwatch ')) return false;   // only full titles: they match exactly (isActiveTitle)
     if (ms.some(m => m.date && kstDay(m.date) >= lo && kstDay(m.date) <= hi)) return true;
     if (yearOf(t) < year) return false;
-    return !ms.some(m => m.date) || ms.some(m => !m.date && !m.played);
+    const last = ms.filter(m => m.date).map(m => kstDay(m.date)).sort().at(-1);
+    if (!last) return true;   // announced, nothing scheduled yet: Liquipedia dates the matches once the schedule is out
+    // undated matches still to play keep the page only while its schedule runs (last dated match not over 'days' ago):
+    // after that they are bracket slots nobody will play (RC-17), not matches to wait for until the end of the year
+    return last >= lo && ms.some(m => !m.date && !m.played);
   });
 }
 

@@ -170,8 +170,9 @@ test('computeActive: dated within +-30 days (KST), or this year and nothing date
   };
   const titles = Object.keys(pages);
   const active = computeActive({ titles, pages, today: '2026-10-24' });
+  // '2026/Asia/Stage 3/Championship/Korea' (last dated match 08-01, one TBD slot left) is no longer active (RC-17)
   assert.deepEqual(active, [OCS + '2026/Asia/Stage 3/Korea/Regular Season', OCS + '2026/Asia/Stage 3/Korea', OCS + '2026/World Finals',
-    OCS + '2026/Asia/Stage 3/Championship/Korea', OCS + '2027/Champions Clash', OCS + '2026/Edge In']);
+    OCS + '2027/Champions Clash', OCS + '2026/Edge In']);
   // the missing '2026/Asia/Stage 3' overview would substring-match (cloud_live, --active-only) every page of the stage
   assert.ok(!active.includes(OCS + '2026/Asia/Stage 3') && !active.includes(OCS + '2027/Asia/Stage 1/Korea'));
   assert.deepEqual(computeActive({ titles, pages, today: '2026-10-24' }), active);   // pure: same input, same list
@@ -180,6 +181,22 @@ test('computeActive: dated within +-30 days (KST), or this year and nothing date
   assert.deepEqual(computeActive({ titles: ['2026/Asia/Stage 3/Korea'], pages: { '2026/Asia/Stage 3/Korea': [] }, today: '2026-10-24' }), []);
   // new year: last year's pages with nothing dated or undated matches left drop out
   assert.deepEqual(computeActive({ titles, pages, today: '2027-01-20' }), [OCS + '2027/Champions Clash']);
+});
+
+test('computeActive: undated matches to play keep a page only while its last dated match is at most 30 days old (RC-17)', () => {
+  const m = (date, played = true) => ({ date, played });
+  const P = n => OCS + '2026/P' + n;
+  const pages = {
+    [P(1)]: [m('2026-08-01T18:00:00+09:00'), m(null, false)],                                  // bracket over in August: out
+    [P(2)]: [m('2026-09-20T18:00:00+09:00'), m(null, false)],                                  // 34 days ago (window 09-24): out
+    [P(3)]: [m('2026-09-24T18:00:00+09:00'), m(null, false)],                                  // 30 days ago, inside the window anyway
+    [P(4)]: [m('2026-12-20T18:00:00+09:00', false), m(null, false)],                           // schedule ahead: TBD slots wait
+    [P(5)]: [m(null, false), m(null, false)],                                                  // announced, nothing dated: in
+    [P(6)]: [m('2026-12-20T18:00:00+09:00', false)],                                           // dated, out of window, no TBD: out
+  };
+  assert.deepEqual(computeActive({ titles: Object.keys(pages), pages, today: '2026-10-24' }), [P(3), P(4), P(5)]);
+  // the same pages a month later: the September page drops out too, the December one is inside the window
+  assert.deepEqual(computeActive({ titles: Object.keys(pages), pages, today: '2026-11-24' }), [P(4), P(5), P(6)]);
 });
 
 test('discoverCandidates: |next= of the newest Korea page and the page list of this year and next', async () => {
