@@ -61,3 +61,23 @@ def test_classify_rejects_frame_without_title():
 def test_shifted_window_clips_to_frame():
     fw, rw = SM.shifted(SM.BODY, 0, 100, (540, 960))
     assert fw[0] == slice(210, 540) and rw[0] == slice(110, 440)
+
+
+def old_title_score(img, ref_t):
+    """live_capture.classify's title check: one TM_CCOEFF_NORMED value at offset (0, 0)"""
+    s = cv2.resize(img, (960, 540), interpolation=cv2.INTER_AREA)
+    return float(cv2.matchTemplate(s[SM.TITLE], ref_t[SM.TITLE], cv2.TM_CCOEFF_NORMED)[0][0])
+
+
+@pytest.mark.parametrize('img', [REF_T, REF_S, shift(REF_T, 1, 0), shift(REF_T, 3, -2), page(4, title=False),
+                                 cv2.resize(REF_T, (1920, 1080), interpolation=cv2.INTER_CUBIC)])
+def test_parity_with_old_classify(img):
+    # search=0 is exactly the old score; with search the score can only rise, so nothing the old check accepted is lost
+    old = old_title_score(img, REF_T)
+    assert SM.locate(SM.small(img), REF_T, SM.TITLE, search=0)[0] == pytest.approx(old, abs=1e-6)
+    assert SM.locate(SM.small(img), REF_T, SM.TITLE)[0] >= old - 1e-6
+
+
+def test_aligned_reference_scores_one_at_offset_zero():
+    assert SM.classify_gamedata(REF_T, REF_T, REF_S) == ('TABLE', pytest.approx(1.0, abs=1e-5), (0, 0))
+    assert SM.classify_gamedata(REF_S, REF_T, REF_S)[0] == 'TOTALS'
