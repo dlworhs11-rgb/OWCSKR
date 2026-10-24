@@ -2,7 +2,8 @@
 
 They are trained on the hand-checked maps of 2026-10-11 (data/manual/mapstats/2026-10-11.json) and the matching
 broadcast frames under data/vod (local only, not in git). Each .npz carries a hash of those inputs:
-- training frames present: the cache is used while the hash matches, otherwise rebuilt
+- training frames present: the cache is used while the hash matches, otherwise rebuilt; when a training frame cannot be
+  read (broken copy, half-written file) a cache that exists is used with a warning instead of failing the OCR run
 - training frames absent (the server): the cache is used as it is - build it on the PC and copy data/models/*.npz over
 - neither: ModelError
 
@@ -30,6 +31,10 @@ KINDS = ('table', 'totals')
 
 class ModelError(RuntimeError):
     pass
+
+
+class UnreadableFrame(ModelError):
+    """a training frame is on disk but cv2 cannot decode it"""
 
 
 def model_path(kind: str, root: str = ROOT) -> str:
@@ -64,7 +69,7 @@ def _imread(path: str):
     import cv2
     im = cv2.imread(path)
     if im is None:
-        raise ModelError(f'cannot read training frame {path}')
+        raise UnreadableFrame(f'cannot read training frame {path}')
     return im
 
 
@@ -149,6 +154,16 @@ def _build(root: str, gt: str, tables: list, tots: list, digest: str, log) -> tu
     return mt, mo
 
 
+def _rebuild_or_cache(root: str, gt: str, tables: list, tots: list, digest: str, cached: list, rebuild: bool, log) -> tuple:
+    """_build, or the existing cache (with a warning) when a training frame is unreadable; an explicit --rebuild fails"""
+    try:
+        return _build(root, gt, tables, tots, digest, log)
+    except UnreadableFrame as e:
+        if rebuild or not all(cached): raise
+        log(f'glyph models: WARNING {e} - using the existing cache (data/models/*.npz) instead')
+        return tuple(c[0] for c in cached)
+
+
 def get_models(root: str = ROOT, log=print, rebuild: bool = False) -> tuple:
     """(table model, totals model): cached when possible, trained when the cache is stale; ModelError if neither works"""
     gt, tables, tots = training_inputs(root)
@@ -160,7 +175,7 @@ def get_models(root: str = ROOT, log=print, rebuild: bool = False) -> tuple:
             models = tuple(c[0] for c in cached)
         else:
             log('glyph models: training inputs changed or no cache - rebuilding')
-            models = _build(root, gt, tables, tots, digest, log)
+            models = _rebuild_or_cache(root, gt, tables, tots, digest, cached, rebuild, log)
     elif all(cached):
         models = tuple(c[0] for c in cached)              # server: frames not here, cache copied from the PC
     else:
