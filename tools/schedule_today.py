@@ -133,13 +133,17 @@ def capture_props(hours: float) -> list[str]:
             'RestartPreventExitStatus=2 4', 'TimeoutStopSec=5min']
 
 
+def utc_calendar(when: datetime.datetime) -> str:
+    return when.astimezone(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
+
+
 def systemd_run(unit: str, desc: str, argv: list[str], props: list[str], when: datetime.datetime | None = None,
                 timer_props: tuple[str, ...] = ()) -> subprocess.CompletedProcess:
-    """transient service (with a timer at WHEN, else started now). WHEN goes as this machine's wall time: the check
-    times are computed in KST, so a server on UTC would otherwise get them 9 hours off."""
+    """transient service (with a timer at WHEN, else started now). WHEN goes in UTC with its zone named: right
+    whatever this machine's zone, and never ambiguous (a local wall time in a DST fall-back hour can mean two times)."""
     cmd = ['systemd-run', '--user', '--unit', unit, '--description', desc]
     if when is not None:
-        cmd += ['--on-calendar', when.astimezone().strftime('%Y-%m-%d %H:%M:%S'), '--timer-property=AccuracySec=1s']
+        cmd += ['--on-calendar', utc_calendar(when), '--timer-property=AccuracySec=1s']
         cmd += [f'--timer-property={p}' for p in timer_props]
     cmd += ['--working-directory', ROOT]
     for p in props:

@@ -94,7 +94,7 @@ def test_register_systemd_command_line(linux):
     assert S.register_systemd(DAY, start, 6.2) == 'registered'
     (cmd,) = linux.runs(UNIT)
     assert cmd[:4] == ['systemd-run', '--user', '--unit', UNIT]
-    assert cmd[cmd.index('--on-calendar') + 1] == start.strftime('%Y-%m-%d %H:%M:%S')
+    assert cmd[cmd.index('--on-calendar') + 1] == start.astimezone(datetime.timezone.utc).strftime('%Y-%m-%d %H:%M:%S UTC')
     assert cmd[-4:] == ['/bin/bash', os.path.join(S.ROOT, 'tools', 'run_live.sh'), '6.2', DAY]
     p = props(cmd)
     assert S.ENV_PROP in p and S.ENV_PROP.startswith('EnvironmentFile=-')
@@ -169,8 +169,8 @@ def test_future_day_registers_capture_and_checks(linux):
     soop, = linux.runs(f'owcskr-soop-{DAY}')
     fresh, = linux.runs(f'owcskr-fresh-{DAY}')
     first = datetime.datetime.fromisoformat(f'{DAY}T15:00:00+09:00')
-    assert check[check.index('--on-calendar') + 1] == (first - datetime.timedelta(minutes=5)).astimezone().strftime('%Y-%m-%d %H:%M:%S')
-    assert soop[soop.index('--on-calendar') + 1] == (first + datetime.timedelta(minutes=2)).astimezone().strftime('%Y-%m-%d %H:%M:%S')
+    assert check[check.index('--on-calendar') + 1] == S.utc_calendar(first - datetime.timedelta(minutes=5))
+    assert soop[soop.index('--on-calendar') + 1] == S.utc_calendar(first + datetime.timedelta(minutes=2))
     assert check[-1].endswith('matchday_check.py') and soop[-1].endswith('soop_quality.py')
     assert fresh[-1].endswith('healthcheck.py') and '--timer-property=OnUnitActiveSec=30min' in fresh
     for cmd in (check, soop, fresh):
@@ -266,6 +266,10 @@ def test_windows_check_tasks(win):
     assert f"'Freshness_{DAY}'" in script and '-RepetitionInterval (New-TimeSpan -Minutes 30)' in script
     assert S.register_check_win('check', DAY, when, 'matchday_check.py', 0, when) == 'registered'
     assert f"'MatchdayCheck_{DAY}'" in fake.calls[-1][-1] and 'Repetition' not in fake.calls[-1][-1]
+
+
+def test_calendar_time_is_utc():
+    assert S.utc_calendar(datetime.datetime.fromisoformat('2026-11-01T17:50:00+09:00')) == '2026-11-01 08:50:00 UTC'
 
 
 def test_powershell_quoting():
