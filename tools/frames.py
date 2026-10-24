@@ -94,7 +94,9 @@ def ffmpeg_cmd(url: str, headers: dict | None = None, interval: float = 5, size:
     instead of stretching: normalize() then sees any non-16:9 content as bars and crops them, which it could not undo
     after a stretch. Normal case (16:9 source) = one bicubic scale here, normalize() is a no-op."""
     w, h = size
-    cmd = [ffmpeg or ffmpeg_bin(), '-hide_banner', '-loglevel', 'error', '-nostdin']
+    # warning, not error: ffmpeg logs HTTP 4xx ("HTTP error 403 Forbidden", "Failed to open segment") at warning
+    # level and then exits 0, so at 'error' the 403 check never fired and last_error carried no reason at all
+    cmd = [ffmpeg or ffmpeg_bin(), '-hide_banner', '-loglevel', 'warning', '-nostats', '-nostdin']
     if url.startswith(('http://', 'https://')):
         cmd += ['-rw_timeout', '15000000']       # a dead HTTP read errors out after 15 s instead of hanging forever
         safe = {k: v for k, v in (headers or {}).items() if not re.search(r'[\r\n]', f'{k}{v}')}
@@ -131,7 +133,7 @@ def backoff_delay(failures: int, base: float = 2.0, cap: float = 60.0) -> float:
     return min(cap, base * 2 ** max(0, failures - 1))
 
 
-FORBIDDEN = re.compile(rb'\b403\b')
+FORBIDDEN = re.compile(rb'HTTP error 403|403 Forbidden')     # not a bare 403: 'Failed to open segment 403 of playlist 0'
 
 
 class HlsFrames:

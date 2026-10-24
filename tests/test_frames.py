@@ -318,3 +318,64 @@ def test_real_ffmpeg_pads_4x3_then_normalize_warns(tmp_path, monkeypatch):
         assert wait_until(lambda: src.frames >= 1, timeout=60), src.last_error
         f = src.grab(max_age=60)
         assert f[:, :200].max() < 20 and f[:, -200:].max() < 20       # 4:3 padded, not stretched
+
+
+class LiveHls:
+    """local 'live' HLS server over pre-made 1 s segments: sliding playlist, Referer required like SOOP.
+    mode: ok | forbid (segments 403, as when the token expired)"""
+    def __init__(self, seg_dir):
+        import http.server
+        self.dir, self.mode, self.t0, self.requests = seg_dir, 'ok', time.time(), []
+        self.n = len([f for f in os.listdir(seg_dir) if f.endswith('.ts')])
+        live = self
+
+        class H(http.server.BaseHTTPRequestHandler):
+            def log_message(self, *a): pass
+            def do_GET(self):
+                live.requests.append((self.path, self.headers.get('Referer')))
+                if self.headers.get('Referer') != F.REFERER: return self.send(403, b'')
+                if self.path.startswith('/live.m3u8'): return self.send(200, live.playlist())
+                if self.path.endswith('.ts') and live.mode == 'ok':
+                    with open(os.path.join(live.dir, self.path.lstrip('/')), 'rb') as f: return self.send(200, f.read())
+                self.send(403 if live.mode == 'forbid' else 404, b'')
+            def send(self, code, body):
+                self.send_response(code); self.send_header('Content-Length', str(len(body))); self.end_headers()
+                self.wfile.write(body)
+
+        self.srv = http.server.ThreadingHTTPServer(('127.0.0.1', 0), H)
+        self.url = f'http://127.0.0.1:{self.srv.server_address[1]}/live.m3u8'
+        threading.Thread(target=self.srv.serve_forever, daemon=True).start()
+
+    def playlist(self):
+        k = min(int(time.time() - self.t0) + 3, self.n - 1)
+        return ('#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:1\n#EXT-X-MEDIA-SEQUENCE:%d\n' % (k - 3) +
+                ''.join('#EXTINF:1.0,\ns%03d.ts\n' % i for i in range(k - 3, k + 1))).encode()
+
+    def close(self): self.srv.shutdown(); self.srv.server_close()
+
+
+@pytest.fixture
+def live_hls(tmp_path):
+    r = subprocess.run([FFMPEG, '-hide_banner', '-loglevel', 'error', '-f', 'lavfi', '-i', 'testsrc=size=640x360:rate=10:duration=40',
+                        '-c:v', 'libx264', '-g', '10', '-pix_fmt', 'yuv420p', '-f', 'hls', '-hls_time', '1', '-hls_list_size', '0',
+                        '-hls_segment_filename', str(tmp_path / 's%03d.ts'), str(tmp_path / 'vod.m3u8')], capture_output=True, timeout=120)
+    assert r.returncode == 0, r.stderr
+    srv = LiveHls(str(tmp_path))
+    yield srv
+    srv.close()
+
+
+@pytest.mark.skipif(not FFMPEG, reason='ffmpeg not installed (set FFMPEG_CMD to run)')
+def test_real_ffmpeg_live_hls_headers_reach_segments_and_403_restarts(live_hls, monkeypatch):
+    monkeypatch.setenv('FFMPEG_CMD', FFMPEG)
+    resolver = lambda: (live_hls.url, {'Referer': F.REFERER, 'User-Agent': 'UA'}, {})
+    with F.HlsFrames(interval=0.5, size=(320, 180), resolver=resolver, stall_after=20, startup_grace=20, backoff=(0.2, 0.5)) as src:
+        assert wait_until(lambda: src.frames >= 2, timeout=30), src.last_error
+        assert any(p.endswith('.ts') for p, _ in live_hls.requests)          # the server 403s segments without Referer
+        assert src.grab().shape == (180, 320, 3) and src.restarts == 0
+        live_hls.mode = 'forbid'
+        assert wait_until(lambda: src.restarts >= 1, timeout=30)
+        assert '403' in src.last_error, src.last_error                        # read from real ffmpeg stderr
+        live_hls.mode = 'ok'
+        n = src.frames
+        assert wait_until(lambda: src.frames > n, timeout=30), src.last_error
