@@ -22,7 +22,7 @@ from collections.abc import Callable
 import cv2, numpy as np
 
 W, H = 1920, 1080
-CHANNEL_URL = 'https://play.sooplive.com/{}'     # the yt-dlp SOOP live extractor does not match the /embed player URL
+CHANNEL_URL = 'https://play.sooplive.com/{}'     # canonical page; yt-dlp also takes the /embed URL but then sends it as Referer
 REFERER = 'https://play.sooplive.com/'           # SOOP's HLS server refuses playlist/segment requests without it
 
 
@@ -41,18 +41,32 @@ def _tail(text: str | bytes, n: int = 600) -> str:
 
 # ---------------------------------------------------------------- resolve
 
+def channel_page(url: str) -> str:
+    """'owesports', the play page or its /embed?autoPlay=... player URL -> the canonical play page"""
+    m = re.match(r'https?://play\.sooplive\.com/([^/?#]+)', url)
+    if m: return CHANNEL_URL.format(m.group(1))
+    return url if url.startswith('http') else CHANNEL_URL.format(url)
+
+
+def _is_video(f: dict) -> bool:
+    """audio-only HLS renditions: vcodec 'none', or (no CODECS in the playlist) only video_ext / resolution say so"""
+    return bool(f.get('url')) and f.get('vcodec') != 'none' and f.get('video_ext') != 'none' \
+        and f.get('resolution') != 'audio only'
+
+
 def _video_formats(info: dict) -> list[dict]:
     fmts = info.get('formats') or ([info] if info.get('url') else [])
-    return [f for f in fmts if f.get('url') and f.get('vcodec') != 'none']
+    return [f for f in fmts if _is_video(f)]
 
 
 def pick_format(info: dict, max_height: int = 1080) -> dict:
-    """best video format with height <= max_height (unknown height counts as fitting); else the smallest one"""
+    """best video format with height <= max_height (unknown height counts as fitting); else the smallest one.
+    Ties (no height / tbr, e.g. a media playlist without RESOLUTION) go to the later one: yt-dlp lists worst -> best."""
     fmts = _video_formats(info)
     if not fmts: raise ResolveError('yt-dlp returned no video formats')
-    key = lambda f: (f.get('height') or 0, f.get('tbr') or 0)
-    fit = [f for f in fmts if (f.get('height') or 0) <= max_height]
-    return max(fit, key=key) if fit else min(fmts, key=key)
+    key = lambda i: (fmts[i].get('height') or 0, fmts[i].get('tbr') or 0, i)
+    fit = [i for i, f in enumerate(fmts) if (f.get('height') or 0) <= max_height]
+    return fmts[max(fit, key=key) if fit else min(range(len(fmts)), key=key)]
 
 
 def format_summary(info: dict) -> list[dict]:
@@ -63,7 +77,7 @@ def resolve_hls(channel: str = 'owesports', max_height: int = 1080, timeout: flo
                 run: Callable = subprocess.run) -> tuple[str, dict, dict]:
     """(hls_url, http_headers, info) for a SOOP live channel (or any page URL yt-dlp understands).
     info: format_id/width/height of the chosen format, is_live, title and a summary of all formats."""
-    page = channel if channel.startswith('http') else CHANNEL_URL.format(channel)
+    page = channel_page(channel)
     cmd = [ytdlp_bin(), '--no-warnings', '--no-playlist', '-J', page]
     try:
         r = run(cmd, capture_output=True, timeout=timeout, check=False)

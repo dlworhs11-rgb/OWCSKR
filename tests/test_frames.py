@@ -125,6 +125,19 @@ def test_resolve_falls_back_to_smallest_when_all_too_big():
     assert url == 'u540'
 
 
+def test_pick_format_without_heights_takes_yt_dlps_best():
+    # media playlists without RESOLUTION: no height / tbr at all; yt-dlp lists worst -> best
+    info = {'formats': [{'format_id': 'hls-0', 'url': 'low'}, {'format_id': 'hls-1', 'url': 'high'},
+                        {'format_id': 'aud', 'url': 'a', 'vcodec': None, 'resolution': 'audio only', 'video_ext': 'none'}]}
+    assert F.pick_format(info)['url'] == 'high'
+
+
+def test_channel_page_canonicalizes_the_embed_url():
+    assert F.channel_page('https://play.sooplive.com/owesports/embed?autoPlay=true&mutePlay=true') == 'https://play.sooplive.com/owesports'
+    assert F.channel_page('owesports') == F.channel_page('https://play.sooplive.com/owesports') == 'https://play.sooplive.com/owesports'
+    assert F.channel_page('https://example.com/v.m3u8') == 'https://example.com/v.m3u8'
+
+
 @pytest.mark.parametrize('run,msg', [
     (Run(rc=1, err=b'ERROR: [soop] owesports: The channel is not currently live'), 'not currently live'),
     (Run(out=b'not json'), 'no JSON'),
