@@ -486,7 +486,9 @@
    "seriesBefore": {
     "Team Falcons": 0,
     "T1": 0
-   }
+   },
+   "winner": "T1",
+   "winnerSource": "series score"
   }
  ],
  "matches": [
@@ -510,7 +512,9 @@
   {
    "match": "Team Falcons vs T1",
    "matchNo": 2,
-   "mapWins": {},
+   "mapWins": {
+    "T1": 1
+   },
    "potm": null
   }
  ],
@@ -703,6 +707,56 @@
   {
    "id": "?38",
    "map": "06",
+   "row": 9
+  },
+  {
+   "id": "?39",
+   "map": "07",
+   "row": 0
+  },
+  {
+   "id": "?40",
+   "map": "07",
+   "row": 1
+  },
+  {
+   "id": "?41",
+   "map": "07",
+   "row": 2
+  },
+  {
+   "id": "?42",
+   "map": "07",
+   "row": 3
+  },
+  {
+   "id": "?43",
+   "map": "07",
+   "row": 4
+  },
+  {
+   "id": "?44",
+   "map": "07",
+   "row": 5
+  },
+  {
+   "id": "?45",
+   "map": "07",
+   "row": 6
+  },
+  {
+   "id": "?46",
+   "map": "07",
+   "row": 7
+  },
+  {
+   "id": "?47",
+   "map": "07",
+   "row": 8
+  },
+  {
+   "id": "?48",
+   "map": "07",
    "row": 9
   }
  ],
