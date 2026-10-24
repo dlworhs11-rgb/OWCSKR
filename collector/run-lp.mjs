@@ -52,14 +52,18 @@ export async function collectPage(title, { page, prev, write }) {
     return { ...st, ok: true, matches: 0, played: 0, dateless: 0, missing: true };
   }
   const stats = {};
-  const matches = parseMatches(p.text, title, stats);
+  let matches;
+  // a page the parser chokes on, or a file that cannot be replaced (Windows: open elsewhere), fails this page, not the run
+  try { matches = parseMatches(p.text, title, stats); }
+  catch (e) { console.log('ERR', title, 'parse:', e.message); return { ...st, error: 'parse: ' + e.message }; }
   const played = matches.filter(m => m.played).length;
   Object.assign(st, { matches: matches.length, played, dateless: stats.dateless });
   if (before && matches.length < before * 0.5) {
     console.log('SHRINK', title, before, '->', matches.length, '(old file kept)');
     return { ...st, shrinkFrom: before, error: `shrink ${before} -> ${matches.length}` };
   }
-  await write(file, { title, matches });
+  try { await write(file, { title, matches }); }
+  catch (e) { console.log('ERR', title, 'write:', e.message); return { ...st, error: 'write: ' + e.message }; }
   console.log(String(matches.length).padStart(4), 'matches', String(played).padStart(4), 'played', title, stats.dateless ? `(${stats.dateless} dateless)` : '');
   return { ...st, ok: true };
 }

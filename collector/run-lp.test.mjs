@@ -52,6 +52,18 @@ test('collectPage: fetch errors and missing pages that had matches fail, a never
   await assert.rejects(collectPage(t, { ...s, page: async () => { throw new RateLimited('60'); } }), RateLimited);
 });
 
+test('collectAll: a page that cannot be parsed or written fails alone, the next pages are still collected', async () => {
+  const s = store();
+  const write = async (f, d) => { if (f === fileOf('W')) throw Object.assign(new Error('EPERM: operation not permitted, rename'), { code: 'EPERM' }); s.files[f] = d; };
+  const page = async t => ({ text: t === 'P' ? null : DATES });
+  const [r, log] = await quiet(() => collectAll(['P', 'W', 'OK'], undefined, { prev: s.prev, write, page }));
+  assert.equal(r.failures, 2);
+  assert.equal(r.results.P.ok, false); assert.match(r.results.P.error, /^parse: /);
+  assert.equal(r.results.W.ok, false); assert.match(r.results.W.error, /^write: EPERM/); assert.equal(r.results.W.matches, 5);
+  assert.equal(r.results.OK.ok, true); assert.equal(s.files[fileOf('OK')].matches.length, 5);
+  assert.ok(log.some(l => l.startsWith('ERR W write:')));
+});
+
 test('collectAll: a 429 stops the run, counts as a failure and leaves later pages alone', async () => {
   const s = store(); const asked = [];
   const page = async t => { asked.push(t); if (t === 'B') throw new RateLimited('30'); return { text: DATES }; };
