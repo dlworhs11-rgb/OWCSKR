@@ -346,9 +346,12 @@ def _bars(gray: np.ndarray, axis: int, black: float, max_std: float) -> tuple[in
     return _edge_run(dark), _edge_run(dark[::-1])
 
 
-def find_content(img: np.ndarray, black: float = 20, max_std: float = 4.0, min_bar: float = 0.01) -> tuple[int, int, int, int]:
+def find_content(img: np.ndarray, black: float = 20, max_std: float = 4.0, min_bar: float = 0.01,
+                 sym_tol: float = 0.01) -> tuple[int, int, int, int]:
     """(x0, y0, x1, y1) inside black bars. black=20 also catches TV-range black (16) left unconverted.
-    Bars thinner than min_bar of the side are ignored (encoder edge junk); bars leaving less than half are ignored."""
+    Bars thinner than min_bar of the side are ignored (encoder edge junk); so are bars leaving less than half, and a
+    pair whose two sides differ by more than sym_tol of the side (min 2 px): ffmpeg's pad and a source's own
+    letter/pillarbox are centred, a dark area on one side only is content (a panel on a black background)."""
     h, w = img.shape[:2]
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     top, bottom = _bars(gray, 1, black, max_std)
@@ -356,38 +359,85 @@ def find_content(img: np.ndarray, black: float = 20, max_std: float = 4.0, min_b
     def axis(a: int, b: int, side: int) -> tuple[int, int]:
         if a < min_bar * side: a = 0
         if b < min_bar * side: b = 0
-        return (0, side) if side - a - b < side / 2 else (a, side - b)
+        if side - a - b < side / 2 or abs(a - b) > max(2, sym_tol * side): return 0, side
+        return a, side - b
     y0, y1 = axis(top, bottom, h); x0, x1 = axis(left, right, w)
     return x0, y0, x1, y1
 
 
 def _as_bgr(frame: np.ndarray) -> np.ndarray:
     if frame is None or not isinstance(frame, np.ndarray) or frame.size == 0: raise ValueError('normalize: empty frame')
+    if frame.dtype != np.uint8: frame = np.clip(frame, 0, 255).astype(np.uint8)
     if frame.ndim == 2: return cv2.cvtColor(frame, cv2.COLOR_GRAY2BGR)
     if frame.ndim == 3 and frame.shape[2] == 4: return cv2.cvtColor(frame, cv2.COLOR_BGRA2BGR)
     if frame.ndim == 3 and frame.shape[2] == 3: return frame
     raise ValueError(f'normalize: unsupported frame shape {frame.shape}')
 
 
-def normalize(frame: np.ndarray, aspect_tol: float = 0.03) -> tuple[np.ndarray, dict]:
-    """-> (1920x1080 BGR, info). info: src (w, h), crop (x0, y0, x1, y1) in source pixels, scale (sx, sy) source->1080,
-    aspect of the kept area, warn (None or why the result may be distorted).
-    A crop is only taken when it leaves ~16:9 (the broadcast itself is always 16:9): dark-but-uniform edges of a 16:9
-    frame (fade, dark scene) are kept, so dark content is never cut."""
-    img = _as_bgr(frame)
-    if img.dtype != np.uint8: img = np.clip(img, 0, 255).astype(np.uint8)
+def _aspect_ok(box: tuple[int, int, int, int], tol: float) -> bool:
+    return abs(((box[2] - box[0]) / (box[3] - box[1])) / (W / H) - 1) <= tol
+
+
+def choose_crop(img: np.ndarray, aspect_tol: float = 0.03) -> tuple[tuple[int, int, int, int], str | None]:
+    """(crop box, warn) normalize() would use for this BGR frame"""
     h, w = img.shape[:2]
-    full, target, warn = (0, 0, w, h), W / H, None
-    box = find_content(img)
-    ok = lambda b: abs(((b[2] - b[0]) / (b[3] - b[1])) / target - 1) <= aspect_tol
-    if box != full and not ok(box):
-        if ok(full): box, warn = full, 'dark edges look like bars but cropping would break 16:9 - kept'
-        else: warn = f'aspect {(box[2] - box[0]) / (box[3] - box[1]):.3f} after crop, not 16:9 - stretched'
-    elif box == full and not ok(full):
-        warn = f'aspect {w / h:.3f}, not 16:9 - stretched'
+    full, box = (0, 0, w, h), find_content(img)
+    if box != full and not _aspect_ok(box, aspect_tol):
+        if _aspect_ok(full, aspect_tol): return full, 'dark edges look like bars but cropping would break 16:9 - kept'
+        return box, f'aspect {(box[2] - box[0]) / (box[3] - box[1]):.3f} after crop, not 16:9 - stretched'
+    if box == full and not _aspect_ok(full, aspect_tol): return full, f'aspect {w / h:.3f}, not 16:9 - stretched'
+    return box, None
+
+
+def normalize(frame: np.ndarray, aspect_tol: float = 0.03, box: tuple[int, int, int, int] | None = None
+              ) -> tuple[np.ndarray, dict]:
+    """-> (1920x1080 BGR, info). info: src (w, h), crop (x0, y0, x1, y1) in source pixels, scale (sx, sy) source->1080,
+    aspect of the kept area, warn (None or why the result may be distorted). box: use this crop instead of detecting.
+    A crop is only taken when it leaves ~16:9 (the broadcast itself is always 16:9) and its bars are centred: dark
+    edges of a 16:9 frame (fade, dark scene) are kept, so dark content is not cut. A centred 16:9 picture on black
+    still is: for a stream use StableCrop, which only follows a crop that lasts."""
+    img = _as_bgr(frame)
+    h, w = img.shape[:2]
+    if box is None: box, warn = choose_crop(img, aspect_tol)
+    else: box, warn = _clip_box(box, w, h), None
     x0, y0, x1, y1 = box
     cw, ch = x1 - x0, y1 - y0
     out = img[y0:y1, x0:x1]
     if (cw, ch) != (W, H): out = cv2.resize(out, (W, H), interpolation=cv2.INTER_CUBIC)   # same interpolation as the dictionaries
     info = {'src': (w, h), 'crop': box, 'scale': (W / cw, H / ch), 'aspect': round(cw / ch, 4), 'warn': warn}
     return np.ascontiguousarray(out), info
+
+
+def _clip_box(box: tuple[int, int, int, int], w: int, h: int) -> tuple[int, int, int, int]:
+    x0, y0, x1, y1 = (int(v) for v in box)
+    x0, y0 = min(max(0, x0), w - 1), min(max(0, y0), h - 1)
+    return x0, y0, min(max(x0 + 1, x1), w), min(max(y0 + 1, y1), h)
+
+
+def _near(a: tuple | None, b: tuple | None, px: int) -> bool:
+    return a is not None and b is not None and all(abs(p - q) <= px for p, q in zip(a, b))
+
+
+class StableCrop:
+    """normalize() for a stream. Real bars (ffmpeg's pad, a non-16:9 source) are the same on every frame; a fade to
+    black or a 16:9 picture on a black screen lasts a few frames. A crop other than the current one is therefore taken
+    only after choose_crop() found it (within jitter px) in `hold` consecutive frames. Starts uncropped."""
+
+    def __init__(self, hold: int = 3, aspect_tol: float = 0.03, jitter: int = 4):
+        self.hold, self.aspect_tol, self.jitter = hold, aspect_tol, jitter
+        self.box: tuple[int, int, int, int] | None = None
+        self._cand: tuple[int, int, int, int] | None = None
+        self._n, self._size = 0, None
+
+    def __call__(self, frame: np.ndarray) -> tuple[np.ndarray, dict]:
+        img = _as_bgr(frame)
+        h, w = img.shape[:2]
+        if (w, h) != self._size: self.box, self._size, self._cand = (0, 0, w, h), (w, h), None   # first frame / new size
+        found, warn = choose_crop(img, self.aspect_tol)
+        self._n = self._n + 1 if _near(found, self._cand, self.jitter) else 1
+        self._cand = found
+        if not _near(found, self.box, self.jitter) and self._n >= self.hold: self.box = found
+        out, info = normalize(img, box=self.box)
+        held = not _near(found, self.box, self.jitter)
+        info.update(found=found, warn=f'crop {found} seen {self._n}/{self.hold} times - kept {self.box}' if held else warn)
+        return out, info

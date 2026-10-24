@@ -95,6 +95,51 @@ def test_normalize_4x3_warns():
     assert info['warn'] and 'stretched' in info['warn']
 
 
+def panel_on_black(x0, y0, w, h):
+    img = np.zeros((1080, 1920, 3), np.uint8); img[y0:y0 + h, x0:x0 + w] = content(w, h)
+    return img
+
+
+def test_normalize_keeps_off_centre_16x9_panel_on_black():
+    # a 16:9 graphic in the top-left of a black screen used to be zoomed by 11 %, moving every reader's boxes
+    _, info = F.normalize(panel_on_black(0, 0, 1728, 972))
+    assert info['crop'] == (0, 0, 1920, 1080)
+
+
+def test_normalize_crops_bars_with_compression_noise():
+    rng = np.random.default_rng(3)
+    img = np.clip(rng.normal(16, 1.5, (1080, 1920, 3)), 0, 255).astype(np.uint8)   # TV-range black, not perfectly flat
+    img[:, 240:1680] = content(1440, 1080)[:, :1440]
+    img[135:945, 240:1680] = content(1440, 810)                                     # 16:9 inside a 4:3 inside the pad
+    img[:135, 240:1680] = img[945:, 240:1680] = 16
+    _, info = F.normalize(img)
+    assert info['crop'] == (240, 135, 1680, 945) and info['warn'] is None
+
+
+def test_normalize_with_given_box():
+    img = panel_on_black(160, 90, 1600, 900)
+    out, info = F.normalize(img, box=(160, 90, 1760, 990))
+    assert info['crop'] == (160, 90, 1760, 990) and info['scale'] == (1.2, 1.2) and out.shape == (1080, 1920, 3)
+    assert F.normalize(img, box=(-5, -5, 5000, 5000))[1]['crop'] == (0, 0, 1920, 1080)
+
+
+def test_stable_crop_ignores_a_short_centred_picture_on_black():
+    sc, normal = F.StableCrop(hold=3), content(1920, 1080)
+    assert F.normalize(panel_on_black(160, 90, 1600, 900))[1]['crop'] == (160, 90, 1760, 990)   # alone it would zoom
+    for img in (normal, panel_on_black(160, 90, 1600, 900), panel_on_black(160, 90, 1600, 900), normal):
+        out, info = sc(img)
+        assert info['crop'] == (0, 0, 1920, 1080)
+    assert 'kept' in sc(panel_on_black(160, 90, 1600, 900))[1]['warn']
+
+
+def test_stable_crop_follows_lasting_bars_despite_jitter():
+    sc = F.StableCrop(hold=3)
+    crops = [sc(panel_on_black(96, 54 + j, 1728, 972 - 2 * j))[1]['crop'] for j in (0, 1, 0, 1, 0)]
+    assert crops[:2] == [(0, 0, 1920, 1080)] * 2 and crops[2] == (96, 54, 1824, 1026)
+    assert crops[3] == crops[4] == (96, 54, 1824, 1026)           # 1 px jitter does not re-frame
+    assert sc(content(1920, 1080))[1]['crop'] == (96, 54, 1824, 1026)   # nor does one frame without bars
+
+
 # ---------------------------------------------------------------- resolve
 
 class Run:
