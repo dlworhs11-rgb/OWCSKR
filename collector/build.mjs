@@ -1,3 +1,6 @@
+// data/lp/*.json + data/manual/* (players, aliases, replays, mapstats/<date>.json) -> data/site/{matches,player-stats,
+// team-stats,standings,players,potm,potm-unmatched}.json, the Korean-league data the site build (owcs-kr) reads.
+// usage: node collector/build.mjs   (from the repo root; run after run-lp.mjs)
 import fs from 'node:fs';
 import { knownPlayer, addPlayerRow, normPlayer, matchKeyOf, linkMapstat } from './util.mjs';
 const aliases = JSON.parse(fs.readFileSync('data/aliases.json', 'utf8'));

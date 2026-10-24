@@ -28,7 +28,7 @@ usage: python -I tools/live_capture.py [--source obs|hls] [--url URL] [--date YY
   an end-of-day summary is sent at the end
 exit: 0 ok, 1 unexpected error (the capture crashed: systemd restarts it), 2 self-check failed, OBS busy or a bad
       --source, 4 the capture ended (--until / idle stop / signal) but the final OCR / assemble / publish failed -
-      alerted, and a restart would only capture an empty stream until --until (not restarted: RestartPreventExitStatus=2 4)
+      alerted, and a restart would only capture an empty stream until --until (not restarted: RestartPreventExitStatus=2 4 78)
 """
 import argparse, asyncio, datetime, glob, hashlib, json, os, re, signal, subprocess, sys, time, traceback
 

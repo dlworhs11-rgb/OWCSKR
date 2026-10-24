@@ -1,8 +1,10 @@
 r"""Schedule today's (or a given day's) live capture from the Liquipedia match list.
 usage: python -I tools/schedule_today.py [YYYY-MM-DD | --upcoming] [--dry]
-Finds that day's Korean-league matches in data/site/matches.json (run collector/build.mjs first) and registers:
-  capture  10 minutes before the first match, until 3.5 hours after the last one (live_capture.py also stops by itself
-           when GAME DATA screens stop for 75 minutes); restarted after a crash, never past the planned end
+Finds that day's Korean-league matches in data/site/matches.json (run collector/build.mjs first) plus the playoff
+matches whose teams are still TBD (data/lp/*-korea.json, playoff_matches) and registers:
+  capture  10 minutes before the first match, until 3.5 hours after the last one's start (5 for a BO7; with guessed
+           start times every match's length is added up); live_capture.py also stops by itself when GAME DATA screens
+           stop for 75 minutes; restarted after a crash, never past the planned end
   check    tools/matchday_check.py 5 minutes before the first match
   soop     tools/soop_quality.py 2 minutes after the first match
   fresh    tools/healthcheck.py every 15 minutes from the capture start

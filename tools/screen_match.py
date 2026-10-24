@@ -1,9 +1,10 @@
 """Offset-tolerant template matching for broadcast screens (OCR-07).
 
-live_capture.classify / ocr_screens.screen_kind compare a window of the frame with the same window of a reference at
-offset (0, 0) only: a 2 px shift of the graphics drops the score below the threshold, 4 px makes it 0.27. Here the
-window is searched +-`search` px with matchTemplate + minMaxLoc, and the offset found is returned so readers can
-shift their own boxes by it.
+Comparing a window of the frame with the same window of a reference at offset (0, 0) only (what live_capture.classify
+and ocr_screens.screen_kind did before): a 2 px shift of the graphics drops the score below the threshold, 4 px makes
+it 0.27. Here the window is searched +-`search` px with matchTemplate + minMaxLoc, and the offset found is returned so
+readers can shift their own boxes by it (live_capture: +-16 px, shifts the saved GAME DATA frame; ocr_screens: +-12 px,
+detection only).
 
 All coordinates are on the 960x540 grid; multiply offsets by 2 for 1920x1080 crops (img.shape[1] / 960 in general).
 """

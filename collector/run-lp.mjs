@@ -18,10 +18,10 @@
 // dated within today (KST) +-30 days, plus pages of this year or later with no dated match yet, or with undated matches
 // still to play while their last dated match is at most 30 days old (unused TBD slots of a finished bracket drop out). Pages without a data/lp file (missing on Liquipedia, just added) are left out: --active-only
 // fetches them anyway. Same input -> same output (files are rewritten only when they change).
-// Exit code: 0 ok, 3 Node without fetch, 1 crash. A page that failed (ERR / SHRINK / 429 / missing page that had
-// matches) or a --discover request that failed is logged ('ERR', 'SHRINK', 'STOP') and recorded in _status.json, and
-// still exits 0 unless --strict is given, then 2 (owcs-kr cloud_live treats any nonzero exit as a failed build;
-// tools/run_daily.sh passes --strict). A failed page keeps its old data/lp file. 429 stops the run (Retry-After logged).
+// Exit code: 0 ok, 3 Node without fetch, 1 crash or a bad --accept-shrink. A page that failed (ERR / SHRINK / 429 /
+// missing page that had matches) is logged ('ERR', 'SHRINK', 'STOP') and recorded in _status.json; a --discover request
+// that failed is logged 'ERR' and writes nothing. Both still exit 0 unless --strict is given, then 2 (owcs-kr
+// cloud_live runs without --strict and reads the failures from _status.json; tools/run_daily.sh passes --strict). A failed page keeps its old data/lp file. 429 stops the run (Retry-After logged).
 // data/lp/_status.json: { updatedAt, failures, rateLimit, pages: { [title]: { ok, matches, played, dateless, redirect,
 // shrinkFrom, error, lastOk } } }, merged with the previous file (pages not fetched this run keep their entry).
 // SHRINK: a new parse with fewer than half the matches of the old file is not written (template change, page emptied).

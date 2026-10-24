@@ -1,7 +1,7 @@
 """Is the deployed site still being rebuilt? Reads owcs-ver.json of the live site and alerts when its build time is
 older than 30 minutes during a match or 6 hours otherwise. Matches: data/site/matches.json plus the playoff matches
 whose teams are still TBD (schedule_today.playoff_matches, from data/lp), which matches.json leaves out.
-usage: python -I tools/healthcheck.py [--quiet] [--url https://owticker.com/]
+usage: python -I tools/healthcheck.py [--quiet] [--url https://owticker.com/]   (default env OWCSKR_SITE_URL, else that)
   --quiet  no alert, no state change (run_daily.sh puts the result in its own summary); a failed read is tried
            once more after 30 s instead (a one-shot run has no "two in a row")
 Run by run_daily.sh and, on match days, every 15 minutes by the owcskr-fresh-<date> timer / OWCSKR\\Freshness_<date>

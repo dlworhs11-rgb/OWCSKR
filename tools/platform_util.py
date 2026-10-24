@@ -3,7 +3,8 @@
 Settings come from environment variables; .env in the repo root fills in the ones not set (read at import here,
 and on the server also by the tools/*.sh scripts and the units' EnvironmentFile=):
   OWCSKR_SITE_DIR         folder with the site recorders (score_watch.py, pick_watch.py, ...); empty = not on this machine
-  OWCSKR_DISCORD_WEBHOOK  Discord webhook for alerts (match-day check, SOOP quality); empty = log only
+  OWCSKR_DISCORD_WEBHOOK  Discord webhook for every notify() alert; empty = log only (+ a message box on Windows)
+  OWCSKR_FRAME_SOURCE     obs (default) or hls: frame_source(), for the checks that skip OBS on an hls machine
   TESSERACT_CMD           tesseract binary when it is not on PATH
 
 CLI (for the shell scripts):
