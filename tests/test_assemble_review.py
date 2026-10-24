@@ -225,8 +225,12 @@ def test_rematch_on_the_same_day_goes_to_the_later_match():
 
 # ---- winners -----------------------------------------------------------------------------------------------------
 
+def lp_finished(fx):
+    fx[2]['winner'] = 1                                                          # Liquipedia: CR-SEJ 3-0
+
+
 def test_last_map_winner_only_when_it_ends_the_series(monkeypatch):
-    res = run_day(monkeypatch)
+    res = run_day(monkeypatch, ctx=ctx_with_schedule(lp_finished))
     m = by_map(res)
     assert (m['03'].get('winner'), m['03'].get('winnerSource')) == ('Cheeseburger', 'match end (leader)')   # 2-0 -> 3-0
     assert (m['08'].get('winner'), m['08'].get('winnerSource')) == ('Crazy Raccoon', 'series score')     # m09 ban 2-0
@@ -234,6 +238,14 @@ def test_last_map_winner_only_when_it_ends_the_series(monkeypatch):
     assert (m['01'].get('winner'), m['01'].get('winnerSource')) == ('Cheeseburger', 'series score')   # game 1 = 0-0
     wins = {r['match']: r['mapWins'] for r in res['matches']}
     assert wins['Cheeseburger vs O2 Blast'] == {'Cheeseburger': 3}
+
+
+def test_last_map_of_a_running_match_gives_the_leader_no_win(monkeypatch):
+    # 10-24 CB-ZETA: map 2 at 1-0 went to the leader before map 3 was read. The day's last match with no POTM card
+    # and no Liquipedia result may still be running; match 1 is over because the broadcast moved on to match 2.
+    m = by_map(run_day(monkeypatch))
+    assert (m['09'].get('winner'), m['09'].get('winnerSource')) == (None, None)
+    assert (m['03'].get('winner'), m['03'].get('winnerSource')) == ('Cheeseburger', 'match end (leader)')
 
 
 def test_unresolved_last_map_gives_the_leader_no_win(monkeypatch):

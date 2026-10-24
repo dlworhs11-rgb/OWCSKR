@@ -67,12 +67,14 @@ def schedule_entry(m: dict, aliases: dict) -> dict:
     return {'team1': NM.canon_team(m['team1'], aliases), 'team2': NM.canon_team(m['team2'], aliases),
             'start': int(dt.timestamp()), 'timed': timed, 'need': series_need(m),
             'maps': m.get('maps') or [], 'page': title, 'idx': idx if has_idx else None,
-            'key': f'{title}#{idx}' if title and has_idx else None, 'onAir': on_air(m)}
+            'key': f'{title}#{idx}' if title and has_idx else None, 'onAir': on_air(m),
+            'done': str(m.get('winner')) in ('1', '2')}
 
 
 def day_schedule(matches: list, date: str, aliases: dict) -> list:
     """Korean matches of the day in time order (one page: Liquipedia order when the times tie):
-    [{'team1', 'team2', 'start' (unix s), 'timed', 'need', 'maps', 'page', 'idx', 'key', 'onAir'}].
+    [{'team1', 'team2', 'start' (unix s), 'timed', 'need', 'maps', 'page', 'idx', 'key', 'onAir',
+    'done' (Liquipedia has the winner)}].
     The day is each match's KST date. timed False = Liquipedia has no start time yet (00:00 UTC or 00:00 KST).
     key = '<competitionTitle>#<idx>' (matchKey)."""
     import platform_util as PU
@@ -507,9 +509,9 @@ def last_map_winner(sb: dict, potm: dict | None, need: int | None) -> tuple:
     return (team, src) if sb[team] + 1 == (need or MAX_SERIES + 1) else (None, None)
 
 
-def set_winners(ms: list, potm: dict | None, need: int | None = None) -> None:
+def set_winners(ms: list, potm: dict | None, need: int | None = None, over: bool = True) -> None:
     """ms = the maps given to one match in time order. map winner = the side whose series score went up at the next
-    ban screen; last map: last_map_winner"""
+    ban screen; last map: last_map_winner, only when the match is over"""
     for m, nxt in zip(ms, ms[1:]):
         after = nxt.get('seriesBefore')
         # game 1 without a readable ban screen (10-23 m01) still starts at 0-0
@@ -517,8 +519,10 @@ def set_winners(ms: list, potm: dict | None, need: int | None = None) -> None:
         if before and after:
             up = [t for t in before if (after.get(t) or 0) > (before[t] or 0)]
             if len(up) == 1: m['winner'], m['winnerSource'] = up[0], 'series score'
+    # mid-match the newest map read need not be the last one (10-24 CB-ZETA: map 2 at 1-0 went to the leader CB with
+    # map 3 not yet read; a 2-1 leader losing map 4 is the same)
     lm = ms[-1]
-    if lm.get('seriesBefore') and 'winner' not in lm:
+    if over and lm.get('seriesBefore') and 'winner' not in lm:
         team, src = last_map_winner(lm['seriesBefore'], potm, need)
         if team: lm['winner'], lm['winnerSource'] = team, src
 
@@ -536,7 +540,10 @@ def match_results(out_maps: list, cards: list, ctx: dict) -> list:
         if not ok: continue
         potm, method = None, None
         if idx in owner: potm, method = pick_potm(owner[idx][1], ms, ok[0]['_pair'], ctx)
-        set_winners(ms, potm, ctx['schedule'][idx].get('need') if idx < len(ctx['schedule']) else None)
+        sched = ctx['schedule'][idx] if idx < len(ctx['schedule']) else {}
+        # over: POTM card seen, Liquipedia has the winner, or the broadcast moved on to another match
+        over = idx in owner or sched.get('done') or any(m['_ts'] > ms[-1]['_ts'] and m['_idx'] != idx for m in out_maps)
+        set_winners(ms, potm, sched.get('need'), bool(over))
         for m in ms:          # an unverified map's game may be a guess: no winner the site could put on another game
             if not m['labelVerified']: m.pop('winner', None); m.pop('winnerSource', None)
         res = {'match': ok[0]['match'], 'matchNo': ok[0]['matchNo'],
