@@ -88,7 +88,7 @@ def test_env_sh_matches_python_parser(tmp_path):
 def test_env_sh_refuses_what_python_refuses(tmp_path, name):
     text, msg = BAD[name]
     r = run_env_sh(tmp_path, text.encode('utf-8'))
-    assert r.returncode != 0
+    assert r.returncode == 78                     # EX_CONFIG: the capture unit does not restart on it
     assert msg in r.stderr
 
 

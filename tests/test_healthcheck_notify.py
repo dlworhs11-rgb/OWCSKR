@@ -123,3 +123,57 @@ def test_notify_cli_always_exits_0(monkeypatch):
     monkeypatch.setattr(PU, 'load_env_file', lambda *a: {})
     assert N.main(['t', 'b']) == 0
     assert N.main([]) == 0
+
+
+@pytest.fixture
+def unit_alerts(monkeypatch, tmp_path):
+    """notify.py --unit-failed with systemctl / journalctl answered from FAKE (unit -> show output)"""
+    sent, fake = [], {}
+
+    def cmd(argv):
+        if argv[0] == 'journalctl':
+            return 'Oct 25 15:00 python[123]: Traceback: boom'
+        return fake.get(argv[-1], '')
+    monkeypatch.setattr(N, '_cmd', cmd)
+    monkeypatch.setattr(N, 'LIVE_DIR', str(tmp_path))
+    monkeypatch.setattr(N, 'UNIT_STATE', str(tmp_path / 'unit_alerts.json'))
+    monkeypatch.setattr(PU, 'notify', lambda t, b: sent.append((t, b)))
+    monkeypatch.setattr(PU, 'load_env_file', lambda *a: {})
+    (tmp_path / 'score_watch.log').write_text('line 1\nOBS websocket refused\n', encoding='utf-8')
+    return sent, fake
+
+
+def test_unit_failed_alerts_with_journal_and_log(unit_alerts):
+    sent, fake = unit_alerts
+    fake['owcskr-score_watch.service'] = 'Result=start-limit-hit\nExecMainStatus=1\nActiveState=failed'
+    assert N.main(['--unit-failed', 'owcskr-score_watch.service']) == 0
+    (title, body), = sent
+    assert 'owcskr-score_watch.service' in title
+    assert 'start-limit-hit' in body and 'Traceback: boom' in body and 'OBS websocket refused' in body
+    assert 'start_watchers.sh' in body
+
+
+def test_unit_failed_at_most_every_30_minutes(unit_alerts):
+    sent, fake = unit_alerts
+    fake['owcskr-pick_watch.service'] = 'Result=signal\nExecMainStatus=9\nActiveState=failed'
+    now = datetime.datetime(2026, 10, 25, 16, 0, tzinfo=KST)
+    N.unit_failed('owcskr-pick_watch', PU, now)                   # bare name = a service
+    N.unit_failed('owcskr-pick_watch.service', PU, now + datetime.timedelta(minutes=10))
+    assert len(sent) == 1
+    N.unit_failed('owcskr-pick_watch.service', PU, now + datetime.timedelta(minutes=31))
+    assert len(sent) == 2
+
+
+@pytest.mark.parametrize('unit, show, alerted', [
+    ('owcskr-daily.service', 'Result=exit-code\nExecMainStatus=1', False),            # run_daily.sh alerted
+    ('owcskr-daily.service', 'Result=timeout\nExecMainStatus=0', True),                # killed after 1 h
+    ('owcskr-daily.service', 'Result=exit-code\nExecMainStatus=78', True),             # bad .env
+    ('owcskr-live-2026-10-25.service', 'Result=exit-code\nExecMainStatus=4', False),   # run_live.sh alerted
+    ('owcskr-live-2026-10-25.service', 'Result=signal\nExecMainStatus=9', True),
+    ('owcskr-score_watch.service', 'Result=exit-code\nExecMainStatus=1', True),        # recorders never alert
+])
+def test_unit_failed_skips_what_the_script_alerted(unit_alerts, unit, show, alerted):
+    sent, fake = unit_alerts
+    fake[unit] = show
+    N.main(['--unit-failed', unit])
+    assert bool(sent) is alerted

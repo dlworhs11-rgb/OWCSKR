@@ -98,7 +98,8 @@ def test_register_systemd_command_line(linux):
     assert cmd[-4:] == ['/bin/bash', os.path.join(S.ROOT, 'tools', 'run_live.sh'), '6.2', DAY]
     p = props(cmd)
     assert S.ENV_PROP in p and S.ENV_PROP.startswith('EnvironmentFile=-')
-    assert {'Restart=on-failure', 'RestartSec=60', 'TimeoutStopSec=5min', 'RestartPreventExitStatus=2 4'} <= set(p)
+    assert {'Restart=on-failure', 'RestartSec=60', 'TimeoutStopSec=5min', 'RestartPreventExitStatus=2 4 78'} <= set(p)
+    assert f'OnFailure=owcskr-alert@{UNIT}.service.service' in p          # alerts once it gives up
     assert f'RuntimeMaxSec={round(7.2 * 3600)}s' in p          # planned length + 1 h
     assert ['systemctl', '--user', 'stop', UNIT + '.timer'] in linux.calls
     assert not any('stop' in c and UNIT + '.service' in c for c in linux.calls)

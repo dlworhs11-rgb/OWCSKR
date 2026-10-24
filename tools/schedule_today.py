@@ -125,12 +125,20 @@ def free_name(unit: str) -> None:
     systemctl('reset-failed', unit + '.timer', unit + '.service')
 
 
-def capture_props(hours: float) -> list[str]:
+def alert_on_failure(unit: str) -> str:
+    """[Unit] OnFailure= naming the alert unit (tools/register_tasks.sh installs owcskr-alert@.service). Spelled out:
+    systemd-run -p hands the value over as it is, there is no %n expansion for transient units."""
+    return f'OnFailure=owcskr-alert@{unit}.service'
+
+
+def capture_props(hours: float, unit: str) -> list[str]:
     """the capture unit, the same whether a timer or launch_now starts it. RuntimeMaxSec is only a backstop: run_live.sh
     ends at the planned time itself (until.txt). Not restarted: exit 2 = live_capture's self-check failed, 4 = the capture
-    ended but its final OCR / publish failed (a restart would capture an empty screen until the end time)."""
+    ended but its final OCR / publish failed (a restart would capture an empty screen until the end time), 78 = bad .env
+    (tools/env.sh). A unit that fails for good (one of those, killed, a stop timeout) alerts through OnFailure=;
+    run_live.sh alerts on 1, 2 and 4 itself, so tools/notify.py --unit-failed skips those."""
     return [ENV_PROP, f'RuntimeMaxSec={round((hours + 1) * 3600)}s', 'Restart=on-failure', 'RestartSec=60',
-            'RestartPreventExitStatus=2 4', 'TimeoutStopSec=5min']
+            'RestartPreventExitStatus=2 4 78', 'TimeoutStopSec=5min', alert_on_failure(unit + '.service')]
 
 
 def utc_calendar(when: datetime.datetime) -> str:
@@ -169,7 +177,7 @@ def register_systemd(day: str, start: datetime.datetime, hours: float) -> str:
     free_name(unit)
     clear_until(day)
     r = systemd_run(unit, f'OWCSKR live capture {day}', ['/bin/bash', live_script(), str(hours), day],
-                    capture_props(hours), when=start)
+                    capture_props(hours, unit), when=start)
     return _result(r, 'registered', 'registration failed')
 
 
@@ -181,7 +189,7 @@ def launch_now_systemd(day: str, hours: float) -> str:
         return 'capture already running'
     free_name(unit)
     r = systemd_run(unit, f'OWCSKR live capture {day}', ['/bin/bash', live_script(), str(hours), day],
-                    capture_props(hours))
+                    capture_props(hours, unit))
     return _result(r, 'started', 'start failed')
 
 

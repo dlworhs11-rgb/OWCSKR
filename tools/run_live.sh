@@ -6,8 +6,8 @@
 # restarting never extends the day. A start after that time only finishes a day whose summary never went out
 # (a crash near the end), then exits. A day with data/live/<DATE>/summary.txt is finished: a start exits at once.
 # Exit: 0 ok / day finished or over / already running, 1 capture failed (systemd restarts it), 2 bad arguments or the
-# capture's self-check failed, 4 capture ended but its final OCR / publish failed (2 and 4 are not restarted:
-# RestartPreventExitStatus=2 4).
+# capture's self-check failed, 4 capture ended but its final OCR / publish failed, 78 bad .env (env.sh) (2, 4 and 78
+# are not restarted: RestartPreventExitStatus=2 4 78; a unit that fails for good alerts through OnFailure=).
 set -u
 . "$(dirname "$0")/env.sh"
 if [ $# -lt 2 ]; then echo "usage: $0 HOURS DATE [URL]" >&2; exit 2; fi

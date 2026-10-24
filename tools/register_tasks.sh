@@ -2,6 +2,9 @@
 # Registers the daily OWCSKR job as a systemd user timer (09:00 KST, and 3 minutes after every boot so a reboot
 # re-creates that day's capture timers, which live only in memory) and runs it once now.
 # The job refreshes Liquipedia and schedules each match day's capture (owcskr-live-<date> timers).
+# Also installs owcskr-alert@.service: the daily, capture and recorder units name it in OnFailure=, so a unit that
+# fails for good (crash loop past its start limit, killed, timed out) alerts (tools/notify.py --unit-failed).
+# Run it again after an update that changes the unit files written here.
 # Run it in a shell where you logged in as this user directly (ssh user@server): 'sudo -u' / 'su' shells have no
 # user bus and systemctl --user fails with "Failed to connect to bus".
 set -eu
@@ -19,16 +22,21 @@ else
   major="$(node -p 'process.versions.node.split(".")[0]' 2>/dev/null || echo 0)"
   if [ "$major" -lt 18 ]; then echo "warning: node $(node --version 2>/dev/null) is too old: the collector needs 18+" >&2; fi
 fi
-UNIT_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user"
 mkdir -p "$UNIT_DIR"
+# owcskr-alert@<unit>.service: the alert when a capture, recorder or daily unit fails for good (OnFailure=)
+ensure_alert_unit
+R="${ROOT//%/%%}"      # a literal % in a unit file is written %%
 cat > "$UNIT_DIR/owcskr-daily.service" <<EOF
 [Unit]
 Description=OWCSKR daily job (Liquipedia refresh, build, schedule the captures)
+# a run that never reached its own alert (killed, timed out, bad .env) still alerts; exit 1 (a step failed) the job
+# alerted itself, and tools/notify.py --unit-failed skips it
+OnFailure=owcskr-alert@%n.service
 
 [Service]
 Type=oneshot
-WorkingDirectory=$ROOT
-ExecStart=/bin/bash "$ROOT/tools/run_daily.sh"
+WorkingDirectory=$R
+ExecStart=/bin/bash "$R/tools/run_daily.sh"
 TimeoutStartSec=1h
 EOF
 cat > "$UNIT_DIR/owcskr-daily.timer" <<EOF

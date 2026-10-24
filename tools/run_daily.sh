@@ -91,6 +91,8 @@ fi
 step lp "run-lp --active-only" node collector/run-lp.mjs --active-only --strict
 step fail "build.mjs" node collector/build.mjs
 step fail "republish_recent.py" "$PY" -I tools/republish_recent.py
+# the alert unit that the scheduled units name in OnFailure= (code pulled above may have changed it)
+if have_systemd; then step warn "owcskr-alert@.service" ensure_alert_unit; fi
 step fail "schedule_today.py --upcoming" "$PY" -I tools/schedule_today.py --upcoming
 
 # 4. PC-only site files (recorders, admin, handover notes) to the private repo owcs-kr-recorders; skips when unchanged
