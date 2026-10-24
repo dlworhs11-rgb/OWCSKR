@@ -508,7 +508,7 @@ def day_summary(out, frames) -> dict:
             'published': sum(1 for m in day.get('maps', []) if PD.publishable(m)),
             'failed': [f"m{e['map']} ({e.get('verifyReason') or 'not verified'})" for e in ocr if e.get('totalsOK') is not True],
             'unknown': unknown, 'rows': len(rows),
-            'potm': [f"{r.get('match')}: {(r.get('potm') or {}).get('method') or 'none'}" for r in day.get('matches', [])]}
+            'potm': [f"{r.get('match')}: {(r.get('potm') or {}).get('method') or r.get('potmMethod') or 'none'}" for r in day.get('matches', [])]}
 
 
 def summary_text(date, s) -> str:

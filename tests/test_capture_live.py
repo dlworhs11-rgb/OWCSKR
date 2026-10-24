@@ -358,6 +358,7 @@ def test_summary_counts(tmp_path):
     assert (s['unknown'], s['rows']) == (2, 4)
     text = LC.summary_text('2026-10-25', s)
     assert 'unknown names 2/4 (50%)' in text and 'CR vs O2: name' in text and 'ZAN vs TF: none' in text
+    assert 'WAY vs FS: unresolved' in text
 
 
 def test_zero_maps_sends_a_warning(tmp_path):
