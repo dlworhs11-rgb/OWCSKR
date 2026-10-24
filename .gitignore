@@ -1,5 +1,7 @@
 # raw caches & scratch (not for redistribution / regenerable)
 data/lp-cache/
+# run-lp status, rewritten on every run (a tracked copy keeps the server work tree dirty, so git pull never runs)
+data/lp/_status.json
 data/sheets/
 data/*.log
 data/lp_*.wiki
