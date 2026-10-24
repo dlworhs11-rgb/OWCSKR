@@ -8,7 +8,8 @@
 // Prints 'ADDED <title>' per new page, 'ACTIVE+ <title>' / 'ACTIVE- <title>' per change of active.json, then
 // 'DISCOVER <today> added <n> active <n>'. Never removes pages from competitions.json. active.json = pages with a match
 // dated within today (KST) +-30 days, plus pages of this year or later with no dated match yet or undated matches still
-// to play (just announced). Same input -> same output (files are rewritten only when they change).
+// to play (just announced). Pages without a data/lp file (missing on Liquipedia, just added) are left out: --active-only
+// fetches them anyway. Same input -> same output (files are rewritten only when they change).
 // Exit code: 0 ok, 2 some page failed (ERR / SHRINK / 429 / missing page that had matches) or a --discover request
 // failed, 3 Node without fetch, 1 crash. A failed page keeps its old data/lp file. 429 stops the run (Retry-After logged).
 // data/lp/_status.json: { updatedAt, failures, rateLimit, pages: { [title]: { ok, matches, played, dateless, redirect,
@@ -152,11 +153,14 @@ export const tabLinksOf = text => [...(text || '').matchAll(/\|\s*link\d+\s*=\s*
 
 // pages to keep re-reading: a match dated within today +-days (KST), or (page of this year or later) nothing dated yet /
 // undated matches still to play: announced, schedule not out. pages: title -> matches of its data/lp file or null.
+// null (no file: missing on Liquipedia, or not fetched yet) is not listed: --active-only fetches such a page anyway, and
+// a missing overview page ('2026/Asia/Stage 3') listed for the whole year substring-matches every page of its stage
 export function computeActive({ titles, pages, today, days = 30 }) {
   const shift = n => new Date(Date.parse(today) + n * 864e5).toISOString().slice(0, 10);
   const lo = shift(-days), hi = shift(days), year = +today.slice(0, 4);
   return titles.filter(t => {
-    const ms = pages[t] || [];
+    const ms = pages[t];
+    if (!ms) return false;
     if (ms.some(m => m.date && kstDay(m.date) >= lo && kstDay(m.date) <= hi)) return true;
     if (yearOf(t) < year) return false;
     return !ms.some(m => m.date) || ms.some(m => !m.date && !m.played);

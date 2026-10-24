@@ -122,7 +122,7 @@ test('nextOf / koreaRootOf / newestKorea', () => {
   assert.equal(newestKorea(comps.core), OCS + '2026/Asia/Stage 3/Korea');
 });
 
-test('computeActive: dated within +-30 days (KST), or this year and nothing dated / undated matches left', () => {
+test('computeActive: dated within +-30 days (KST), or this year and nothing dated / undated matches left; no file -> not listed', () => {
   const m = (date, played = true) => ({ date, played });
   const pages = {
     [OCS + '2026/Asia/Stage 3/Korea/Regular Season']: [m('2026-10-02T17:15:00+09:00'), m('2026-10-25T18:00:00+09:00', false)],
@@ -135,17 +135,21 @@ test('computeActive: dated within +-30 days (KST), or this year and nothing date
     [OCS + '2026/Asia/Stage 3/Championship/Korea']: [m('2026-08-01T00:00:00+09:00'), m(null, false)],
     [OCS + '2026/Asia/Stage 1/Korea']: [m('2026-04-24T17:35:00+09:00'), m(null, true)],
     'Overwatch World Cup/2026': [m('2026-09-13T15:50:00-07:00')],
-    [OCS + '2027/Champions Clash']: null,
+    [OCS + '2027/Champions Clash']: [],
+    [OCS + '2027/Asia/Stage 1/Korea']: null,
     // 23:30 UTC on 11-22 is 11-23 in KST: still inside the window, 11-24 KST is not
     [OCS + '2026/Edge In']: [m('2026-11-22T23:30:00+00:00')],
     [OCS + '2025/Edge Out']: [m('2026-11-23T15:30:00+00:00')],
   };
   const titles = Object.keys(pages);
   const active = computeActive({ titles, pages, today: '2026-10-24' });
-  assert.deepEqual(active, [OCS + '2026/Asia/Stage 3/Korea/Regular Season', OCS + '2026/Asia/Stage 3/Korea', OCS + '2026/World Finals', OCS + '2026/Asia/Stage 3',
+  assert.deepEqual(active, [OCS + '2026/Asia/Stage 3/Korea/Regular Season', OCS + '2026/Asia/Stage 3/Korea', OCS + '2026/World Finals',
     OCS + '2026/Asia/Stage 3/Championship/Korea', OCS + '2027/Champions Clash', OCS + '2026/Edge In']);
+  // the missing '2026/Asia/Stage 3' overview would substring-match (cloud_live, --active-only) every page of the stage
+  assert.ok(!active.includes(OCS + '2026/Asia/Stage 3') && !active.includes(OCS + '2027/Asia/Stage 1/Korea'));
   assert.deepEqual(computeActive({ titles, pages, today: '2026-10-24' }), active);   // pure: same input, same list
-  assert.ok(computeActive({ titles, pages, today: '2027-01-20' }).every(t => /\/2027\//.test(t)));
+  // new year: last year's pages with nothing dated or undated matches left drop out
+  assert.deepEqual(computeActive({ titles, pages, today: '2027-01-20' }), [OCS + '2027/Champions Clash']);
 });
 
 test('discoverCandidates: |next= of the newest Korea page and the page list of this year and next', async () => {
