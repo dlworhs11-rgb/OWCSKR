@@ -21,19 +21,26 @@
 - 학습용 정답 캡처(`data/vod/`)는 저작권 때문에 저장소에 없음. 새 환경에서는 정답 맵 몇 개를 다시 만들어야 함
 
 ## 데이터 형태 (`matches.json` 의 `mapStats`)
-`m.mapStats = [{ game, map, mapTime, teams: { "팀명": [{ name, e, a, d, dmg, heal, mit }] }, reading, verified }]`
-- E = Eliminations (어시스트 기여 포함), `reading` = manual | ocr, `verified` = 합계 화면과 일치 여부
+`m.mapStats = [{ game, map, mapTime, teams: { "팀명": [{ name, e, a, d, dmg, heal, mit }] }, reading, verified, bans, winner, seriesBefore }]`
+- E = Eliminations (어시스트 기여 포함), `reading` = manual | ocr, `verified` = 합계 화면과 일치 여부(mapstats의 `totalsVerified`)
+- `a`는 표 프레임 둘 이상이 같은 값을 읽었을 때만 있고 아니면 `null`(`aVerified`; 합계 화면에 없어 `verifiedFields`에 빠짐). 선수 집계는 `a`가 있는 맵만 어시스트에 더함
+- 이름을 모르는 줄(`name: null` + `unknownId`, 옛 형식 `"?3"`)은 선수 집계에서 빠짐
+- 경기에는 화면에서 읽은 `potmLive`, `mapWinsLive`도 붙음. 맵을 경기에 붙일 때는 `matchKey`가 먼저, 없거나 모르는 키면 날짜 + 두 팀
 
-## 라이브 자동 캡처 (OBS)
-영상을 내려받지 않고, OBS 브라우저 소스로 SOOP 공식 임베드 플레이어(`/embed?autoPlay=true&mutePlay=true`)를 평소처럼 재생하면서(광고 포함, 화면에 표시 안 됨) 10초마다 그 이미지 1장만 받아 처리한다.
+## 라이브 자동 캡처 (OBS 또는 HLS)
+영상을 내려받지 않고 방송을 평소처럼 재생하면서 5초마다(POTM 직후에는 2초마다) 이미지 1장만 받아 처리한다. 화면 입구는 `--source` / `OWCSKR_FRAME_SOURCE`로 고른다.
+- `obs`(기본): OBS 브라우저 소스로 SOOP 공식 임베드 플레이어(`/embed?autoPlay=true&mutePlay=true`)를 재생(광고 포함, 화면에 표시 안 됨)
+- `hls`: SOOP HLS를 `yt-dlp` + `ffmpeg`로 직접 받음, OBS 없음 (`docs/hls-capture.md`)
 
-- `tools/live_capture.py` : OBS 실행 -> 10초마다 캡처 -> GAME DATA가 아닌 화면은 즉시 버림 -> 맵마다 표 3장 + 합계 1장 저장 -> `ocr_run.py` -> 끝나면 `assemble_day.py`
+- `tools/live_capture.py` : 시작 점검(`selfcheck.py`, 실패하면 종료 코드 2) -> 5초마다 캡처 -> GAME DATA가 아닌 화면은 즉시 버림 -> 맵마다 표 최대 3장 + 합계 최대 3장(+0/+5/+10초)을 `data/live/<날짜>/frames`에 저장 -> 맵이 끝날 때마다 `ocr_run.py` -> `assemble_day.py` -> `publish_day.py`
+  - `--until`(또는 `--hours`, 기본 8시간)에서 끝나고, 첫 맵 뒤 GAME DATA가 75분(`--idle-stop`) 동안 없어도 끝남. 끝나면 하루 요약을 보내고 `summary.txt`를 남김
+  - 알림은 종류마다 15분에 한 번(`data/live/<날짜>/alerts.json`, 재시작해도 이어짐)
 - `tools/assemble_day.py` : 이름 사전(`data/name_lib/`)으로 선수 이름, 선수 시트로 팀, 화면 머리글·밴 화면·Liquipedia 일정으로 경기/세트/맵 결정 -> `data/live/<날짜>/mapstats.json`
   (모르는 이름은 `name: null` + `unknownId: "?46"`(맵 4, 줄 6 = 맵 번호 × 10 + 줄), 크롭은 `data/live/<날짜>/unknown/`에 저장 -> 아래 "모르는 이름 붙이기")
   - 같은 날의 조립은 한 번에 하나(`data/live/<날짜>/.assemble.lock`), `mapstats.json`은 임시 파일에 쓰고 바꿔 넣음
   - 이름 사전이 비어 있으면 알림을 보내고 종료 코드 2로 멈춤. 굵은 숫자 사전에 0~9가 3개씩 없으면 하루 한 번 경고
-- `tools/schedule_today.py` : 그날 한국 리그 첫 경기 10분 전에 `OWCSKR\LiveCapture` 작업 예약
-- 바탕화면 `OWCSKR_예약등록.bat` : 매일 09:00 `OWCSKR\Daily` 작업 등록 (Liquipedia 갱신 -> 빌드 -> 당일 예약). 해제는 `OWCSKR_예약해제.bat`
+- `tools/schedule_today.py --upcoming` : 앞으로 14일(자정을 넘겨 도는 어제 캡처 포함)의 한국 리그 경기일마다 첫 경기 10분 전에 `OWCSKR\LiveCapture_<날짜>` 작업(리눅스 `owcskr-live-<날짜>`)과 경기일 점검을 예약
+- `tools/OWCSKR_예약등록.bat`(바탕화면에 복사해도 됨) : 매일 09:00 `OWCSKR\Daily` 작업 등록 (Liquipedia 갱신 -> 빌드 -> 최근 이틀 재발행 -> 예약). 해제는 `OWCSKR_예약해제.bat`
 - 사용자의 OBS 장면은 건드리지 않는다: 전용 장면 모음 `OWCSKR` 사용, 다른 장면 모음으로 OBS가 켜져 있으면 캡처하지 않고 종료
 
 ### 끝까지 시험 (2026-10-14)
@@ -41,10 +48,12 @@
 아직 실제 라이브에서는 돌려 보지 않았다.
 
 ## 실시간 업로드
-맵마다 통계 화면을 읽고 합계 검증을 통과하면 바로 `tools/publish_day.py`가 GitHub `main`의 `data/manual/mapstats/<날짜>.json`을 갱신한다 (GitHub API로 그 파일 하나만 커밋). 이 커밋이 배포 작업을 돌려서 약 2분 뒤 사이트 데이터(`matches.json`의 `mapStats`)에 반영된다. 사이트 화면은 바꾸지 않는다.
-- 검증 통과한 맵만 올림, 모르는 선수 이름은 `name: null` + `unknownId`로 올리고 나중에 고침 (선수 집계에서 빠짐)
+맵마다 통계 화면을 읽고 합계 검증을 통과하면 바로 `tools/publish_day.py`가 GitHub `main`의 `data/manual/mapstats/<날짜>.json`을 갱신한다 (`gh api`로 그 파일 하나만 커밋). 이 저장소의 커밋은 배포 작업을 돌리지 않는다: 사이트(owcs-kr)의 다음 데이터 빌드(예약 또는 호출)가 이 파일을 읽어 `matches.json`의 `mapStats`에 반영한다. 사이트 화면은 바꾸지 않는다.
+- 검증 통과한 맵(`totalsVerified: true`)만 올림, 모르는 선수 이름은 `name: null` + `unknownId`로 올리고 나중에 고침 (선수 집계에서 빠짐)
 - `labelVerified: false`(경기·세트·팀을 믿을 수 없음)인 맵은 올리지 않음. 이유는 `labelIssues`에 있음
-- 손으로 확인한 맵이 들어 있는 파일은 덮어쓰지 않음, 내용이 같으면 올리지 않음
+- 손으로 확인한 맵(`reading: manual`)이 들어 있는 파일은 덮어쓰지 않음, 내용이 같으면 올리지 않음
+- 다시 조립해서 검증된 맵이 하나도 없게 되면 이미 올린 파일을 `maps: []`, `matches: []`로 바꿈(철회)
+- 종료 코드: 0 올림/할 일 없음, 1 GitHub 요청 실패, 2 `gh` 없음
 - 매일 09:00 작업이 최근 이틀치를 다시 정리해서 올림 (Liquipedia에 늦게 올라온 맵 이름 반영)
 
 ## 화면에서 직접 읽는 경기 정보 (Liquipedia 대기 없음)
