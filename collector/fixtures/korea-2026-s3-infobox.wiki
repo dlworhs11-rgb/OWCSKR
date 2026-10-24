@@ -1,0 +1,40 @@
+{{DISPLAYTITLE:Overwatch Champions Series 2026 - Korea Stage 3}}
+{{Overwatch Champions Series navbox/2026/Stage 3}}
+{{Tabs static
+|name1=Overview|link1=Overwatch Champions Series/2026/Asia/Stage 3/Korea
+|name2=Regular Season|link2=Overwatch Champions Series/2026/Asia/Stage 3/Korea/Regular Season
+|name3=Open Qualifier|link3=Overwatch Champions Series/2026/Asia/Stage 3/Korea/Open Qualifier
+}}
+{{Infobox league
+|liquipediatier=2
+|publishertier=owcs
+|series=Overwatch Champions Series
+|name=Overwatch Champions Series 2026 - Korea Stage 3
+|tickername=OWCS Korea Stage 3
+|image=OWCS Korea lightmode.png
+|imagedark=OWCS Korea darkmode.png
+|icon=OWCS Asia 2025 icon allmode.png
+|organizer=Blizzard Entertainment
+|organizer2=WDG
+|type=Offline
+|country=South Korea
+|city=Seoul
+|venue=WDG Studio Hongdae
+|game=overwatch2
+|format=Round Robin<br>Single Elimination
+|prizepoolusd=24500
+|sdate=2026-10-02
+|edate=2026-11-08
+|web=https://www.wara.gg/ko
+|twitter=OW_Esports_Asia
+|soop=owesports
+|twitch=ow_esports_jp
+|youtube=@ow_esports_jp
+|discord=wdgtournament
+|rulebook=https://drive.google.com/file/d/1nCxhZNpYGx0WLSPqJ6pgMbuFUEgB2Wig/view
+|bracket=
+|team_number=9
+|previous=Overwatch Champions Series/2026/Asia/Stage 2/Korea{{!}}Stage 2
+|next=
+}}
+

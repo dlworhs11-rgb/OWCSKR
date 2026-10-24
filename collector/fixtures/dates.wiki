@@ -1,0 +1,37 @@
+{{Infobox league
+|name=Fixture Event
+|next=Overwatch Champions Series/2027/Asia/Stage 1/Korea
+}}
+==Results==
+===Playoffs===
+<!-- Grand Final -->
+|R1M1={{Match
+    |bestof=5
+    |date=Nov 26, 2025 - 16:05 {{Abbr/CET}}
+    |opponent1={{TeamOpponent|Crazy Raccoon}}
+    |opponent2={{TeamOpponent|Team Falcons}}
+    |map1={{Map|map=Busan|mode=Control|score1=2|score2=0|winner=1}}
+    |map2={{Map|map=Dorado|mode=Escort|score1=3|score2=2|winner=1}}
+    |map3={{Map|map=Lijiang Tower|mode=Control|score1=2|score2=1|winner=1}}
+    |mvp=Becky
+}}
+|R1M2={{Match
+    |date=Sept. 5, 2026 - 17:00 {{Abbr/KST}}
+    |opponent1={{TeamOpponent|T1}}
+    |opponent2={{TeamOpponent|ZETA DIVISION}}
+}}
+|R1M3={{Match
+    |date=September 6, 2026 - 18:30 {{Abbr/KST}}
+    |opponent1={{TeamOpponent|O2 Blast}}
+    |opponent2={{TeamOpponent|Poker Face}}
+}}
+|R1M4={{Match
+    |date=Smarch 7, 2026
+    |opponent1={{TeamOpponent|WAC}}
+    |opponent2={{TeamOpponent|ONSIDE Gaming}}
+}}
+|R1M5={{Match
+    |date=
+    |opponent1={{TeamOpponent|TBD}}
+    |opponent2={{TeamOpponent|TBD}}
+}}
