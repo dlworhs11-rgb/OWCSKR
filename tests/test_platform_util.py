@@ -138,3 +138,13 @@ def test_kst_day():
     assert PU.kst_day('2026-10-25T00:00:00+00:00') == '2026-10-25'
     assert PU.kst_day('2026-10-24T16:00:00+00:00') == '2026-10-25'
     assert PU.kst_day('') == '' and PU.kst_day('not a date') == ''
+
+
+def test_publish_switch_and_cli(monkeypatch, capsys):
+    """OWCSKR_PUBLISH=0 = shadow run; the .bat files ask 'platform_util.py publish' (python reads .env for them)"""
+    assert PU.publish_on({}) and PU.publish_on({'OWCSKR_PUBLISH': '1'}) and PU.publish_on({'OWCSKR_PUBLISH': ''})
+    assert not PU.publish_on({'OWCSKR_PUBLISH': ' 0 '})
+    monkeypatch.setenv('OWCSKR_PUBLISH', '0')
+    assert PU._cli(['publish']) == 1 and capsys.readouterr().out.strip() == 'publish off (OWCSKR_PUBLISH=0)'
+    monkeypatch.delenv('OWCSKR_PUBLISH')
+    assert PU._cli(['publish']) == 0

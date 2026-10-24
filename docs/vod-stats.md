@@ -48,7 +48,7 @@
 아직 실제 라이브에서는 돌려 보지 않았다.
 
 ## 실시간 업로드
-맵마다 통계 화면을 읽고 합계 검증을 통과하면 바로 `tools/publish_day.py`가 GitHub `main`의 `data/manual/mapstats/<날짜>.json`을 갱신한다 (`gh api`로 그 파일 하나만 커밋). 이 저장소의 커밋은 배포 작업을 돌리지 않는다: 사이트(owcs-kr)의 다음 데이터 빌드(예약 또는 호출)가 이 파일을 읽어 `matches.json`의 `mapStats`에 반영한다. 사이트 화면은 바꾸지 않는다.
+맵마다 통계 화면을 읽고 합계 검증을 통과하면 바로 `tools/publish_day.py`가 GitHub `main`의 `data/manual/mapstats/<날짜>.json`을 갱신한다 (`gh api`로 그 파일 하나만 커밋). 이 저장소의 커밋은 배포 작업을 돌리지 않는다: 사이트(owcs-kr)의 다음 데이터 빌드(예약 또는 호출)가 이 파일을 읽어 `matches.json`의 `mapStats`에 반영한다. 사이트 화면은 바꾸지 않는다. `OWCSKR_PUBLISH=0`(섀도 운영, `docs/linux-server.md`)이나 `live_capture.py --no-publish`면 판독·조립까지만 하고 `publish_day.py`와 SOOP 다시보기 댓글은 건너뛴다(로그 `publish off (...)`).
 - 검증 통과한 맵(`totalsVerified: true`)만 올림, 모르는 선수 이름은 `name: null` + `unknownId`로 올리고 나중에 고침 (선수 집계에서 빠짐)
 - `labelVerified: false`(경기·세트·팀을 믿을 수 없음)인 맵은 올리지 않음. 이유는 `labelIssues`에 있음
 - 손으로 확인한 맵(`reading: manual`)이 들어 있는 파일은 덮어쓰지 않음, 내용이 같으면 올리지 않음

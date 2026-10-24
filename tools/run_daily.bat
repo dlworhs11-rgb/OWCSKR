@@ -31,8 +31,10 @@ if not exist "%OWCSKR_RECORDERS_DIR%\backup.py" goto replay
 python -I "%OWCSKR_RECORDERS_DIR%\backup.py" >> "%LOG%" 2>&1
 if errorlevel 1 set "FAILED=%FAILED% backup"
 :replay
-rem SOOP timestamp comments the night run missed (PC off, replay uploaded late)
+rem SOOP timestamp comments the night run missed (PC off, replay uploaded late); none with OWCSKR_PUBLISH=0
 if not exist "%OWCSKR_SITE_DIR%\replay_comment.py" goto fresh
+python -I tools\platform_util.py publish >> "%LOG%" 2>&1
+if errorlevel 1 goto fresh
 pushd "%OWCSKR_SITE_DIR%"
 python -X utf8 replay_comment.py --post >> "%LOG%" 2>&1
 if errorlevel 1 set "FAILED=%FAILED% replay_comment"

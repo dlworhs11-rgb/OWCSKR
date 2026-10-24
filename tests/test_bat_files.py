@@ -35,6 +35,8 @@ args = sys.argv[1:]
 name = os.path.basename(sys.argv[0])
 with open(os.environ['FAKE_LOG'], 'a', encoding='utf-8') as f:
     f.write(name + ' ' + ' '.join(args) + '\n')
+if name == 'platform_util.py' and args == ['publish']:
+    sys.exit(int(os.environ.get('FAKE_PUB_RC', '0')))
 if name == 'platform_util.py':
     rc = int(os.environ.get('FAKE_LU_RC', '0'))
     if rc == 0:
@@ -88,7 +90,14 @@ def test_run_live_bat_finished_day_exits_at_once(run_live_bat):
 @pytest.mark.skipif(os.name != 'nt', reason='cmd.exe')
 def test_run_live_bat_replay_comment_after_a_good_capture(run_live_bat):
     rc, calls = run_live_bat(wait_replay=True)
-    assert rc == 0 and calls == ['platform_util.py', 'live_capture.py', 'replay_comment.py']
+    assert rc == 0 and calls == ['platform_util.py', 'live_capture.py', 'platform_util.py', 'replay_comment.py']
+
+
+@pytest.mark.skipif(os.name != 'nt', reason='cmd.exe')
+def test_run_live_bat_shadow_run_posts_no_replay_comment(run_live_bat):
+    """OWCSKR_PUBLISH=0 (platform_util.py publish exits 1): the capture runs, the comment is the other machine's"""
+    rc, calls = run_live_bat(FAKE_PUB_RC='1')
+    assert rc == 0 and calls == ['platform_util.py', 'live_capture.py', 'platform_util.py']
 
 
 @pytest.mark.skipif(os.name != 'nt', reason='cmd.exe')
@@ -100,4 +109,4 @@ def test_run_live_bat_no_replay_comment_after_a_failed_capture(run_live_bat):
 @pytest.mark.skipif(os.name != 'nt', reason='cmd.exe')
 def test_run_live_bat_exit_4_alerts_and_still_comments(run_live_bat):
     rc, calls = run_live_bat(FAKE_LC_RC='4', wait_replay=True)
-    assert rc == 4 and calls == ['platform_util.py', 'live_capture.py', 'notify.py', 'replay_comment.py']
+    assert rc == 4 and calls == ['platform_util.py', 'live_capture.py', 'notify.py', 'platform_util.py', 'replay_comment.py']

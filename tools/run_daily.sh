@@ -105,6 +105,8 @@ fi
 site_dir_state; sd=$?
 if [ "$sd" = 2 ]; then
   record fail "OWCSKR_SITE_DIR" "OWCSKR_SITE_DIR='$OWCSKR_SITE_DIR' does not exist (recorders and replay comments cannot run)"
+elif ! publish_on; then
+  log "publish off (OWCSKR_PUBLISH=0) - replay comments not posted"
 elif [ "$sd" = 0 ] && [ -f "$OWCSKR_SITE_DIR/replay_comment.py" ]; then
   step fail "replay_comment.py --post" bash -c 'cd "$1" && exec "$2" -X utf8 replay_comment.py --post' _ "$OWCSKR_SITE_DIR" "$PY"
 fi

@@ -1,6 +1,10 @@
 """Re-assemble and re-upload the last two capture days (fills in map names / scores that Liquipedia added later).
-Run by the daily job after collector/build.mjs. Exit 1 when any step failed (the daily job reports it)."""
+Run by the daily job after collector/build.mjs. Exit 1 when any step failed (the daily job reports it).
+OWCSKR_PUBLISH=0 (shadow run): re-assembles only, publish_day.py is skipped ('publish off (OWCSKR_PUBLISH=0)')."""
 import datetime, os, subprocess, sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import platform_util as PU  # noqa: E402  (reads .env: the Windows daily job has no other loader)
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -13,13 +17,16 @@ def run_step(script: str, day: str, run=subprocess.run) -> bool:
     return False
 
 
-def main(today: datetime.date | None = None, run=subprocess.run) -> int:
+def main(today: datetime.date | None = None, run=subprocess.run, env=None) -> int:
     today = today or datetime.date.today()
+    publish = PU.publish_on(env)
     failed = []
     for back in (1, 0):
         day = (today - datetime.timedelta(back)).isoformat()
         if not os.path.exists(os.path.join(ROOT, 'data', 'live', day, 'ocr.json')): continue
         for script in ('tools/assemble_day.py', 'tools/publish_day.py'):
+            if script == 'tools/publish_day.py' and not publish:
+                print(f'republish: {day} {PU.PUBLISH_OFF}'); break
             if not run_step(script, day, run):
                 failed.append(f'{os.path.basename(script)} {day}'); break   # never publish a stale assembly
     if failed: print('republish FAILED:', ', '.join(failed), file=sys.stderr)

@@ -5,12 +5,16 @@ and on the server also by the tools/*.sh scripts and the units' EnvironmentFile=
   OWCSKR_SITE_DIR         folder with the site recorders (score_watch.py, pick_watch.py, ...); empty = not on this machine
   OWCSKR_DISCORD_WEBHOOK  Discord webhook for every notify() alert; empty = log only (+ a message box on Windows)
   OWCSKR_FRAME_SOURCE     obs (default) or hls: frame_source(), for the checks that skip OBS on an hls machine
+  OWCSKR_PUBLISH          1 (default) or 0: publish_on(); 0 = shadow run, the capture reads and assembles but uploads
+                          nothing (no publish_day.py, no SOOP replay comment)
   TESSERACT_CMD           tesseract binary when it is not on PATH
 
 CLI (for the shell scripts):
   python -I tools/platform_util.py live-until HOURS DATE
       end time of that day's capture (ISO with offset) on stdout; kept in data/live/<DATE>/until.txt from the first
       start, so a restart ends at the same time. Exit 0 = still to come, 3 = already past, 2 = bad arguments.
+  python -I tools/platform_util.py publish
+      exit 0 = publishing on, 1 = off (OWCSKR_PUBLISH=0, .env included: the .bat files have no other way to read it)
 """
 import datetime, json, os, re, shutil, subprocess, sys, urllib.request
 
@@ -78,6 +82,17 @@ def frame_source() -> str:
         return value
     print(f'platform_util: OWCSKR_FRAME_SOURCE={value!r} is not obs or hls - using obs', file=sys.stderr)
     return 'obs'
+
+
+PUBLISH_ENV = 'OWCSKR_PUBLISH'
+PUBLISH_OFF = f'publish off ({PUBLISH_ENV}=0)'
+
+
+def publish_on(env=None) -> bool:
+    """OWCSKR_PUBLISH=0 turns publishing off (a shadow run next to the machine that publishes); anything else, or
+    unset, is on"""
+    env = os.environ if env is None else env
+    return (env.get(PUBLISH_ENV) or '1').strip() != '0'
 
 
 KST = datetime.timezone(datetime.timedelta(hours=9))   # match days are Korean dates, whatever this machine's zone
@@ -192,7 +207,11 @@ def _cli(argv: list[str]) -> int:
         iso, past = live_until(argv[2], hours)
         print(iso)
         return 3 if past else 0
-    print('usage: platform_util.py live-until HOURS DATE', file=sys.stderr)
+    if argv == ['publish']:
+        on = publish_on()
+        print('publish on' if on else PUBLISH_OFF)
+        return 0 if on else 1
+    print('usage: platform_util.py live-until HOURS DATE | platform_util.py publish', file=sys.stderr)
     return 2
 
 

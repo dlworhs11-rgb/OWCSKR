@@ -27,7 +27,7 @@
   .venv/bin/python -I tools/obs_snap.py 6 10      # data/live/snap_report.txt에 실제 화면이 찍혔는지
   ```
   검은 화면이거나 `CreateInput`이 실패하면 OBS 경로는 포기하고 `OWCSKR_FRAME_SOURCE=hls`로 돌린다(위). 사이트 기록기(`score_watch.py` 등)도 OBS 화면을 읽으므로 같이 바꿔야 한다.
-- **HLS 첫 확인**: 다음 경기일에 `.venv/bin/yt-dlp -F https://play.sooplive.com/owesports`(비로그인 화질)와 `.venv/bin/python -I tools/frames_probe.py --count 3`을 돌려 본다. 첫 1~2 경기일은 PC 결과와 비교한다(`docs/hls-capture.md`).
+- **HLS 첫 확인**: 다음 경기일에 `.venv/bin/yt-dlp -F https://play.sooplive.com/owesports`(비로그인 화질)와 `.venv/bin/python -I tools/frames_probe.py --count 3`을 돌려 본다. 첫 1~2 경기일은 발행을 끄고(`OWCSKR_PUBLISH=0`) PC 결과와 비교한다(아래 "섀도 운영", `docs/hls-capture.md`).
 - **Oracle Always Free는 유휴 인스턴스를 회수한다** (7일 동안 CPU·네트워크·메모리 사용이 낮으면). 경기 없는 주에는 일일 작업 몇 분뿐이라 회수 대상이 된다. 계정을 **PAYG(종량제)로 올린다**: Always Free 한도 안에서는 요금이 없고 회수 대상에서 빠진다. 부하를 일부러 만드는 방법은 쓰지 않는다. 회수돼도 알 수 있게 아래 healthchecks를 꼭 설정한다.
 
 ## 처음 설치 (Ubuntu 22.04/24.04, ARM 또는 x86)
@@ -104,7 +104,19 @@ tail -f data/live/daily.log data/live/task.log
 ```
 해제: `bash tools/unregister_tasks.sh`. 모든 OWCSKR 타이머를 멈추고 `register_tasks.sh`가 쓴 유닛 파일을 지우며 실패 기록을 지운다. **지금 돌고 있는 캡처와 기록기는 그대로 둔다**(방송 중에 멈추면 그날 나머지를 잃는다): 남긴 유닛과 멈추는 명령을 출력한다. 함께 멈추려면 `bash tools/unregister_tasks.sh --stop-running`. 윈도우의 `OWCSKR_예약해제.bat`도 작업만 지우고 돌고 있는 캡처는 두는 것은 같다.
 
-윈도우 PC와 서버를 같이 돌리면 같은 경기를 두 곳에서 캡처하고 발행한다. 서버를 정식으로 등록하는 날 PC에서 `OWCSKR_예약해제.bat`을 실행한다.
+윈도우 PC와 서버를 같이 돌리면 같은 경기를 두 곳에서 캡처한다. 발행은 한 곳만 해야 하므로, PC가 발행하는 동안 서버는 아래 섀도 운영으로 돌린다. 서버를 정식으로 쓰는 날 PC에서 `OWCSKR_예약해제.bat`을 실행한다.
+
+## 섀도 운영 (발행 끄고 PC와 비교)
+첫 1~2 경기일은 PC가 그대로 발행하고 서버는 판독만 한다. 서버 `.env`에 `OWCSKR_PUBLISH=0`(기본 1)을 넣으면:
+- `live_capture.py`: 맵마다 판독(`ocr_run.py`)과 조립(`assemble_day.py`)은 하고 `publish_day.py`는 건너뛴다. `task.log`에 `publish off (OWCSKR_PUBLISH=0)`가 남고, 결과는 서버의 `data/live/<날짜>/ocr.json`·`mapstats.json`에만 있다. `gh`나 GitHub 토큰이 없어도 시작 점검은 경고만 한다. 하루 요약 알림에는 `N publishable, publish off (OWCSKR_PUBLISH=0)`로 나온다. 손으로 한 번만 끄려면 `live_capture.py --no-publish`.
+- 일일 작업의 `republish_recent.py`: 최근 이틀을 다시 조립만 한다.
+- SOOP 다시보기 댓글(`run_live.sh`의 경기 뒤 댓글, 일일 작업의 `replay_comment.py --post`): 올리지 않고 로그에 `publish off`만 남긴다.
+- 알림(Discord), healthchecks ping, `OWCSKR_SITE_DISPATCH`(사이트 빌드 호출)는 이 설정과 상관없이 그대로 돈다.
+
+순서:
+1. 서버 `.env`에 `OWCSKR_PUBLISH=0`과 `OWCSKR_FRAME_SOURCE=hls`를 넣고 `bash tools/register_tasks.sh`. 바꾼 값은 다음에 시작하는 캡처부터 적용된다(돌고 있는 캡처는 시작할 때 값 그대로).
+2. 경기일이 끝나면 서버와 PC의 `data/live/<날짜>/ocr.json`·`mapstats.json`(맵 수, `totalsVerified`, `labelVerified`, 이름)과 두 하루 요약 알림을 비교한다. 새 화질에 맞춰 사전을 다시 만들 프레임은 서버의 `data/live/<날짜>/frames/`에 있다.
+3. 맞으면 PC에서 `OWCSKR_예약해제.bat`을 실행하고, 서버 `.env`에서 `OWCSKR_PUBLISH=1`로 바꾼다(줄을 지워도 1).
 
 ## 아직 남은 일
 - HLS 원천의 실제 경기일 확인(화질, 키프레임 간격, PC 결과와 비교)과 새 화질에 맞춘 사전 재구축 (`docs/hls-capture.md`).

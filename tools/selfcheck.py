@@ -5,6 +5,7 @@ API:   check(root, source=...) -> [Problem(severity 'fatal'|'warn', item, detail
 live_capture.py runs check(source=<its frame source>) at start and exits 2 (with an alert) on any fatal problem.
 Frame source (--source, default env OWCSKR_FRAME_SOURCE, else obs): with hls, ffmpeg and yt-dlp (FFMPEG_CMD /
 YTDLP_CMD or on PATH) are fatal - nothing else can produce a frame; with obs they are only reported as warnings.
+With publishing off (OWCSKR_PUBLISH=0, live_capture --no-publish) a missing gh or GitHub token is only a warning.
 """
 import glob, importlib.util, json, os, shutil, subprocess, sys
 from dataclasses import dataclass
@@ -149,7 +150,8 @@ def check_frame_source(source: str, env, which=shutil.which) -> list[Problem]:
 
 
 def check_tools(env=None, which=shutil.which, run=subprocess.run, find_spec=importlib.util.find_spec,
-                source: str = 'obs') -> list[Problem]:
+                source: str = 'obs', publish: bool = True) -> list[Problem]:
+    """publish False (OWCSKR_PUBLISH=0 / --no-publish): nothing is uploaded, so gh and its token are only warnings"""
     import publish_day as PD
     env = os.environ if env is None else env
     out = []
@@ -159,6 +161,8 @@ def check_tools(env=None, which=shutil.which, run=subprocess.run, find_spec=impo
     else:
         token = _gh_token(gh, env, run)
         if token: out.append(token)
+    if not publish:
+        out = [Problem('warn', p.item, f'{p.detail} ({PU.PUBLISH_OFF})') if p.severity == 'fatal' else p for p in out]
     tess = env.get('TESSERACT_CMD') or which('tesseract') or (WIN_TESSERACT if PU.IS_WIN and os.path.isfile(WIN_TESSERACT) else None)
     if not tess or not (os.path.isfile(tess) or which(tess)):
         out.append(Problem('fatal', 'tesseract', 'Tesseract OCR binary not found (set TESSERACT_CMD or install it)'))
@@ -168,9 +172,11 @@ def check_tools(env=None, which=shutil.which, run=subprocess.run, find_spec=impo
 
 
 def check(root: str = ROOT, env=None, which=shutil.which, run=subprocess.run, find_spec=importlib.util.find_spec,
-          source: str | None = None) -> list[Problem]:
+          source: str | None = None, publish: bool | None = None) -> list[Problem]:
     source = frame_source(env) if source is None else source
-    return check_references(root) + check_libs(root) + check_data(root) + check_tools(env, which, run, find_spec, source)
+    publish = PU.publish_on(env) if publish is None else publish
+    return (check_references(root) + check_libs(root) + check_data(root)
+            + check_tools(env, which, run, find_spec, source, publish))
 
 
 def main(argv=None) -> int:

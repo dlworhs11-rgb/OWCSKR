@@ -1,7 +1,7 @@
 """Capture a whole broadcast day through OBS or the SOOP HLS stream and read every GAME DATA screen.
 
 usage: python -I tools/live_capture.py [--source obs|hls] [--url URL] [--date YYYY-MM-DD] (--until ISO-DATETIME | --hours 8)
-                                       [--interval 5] [--idle-stop 75]
+                                       [--interval 5] [--idle-stop 75] [--no-publish]
 
 - frame source (--source, default env OWCSKR_FRAME_SOURCE, else obs):
   obs  screenshots of the OBS browser source; --url is the player page. Starts OBS in the tray (dedicated 'OWCSKR'
@@ -18,6 +18,8 @@ usage: python -I tools/live_capture.py [--source obs|hls] [--url URL] [--date YY
   fallback) and up to 3 TOTALS frames (+0 / +5 / +10 s) in data/live/<date>/frames; right after each map it runs
   ocr_run.py -> assemble_day.py -> publish_day.py, so verified stats reach GitHub within minutes. A map whose frames
   stopped (source outage, restart) and that shows again within 3 min of its last saved frame keeps its number
+- shadow run: --no-publish or env OWCSKR_PUBLISH=0 skips publish_day.py (logged 'publish off (...)'); OCR and assembly
+  still run, mapstats.json stays local, and a missing gh / GitHub token is no self-check failure
 - stops at --until (wins over --hours; a restart keeps the same end), on SIGTERM (after the final OCR and publish), or
   when no GAME DATA screen was seen for --idle-stop minutes after at least one map
 - recovers by itself: loop errors are logged and skipped, the frame source is restarted after a minute of failed
@@ -171,10 +173,13 @@ def run_ocr(out, frames, log, alert) -> bool:
     return r is not None
 
 
-def update_and_publish(date, log, alert) -> bool:
+def update_and_publish(date, log, alert, publish_off='') -> bool:
     """after every map: assemble the day from what was read on screen and upload the verified maps.
-    No Liquipedia request here - match/game/map/time come from the broadcast itself."""
+    No Liquipedia request here - match/game/map/time come from the broadcast itself.
+    publish_off: why nothing is uploaded ('publish off (OWCSKR_PUBLISH=0)'), '' = publish."""
     for script in ('tools/assemble_day.py', 'tools/publish_day.py'):
+        if script == 'tools/publish_day.py' and publish_off:
+            log('  ' + publish_off); break
         r = run_script([script, date], log, alert)
         if r is None: return False                   # a failed assembly must not be published from the old file
         log('  ' + os.path.basename(script) + ':', last_line(r.stdout))
@@ -631,7 +636,10 @@ def parse_args(argv=None, env=None):
                     help='end of the capture window, ISO with offset (e.g. 2026-10-25T23:30:00+09:00); wins over --hours')
     ap.add_argument('--interval', type=float, default=5)
     ap.add_argument('--idle-stop', type=float, default=75, help='minutes without GAME DATA (after the first map) before stopping')
+    ap.add_argument('--no-publish', action='store_true',
+                    help=f'read and assemble, upload nothing (shadow run; also env {PU.PUBLISH_ENV}=0)')
     a = ap.parse_args(argv)
+    a.publish_off = 'publish off (--no-publish)' if a.no_publish else '' if PU.publish_on(env) else PU.PUBLISH_OFF
     if a.source not in selfcheck.FRAME_SOURCES:      # argparse checks choices on the command line, not on an env default
         ap.error(f'--source / {selfcheck.SOURCE_ENV}: {a.source!r} is not one of {", ".join(selfcheck.FRAME_SOURCES)}')
     if a.url is None:
@@ -671,21 +679,23 @@ def day_summary(out, frames) -> dict:
             'potm': [f"{r.get('match')}: {(r.get('potm') or {}).get('method') or r.get('potmMethod') or 'none'}" for r in day.get('matches', [])]}
 
 
-def summary_text(date, s) -> str:
+def summary_text(date, s, publish_off='') -> str:
+    """publish_off: a shadow run - 'published' are the maps that would have gone out"""
     ratio = f"{s['unknown']}/{s['rows']} ({100 * s['unknown'] / s['rows']:.0f}%)" if s['rows'] else '-'
-    return (f"{date}: maps {s['detected']} detected, {s['read']} read, {s['verified']} verified, {s['published']} published\n"
+    published = f"{s['published']} publishable, {publish_off}" if publish_off else f"{s['published']} published"
+    return (f"{date}: maps {s['detected']} detected, {s['read']} read, {s['verified']} verified, {published}\n"
             f"unknown names {ratio}\n"
             f"not verified: {', '.join(s['failed']) or '-'}\n"
             f"POTM: {'; '.join(s['potm']) or '-'}")
 
 
-def send_summary(date, out, frames, log, notify=None):
+def send_summary(date, out, frames, log, notify=None, publish_off=''):
     notify = notify or PU.notify
     try:
         s = day_summary(out, frames)
     except Exception as e:
         log('summary failed:', type(e).__name__, e); return
-    text = summary_text(date, s)
+    text = summary_text(date, s, publish_off)
     log('summary:', text.replace('\n', ' | '))
     if s['detected'] == 0:
         notify('OWCSKR 캡처 경고', f'{date}: no GAME DATA screen was detected during the capture window\n' + text)
@@ -702,12 +712,12 @@ def send_summary(date, out, frames, log, notify=None):
 def finalize(a, out, frames, log, alert) -> int:
     ok = run_ocr(out, frames, log, alert)
     if os.path.exists(os.path.join(out, 'ocr.json')):
-        ok = update_and_publish(a.date, log, alert) and ok
+        ok = update_and_publish(a.date, log, alert, a.publish_off) and ok
     return 0 if ok else 1
 
 
-def preflight(log, source='obs') -> bool:
-    problems = selfcheck.check(source=source)
+def preflight(log, source='obs', publish=True) -> bool:
+    problems = selfcheck.check(source=source, publish=publish)
     for p in problems: log('selfcheck', p)
     bad = selfcheck.fatal(problems)
     if bad: PU.notify('OWCSKR 캡처 시작 실패', 'self-check failed:\n' + '\n'.join(str(p) for p in bad))
@@ -718,8 +728,9 @@ def capture(a, out, frames, log, alert, end, source, window=None) -> str:
     """the capture itself -> 'done' (--until / idle stop), 'stopped' (signal) or 'crashed'; the source is always closed"""
     def after_map():
         run_ocr(out, frames, log, alert)
-        update_and_publish(a.date, log, alert)
-    cap = Capture(frames, log, after_map, lambda: update_and_publish(a.date, log, alert), a.interval, a.idle_stop)
+        update_and_publish(a.date, log, alert, a.publish_off)
+    cap = Capture(frames, log, after_map, lambda: update_and_publish(a.date, log, alert, a.publish_off), a.interval,
+                  a.idle_stop)
     try:
         source.start()
         log('capture start', a.source, a.url, 'until',
@@ -762,13 +773,15 @@ def source_busy(source, log, alert) -> int | None:
 
 def run(a, out, frames, log, alert, source_factory=None) -> int:
     end = end_time(a, time.time())
+    if a.publish_off: log(a.publish_off, '- shadow run: OCR and assembly only, nothing uploaded')
     if end <= time.time():           # restarted after the window: only redo the final OCR / publish
         log('capture window already over - final OCR and publish only')
         finishing()
         rc = FINALIZE_FAILED if finalize(a, out, frames, log, alert) != 0 else 0
-        if not os.path.exists(os.path.join(out, SUMMARY_MARK)): send_summary(a.date, out, frames, log)
+        if not os.path.exists(os.path.join(out, SUMMARY_MARK)):
+            send_summary(a.date, out, frames, log, publish_off=a.publish_off)
         return rc
-    if not preflight(log, a.source): return 2
+    if not preflight(log, a.source, not a.publish_off): return 2
     source = (source_factory or source_factory_for(a))(a.url, log)
     busy = source_busy(source, log, alert)
     if busy is not None: return busy
@@ -776,7 +789,7 @@ def run(a, out, frames, log, alert, source_factory=None) -> int:
     finishing()
     finalized = finalize(a, out, frames, log, alert) == 0
     rc = 1 if how == 'crashed' else (0 if finalized else FINALIZE_FAILED)
-    if summary_due(how, end, time.time(), out): send_summary(a.date, out, frames, log)
+    if summary_due(how, end, time.time(), out): send_summary(a.date, out, frames, log, publish_off=a.publish_off)
     else: log(f'capture {how} - no summary from this run')
     log('done')
     return rc

@@ -48,8 +48,14 @@ exit /b %RC%
 if defined OWCSKR_HC_LIVE curl -fsS -m 10 --retry 3 -o NUL "%OWCSKR_HC_LIVE%" >nul 2>&1
 :replay
 rem broadcast over: SOOP timestamp comment as soon as the replay is up (checks every 5 min, up to 6 h; detached so
-rem this task can end). replay_comment.py lives with the site files.
+rem this task can end). replay_comment.py lives with the site files. OWCSKR_PUBLISH=0 (shadow run; python reads
+rem .env too): no comment, the machine that publishes posts it.
+python -I tools\platform_util.py publish >nul 2>&1
+if errorlevel 1 goto nopublish
 if exist "%OWCSKR_SITE_DIR%\replay_comment.py" start "" /d "%OWCSKR_SITE_DIR%" pythonw -X utf8 replay_comment.py --wait %2
+exit /b %RC%
+:nopublish
+echo %DATE% %TIME% run_live %2: publish off (OWCSKR_PUBLISH=0) - replay comment not posted>> "%LOG%"
 exit /b %RC%
 :finished
 echo %DATE% %TIME% run_live %2: day already finished (summary sent) - nothing to do>> "%LOG%"

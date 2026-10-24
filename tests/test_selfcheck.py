@@ -72,6 +72,18 @@ def test_token_from_gh_auth_token(tmp_path):
     assert items(probs, 'fatal') == {'GitHub token'}
 
 
+def test_publish_off_makes_gh_a_warning(tmp_path):
+    """OWCSKR_PUBLISH=0 (shadow run): nothing is uploaded, so a server without gh or a token still captures"""
+    complete_root(tmp_path)
+    probs = SC.check(str(tmp_path), env={'OWCSKR_PUBLISH': '0'}, which=all_tools, run=logged_out, find_spec=has_module)
+    assert SC.fatal(probs) == [] and items(probs, 'warn') == {'GitHub token'}
+    assert 'publish off' in probs[0].detail
+    no_gh = lambda name: None if name == 'gh' else all_tools(name)
+    probs = SC.check(str(tmp_path), env={}, which=no_gh, find_spec=has_module, publish=False)
+    assert SC.fatal(probs) == [] and items(probs, 'warn') == {'gh'}
+    assert items(SC.check(str(tmp_path), env={}, which=no_gh, find_spec=has_module), 'fatal') == {'gh'}
+
+
 def test_token_check_is_local_and_network_trouble_is_not_fatal(tmp_path):
     import subprocess
     complete_root(tmp_path)

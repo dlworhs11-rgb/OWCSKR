@@ -118,10 +118,12 @@ fi
 # broadcast over: SOOP timestamp comment as soon as the replay is up (checks every 5 min, up to 6 h; detached so
 # this job can end). Only after the capture ended (0, or 4: ended, publish failed): a crashed capture is restarted,
 # and the daily job's 'replay_comment.py --post' catches any day this misses. replay_comment.py lives with the site
-# files.
+# files. OWCSKR_PUBLISH=0 (shadow run): no comment, the machine that publishes posts it.
 if [ "$crc" = 0 ] || [ "$crc" = 4 ]; then
   site_dir_state; sd=$?
-  if [ "$sd" = 0 ] && [ -f "$OWCSKR_SITE_DIR/replay_comment.py" ]; then
+  if ! publish_on; then
+    log "publish off (OWCSKR_PUBLISH=0) - replay comment not posted"
+  elif [ "$sd" = 0 ] && [ -f "$OWCSKR_SITE_DIR/replay_comment.py" ]; then
     detach --once "replay-comment-$DAY" "$OWCSKR_SITE_DIR" "$LOG_DIR/replay_comment.log" \
       "$PY" -X utf8 replay_comment.py --wait "$DAY" 9>&- || log "replay_comment.py could not be started"
   elif [ "$sd" = 2 ]; then

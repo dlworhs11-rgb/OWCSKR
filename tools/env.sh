@@ -55,6 +55,10 @@ hc_ping() {
   return 0
 }
 
+# publish_on: true unless OWCSKR_PUBLISH=0 (shadow run: OCR and assembly only, no upload and no SOOP replay comment;
+# the same rule as tools/platform_util.py publish_on)
+publish_on() { [ "$(printf '%s' "${OWCSKR_PUBLISH:-1}" | tr -d '[:space:]')" != 0 ]; }
+
 # site_dir_state: 0 = OWCSKR_SITE_DIR is a folder, 1 = not set (recorders not on this machine), 2 = set but missing
 site_dir_state() {
   [ -n "${OWCSKR_SITE_DIR:-}" ] || return 1

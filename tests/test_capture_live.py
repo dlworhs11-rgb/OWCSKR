@@ -142,6 +142,35 @@ def test_failed_assembly_is_not_published(monkeypatch):
     assert ran == ['assemble_day.py']
 
 
+def test_publish_switch(monkeypatch):
+    """P1-R5 shadow run: OWCSKR_PUBLISH=0 or --no-publish; anything but 0 publishes"""
+    assert LC.parse_args([], env={}).publish_off == ''
+    assert LC.parse_args([], env={'OWCSKR_PUBLISH': '1'}).publish_off == ''
+    assert LC.parse_args([], env={'OWCSKR_PUBLISH': '0'}).publish_off == 'publish off (OWCSKR_PUBLISH=0)'
+    assert LC.parse_args(['--no-publish'], env={}).publish_off == 'publish off (--no-publish)'
+
+
+def test_publish_off_assembles_but_never_publishes(monkeypatch):
+    ran, logs = [], []
+    monkeypatch.setattr(LC.subprocess, 'run', lambda cmd, **kw: ran.append(os.path.basename(cmd[2]))
+                        or types.SimpleNamespace(returncode=0, stdout='2 maps', stderr=''))
+    off = 'publish off (OWCSKR_PUBLISH=0)'
+    assert LC.update_and_publish('2026-10-25', lambda *x: logs.append(' '.join(x)), LC.Alerter(lambda t, x: None), off)
+    assert ran == ['assemble_day.py'] and logs[-1].strip() == off
+
+
+def test_shadow_run_tells_selfcheck_and_the_summary(tmp_path, monkeypatch):
+    seen, logs = {}, []
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda **k: seen.update(k) or [LC.selfcheck.Problem('fatal', 'x', 'y')])
+    monkeypatch.setattr(LC.PU, 'notify', lambda t, x: None)
+    a = LC.parse_args(['--date', '2026-10-25', '--hours', '1'], env={'OWCSKR_PUBLISH': '0'})
+    assert LC.run(a, str(tmp_path), str(tmp_path), lambda *x: logs.append(' '.join(map(str, x))),
+                  LC.Alerter(lambda t, x: None)) == 2
+    assert seen['publish'] is False and logs[0].startswith('publish off (OWCSKR_PUBLISH=0)')
+    s = {'detected': 1, 'read': 1, 'verified': 1, 'published': 1, 'failed': [], 'unknown': 0, 'rows': 0, 'potm': []}
+    assert '1 publishable, publish off (OWCSKR_PUBLISH=0)' in LC.summary_text('2026-10-25', s, a.publish_off)
+
+
 # ---- frozen / black frames -----------------------------------------------------------------------------------
 
 def test_frozen_frame_refreshes_then_alerts_once():

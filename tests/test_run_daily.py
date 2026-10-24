@@ -141,3 +141,16 @@ def test_discovery_commit_is_pushed(world):
     assert rc == 0, daily
     assert world.head() == world.git(world.dev, 'ls-remote', 'origin', 'main').split()[0]
     assert world.git(world.srv, 'log', '-1', '--format=%s').startswith('data: discovered competitions')
+
+
+def test_shadow_run_posts_no_replay_comments(world):
+    """OWCSKR_PUBLISH=0 (P1-R5): the publishing machine posts the SOOP comments, not this one"""
+    site = world.tmp / 'site'
+    site.mkdir()
+    (site / 'replay_comment.py').write_text('', encoding='utf-8')
+    rc, daily, calls = world.run_daily(OWCSKR_SITE_DIR=site.as_posix())
+    assert 'replay_comment.py --post' in calls
+    world.log.unlink()
+    rc, daily, calls = world.run_daily(OWCSKR_SITE_DIR=site.as_posix(), OWCSKR_PUBLISH='0')
+    assert 'replay_comment.py' not in calls
+    assert 'publish off (OWCSKR_PUBLISH=0) - replay comments not posted' in daily

@@ -68,7 +68,7 @@ def test_run_checks_and_builds_the_chosen_source(tmp_path, monkeypatch):
     monkeypatch.setattr(LC, 'send_summary', lambda *x, **k: None)
     a = LC.parse_args(['--date', '2026-10-25', '--hours', '1'], env={'OWCSKR_FRAME_SOURCE': 'hls'})
     assert LC.run(a, str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None)) == 0
-    assert seen == {'source': 'hls'} and built == ['owesports']
+    assert seen == {'source': 'hls', 'publish': True} and built == ['owesports']
 
 
 # ---- GAME DATA: offset search and alignment ------------------------------------------------------------------

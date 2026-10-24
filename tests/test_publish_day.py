@@ -167,6 +167,21 @@ def test_republish_ok(tmp_path, monkeypatch):
     assert RR.main(datetime.date(2026, 10, 25), ok) == 0
 
 
+def test_republish_shadow_run_assembles_only(tmp_path, monkeypatch, capsys):
+    """OWCSKR_PUBLISH=0 (P1-R5 shadow run): the server re-assembles but never uploads next to the publishing PC"""
+    monkeypatch.setattr(RR, 'ROOT', str(tmp_path))
+    (tmp_path / 'data' / 'live' / '2026-10-25').mkdir(parents=True)
+    (tmp_path / 'data' / 'live' / '2026-10-25' / 'ocr.json').write_text('[]', encoding='utf-8')
+    calls = []
+    ok = lambda cmd, **kw: calls.append(os.path.basename(cmd[2])) or types.SimpleNamespace(returncode=0, stdout='', stderr='')
+    assert RR.main(datetime.date(2026, 10, 25), ok, env={'OWCSKR_PUBLISH': ' 0 '}) == 0
+    assert calls == ['assemble_day.py']
+    assert 'publish off (OWCSKR_PUBLISH=0)' in capsys.readouterr().out
+    calls.clear()
+    assert RR.main(datetime.date(2026, 10, 25), ok, env={'OWCSKR_PUBLISH': '1'}) == 0
+    assert calls == ['assemble_day.py', 'publish_day.py']
+
+
 class RacingGH(FakeGH):
     """the first PUTs fail with a sha conflict: someone else wrote the file between our GET and our PUT"""
     def __init__(self, conflicts, after=None, code='409', **kw):

@@ -96,3 +96,15 @@ def test_hls_source_never_starts_xvfb(live):
     rc, calls = live(DISPLAY='', OWCSKR_FRAME_SOURCE='HLS')
     assert rc == 0 and not any(c.startswith('Xvfb') for c in live.all_calls)
     assert calls == [f'py -I tools/live_capture.py --until {UNTIL} --date {DAY}']
+
+
+def test_shadow_run_posts_no_replay_comment(live, tmp_path):
+    """OWCSKR_PUBLISH=0 (P1-R5): the capture runs as usual, the replay comment is left to the publishing machine"""
+    site = tmp_path / 'site'
+    site.mkdir()
+    (site / 'replay_comment.py').write_text('', encoding='utf-8')
+    rc, calls = live(OWCSKR_SITE_DIR=site.as_posix(), OWCSKR_PUBLISH='0')
+    assert rc == 0 and calls == [f'py -I tools/live_capture.py --until {UNTIL} --date {DAY}']
+    assert not any('replay_comment' in c for c in live.all_calls)
+    task = (live.day.parent / 'task.log').read_text(encoding='utf-8')
+    assert 'publish off (OWCSKR_PUBLISH=0) - replay comment not posted' in task
