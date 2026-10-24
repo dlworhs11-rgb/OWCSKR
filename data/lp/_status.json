@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-10-24T05:00:44.476Z",
+ "updatedAt": "2026-10-24T05:06:09.061Z",
  "failures": 0,
  "rateLimit": null,
  "pages": {
@@ -252,7 +252,7 @@
    "shrinkFrom": null,
    "error": null,
    "missing": true,
-   "lastOk": "2026-10-24T05:00:44.476Z"
+   "lastOk": "2026-10-24T05:06:09.061Z"
   },
   "Overwatch Champions Series/2026/Asia/Stage 3/Korea": {
    "ok": true,
@@ -262,7 +262,7 @@
    "redirect": null,
    "shrinkFrom": null,
    "error": null,
-   "lastOk": "2026-10-24T05:00:44.476Z"
+   "lastOk": "2026-10-24T05:06:09.061Z"
   },
   "Overwatch Champions Series/2026/Asia/Stage 3/Korea/Open Qualifier": {
    "ok": true,
@@ -272,7 +272,7 @@
    "redirect": null,
    "shrinkFrom": null,
    "error": null,
-   "lastOk": "2026-10-24T05:00:44.476Z"
+   "lastOk": "2026-10-24T05:06:09.061Z"
   },
   "Overwatch Champions Series/2026/Champions Clash": {
    "ok": true,
@@ -302,7 +302,7 @@
    "redirect": null,
    "shrinkFrom": null,
    "error": null,
-   "lastOk": "2026-10-24T05:00:44.476Z"
+   "lastOk": "2026-10-24T05:06:09.061Z"
   },
   "Overwatch Champions Series/2024/Asia/Stage 1/Korea/Group Stage": {
    "ok": true,
@@ -402,7 +402,7 @@
    "redirect": null,
    "shrinkFrom": null,
    "error": null,
-   "lastOk": "2026-10-24T05:00:44.476Z"
+   "lastOk": "2026-10-24T05:06:09.061Z"
   },
   "Overwatch Champions Series/2026/Midseason Championship/Group Stage": {
    "ok": true,
