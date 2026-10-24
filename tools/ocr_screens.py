@@ -7,14 +7,20 @@ POTM screen (after a match): player name + ELIMS DEATH E/D DMG DMG/M for the who
 All coordinates are measured on a 960x540 frame; frames of any 16:9 size are resized to 1920x1080 and scaled by 2.
 """
 import difflib, json, os, re, sys
-import cv2, numpy as np, pytesseract
+import cv2, numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from platform_util import tesseract_cmd
 
-pytesseract.pytesseract.tesseract_cmd = tesseract_cmd()
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REF_BAN = cv2.imread(os.path.join(ROOT, 'data', 'ref', 'ban_960.jpg'))
-REF_POTM = cv2.imread(os.path.join(ROOT, 'data', 'ref', 'potm_960.jpg'))
+
+
+def _ref(name):
+    p = os.path.join(ROOT, 'data', 'ref', name)
+    return cv2.imread(p) if os.path.exists(p) else None      # absent off the capture PC
+
+
+REF_BAN = _ref('ban_960.jpg')
+REF_POTM = _ref('potm_960.jpg')
 BAN_KEY = (slice(440, 458), slice(430, 530))       # 'SELECTED MAP' label (same in both ban layouts)
 POTM_KEY = (slice(26, 54), slice(130, 830))        # 'PLAYER OF THE MATCH' title
 
@@ -30,6 +36,17 @@ def screen_kind(img):
     return None
 
 
+_PT = None
+def _tess():
+    """pytesseract, imported on first use so the assembly step and the tests run without it"""
+    global _PT
+    if _PT is None:
+        import pytesseract
+        pytesseract.pytesseract.tesseract_cmd = tesseract_cmd()
+        _PT = pytesseract
+    return _PT
+
+
 def _ocr(img, box, psm=7, cfg=''):
     """box = (x0, x1, y0, y1) on the 960x540 grid; cropped from the original frame, then enlarged to 4x of 960 scale"""
     sx = img.shape[1] / 960.0
@@ -38,7 +55,7 @@ def _ocr(img, box, psm=7, cfg=''):
     g = cv2.resize(g, None, fx=4 / sx, fy=4 / sx, interpolation=cv2.INTER_CUBIC)
     _, b = cv2.threshold(g, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
     b = cv2.copyMakeBorder(b, 30, 30, 30, 30, cv2.BORDER_CONSTANT, value=255)
-    return pytesseract.image_to_string(b, config=f'--psm {psm} {cfg}').strip(), b
+    return _tess().image_to_string(b, config=f'--psm {psm} {cfg}').strip(), b
 
 
 DIGIT_LIB = os.path.join(ROOT, 'data', 'digit_lib')      # bold bar/POTM digits: <d>__<tag>.png (tools/build_digit_lib.py)
@@ -65,6 +82,14 @@ def digit_glyphs(img, box):
 
 
 _DLIB = None
+_DCUT = None
+DIGIT_MIN_SAMPLES = 3
+DIGIT_CUTOFF_PCT, DIGIT_CUTOFF_FACTOR = 95, 2.0
+
+
+def _blur(a): return cv2.GaussianBlur(a, (5, 5), 1.2)
+
+
 def _digit_lib():
     global _DLIB
     if _DLIB is None:
@@ -72,19 +97,62 @@ def _digit_lib():
         _DLIB = []
         for f in glob.glob(os.path.join(DIGIT_LIB, '*.png')):
             d = os.path.basename(f).split('__')[0]
-            _DLIB.append((d, cv2.GaussianBlur(cv2.imdecode(np.fromfile(f, np.uint8), cv2.IMREAD_GRAYSCALE).astype(np.float32) / 255, (5, 5), 1.2)))
+            _DLIB.append((d, _blur(cv2.imdecode(np.fromfile(f, np.uint8), cv2.IMREAD_GRAYSCALE).astype(np.float32) / 255)))
     return _DLIB
 
 
-def read_digits(img, box):
-    """digits in a box via the bold-digit library; None when the library is empty or nothing is there"""
-    lib, gl = _digit_lib(), digit_glyphs(img, box)
-    if not lib or not gl: return None
+def digit_counts(lib=None):
+    """{'0'..'9': samples in the bold-digit library}"""
+    lib = _digit_lib() if lib is None else lib
+    return {d: sum(1 for e, _ in lib if e == d) for d in '0123456789'}
+
+
+def digit_cutoff(lib, pct=DIGIT_CUTOFF_PCT, factor=DIGIT_CUTOFF_FACTOR):
+    """largest distance a glyph may have to its nearest library sample and still count as that digit.
+
+    A real glyph lies about as far from the library as library samples lie from their nearest same-digit
+    neighbour (leave-one-out), so cutoff = factor x pct-th percentile of those distances (new frames come from
+    other days and lighting, hence factor 2). Identical seed samples would give 0, so it is never below half the
+    median distance between a sample and its nearest other digit. OWCSKR_DIGIT_CUTOFF overrides it;
+    None (no cutoff) when no digit has two samples."""
+    env = os.environ.get('OWCSKR_DIGIT_CUTOFF')
+    if env: return float(env)
+    same, other = [], []
+    for i, (d, a) in enumerate(lib):
+        ds = [(e == d, float(((a - b) ** 2).sum())) for j, (e, b) in enumerate(lib) if j != i]
+        sd, od = [x for k, x in ds if k], [x for k, x in ds if not k]
+        if sd: same.append(min(sd))
+        if od: other.append(min(od))
+    if not same: return None
+    cut = float(np.percentile(same, pct)) * factor
+    return max(cut, 0.5 * float(np.median(other))) if other else cut
+
+
+def _digit_cutoff():
+    global _DCUT
+    if _DCUT is None: _DCUT = digit_cutoff(_digit_lib())
+    return _DCUT
+
+
+def match_digits(lib, glyphs, cutoff):
+    """nearest library digit per (unblurred) glyph; None when any glyph is farther than the cutoff (intro-animation
+    noise read as '0/2/1' on 10-23), so the caller falls back to Tesseract"""
+    if not lib or not glyphs: return None
     out = ''
-    for f in gl:
-        f = cv2.GaussianBlur(f, (5, 5), 1.2)
-        out += min(lib, key=lambda e: float(((e[1] - f) ** 2).sum()))[0]
+    for f in glyphs:
+        f = _blur(f)
+        d, dist = min(((e, float(((a - f) ** 2).sum())) for e, a in lib), key=lambda t: t[1])
+        if cutoff is not None and dist > cutoff: return None
+        out += d
     return out
+
+
+def read_digits(img, box, cutoff=None):
+    """digits in a box via the bold-digit library; None when the library is empty, nothing is there or a glyph
+    is not close to any library digit (cutoff: digit_cutoff of the library unless given)"""
+    lib = _digit_lib()
+    if not lib: return None
+    return match_digits(lib, digit_glyphs(img, box), _digit_cutoff() if cutoff is None else cutoff)
 
 
 def _score(img, box):
