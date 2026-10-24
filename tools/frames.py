@@ -10,7 +10,9 @@
 - HlsFrames: one ffmpeg process decoding 1 frame per interval to raw bgr24 on stdout; a reader thread keeps the latest
   frame; a supervisor re-resolves the URL (tokens expire) and restarts ffmpeg on exit / stall / HTTP 403 with
   exponential backoff (cap 60 s)
-- normalize(): crops uniform black letter/pillar-box bars at the edges and resizes to 1920x1080 (INTER_CUBIC)
+- normalize(): crops uniform, centred black letter/pillar-box bars and resizes to 1920x1080 (INTER_CUBIC);
+  StableCrop: the same for a stream, following only a crop that lasts several frames
+- HlsSource: live_capture's frame-source interface (as ObsSource) over HlsFrames + StableCrop; grab() raises
 
 Binaries: FFMPEG_CMD / YTDLP_CMD env override, else ffmpeg / yt-dlp on PATH.
 """
