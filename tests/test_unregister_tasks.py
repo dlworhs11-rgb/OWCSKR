@@ -1,5 +1,6 @@
 """tools/unregister_tasks.sh with a stub systemctl: unit names parsed past status marks, running captures and
-recorders left alone unless --stop-running."""
+recorders left alone unless --stop-running. tools/unregister_tasks.ps1 with stub ScheduledTasks cmdlets: a Running
+task is left registered (and running), the rest are removed."""
 import os, shutil, subprocess
 
 import pytest
@@ -70,3 +71,45 @@ def test_stop_running_stops_captures_and_recorders(unregister):
 def test_unknown_argument_is_refused(unregister):
     r, calls = unregister('--all')
     assert r.returncode == 2 and calls == []
+
+
+# functions win over cmdlets of the same name: nothing touches the real Task Scheduler
+PS_STUBS = r'''
+function Get-ScheduledTask { [CmdletBinding()] param($TaskPath)
+  foreach ($t in ($env:FAKE_TASKS -split ';' | Where-Object { $_ })) {
+    $name, $state = $t -split '='
+    [pscustomobject]@{ TaskPath = $TaskPath; TaskName = $name; State = $state }
+  }
+}
+function Unregister-ScheduledTask { [CmdletBinding()] param($TaskPath, $TaskName, [switch]$Confirm)
+  Write-Host "UNREGISTER $TaskPath$TaskName confirm=$Confirm"
+}
+'''
+
+
+def run_ps1(tasks):
+    ps = shutil.which('powershell')
+    if os.name != 'nt' or not ps:
+        pytest.skip('Windows PowerShell')
+    script = os.path.join(HERE, 'tools', 'unregister_tasks.ps1')
+    cmd = PS_STUBS + f"& '{script}'"
+    r = subprocess.run([ps, '-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', cmd], capture_output=True,
+                       text=True, timeout=120, env=dict(os.environ, FAKE_TASKS=tasks))
+    assert r.returncode == 0 and not r.stderr.strip(), r.stderr
+    return r.stdout.splitlines()
+
+
+def test_ps1_leaves_a_running_capture_registered():
+    out = run_ps1('Daily=Ready;LiveCapture_2026-10-25=Running;Freshness_2026-10-25=Ready;SoopQuality_2026-10-24=Disabled')
+    removed = [x for x in out if x.startswith('UNREGISTER')]
+    assert removed == [r'UNREGISTER \OWCSKR\Daily confirm=False', r'UNREGISTER \OWCSKR\Freshness_2026-10-25 confirm=False',
+                       r'UNREGISTER \OWCSKR\SoopQuality_2026-10-24 confirm=False']
+    assert r'  OWCSKR\LiveCapture_2026-10-25' in out
+    assert any('Stop-ScheduledTask' in x for x in out) and any('Left running' in x for x in out)
+
+
+def test_ps1_removes_everything_when_nothing_runs():
+    out = run_ps1('Daily=Ready;LiveCapture_2026-10-25=Ready')
+    assert len([x for x in out if x.startswith('UNREGISTER')]) == 2
+    assert out[-1] == 'All OWCSKR scheduled tasks removed (2).'
+    assert run_ps1('')[-1] == 'All OWCSKR scheduled tasks removed (0).'

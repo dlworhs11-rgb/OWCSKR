@@ -102,7 +102,7 @@ tail -f data/live/daily.log data/live/task.log
 .venv/bin/python -I tools/healthcheck.py --quiet                 # 사이트 최신성
 .venv/bin/python -m pytest tests
 ```
-해제: `bash tools/unregister_tasks.sh`. 모든 OWCSKR 타이머를 멈추고 `register_tasks.sh`가 쓴 유닛 파일을 지우며 실패 기록을 지운다. **지금 돌고 있는 캡처와 기록기는 그대로 둔다**(방송 중에 멈추면 그날 나머지를 잃는다): 남긴 유닛과 멈추는 명령을 출력한다. 함께 멈추려면 `bash tools/unregister_tasks.sh --stop-running`. 윈도우의 `OWCSKR_예약해제.bat`도 작업만 지우고 돌고 있는 캡처는 두는 것은 같다.
+해제: `bash tools/unregister_tasks.sh`. 모든 OWCSKR 타이머를 멈추고 `register_tasks.sh`가 쓴 유닛 파일을 지우며 실패 기록을 지운다. **지금 돌고 있는 캡처와 기록기는 그대로 둔다**(방송 중에 멈추면 그날 나머지를 잃는다): 남긴 유닛과 멈추는 명령을 출력한다. 함께 멈추려면 `bash tools/unregister_tasks.sh --stop-running`. 윈도우의 `OWCSKR_예약해제.bat`(`unregister_tasks.ps1`)도 같다: 상태가 `Running`인 작업(방송 중인 캡처)은 등록도 실행도 그대로 두고 이름과 멈추는 명령(`Stop-ScheduledTask -TaskPath '\OWCSKR\' -TaskName <이름>`)을 출력하며, 나머지 작업만 지운다. 그 작업이 끝난 뒤 한 번 더 실행하면 마저 지운다.
 
 윈도우 PC와 서버를 같이 돌리면 같은 경기를 두 곳에서 캡처한다. 발행은 한 곳만 해야 하므로, PC가 발행하는 동안 서버는 아래 섀도 운영으로 돌린다. 서버를 정식으로 쓰는 날 PC에서 `OWCSKR_예약해제.bat`을 실행한다.
 
