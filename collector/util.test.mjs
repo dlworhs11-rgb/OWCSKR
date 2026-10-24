@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { knownPlayer, kstDay, readJson, writeJson, renameRetry } from './util.mjs';
+import { knownPlayer, kstDay, readJson, writeJson, renameRetry, addPlayerRow } from './util.mjs';
 
 test('knownPlayer skips unknown broadcast names in both published shapes', () => {
   assert.equal(knownPlayer({ name: 'HeeSang' }), true);
@@ -42,4 +42,13 @@ test('renameRetry: busy target (Windows EPERM / EBUSY) is tried again, other err
   await assert.rejects(renameRetry('a', 'b', { rename: other }), /ENOENT/); assert.equal(other.count(), 1);
   const stuck = fake(['EPERM', 'EPERM', 'EPERM']);
   await assert.rejects(renameRetry('a', 'b', { rename: stuck, tries: 3 }), /EPERM/); assert.equal(stuck.count(), 3);
+});
+
+test('addPlayerRow: a null assist count is left out (not added as 0), aMaps counts the maps that had one', () => {
+  const acc = { maps: 0, secs: 0, e: 0, a: 0, aMaps: 0, d: 0, dmg: 0, heal: 0, mit: 0 };
+  addPlayerRow(acc, { e: 10, a: 4, d: 2, dmg: 9000, heal: 0, mit: 100 }, 600);
+  addPlayerRow(acc, { e: 5, a: null, d: 3, dmg: 4000, heal: 0, mit: 50 }, null);
+  assert.deepEqual(acc, { maps: 2, secs: 600, e: 15, a: 4, aMaps: 1, d: 5, dmg: 13000, heal: 0, mit: 150 });
+  addPlayerRow(acc, { e: 1, a: 0, d: 0, dmg: 0, heal: 0, mit: 0 }, 60);
+  assert.equal(acc.a, 4); assert.equal(acc.aMaps, 2);   // a real 0 counts
 });

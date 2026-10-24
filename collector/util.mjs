@@ -31,3 +31,11 @@ export const knownPlayer = r => {
   const n = typeof r?.name === 'string' ? r.name.trim() : '';
   return n !== '' && !/^\?\d+$/.test(n);
 };
+
+// one broadcast table row into a player's totals. 'a' is null when the table frames did not agree on it (ocr_run
+// agreed_assists; not in verifiedFields): it is left out of the assist total, aMaps counts the maps it is in
+export function addPlayerRow(acc, r, dur) {
+  acc.maps++; acc.secs += dur || 0; acc.e += r.e; acc.d += r.d; acc.dmg += r.dmg; acc.heal += r.heal; acc.mit += r.mit;
+  if (r.a != null) { acc.a += r.a; acc.aMaps++; }
+  return acc;
+}
