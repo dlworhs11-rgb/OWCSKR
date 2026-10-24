@@ -243,8 +243,8 @@
     "Cheeseburger": 1,
     "ZETA DIVISION": 0
    },
-   "winner": "Cheeseburger",
-   "winnerSource": "match end (leader)"
+   "winner": "ZETA DIVISION",
+   "winnerSource": "series score"
   }
  ],
  "matches": [
@@ -252,7 +252,8 @@
    "match": "Cheeseburger vs ZETA DIVISION",
    "matchNo": 1,
    "mapWins": {
-    "Cheeseburger": 2
+    "Cheeseburger": 1,
+    "ZETA DIVISION": 1
    },
    "potm": null
   }
@@ -311,6 +312,36 @@
   {
    "id": "?11",
    "map": "02",
+   "row": 9
+  },
+  {
+   "id": "?12",
+   "map": "03",
+   "row": 0
+  },
+  {
+   "id": "?13",
+   "map": "03",
+   "row": 1
+  },
+  {
+   "id": "?14",
+   "map": "03",
+   "row": 2
+  },
+  {
+   "id": "?15",
+   "map": "03",
+   "row": 4
+  },
+  {
+   "id": "?16",
+   "map": "03",
+   "row": 6
+  },
+  {
+   "id": "?17",
+   "map": "03",
    "row": 9
   }
  ],
