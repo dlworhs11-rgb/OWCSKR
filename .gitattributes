@@ -2,3 +2,4 @@
 *.cmd text eol=crlf
 *.sh text eol=lf
 *.wiki text eol=lf
+.env.example text eol=lf
