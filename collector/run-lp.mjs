@@ -1,6 +1,8 @@
 // Liquipedia pages in data/competitions.json -> data/lp/<slug>.json (2.2 s between requests, data/lp-cache 6 h).
 //   node collector/run-lp.mjs                every page (core + the World Cup pages already in data/lp or active)
-//   node collector/run-lp.mjs --active-only  only the pages matching data/active.json (and pages with no data/lp file yet)
+//   node collector/run-lp.mjs --active-only  only the pages matching data/active.json (and pages with no data/lp file yet);
+//                                            a full title there matches only itself, a short one ('2026/Asia/Stage 3')
+//                                            every title containing it (util.isActiveTitle, same as owcs-kr cloud_live)
 //   node collector/run-lp.mjs --discover     find new stage / event pages, update data/competitions.json (core) and
 //                                            data/active.json, print them, fetch no matches. Run it before --active-only.
 // --discover reads the newest Korea stage page (tabs, |next=) and the list of pages named
@@ -22,17 +24,18 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fetchPage, pagesWithPrefix, resolveTitles, parseMatches, RateLimited } from './liquipedia.mjs';
-import { readJson, writeJson, kstDay } from './util.mjs';
+import { readJson, writeJson, kstDay, isActiveTitle } from './util.mjs';
 
 const OCS = 'Overwatch Champions Series/';
 const MAX_AGE = 6 * 3600e3;
 export const fileOf = title => { const slug = title.replace(/^Overwatch (Champions Series|World Cup)\//, '').replace(/[^a-z0-9]+/gi, '-').toLowerCase(); return `data/lp/${title.includes('World Cup') ? 'owwc-' : 'owcs-'}${slug}.json`; };
 const exists = f => fs.access(f).then(() => true, () => false);
-// substring match, same as owcs-kr cloud_live.active_titles (old entries are short: '2026/Asia/Stage 3')
-export const isActive = (title, active) => active.some(a => title.includes(a));
+// full titles match exactly, old short entries ('2026/Asia/Stage 3') by substring: same as owcs-kr cloud_live.active_titles
+export const isActive = isActiveTitle;
 
 // core + World Cup pages that are active or already collected. The World Cup list also has qualifiers we never fetch:
-// a World Cup page counts as active only by its exact title ('Overwatch World Cup/2026' would substring-match them all)
+// a World Cup page counts as active only by its exact title ('Overwatch World Cup/2026' would substring-match them all,
+// so a short entry does not pull World Cup pages in)
 export async function titlesOf(comps, active, has = t => exists(fileOf(t))) {
   const wc = [];
   for (const t of comps.world_cup || []) if (active.includes(t) || await has(t)) wc.push(t);
@@ -162,7 +165,7 @@ export function computeActive({ titles, pages, today, days = 30 }) {
   const lo = shift(-days), hi = shift(days), year = +today.slice(0, 4);
   return titles.filter(t => {
     const ms = pages[t];
-    if (!ms) return false;
+    if (!ms || !t.startsWith('Overwatch ')) return false;   // only full titles: they match exactly (isActiveTitle)
     if (ms.some(m => m.date && kstDay(m.date) >= lo && kstDay(m.date) <= hi)) return true;
     if (yearOf(t) < year) return false;
     return !ms.some(m => m.date) || ms.some(m => !m.date && !m.played);

@@ -39,3 +39,10 @@ export function addPlayerRow(acc, r, dur) {
   if (r.a != null) { acc.a += r.a; acc.aMaps++; }
   return acc;
 }
+
+// data/active.json entry -> does it cover this page. Shared contract with owcs-kr cloud_live.active_titles: an entry
+// starting with 'Overwatch ' is a full page title and covers only that page ('.../Stage 3/Korea' must not pull the
+// finished '.../Stage 3/Korea/Open Qualifier'); an older short entry ('2026/Asia/Stage 3/Korea', the site's
+// add_next_stage) keeps substring matching
+export const isActiveTitle = (title, active) =>
+  (active || []).some(a => typeof a === 'string' && a !== '' && (a.startsWith('Overwatch ') ? title === a : title.includes(a)));

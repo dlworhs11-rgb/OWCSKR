@@ -148,6 +148,9 @@ test('computeActive: dated within +-30 days (KST), or this year and nothing date
   // the missing '2026/Asia/Stage 3' overview would substring-match (cloud_live, --active-only) every page of the stage
   assert.ok(!active.includes(OCS + '2026/Asia/Stage 3') && !active.includes(OCS + '2027/Asia/Stage 1/Korea'));
   assert.deepEqual(computeActive({ titles, pages, today: '2026-10-24' }), active);   // pure: same input, same list
+  // only full titles are written to active.json (they match exactly; a short one would substring-match)
+  assert.ok(active.every(t => t.startsWith('Overwatch ')));
+  assert.deepEqual(computeActive({ titles: ['2026/Asia/Stage 3/Korea'], pages: { '2026/Asia/Stage 3/Korea': [] }, today: '2026-10-24' }), []);
   // new year: last year's pages with nothing dated or undated matches left drop out
   assert.deepEqual(computeActive({ titles, pages, today: '2027-01-20' }), [OCS + '2027/Champions Clash']);
 });
@@ -193,11 +196,11 @@ cfg.fetch = async () => {
   if (mode === '429') return new Response('{}', { status: 429, headers: { 'retry-after': '90' } });
   return new Response(JSON.stringify({ query: { pages: { 1: { title: 'X', revisions: [{ slots: { main: { '*': text } } }] } } } }), { status: 200 });
 };`;
-async function cli(args, mode, { core = [OCS + '2026/A', OCS + '2026/B'], lp = {} } = {}) {
+async function cli(args, mode, { core = [OCS + '2026/A', OCS + '2026/B'], lp = {}, active = [] } = {}) {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'run-lp-cli-'));
   await fs.mkdir(path.join(dir, 'data/lp'), { recursive: true });
   await fs.writeFile(path.join(dir, 'data/competitions.json'), JSON.stringify({ core }));
-  await fs.writeFile(path.join(dir, 'data/active.json'), '[]');
+  await fs.writeFile(path.join(dir, 'data/active.json'), JSON.stringify(active));
   for (const [f, d] of Object.entries(lp)) await fs.writeFile(path.join(dir, f), JSON.stringify(d));
   await fs.writeFile(path.join(dir, 'preload.mjs'), PRELOAD);
   const r = spawnSync(process.execPath, ['--import', pathToFileURL(path.join(dir, 'preload.mjs')).href, RUN_LP, ...args],
@@ -242,4 +245,15 @@ test('CLI: every page read -> exit 0; 429 -> exit 2 with rateLimit (--strict); n
   try { assert.equal(disc.code, 2, disc.out); assert.deepEqual((await disc.read('data/competitions.json')).core, core); } finally { await disc.done(); }
   const soft = await cli(['--discover'], 'down', { core });
   try { assert.equal(soft.code, 0, soft.out); assert.match(soft.out, /ERR discover failed, nothing written: network/); } finally { await soft.done(); }
+});
+
+test('CLI --active-only: an active full title re-reads only that page, not the collected pages below it (RC-12)', async () => {
+  const K = OCS + '2026/Asia/Stage 3/Korea', OQ = K + '/Open Qualifier';
+  const r = await cli(['--active-only'], 'ok', { core: [K, OQ], active: [K], lp: { [fileOf(K)]: oldMatches(5), [fileOf(OQ)]: oldMatches(5) } });
+  try {
+    assert.equal(r.code, 0, r.out);
+    assert.deepEqual(Object.keys((await r.read('data/lp/_status.json')).pages), [K]);
+  } finally { await r.done(); }
+  const legacy = await cli(['--active-only'], 'ok', { core: [K, OQ], active: ['2026/Asia/Stage 3/Korea'], lp: { [fileOf(K)]: oldMatches(5), [fileOf(OQ)]: oldMatches(5) } });
+  try { assert.deepEqual(Object.keys((await legacy.read('data/lp/_status.json')).pages), [K, OQ]); } finally { await legacy.done(); }
 });
