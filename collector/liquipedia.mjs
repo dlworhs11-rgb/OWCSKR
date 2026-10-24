@@ -20,7 +20,8 @@ async function once(url) {
   if (wait > 0) await sleep(wait);
   last = Date.now();
   const res = await cfg.fetch(url, { headers: { 'user-agent': UA, 'accept-encoding': 'gzip' }, signal: AbortSignal.timeout(cfg.timeout) });
-  const body = await res.json().catch(() => null);
+  // the timeout also covers reading the body: that is a network error (retried), not 'response is not JSON'
+  const body = await res.json().catch(e => { if (e?.name === 'TimeoutError' || e?.name === 'AbortError') throw e; return null; });
   return { res, body };
 }
 

@@ -131,6 +131,15 @@ test('api: one retry on 5xx and on network errors, then gives up', async () => {
   assert.equal(calls.length, 8);
 });
 
+test('api: a timeout while reading the body is a network error and is retried', async () => {
+  const slow = () => Object.assign(new Response('{}', { status: 200 }), { json: async () => { throw Object.assign(new Error('aborted'), { name: 'TimeoutError' }); } });
+  replies.push(slow, pageReply('A', 'ok'));
+  assert.equal((await fetchPage('A')).text, 'ok');
+  replies.push(slow, slow);
+  await assert.rejects(fetchPage('B'), /network: timeout 20s/);
+  assert.equal(calls.length, 4);
+});
+
 test('api: maxlag is retried once; other API errors and replies without query are failures', async () => {
   replies.push(json({ error: { code: 'maxlag', info: 'lagged' } }, 503, { 'retry-after': '0' }), pageReply('A', 'ok'));
   assert.equal((await fetchPage('A')).text, 'ok');
