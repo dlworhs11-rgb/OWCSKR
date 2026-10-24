@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { cfg, parseDate, parseMatches, fetchPage, linksOf, pagesWithPrefix, resolveTitles, isRedirectBody, RateLimited } from './liquipedia.mjs';
+import { cfg, parseDate, parseMatches, cleanLabel, fetchPage, linksOf, pagesWithPrefix, resolveTitles, isRedirectBody, RateLimited } from './liquipedia.mjs';
 
 const fixture = name => fs.readFile(new URL('./fixtures/' + name, import.meta.url), 'utf8');
 const DATES = await fixture('dates.wiki'), WF = await fixture('wf2025-excerpt.wiki');
@@ -176,4 +176,40 @@ test('real 2025 World Finals excerpt: abbreviated month dates with CET', async (
   assert.deepEqual(ms.map(m => m.date), ['2025-11-26T16:05:00+01:00', '2025-11-26T15:00:00+01:00']);
   assert.equal(stats.dateless, 0); assert.equal(warns.length, 0);
   assert.deepEqual([ms[0].team1, ms[0].team2, ms[0].score1, ms[0].score2, ms[0].round], ['Spacestation Gaming', 'Team Peps', 2, 1, 'Upper Bracket Round 1']);
+});
+
+test('parseMatches: commented-out matches are skipped and section / round stay aligned (RC-14)', () => {
+  const page = [
+    '==Results==', '===Group A===', '<!-- Opening Matches -->',
+    '{{Match|opponent1=A|opponent2=B}}',
+    '<!--', '{{Match|opponent1=X|opponent2=Y}}', '-->',
+    '<!-- {{Match|opponent1=X2|opponent2=Y2}} -->',
+    '{{ match |opponent1=C|opponent2=D|map1={{Map|map=Busan|winner=1}} <!-- note -->}}',
+    '===={{HiddenSort|Day 2}}====', '<!-- [[Bracket|Upper Final]] -->',
+    '{{Match|opponent1=E|opponent2=F|date=Oct 25, 2026 <!-- tbc --> - 18:00 {{Abbr/KST}}}}',
+    '{{Match|opponent1=G|opponent2=H',   // never closed: not a match, does not shift the ones before
+  ].join('\n');
+  const ms = quiet(() => parseMatches(page, 'X'))[0];
+  assert.deepEqual(ms.map(m => [m.team1, m.team2, m.section, m.round]), [
+    ['A', 'B', 'Group A', 'Opening Matches'],
+    ['C', 'D', 'Group A', 'Opening Matches'],   // the comment inside C-D is no round label
+    ['E', 'F', 'Day 2', 'Upper Final'],
+  ]);
+  assert.deepEqual(ms.map(m => m.idx), [0, 1, 2]);
+  assert.equal(ms[2].date, '2026-10-25T18:00:00+09:00');
+  // a heading inside a comment does not count
+  const hid = quiet(() => parseMatches('==Results==\n===Group A===\n<!--\n===Group B===\n-->\n{{Match|opponent1=A|opponent2=B}}', 'X'))[0];
+  assert.equal(hid[0].section, 'Group A');
+  // an unclosed comment hides everything after it, as on the wiki
+  assert.equal(quiet(() => parseMatches('{{Match|opponent1=A|opponent2=B}}\n<!-- {{Match|opponent1=C|opponent2=D}}', 'X'))[0].length, 1);
+});
+
+test('cleanLabel unwraps display-only markup', () => {
+  assert.equal(cleanLabel('{{HiddenSort|Day 1}}'), 'Day 1');
+  assert.equal(cleanLabel('{{hiddensort|Group A}}'), 'Group A');
+  assert.equal(cleanLabel('{{Stage|Playoffs}}'), 'Playoffs');
+  assert.equal(cleanLabel('{{nowrap|{{HiddenSort|Week 2}}}}'), 'Week 2');
+  assert.equal(cleanLabel("'''Grand''' [[Final (x)|Final]] <!-- x -->"), 'Grand Final');
+  assert.equal(cleanLabel('Upper Bracket Quarterfinals'), 'Upper Bracket Quarterfinals');
+  assert.equal(cleanLabel(undefined), '');
 });
