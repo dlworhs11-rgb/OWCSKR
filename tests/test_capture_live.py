@@ -404,7 +404,26 @@ def test_sigterm_during_capture_finishes_the_day(tmp_path, monkeypatch, steps):
     monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: (_ for _ in ()).throw(SystemExit(0)))
     (tmp_path / 'ocr.json').write_text('[]', encoding='utf-8')
     rc = LC.run(args(), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None), source_factory=lambda *a: src)
-    assert rc == 0 and src.started and src.closed and steps == ['ocr', 'publish', 'summary']
+    assert rc == 0 and src.started and src.closed and steps == ['ocr', 'publish']
+    # stopped an hour before --until (reboot, systemctl stop): the run after it sends the day's one summary
+
+
+def test_crash_at_the_end_sends_the_summary(tmp_path, monkeypatch, steps):
+    monkeypatch.setattr(LC.selfcheck, 'check', lambda: [])
+    end = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(minutes=2)
+    monkeypatch.setattr(LC, 'capture_loop', lambda *a, **k: (_ for _ in ()).throw(RuntimeError('boom')))
+    rc = LC.run(args(until=end), str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None),
+                source_factory=lambda *a: ReadySource())
+    assert rc == 1 and steps == ['ocr', 'summary']                 # its restart would find the day over: nothing follows
+
+
+def test_summary_due_rules(tmp_path):
+    out, end = str(tmp_path), 10_000.0
+    assert LC.summary_due('done', end, 100.0, out)                              # idle stop: the day is over
+    assert not LC.summary_due('stopped', end, 100.0, out) and not LC.summary_due('crashed', end, 100.0, out)
+    assert LC.summary_due('stopped', end, end - 60, out) and LC.summary_due('crashed', end, end - 60, out)
+    (tmp_path / LC.SUMMARY_MARK).write_text('sent', encoding='utf-8')
+    assert not LC.summary_due('done', end, end, out)                            # never twice a day
 
 
 def test_crash_exits_1_without_summary(tmp_path, monkeypatch, steps):

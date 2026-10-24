@@ -43,6 +43,7 @@ TABLE_SETTLE = 2.0              # s after the first TABLE frame of a map before 
 TOTALS_STEP = 5.0               # TOTALS frames at +0 / +5 / +10 s
 MAX_TABLES = MAX_TOTALS = 3
 SUMMARY_MARK = 'summary.txt'    # written once the end-of-day summary went out (a restart after the window resends none)
+SUMMARY_NEAR_END = 5 * 60       # a crash / stop this close to --until has no successor run: it sends the summary itself
 _REFS = None
 
 
@@ -547,8 +548,8 @@ def preflight(log) -> bool:
     return not bad
 
 
-def capture(a, out, frames, log, alert, end, source) -> int:
-    """the capture itself -> 0 or 1 (unexpected error); the source is always closed here"""
+def capture(a, out, frames, log, alert, end, source) -> str:
+    """the capture itself -> 'done' (--until / idle stop), 'stopped' (signal) or 'crashed'; the source is always closed"""
     def after_map():
         run_ocr(out, frames, log, alert)
         update_and_publish(a.date, log, alert)
@@ -557,18 +558,25 @@ def capture(a, out, frames, log, alert, end, source) -> int:
         source.start()
         log('capture start', a.url, 'until', datetime.datetime.fromtimestamp(end).astimezone().isoformat(timespec='seconds'))
         capture_loop(source, cap, end, out, log, alert)
-        return 0
+        return 'done'
     except SystemExit:
-        log('stop requested - finishing the day'); return 0
+        log('stop requested - finishing the day'); return 'stopped'
     except KeyboardInterrupt:
-        log('interrupted - finishing the day'); return 0
+        log('interrupted - finishing the day'); return 'stopped'
     except Exception as e:
         log('capture FAILED:', traceback.format_exc().strip()[-1500:])
         alert('capture', 'OWCSKR 캡처', f'capture stopped by an error: {type(e).__name__} {e}'[:400])
-        return 1
+        return 'crashed'
     finally:
         try: source.close()
         except Exception as e: log('closing the frame source failed:', type(e).__name__, e)
+
+
+def summary_due(how, end, now, out) -> bool:
+    """one summary per day, from the run that finishes it. A crash or a stop before the end (reboot, systemctl stop) is
+    followed by a run that does, unless the window is (nearly) over: then run_live.sh starts nothing more."""
+    if os.path.exists(os.path.join(out, SUMMARY_MARK)): return False
+    return how == 'done' or now >= end - SUMMARY_NEAR_END
 
 
 def source_busy(source, log, alert) -> int | None:
@@ -597,10 +605,11 @@ def run(a, out, frames, log, alert, source_factory=ObsSource) -> int:
     source = source_factory(a.url, log)
     busy = source_busy(source, log, alert)
     if busy is not None: return busy
-    crashed = capture(a, out, frames, log, alert, end, source) != 0
+    how = capture(a, out, frames, log, alert, end, source)
     finishing()
-    rc = 1 if finalize(a, out, frames, log, alert) != 0 or crashed else 0
-    if not crashed: send_summary(a.date, out, frames, log)     # a crashed run is restarted: its successor sends it
+    rc = 1 if finalize(a, out, frames, log, alert) != 0 or how == 'crashed' else 0
+    if summary_due(how, end, time.time(), out): send_summary(a.date, out, frames, log)
+    else: log(f'capture {how} - no summary from this run')
     log('done')
     return rc
 
