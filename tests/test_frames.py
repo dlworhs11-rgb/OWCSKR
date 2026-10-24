@@ -430,6 +430,67 @@ def test_next_frame_waits_for_a_newer_frame():
         assert n == 2
 
 
+# ---------------------------------------------------------------- HlsSource (live_capture interface)
+
+SOURCE_API = ('ready', 'start', 'grab', 'reconnect', 'restart', 'refresh', 'alive', 'close')
+
+
+def test_hls_source_has_the_obs_source_interface():
+    import live_capture
+    for name in SOURCE_API:
+        assert callable(getattr(live_capture.ObsSource, name)) and callable(getattr(F.HlsSource, name))
+
+
+def test_hls_source_grab_normalizes_and_raises_without_a_fresh_frame():
+    fac = Factory([FakeProc([frame_bytes(200)], then='stall')])
+    src = F.HlsSource(frames=make(fac, stall_after=10, interval=0.1))
+    assert src.ready()
+    with pytest.raises(RuntimeError, match='none yet'): src.grab()          # not started: raises, never returns None
+    src.start()
+    try:
+        assert wait_until(lambda: src.src.frames == 1) and src.alive()
+        img = src.grab()
+        assert img.shape == (1080, 1920, 3) and img[0, 0, 0] == 200 and src.last_info['src'] == SIZE
+        time.sleep(1.3)                                                         # older than 2 x interval + 1 s
+        with pytest.raises(RuntimeError, match='s old'): src.grab()
+    finally:
+        src.close()
+    assert not src.alive()
+
+
+def test_hls_source_restart_and_refresh_kick_the_stream():
+    fac = Factory([FakeProc([frame_bytes(10)], then='stall'), FakeProc([frame_bytes(20)], then='stall'),
+                   FakeProc([frame_bytes(30)], then='stall')])
+    src = F.HlsSource(frames=make(fac, stall_after=10, backoff=(30, 30)))
+    src.start()
+    try:
+        assert wait_until(lambda: src.src.frames == 1)
+        src.reconnect(); assert len(fac.cmds) == 1                              # no-op: the supervisor heals itself
+        src.refresh()
+        assert wait_until(lambda: src.src.frames == 2) and 'frozen' in src.src.last_error
+        src.restart()
+        assert wait_until(lambda: src.src.frames == 3) and src.grab()[0, 0, 0] == 30 and src.src.failures == 0
+    finally:
+        src.close()
+
+
+def test_hls_source_inside_live_capture_grabber():
+    import live_capture
+    fac = Factory([FakeProc(then='exit'), FakeProc([frame_bytes(90)], then='stall')])
+    src = F.HlsSource(frames=make(fac, stall_after=10, backoff=(0.2, 0.2), interval=0.1))
+    logs, alerts = [], []
+    g = live_capture.Grabber(src, lambda *a: logs.append(a), lambda *a: alerts.append(a), sleep=lambda s: None)
+    src.start()
+    try:
+        ok, _ = g.grab()
+        assert not ok and 'screenshot failed' in logs[0][0]                    # an exception, so the Grabber counts it
+        assert wait_until(lambda: g.grab()[0], timeout=5)
+        ok, img = g.grab()
+        assert ok and img.shape == (1080, 1920, 3)
+    finally:
+        src.close()
+
+
 # ---------------------------------------------------------------- real ffmpeg (optional)
 
 FFMPEG = os.environ.get('FFMPEG_CMD') or shutil.which('ffmpeg')
@@ -522,3 +583,23 @@ def test_real_ffmpeg_live_hls_headers_reach_segments_and_403_restarts(live_hls, 
         live_hls.mode = 'ok'
         n = src.frames
         assert wait_until(lambda: src.frames > n, timeout=30), src.last_error
+
+
+def test_ffmpeg_cmd_keyframes_only_is_an_input_option():
+    cmd = F.ffmpeg_cmd('https://h/m.m3u8', keyframes_only=True)
+    assert cmd[cmd.index('-skip_frame') + 1] == 'nokey' and cmd.index('-skip_frame') < cmd.index('-i')
+    assert '-skip_frame' not in F.ffmpeg_cmd('https://h/m.m3u8')
+
+
+@pytest.mark.skipif(not FFMPEG, reason='ffmpeg not installed (set FFMPEG_CMD to run)')
+def test_real_ffmpeg_hls_source_keyframes_only(live_hls, monkeypatch):
+    monkeypatch.setenv('FFMPEG_CMD', FFMPEG)
+    frames = F.HlsFrames(interval=1, resolver=lambda: (live_hls.url, {'Referer': F.REFERER}, {}), keyframes_only=True)
+    src = F.HlsSource(frames=frames)
+    src.start()
+    try:
+        assert wait_until(lambda: frames.frames >= 2, timeout=30), frames.last_error
+        img = src.grab()
+        assert img.shape == (1080, 1920, 3) and img.mean() > 30 and src.last_info['crop'] == (0, 0, 1920, 1080)
+    finally:
+        src.close()

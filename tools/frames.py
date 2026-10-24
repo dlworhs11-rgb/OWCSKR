@@ -441,3 +441,41 @@ class StableCrop:
         held = not _near(found, self.box, self.jitter)
         info.update(found=found, warn=f'crop {found} seen {self._n}/{self.hold} times - kept {self.box}' if held else warn)
         return out, info
+
+
+# ---------------------------------------------------------------- live_capture frame source
+
+class HlsSource:
+    """live_capture's frame-source interface (ready / start / grab / reconnect / restart / refresh / alive / close, as
+    ObsSource) over HlsFrames + StableCrop. Not wired into live_capture yet (P1-17 4).
+    grab() -> 1920x1080 BGR, a frame newer than the last one when it comes within `interval`; raises when there is no
+    fresh frame, so live_capture's Grabber counts the failure, alerts after 3 min and calls restart() after 1 min.
+    interval 2 s: the capture loop polls every 2 s during the POTM tail, every 5 s otherwise."""
+
+    def __init__(self, url: str = 'owesports', log: Callable[..., None] = print, interval: float = 2.0,
+                 max_height: int = 1080, keyframes_only: bool = False, hold: int = 3, frames: HlsFrames | None = None):
+        self.src = frames or HlsFrames(channel_page(url), interval, max_height=max_height,
+                                       keyframes_only=keyframes_only, log=lambda m: log(m))
+        self.crop, self.last_info, self._seen = StableCrop(hold), {}, 0
+
+    def ready(self) -> bool: return True            # nothing shared to refuse (ObsSource: an OBS with the user's scenes)
+    def start(self) -> None: self.src.start()
+    def alive(self) -> bool: return self.src.alive()
+    def reconnect(self) -> None: pass               # the supervisor reconnects by itself, with backoff
+    def refresh(self) -> None: self.src.kick('frozen or black frame')
+    def close(self) -> None: self.src.close()
+
+    def restart(self) -> None:
+        self.src.kick('restart requested by the capture loop')
+        self.src.start()                            # no-op unless the supervisor thread is gone
+
+    def grab(self) -> np.ndarray:
+        got = self.src.next_frame(self._seen, self.src.interval)
+        if got is None:
+            last = self.src.latest()
+            age = f'{time.time() - last[0]:.0f} s old' if last else 'none yet'
+            raise RuntimeError(f'no fresh HLS frame (latest {age}; restarts {self.src.restarts}): '
+                               f'{self.src.last_error or "starting"}')
+        self._seen, frame = got
+        img, self.last_info = self.crop(frame)
+        return img
