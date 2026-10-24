@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { knownPlayer, addPlayerRow } from './util.mjs';
+import { knownPlayer, addPlayerRow, normPlayer, matchKeyOf, linkMapstat } from './util.mjs';
 const aliases = JSON.parse(fs.readFileSync('data/aliases.json', 'utf8'));
 const canon = raw => {
   const n = (raw || '').replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
@@ -11,6 +11,7 @@ const compName = t => t.replace('Overwatch Champions Series/', 'OWCS ').replace(
 // ---- matches (dedupe by date + teams) ----
 const files = fs.readdirSync('data/lp').filter(f => f.endsWith('.json') && !f.startsWith('_'));
 const seen = new Map();
+const dedupeKeyOf = new Map();   // matchKey of every dated match -> its date + teams key (the copy kept may be another page's)
 const koreanTeams = new Set();
 const players = fs.existsSync('data/manual/players.json') ? JSON.parse(fs.readFileSync('data/manual/players.json', 'utf8')) : [];
 for (const p of players.filter(p => p.region === 'KR')) koreanTeams.add(canon(p.team));
@@ -25,6 +26,7 @@ for (const f of files) {
     if (!m.date) continue;
     const key = `${m.date}|${[t1, t2].sort().join('|')}`;
     const rec = { ...m, team1: t1, team2: t2, competition: compName(title), competitionTitle: title };
+    dedupeKeyOf.set(matchKeyOf(rec), key);
     const old = seen.get(key);
     if (!old || (rec.played && !old.played) || (rec.played === old.played && title.length > old.competitionTitle.length)) seen.set(key, rec);
   }
@@ -32,6 +34,9 @@ for (const f of files) {
 const isKR = t => koreanTeams.has(t) || /^south korea$/i.test(t);
 const matches = [...seen.values()].sort((a, b) => a.date.localeCompare(b.date));
 const krMatches = matches.filter(m => isKR(m.team1) || isKR(m.team2));
+// mapstats matchKey -> KR match; a key of a copy dropped by the dedupe above leads to the copy kept
+const krSet = new Set(krMatches);
+const krByKey = new Map([...dedupeKeyOf].map(([k, d]) => [k, seen.get(d)]).filter(([, m]) => krSet.has(m)));
 
 // ---- replay codes: attach to Korean league series by (year, stage, team pair, order) ----
 const replaySheet = fs.existsSync('data/manual/replays.json') ? JSON.parse(fs.readFileSync('data/manual/replays.json', 'utf8')) : [];
@@ -81,19 +86,28 @@ const mapstatDir = 'data/manual/mapstats';
 const normMap = s => (s || '').toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '');
 const secs = t => { const m = /^(\d+):(\d\d)$/.exec(t || ''); return m ? +m[1] * 60 + +m[2] : null; };
 const pAgg = {};
-let msLinked = 0, msTotal = 0;
+let msLinked = 0, msTotal = 0, msByKey = 0;
+// matchKey ('<competitionTitle>#<idx>', RA-17) links exactly (a same-day rematch of the same teams); without one, or
+// with one this build does not know (logged), the first match of that day with the same two teams
+const msLink = (entry, date, ta, tb) => {
+  const { match, by } = linkMapstat({ matchKey: entry.matchKey, date, teams: [ta, tb] }, { byKey: krByKey, matches: krMatches });
+  if (entry.matchKey != null && by !== 'key') console.log('mapstats: unknown matchKey', JSON.stringify(entry.matchKey), match ? '-> matched by date + teams' : '');
+  if (by === 'key' && [match.team1, match.team2].sort().join('~') !== [ta, tb].sort().join('~')) console.log('mapstats: matchKey', entry.matchKey, 'is', match.team1, 'vs', match.team2, 'but the screen read', ta, 'vs', tb);
+  return { match, by };
+};
 if (fs.existsSync(mapstatDir)) for (const file of fs.readdirSync(mapstatDir).filter(x => x.endsWith('.json'))) {
   const ms = JSON.parse(fs.readFileSync(mapstatDir + '/' + file, 'utf8'));
   for (const r of ms.matches || []) {          // match-level results read from the broadcast (POTM, map wins)
     const [ta, tb] = (r.match || '').split(' vs ');
-    const m = krMatches.find(x => x.date.startsWith(ms.date) && pairKey2(x.team1, x.team2) === pairKey2(ta, tb));
+    const { match: m } = msLink(r, ms.date, ta, tb);
     if (m) { m.potmLive = r.potm ?? null; m.mapWinsLive = r.mapWins ?? null; }
   }
   for (const sm of ms.maps) {
     msTotal++;
     const [ta, tb] = Object.keys(sm.teams);
-    const m = krMatches.find(x => x.date.startsWith(ms.date) && pairKey2(x.team1, x.team2) === pairKey2(ta, tb));
-    if (!m) { console.log('mapstats: no match for', ms.date, ta, tb); continue; }
+    const { match: m, by } = msLink(sm, ms.date, ta, tb);
+    if (by === 'key') msByKey++;
+    if (!m) { console.log('mapstats: no match for', ms.date, ta, tb, sm.matchKey ?? ''); continue; }
     const lp = m.maps[sm.game - 1];
     if (lp && lp.map && normMap(lp.map) !== normMap(sm.map)) console.log('mapstats: map name mismatch', ms.date, ta, tb, 'G' + sm.game, lp.map, 'vs', sm.map);
     (m.mapStats ??= []).push({ game: sm.game, map: sm.map, mapTime: sm.mapTime, teams: sm.teams, reading: sm.reading, verified: sm.totalsVerified ?? null, bans: sm.bans ?? null, winner: sm.winner ?? null, seriesBefore: sm.seriesBefore ?? null });
@@ -106,13 +120,11 @@ if (fs.existsSync(mapstatDir)) for (const file of fs.readdirSync(mapstatDir).fil
     }
   }
 }
-function pairKey2(a, b) { return [a, b].sort().join('~'); }
-function normPlayer(n) { return (n || '').toLowerCase().replace(/[^a-z0-9]/g, ''); }
 const playerStats = Object.values(pAgg).map(a => {
   const per10 = v => (a.secs ? +(v / a.secs * 600).toFixed(0) : null);
   return { ...a, a: a.aMaps ? a.a : null, minutes: +(a.secs / 60).toFixed(1), ed: a.d ? +(a.e / a.d).toFixed(2) : null, dmg10: per10(a.dmg), heal10: per10(a.heal), mit10: per10(a.mit), e10: a.secs ? +(a.e / a.secs * 600).toFixed(1) : null, d10: a.secs ? +(a.d / a.secs * 600).toFixed(1) : null };
 }).sort((x, y) => (y.ed ?? 0) - (x.ed ?? 0));
-console.log('mapstats: maps', msTotal, 'linked', msLinked, 'players', playerStats.length);
+console.log('mapstats: maps', msTotal, 'linked', msLinked, '(by matchKey', msByKey + ')', 'players', playerStats.length);
 
 // ---- team stats ----
 const teams = {};

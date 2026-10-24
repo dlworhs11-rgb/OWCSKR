@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import { RateLimited } from './liquipedia.mjs';
-import { fileOf, titlesOf, tabLinksOf, collectPage, collectAll, mergeStatus, acceptTitle, nextOf, koreaRootOf, newestKorea, computeActive, discoverCandidates } from './run-lp.mjs';
+import { fileOf, titlesOf, tabLinksOf, collectPage, collectAll, mergeStatus, acceptTitle, nextOf, koreaRootOf, newestKorea, computeActive, discoverCandidates, optionValues, worldCupCandidates, addDiscovered } from './run-lp.mjs';
 
 const fixture = name => fs.readFile(new URL('./fixtures/' + name, import.meta.url), 'utf8');
 const DATES = await fixture('dates.wiki');
@@ -39,6 +39,28 @@ test('SHRINK: fewer than half the old matches -> old file kept, failure', async 
   // half or more is a normal update
   const [half] = await quiet(() => collectPage(t, { ...store({ [fileOf(t)]: oldMatches(10) }), page: async () => ({ text: DATES }) }));
   assert.equal(half.ok, true);
+});
+
+test('--accept-shrink: that page is written though it shrank, logged SHRINK accepted, ok with shrinkFrom', async () => {
+  const t = OCS + '2026/Asia/Stage 3/Korea', s = store({ [fileOf(t)]: oldMatches(12) });
+  const [st, log] = await quiet(() => collectPage(t, { ...s, acceptShrink: new Set([t]), page: async () => ({ text: DATES, redirect: null }) }));
+  assert.deepEqual(st, { ok: true, matches: 5, played: 1, dateless: 1, redirect: null, shrinkFrom: 12, error: null });
+  assert.equal(s.files[fileOf(t)].matches.length, 5);
+  assert.ok(log.some(l => l.startsWith('SHRINK accepted ' + t + ' 12 -> 5')));
+  // 1 -> 0 accepted too; another page's shrink is still refused
+  const z = store({ [fileOf(t)]: oldMatches(1) });
+  const [zero] = await quiet(() => collectPage(t, { ...z, acceptShrink: new Set([t]), page: async () => ({ text: 'no matches' }) }));
+  assert.equal(zero.ok, true); assert.deepEqual(z.files[fileOf(t)].matches, []);
+  const o = store({ [fileOf(t)]: oldMatches(12) });
+  const [other] = await quiet(() => collectPage(t, { ...o, acceptShrink: new Set([t + '/Other']), page: async () => ({ text: DATES }) }));
+  assert.equal(other.ok, false); assert.equal(o.files[fileOf(t)].matches.length, 12);
+});
+
+test('optionValues: repeatable --accept-shrink, both spellings, titles normalized, missing value is an error', () => {
+  assert.deepEqual(optionValues(['--active-only', '--accept-shrink', 'A_B', '--accept-shrink=C  D', '--strict'], '--accept-shrink'), ['A B', 'C D']);
+  assert.deepEqual(optionValues(['--strict'], '--accept-shrink'), []);
+  assert.throws(() => optionValues(['--accept-shrink'], '--accept-shrink'), /needs a page title/);
+  assert.throws(() => optionValues(['--accept-shrink', '--strict'], '--accept-shrink'), /needs a page title/);
 });
 
 test('collectPage: fetch errors and missing pages that had matches fail, a never-seen missing page does not', async () => {
@@ -91,11 +113,16 @@ test('mergeStatus keeps lastOk of failed and unfetched pages, drops titles no lo
 
 test('titlesOf: World Cup pages only when collected already or active by their exact title (not the qualifiers below)', async () => {
   const c = { core: ['K'], world_cup: ['Overwatch World Cup/2023', 'Overwatch World Cup/2027', 'Overwatch World Cup/2027/Asia Qualifier'] };
-  assert.deepEqual(await titlesOf(c, [], async t => t === 'Overwatch World Cup/2023'), ['K', 'Overwatch World Cup/2023']);
-  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027'], async () => false), ['K', 'Overwatch World Cup/2027']);
-  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027/Asia Qualifier'], async () => false), ['K', 'Overwatch World Cup/2027/Asia Qualifier']);
+  const y2028 = { year: 2028 };
+  assert.deepEqual(await titlesOf(c, [], async t => t === 'Overwatch World Cup/2023', y2028), ['K', 'Overwatch World Cup/2023']);
+  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027'], async () => false, y2028), ['K', 'Overwatch World Cup/2027']);
+  assert.deepEqual(await titlesOf(c, ['Overwatch World Cup/2027/Asia Qualifier'], async () => false, y2028), ['K', 'Overwatch World Cup/2027/Asia Qualifier']);
+  assert.deepEqual(await titlesOf(c, ['2027'], async () => false, y2028), ['K']);   // short entry: no World Cup page
+  // RC-15: a main page of this year or later is collected without a file or active entry (just discovered), not its qualifiers
+  assert.deepEqual(await titlesOf(c, [], async () => false, { year: 2027 }), ['K', 'Overwatch World Cup/2027']);
+  assert.deepEqual(await titlesOf(c, [], async () => false, { year: 2026 }), ['K', 'Overwatch World Cup/2027']);
   // the committed lists: only the two main World Cup pages, as before the date-based active.json
-  assert.deepEqual((await titlesOf(comps, comps.world_cup.filter(t => /20(23|26)$/.test(t)), async () => false)).filter(t => t.includes('World Cup')),
+  assert.deepEqual((await titlesOf(comps, comps.world_cup.filter(t => /20(23|26)$/.test(t)), async () => false, { year: 2026 })).filter(t => t.includes('World Cup')),
     ['Overwatch World Cup/2023', 'Overwatch World Cup/2026']);
 });
 
@@ -143,13 +170,33 @@ test('computeActive: dated within +-30 days (KST), or this year and nothing date
   };
   const titles = Object.keys(pages);
   const active = computeActive({ titles, pages, today: '2026-10-24' });
+  // '2026/Asia/Stage 3/Championship/Korea' (last dated match 08-01, one TBD slot left) is no longer active (RC-17)
   assert.deepEqual(active, [OCS + '2026/Asia/Stage 3/Korea/Regular Season', OCS + '2026/Asia/Stage 3/Korea', OCS + '2026/World Finals',
-    OCS + '2026/Asia/Stage 3/Championship/Korea', OCS + '2027/Champions Clash', OCS + '2026/Edge In']);
+    OCS + '2027/Champions Clash', OCS + '2026/Edge In']);
   // the missing '2026/Asia/Stage 3' overview would substring-match (cloud_live, --active-only) every page of the stage
   assert.ok(!active.includes(OCS + '2026/Asia/Stage 3') && !active.includes(OCS + '2027/Asia/Stage 1/Korea'));
   assert.deepEqual(computeActive({ titles, pages, today: '2026-10-24' }), active);   // pure: same input, same list
+  // only full titles are written to active.json (they match exactly; a short one would substring-match)
+  assert.ok(active.every(t => t.startsWith('Overwatch ')));
+  assert.deepEqual(computeActive({ titles: ['2026/Asia/Stage 3/Korea'], pages: { '2026/Asia/Stage 3/Korea': [] }, today: '2026-10-24' }), []);
   // new year: last year's pages with nothing dated or undated matches left drop out
   assert.deepEqual(computeActive({ titles, pages, today: '2027-01-20' }), [OCS + '2027/Champions Clash']);
+});
+
+test('computeActive: undated matches to play keep a page only while its last dated match is at most 30 days old (RC-17)', () => {
+  const m = (date, played = true) => ({ date, played });
+  const P = n => OCS + '2026/P' + n;
+  const pages = {
+    [P(1)]: [m('2026-08-01T18:00:00+09:00'), m(null, false)],                                  // bracket over in August: out
+    [P(2)]: [m('2026-09-20T18:00:00+09:00'), m(null, false)],                                  // 34 days ago (window 09-24): out
+    [P(3)]: [m('2026-09-24T18:00:00+09:00'), m(null, false)],                                  // 30 days ago, inside the window anyway
+    [P(4)]: [m('2026-12-20T18:00:00+09:00', false), m(null, false)],                           // schedule ahead: TBD slots wait
+    [P(5)]: [m(null, false), m(null, false)],                                                  // announced, nothing dated: in
+    [P(6)]: [m('2026-12-20T18:00:00+09:00', false)],                                           // dated, out of window, no TBD: out
+  };
+  assert.deepEqual(computeActive({ titles: Object.keys(pages), pages, today: '2026-10-24' }), [P(3), P(4), P(5)]);
+  // the same pages a month later: the September page drops out too, the December one is inside the window
+  assert.deepEqual(computeActive({ titles: Object.keys(pages), pages, today: '2026-11-24' }), [P(4), P(5), P(6)]);
 });
 
 test('discoverCandidates: |next= of the newest Korea page and the page list of this year and next', async () => {
@@ -167,6 +214,27 @@ test('discoverCandidates: |next= of the newest Korea page and the page list of t
     OCS + '2027/Asia/Stage 1/Korea/Open Qualifier', OCS + '2027/Champions Clash']);
   // everything known already: nothing new (idempotent)
   assert.deepEqual(await discoverCandidates([...core, ...got], [2026, 2027], deps), []);
+});
+
+test('--discover World Cup: this year and next are looked up, a main page that exists goes to world_cup (RC-15)', () => {
+  const WC = 'Overwatch World Cup/';
+  assert.deepEqual(worldCupCandidates([WC + '2023', WC + '2026'], [2026, 2027]), [WC + '2027']);
+  assert.deepEqual(worldCupCandidates([], [2027, 2028]), [WC + '2027', WC + '2028']);
+  const c = { core: [OCS + '2026/World Finals'], legacy_contenders: ['L'], world_cup: [WC + '2026'] };
+  const resolved = {
+    [WC + '2027']: { exists: true, title: WC + '2027' },
+    [WC + '2028']: { exists: false, title: WC + '2028' },
+    [OCS + '2027/Champions Clash']: { exists: true, title: OCS + '2027/Champions Clash' },
+    [WC + '2027/Asia Qualifier']: { exists: true, title: WC + '2027/Asia Qualifier' },   // qualifiers are never added
+    [OCS + '2026/World Finals']: { exists: true, title: OCS + '2026/World Finals' },
+  };
+  const { next, added } = addDiscovered(c, resolved, [2027, 2028]);
+  assert.deepEqual(added, [OCS + '2027/Champions Clash', WC + '2027']);
+  assert.deepEqual(next, { core: [OCS + '2026/World Finals', OCS + '2027/Champions Clash'], legacy_contenders: ['L'], world_cup: [WC + '2026', WC + '2027'] });
+  assert.deepEqual(Object.keys(next), Object.keys(c));   // key order kept: the file only changes where a page was added
+  assert.deepEqual(addDiscovered(next, resolved, [2027, 2028]).added, []);   // idempotent
+  // a World Cup year that is not looked up (out of the two years) is not added
+  assert.deepEqual(addDiscovered(c, { x: { exists: true, title: WC + '2030' } }, [2027, 2028]).added, []);
 });
 
 test('real Korea stage page header: tab links, empty |next=', async () => {
@@ -193,11 +261,11 @@ cfg.fetch = async () => {
   if (mode === '429') return new Response('{}', { status: 429, headers: { 'retry-after': '90' } });
   return new Response(JSON.stringify({ query: { pages: { 1: { title: 'X', revisions: [{ slots: { main: { '*': text } } }] } } } }), { status: 200 });
 };`;
-async function cli(args, mode, { core = [OCS + '2026/A', OCS + '2026/B'], lp = {} } = {}) {
+async function cli(args, mode, { core = [OCS + '2026/A', OCS + '2026/B'], lp = {}, active = [] } = {}) {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'run-lp-cli-'));
   await fs.mkdir(path.join(dir, 'data/lp'), { recursive: true });
   await fs.writeFile(path.join(dir, 'data/competitions.json'), JSON.stringify({ core }));
-  await fs.writeFile(path.join(dir, 'data/active.json'), '[]');
+  await fs.writeFile(path.join(dir, 'data/active.json'), JSON.stringify(active));
   for (const [f, d] of Object.entries(lp)) await fs.writeFile(path.join(dir, f), JSON.stringify(d));
   await fs.writeFile(path.join(dir, 'preload.mjs'), PRELOAD);
   const r = spawnSync(process.execPath, ['--import', pathToFileURL(path.join(dir, 'preload.mjs')).href, RUN_LP, ...args],
@@ -242,4 +310,32 @@ test('CLI: every page read -> exit 0; 429 -> exit 2 with rateLimit (--strict); n
   try { assert.equal(disc.code, 2, disc.out); assert.deepEqual((await disc.read('data/competitions.json')).core, core); } finally { await disc.done(); }
   const soft = await cli(['--discover'], 'down', { core });
   try { assert.equal(soft.code, 0, soft.out); assert.match(soft.out, /ERR discover failed, nothing written: network/); } finally { await soft.done(); }
+});
+
+test('CLI --active-only: an active full title re-reads only that page, not the collected pages below it (RC-12)', async () => {
+  const K = OCS + '2026/Asia/Stage 3/Korea', OQ = K + '/Open Qualifier';
+  const r = await cli(['--active-only'], 'ok', { core: [K, OQ], active: [K], lp: { [fileOf(K)]: oldMatches(5), [fileOf(OQ)]: oldMatches(5) } });
+  try {
+    assert.equal(r.code, 0, r.out);
+    assert.deepEqual(Object.keys((await r.read('data/lp/_status.json')).pages), [K]);
+  } finally { await r.done(); }
+  const legacy = await cli(['--active-only'], 'ok', { core: [K, OQ], active: ['2026/Asia/Stage 3/Korea'], lp: { [fileOf(K)]: oldMatches(5), [fileOf(OQ)]: oldMatches(5) } });
+  try { assert.deepEqual(Object.keys((await legacy.read('data/lp/_status.json')).pages), [K, OQ]); } finally { await legacy.done(); }
+});
+
+test('CLI --accept-shrink: the shrunk page is fetched even with --active-only and replaces its file; exit 0 with --strict', async () => {
+  const A = OCS + '2026/A';
+  const refused = await cli(['--strict'], 'ok', { lp: { [fileOf(A)]: oldMatches(20) } });
+  try { assert.equal(refused.code, 2, refused.out); assert.equal((await refused.read(fileOf(A))).matches.length, 20); } finally { await refused.done(); }
+  const r = await cli(['--active-only', '--strict', '--accept-shrink', A], 'ok', { lp: { [fileOf(A)]: oldMatches(20), [fileOf(OCS + '2026/B')]: oldMatches(5) } });
+  try {
+    assert.equal(r.code, 0, r.out);
+    assert.match(r.out, /SHRINK accepted Overwatch Champions Series\/2026\/A 20 -> 5/);
+    assert.equal((await r.read(fileOf(A))).matches.length, 5);
+    const st = await r.read('data/lp/_status.json');
+    assert.equal(st.pages[A].ok, true); assert.equal(st.pages[A].shrinkFrom, 20);
+    assert.equal(st.pages[OCS + '2026/B'], undefined);   // not active, has a file: still skipped
+  } finally { await r.done(); }
+  const bad = await cli(['--accept-shrink'], 'ok');
+  try { assert.equal(bad.code, 1, bad.out); assert.match(bad.out, /needs a page title/); } finally { await bad.done(); }
 });

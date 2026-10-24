@@ -1,14 +1,22 @@
 // Liquipedia pages in data/competitions.json -> data/lp/<slug>.json (2.2 s between requests, data/lp-cache 6 h).
-//   node collector/run-lp.mjs                every page (core + the World Cup pages already in data/lp or active)
-//   node collector/run-lp.mjs --active-only  only the pages matching data/active.json (and pages with no data/lp file yet)
-//   node collector/run-lp.mjs --discover     find new stage / event pages, update data/competitions.json (core) and
-//                                            data/active.json, print them, fetch no matches. Run it before --active-only.
+//   node collector/run-lp.mjs                every page (core + the World Cup pages already in data/lp or active, and
+//                                            the main 'Overwatch World Cup/<year>' pages of this year or later)
+//   node collector/run-lp.mjs --active-only  only the pages matching data/active.json (and pages with no data/lp file yet);
+//                                            a full title there matches only itself, a short one ('2026/Asia/Stage 3')
+//                                            every title containing it (util.isActiveTitle, same as owcs-kr cloud_live)
+//   node collector/run-lp.mjs --discover     find new stage / event pages, update data/competitions.json (core,
+//                                            world_cup) and data/active.json, print them, fetch no matches. Run it
+//                                            before --active-only.
 // --discover reads the newest Korea stage page (tabs, |next=) and the list of pages named
 // 'Overwatch Champions Series/<year>/...' for this year and next; keeps titles of the shapes in SHAPES that exist.
+// It also asks whether 'Overwatch World Cup/<year>' exists for this year and next (in the same title lookup, no extra
+// request) and adds it to world_cup, so a new World Cup year starts without hand edits; its qualifier pages are never
+// added (only the main page has the Korea team's matches). A main World Cup page of this year or later is collected
+// like a core page, so the first run after it is added fetches it.
 // Prints 'ADDED <title>' per new page, 'ACTIVE+ <title>' / 'ACTIVE- <title>' per change of active.json, then
 // 'DISCOVER <today> added <n> active <n>'. Never removes pages from competitions.json. active.json = pages with a match
-// dated within today (KST) +-30 days, plus pages of this year or later with no dated match yet or undated matches still
-// to play (just announced). Pages without a data/lp file (missing on Liquipedia, just added) are left out: --active-only
+// dated within today (KST) +-30 days, plus pages of this year or later with no dated match yet, or with undated matches
+// still to play while their last dated match is at most 30 days old (unused TBD slots of a finished bracket drop out). Pages without a data/lp file (missing on Liquipedia, just added) are left out: --active-only
 // fetches them anyway. Same input -> same output (files are rewritten only when they change).
 // Exit code: 0 ok, 3 Node without fetch, 1 crash. A page that failed (ERR / SHRINK / 429 / missing page that had
 // matches) or a --discover request that failed is logged ('ERR', 'SHRINK', 'STOP') and recorded in _status.json, and
@@ -17,32 +25,39 @@
 // data/lp/_status.json: { updatedAt, failures, rateLimit, pages: { [title]: { ok, matches, played, dateless, redirect,
 // shrinkFrom, error, lastOk } } }, merged with the previous file (pages not fetched this run keep their entry).
 // SHRINK: a new parse with fewer than half the matches of the old file is not written (template change, page emptied).
-// Delete the data/lp file by hand if the page really shrank.
+// If the page really shrank (rebuilt, 1 -> 0), rerun with --accept-shrink '<title>' (repeatable, also --accept-shrink=<title>):
+// that page is fetched (even with --active-only), written, logged 'SHRINK accepted' and counts as ok (shrinkFrom kept).
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fetchPage, pagesWithPrefix, resolveTitles, parseMatches, RateLimited } from './liquipedia.mjs';
-import { readJson, writeJson, kstDay } from './util.mjs';
+import { readJson, writeJson, kstDay, isActiveTitle } from './util.mjs';
 
-const OCS = 'Overwatch Champions Series/';
+const OCS = 'Overwatch Champions Series/', WC = 'Overwatch World Cup/';
+export const isWorldCupMain = t => /^Overwatch World Cup\/\d{4}$/.test(t);
+const thisYear = () => +kstDay(Date.now()).slice(0, 4);
 const MAX_AGE = 6 * 3600e3;
 export const fileOf = title => { const slug = title.replace(/^Overwatch (Champions Series|World Cup)\//, '').replace(/[^a-z0-9]+/gi, '-').toLowerCase(); return `data/lp/${title.includes('World Cup') ? 'owwc-' : 'owcs-'}${slug}.json`; };
 const exists = f => fs.access(f).then(() => true, () => false);
-// substring match, same as owcs-kr cloud_live.active_titles (old entries are short: '2026/Asia/Stage 3')
-export const isActive = (title, active) => active.some(a => title.includes(a));
+// full titles match exactly, old short entries ('2026/Asia/Stage 3') by substring: same as owcs-kr cloud_live.active_titles
+export const isActive = isActiveTitle;
 
-// core + World Cup pages that are active or already collected. The World Cup list also has qualifiers we never fetch:
-// a World Cup page counts as active only by its exact title ('Overwatch World Cup/2026' would substring-match them all)
-export async function titlesOf(comps, active, has = t => exists(fileOf(t))) {
+// core + World Cup pages that are active, already collected, or the main page of this year or later (just discovered).
+// The World Cup list also has qualifiers we never fetch: a World Cup page counts as active only by its exact title
+// ('Overwatch World Cup/2026' would substring-match them all, so a short entry does not pull World Cup pages in)
+export async function titlesOf(comps, active, has = t => exists(fileOf(t)), { year = thisYear() } = {}) {
   const wc = [];
-  for (const t of comps.world_cup || []) if (active.includes(t) || await has(t)) wc.push(t);
+  for (const t of comps.world_cup || []) {
+    if (active.includes(t) || (isWorldCupMain(t) && +t.slice(WC.length) >= year) || await has(t)) wc.push(t);
+  }
   return [...comps.core, ...wc];
 }
 
 const EMPTY = { ok: false, matches: null, played: null, dateless: null, redirect: null, shrinkFrom: null, error: null };
 
-// One page -> status entry (without lastOk). deps: page(title) -> fetchPage result, prev(file) -> old json, write(file, json)
-export async function collectPage(title, { page, prev, write }) {
+// One page -> status entry (without lastOk). deps: page(title) -> fetchPage result, prev(file) -> old json, write(file, json),
+// acceptShrink: titles whose shrink is written anyway
+export async function collectPage(title, { page, prev, write, acceptShrink = new Set() }) {
   const file = fileOf(title);
   const before = (await prev(file))?.matches?.length ?? 0;
   let p;
@@ -63,8 +78,12 @@ export async function collectPage(title, { page, prev, write }) {
   const played = matches.filter(m => m.played).length;
   Object.assign(st, { matches: matches.length, played, dateless: stats.dateless });
   if (before && matches.length < before * 0.5) {
-    console.log('SHRINK', title, before, '->', matches.length, '(old file kept)');
-    return { ...st, shrinkFrom: before, error: `shrink ${before} -> ${matches.length}` };
+    st.shrinkFrom = before;
+    if (!acceptShrink.has(title)) {
+      console.log('SHRINK', title, before, '->', matches.length, '(old file kept; --accept-shrink to write it)');
+      return { ...st, error: `shrink ${before} -> ${matches.length}` };
+    }
+    console.log('SHRINK accepted', title, before, '->', matches.length);
   }
   try { await write(file, { title, matches }); }
   catch (e) { console.log('ERR', title, 'write:', e.message); return { ...st, error: 'write: ' + e.message }; }
@@ -108,13 +127,14 @@ async function readComps() {
   return comps;
 }
 
-async function runFetch(activeOnly, strict) {
+async function runFetch(activeOnly, strict, acceptShrink = new Set()) {
   const comps = await readComps();
   const active = (await readJson('data/active.json')) || [];
   const titles = await titlesOf(comps, active);
+  for (const t of acceptShrink) if (!titles.includes(t)) console.log('WARN --accept-shrink', JSON.stringify(t), 'is not a collected page title');
   // --active-only: everything else is kept from data/lp/*.json
-  const skip = async t => activeOnly && !isActive(t, active) && await exists(fileOf(t));
-  const { results, failures, rateLimit } = await collectAll(titles, skip);
+  const skip = async t => activeOnly && !acceptShrink.has(t) && !isActive(t, active) && await exists(fileOf(t));
+  const { results, failures, rateLimit } = await collectAll(titles, skip, { ...liveDeps, acceptShrink });
   const now = new Date().toISOString();
   await writeJson('data/lp/_status.json', mergeStatus(await readJson('data/lp/_status.json'), results, { now, titles, failures, rateLimit }));
   if (!activeOnly) await writeJson('data/lp/_summary.json', Object.entries(results).map(([title, r]) => r.missing ? { title, missing: true } : r.ok ? { title, matches: r.matches, played: r.played } : { title, error: r.error }));
@@ -154,7 +174,7 @@ export function nextOf(text) {
 export const tabLinksOf = text => [...(text || '').matchAll(/\|\s*link\d+\s*=\s*([^|\n}]+)/g)].map(m => normTitle(m[1]));
 
 // pages to keep re-reading: a match dated within today +-days (KST), or (page of this year or later) nothing dated yet /
-// undated matches still to play: announced, schedule not out. pages: title -> matches of its data/lp file or null.
+// undated matches still to play while its last dated match is at most 'days' old: announced, schedule not out. pages: title -> matches of its data/lp file or null.
 // null (no file: missing on Liquipedia, or not fetched yet) is not listed: --active-only fetches such a page anyway, and
 // a missing overview page ('2026/Asia/Stage 3') listed for the whole year substring-matches every page of its stage
 export function computeActive({ titles, pages, today, days = 30 }) {
@@ -162,10 +182,14 @@ export function computeActive({ titles, pages, today, days = 30 }) {
   const lo = shift(-days), hi = shift(days), year = +today.slice(0, 4);
   return titles.filter(t => {
     const ms = pages[t];
-    if (!ms) return false;
+    if (!ms || !t.startsWith('Overwatch ')) return false;   // only full titles: they match exactly (isActiveTitle)
     if (ms.some(m => m.date && kstDay(m.date) >= lo && kstDay(m.date) <= hi)) return true;
     if (yearOf(t) < year) return false;
-    return !ms.some(m => m.date) || ms.some(m => !m.date && !m.played);
+    const last = ms.filter(m => m.date).map(m => kstDay(m.date)).sort().at(-1);
+    if (!last) return true;   // announced, nothing scheduled yet: Liquipedia dates the matches once the schedule is out
+    // undated matches still to play keep the page only while its schedule runs (last dated match not over 'days' ago):
+    // after that they are bracket slots nobody will play (RC-17), not matches to wait for until the end of the year
+    return last >= lo && ms.some(m => !m.date && !m.played);
   });
 }
 
@@ -184,20 +208,32 @@ export async function discoverCandidates(core, years, { page = t => fetchPage(t,
   return [...out].filter(t => acceptTitle(t, years) && !core.includes(t)).sort();
 }
 
+// 'Overwatch World Cup/<year>' for the years given, unless listed already (looked up with the stage candidates)
+export const worldCupCandidates = (worldCup, years) => years.map(y => WC + y).filter(t => !worldCup.includes(t));
+
+// resolveTitles result -> competitions.json with the pages that exist added (core: SHAPES, world_cup: main pages)
+export function addDiscovered(comps, resolved, years) {
+  const found = [...new Set(Object.values(resolved).filter(r => r.exists).map(r => normTitle(r.title)))];
+  const wcList = comps.world_cup || [];
+  const core = found.filter(t => acceptTitle(t, years) && !comps.core.includes(t)).sort();
+  const wc = found.filter(t => isWorldCupMain(t) && years.includes(+t.slice(WC.length)) && !wcList.includes(t)).sort();
+  const next = { ...comps, core: [...comps.core, ...core] };
+  if (wc.length) next.world_cup = [...wcList, ...wc];
+  return { next, added: [...core, ...wc] };
+}
+
 const diff = (a, b) => a.filter(x => !b.includes(x));
 
 async function discover() {
   const today = kstDay(Date.now()), year = +today.slice(0, 4), years = [year, year + 1];
   const comps = await readComps();
-  const cands = await discoverCandidates(comps.core, years);
+  const cands = [...await discoverCandidates(comps.core, years), ...worldCupCandidates(comps.world_cup || [], years)];
   const resolved = cands.length ? await resolveTitles(cands) : {};
-  const added = [...new Set(Object.values(resolved).filter(r => r.exists).map(r => normTitle(r.title)))]
-    .filter(t => acceptTitle(t, years) && !comps.core.includes(t)).sort();
+  const { next, added } = addDiscovered(comps, resolved, years);
   for (const t of added) console.log('ADDED', t);
-  const next = { ...comps, core: [...comps.core, ...added] };
   if (added.length) await writeJson('data/competitions.json', next);
   const prevActive = (await readJson('data/active.json')) || [];
-  const titles = await titlesOf(next, prevActive);
+  const titles = await titlesOf(next, prevActive, undefined, { year });
   const pages = {};
   for (const t of titles) pages[t] = (await readJson(fileOf(t)))?.matches ?? null;
   const active = computeActive({ titles, pages, today });
@@ -207,10 +243,26 @@ async function discover() {
   console.log('DISCOVER', today, 'added', added.length, 'active', active.length);
 }
 
+// every value of a repeatable '--name value' / '--name=value' option (titles normalized like competitions.json)
+export function optionValues(argv, name) {
+  const out = [];
+  for (let i = 0; i < argv.length; i++) {
+    if (argv[i].startsWith(name + '=')) out.push(argv[i].slice(name.length + 1));
+    else if (argv[i] === name) {
+      if (i + 1 >= argv.length || argv[i + 1].startsWith('--')) throw new Error(`${name} needs a page title`);
+      out.push(argv[++i]);
+    }
+  }
+  return out.map(normTitle).filter(Boolean);
+}
+
 async function main() {
   if (typeof fetch !== 'function') { console.error(`run-lp: this Node (${process.version}) has no global fetch; Node 20+ is required`); process.exit(3); }
   const argv = process.argv.slice(2), strict = argv.includes('--strict');
-  try { await (argv.includes('--discover') ? discover() : runFetch(argv.includes('--active-only'), strict)); }
+  let acceptShrink;
+  try { acceptShrink = new Set(optionValues(argv, '--accept-shrink')); }
+  catch (e) { console.error('run-lp:', e.message); process.exit(1); }
+  try { await (argv.includes('--discover') ? discover() : runFetch(argv.includes('--active-only'), strict, acceptShrink)); }
   catch (e) {
     // a --discover request failed (network, 429, API error): nothing was written
     if (!(e instanceof RateLimited) && !/^(network|liquipedia|redirect)/.test(e.message)) throw e;

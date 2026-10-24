@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { findTemplates, parseTemplate } from './wikitext.mjs';
+import { findTemplates, parseTemplate, templateSpans, blankComments } from './wikitext.mjs';
 import { readJson, writeJson, writeAtomic } from './util.mjs';
 
 const API = 'https://liquipedia.net/overwatch/api.php';
@@ -170,19 +170,35 @@ export function parseDate(s, info = {}) {
   return `${y}-${p(mo)}-${p(d)}T${t ? p(h) + ':' + t[2] : '00:00'}:00${tz}`;
 }
 
+// heading / round text without the markup that only changes how it shows: '{{HiddenSort|Day 1}}' -> 'Day 1' (also
+// {{Stage|..}}, {{nowrap|..}}; the first argument is the text), '[[Page|Group A]]' -> 'Group A', ''bold'' -> bold
+const WRAPPER = /\{\{\s*(?:HiddenSort|Stage|nowrap)\s*\|([^{}|]*)(?:\|[^{}]*)?\}\}/gi;
+export function cleanLabel(s) {
+  let out = (s || '').replace(/<!--[\s\S]*?(?:-->|$)/g, '');
+  for (let i = 0, prev; i < 5 && prev !== out; i++) { prev = out; out = out.replace(WRAPPER, '$1'); }   // nested wrappers
+  return stripLinks(out.replace(/'{2,}/g, '')).replace(/\s+/g, ' ').trim();
+}
+
 // Where each {{Match}} sits on the page, in page order: the deepest heading under ==Results== ('Group A', 'Playoffs')
-// and the <!-- comment --> above it ('Upper Bracket Quarterfinals'). Kept with the match so the site build needs no wiki
-// copy (the cloud only has the active pages' wiki cached). Same rule as owcs_build.py intl_layout().
-function matchPlaces(text) {
-  const out = []; let sec = '', rnd = '', on = false, t;
-  const re = /^(==+)\s*(.*?)\s*\1\s*$|<!--\s*(.*?)\s*-->|\{\{\s*Match\s*(?=[|}\n])/gm;
-  while ((t = re.exec(text))) {
-    if (t[1]) {
-      const h = t[2].replace(/\{\{Stage\|([^}]*)\}\}/g, '$1');
-      if (t[1].length === 2) on = h.toLowerCase() === 'results';
-      if (on && t[1].length > 2) { sec = h; rnd = ''; }
-    } else if (t[3] !== undefined) rnd = t[3];
-    else out.push({ section: on ? sec : '', round: rnd });
+// and the one-line <!-- comment --> above it ('Upper Bracket Quarterfinals'). Kept with the match so the site build
+// needs no wiki copy (the cloud only has the active pages' wiki cached). Same rule as owcs_build.py intl_layout().
+// spans: the matches parseMatches reads (templateSpans of the comment-blanked text), so the two lists stay aligned.
+// Headings and comments inside a comment or inside a match do not count; a multi-line comment (commented-out matches)
+// or one holding a template is not a round label.
+function matchPlaces(text, spans) {
+  const out = []; let sec = '', rnd = '', on = false, from = 0, t;
+  const re = /^(==+)\s*(.*?)\s*\1\s*$|<!--([\s\S]*?)(?:-->|(?![\s\S]))/gm;
+  for (const { start, end } of spans) {
+    re.lastIndex = from;
+    while ((t = re.exec(text)) && t.index < start) {
+      if (t[1]) {
+        const h = cleanLabel(t[2]);
+        if (t[1].length === 2) on = h.toLowerCase() === 'results';
+        if (on && t[1].length > 2) { sec = h; rnd = ''; }
+      } else if (!/[\n{]/.test(t[3])) rnd = cleanLabel(t[3]);
+    }
+    out.push({ section: on ? sec : '', round: rnd });
+    from = end;
   }
   return out;
 }
@@ -191,10 +207,12 @@ function matchPlaces(text) {
 // understood (they drop out of site/matches.json, so each one is logged as DATE?)
 export function parseMatches(text, competition, stats = {}) {
   text = text.replace(/\r\n?/g, '\n');   // a CRLF copy (git autocrlf on Windows) otherwise parses to 0 matches
-  const places = matchPlaces(text);
+  // a commented-out {{Match}} is not a match; comments inside one are not part of its values
+  const bare = blankComments(text), spans = templateSpans(bare, 'Match');
+  const places = matchPlaces(text, spans);
   stats.dateless = 0;
-  return findTemplates(text, 'Match').map((raw, idx) => {
-    const { args } = parseTemplate(raw);
+  return spans.map(({ start, end }, idx) => {
+    const { args } = parseTemplate(bare.slice(start, end));
     const info = {}, date = parseDate(args.date, info);
     if (!date && args.date) { stats.dateless++; console.warn('DATE?', competition, idx, JSON.stringify(args.date)); }
     if (date && info.zone) console.warn('TZ?', competition, idx, JSON.stringify(args.date), '(read as UTC)');
@@ -220,7 +238,7 @@ export function parseMatches(text, competition, stats = {}) {
       played: over,
       maps, potm: args.mvp || null, broadcast, vod: args.vod || null,
       casters: Object.entries(args).filter(([k]) => /^caster\d/.test(k)).map(([, v]) => v),
-      section: (places[idx] || {}).section || '', round: (places[idx] || {}).round || '',
+      section: places[idx].section, round: places[idx].round,
     };
   });
 }

@@ -1,18 +1,26 @@
 // Minimal MediaWiki template parser: enough for Liquipedia {{Match}} / {{Map}} / {{TeamOpponent}}.
 const OPEN = '{{', CLOSE = '}}';
 
-export function findTemplates(text, name) {
+// <!-- comments --> (an unclosed one runs to the end, as in MediaWiki) -> spaces, newlines kept: offsets stay valid
+export const blankComments = text => text.replace(/<!--[\s\S]*?(?:-->|$)/g, c => c.replace(/[^\n]/g, ' '));
+
+// { start, end } of each top-level {{name ...}} (name case-blind, spaces allowed around it); an unclosed one is skipped,
+// one nested in another is part of it. Callers blank comments first so a commented-out template is not found.
+// (The old string pattern '\{\{\s*' lost its backslashes: '{{ Match' was not found while matchPlaces counted it.)
+export function templateSpans(text, name) {
   const out = [];
-  const re = new RegExp('\{\{\s*' + name + '\s*(?=[|}\n])', 'gi');
+  const re = new RegExp(String.raw`\{\{\s*` + name + String.raw`\s*(?=[|}\n])`, 'gi');
   let m;
   while ((m = re.exec(text))) {
     const end = matchEnd(text, m.index);
     if (end < 0) continue;
-    out.push(text.slice(m.index, end));
+    out.push({ start: m.index, end });
     re.lastIndex = end;
   }
   return out;
 }
+
+export const findTemplates = (text, name) => templateSpans(text, name).map(({ start, end }) => text.slice(start, end));
 
 function matchEnd(text, start) {
   let depth = 0;
