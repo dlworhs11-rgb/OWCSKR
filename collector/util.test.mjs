@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
-import { knownPlayer, kstDay, readJson, writeJson } from './util.mjs';
+import { knownPlayer, kstDay, readJson, writeJson, renameRetry } from './util.mjs';
 
 test('knownPlayer skips unknown broadcast names in both published shapes', () => {
   assert.equal(knownPlayer({ name: 'HeeSang' }), true);
@@ -31,4 +31,15 @@ test('writeJson replaces the file through a tmp file; readJson gives null for mi
     await fs.writeFile(path.join(dir, 'bad.json'), '{');
     assert.equal(await readJson(path.join(dir, 'bad.json')), null);
   } finally { await fs.rm(dir, { recursive: true, force: true }); }
+});
+
+test('renameRetry: busy target (Windows EPERM / EBUSY) is tried again, other errors and the last try are thrown', async () => {
+  const err = code => Object.assign(new Error(code), { code });
+  const fake = fails => { let n = 0; const fn = async () => { n++; if (fails.length) throw err(fails.shift()); }; fn.count = () => n; return fn; };
+  const ok = fake(['EPERM', 'EBUSY', 'EACCES']);
+  await renameRetry('a', 'b', { rename: ok }); assert.equal(ok.count(), 4);
+  const other = fake(['ENOENT']);
+  await assert.rejects(renameRetry('a', 'b', { rename: other }), /ENOENT/); assert.equal(other.count(), 1);
+  const stuck = fake(['EPERM', 'EPERM', 'EPERM']);
+  await assert.rejects(renameRetry('a', 'b', { rename: stuck, tries: 3 }), /EPERM/); assert.equal(stuck.count(), 3);
 });

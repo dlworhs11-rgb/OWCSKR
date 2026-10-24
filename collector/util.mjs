@@ -5,12 +5,24 @@ import path from 'node:path';
 // null when the file is missing or not JSON (a truncated file counts as no previous copy)
 export const readJson = f => fs.readFile(f, 'utf8').then(JSON.parse).catch(() => null);
 
-// tmp + rename: a run killed mid-write (timeout, OOM) leaves the old file, not half a file
-export async function writeJson(f, data, indent = 1) {
-  await fs.mkdir(path.dirname(f), { recursive: true });
-  await fs.writeFile(f + '.tmp', JSON.stringify(data, null, indent));
-  await fs.rename(f + '.tmp', f);
+// Windows refuses to rename over a file another process has open (EPERM; a Python reader is enough) or that a
+// scanner holds (EBUSY / EACCES): those are tried again for ~1.5 s
+const BUSY = new Set(['EPERM', 'EACCES', 'EBUSY']);
+export async function renameRetry(from, to, { tries = 6, rename = fs.rename } = {}) {
+  for (let i = 0; ; i++) {
+    try { return await rename(from, to); }
+    catch (e) { if (i >= tries - 1 || !BUSY.has(e.code)) throw e; await new Promise(r => setTimeout(r, 50 * 2 ** i)); }
+  }
 }
+
+// tmp + rename: a run killed mid-write (timeout, OOM) leaves the old file, not half a file
+export async function writeAtomic(f, text) {
+  await fs.mkdir(path.dirname(f), { recursive: true });
+  await fs.writeFile(f + '.tmp', text);
+  try { await renameRetry(f + '.tmp', f); }
+  catch (e) { await fs.rm(f + '.tmp', { force: true }); throw e; }
+}
+export const writeJson = (f, data, indent = 1) => writeAtomic(f, JSON.stringify(data, null, indent));
 
 export const kstDay = d => new Date(new Date(d).getTime() + 9 * 3600e3).toISOString().slice(0, 10);
 

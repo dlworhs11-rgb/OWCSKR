@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { findTemplates, parseTemplate } from './wikitext.mjs';
-import { readJson, writeJson } from './util.mjs';
+import { readJson, writeJson, writeAtomic } from './util.mjs';
 
 const API = 'https://liquipedia.net/overwatch/api.php';
 const UA = 'OWCSKR-fansite/0.1 (+https://github.com/dlworhs11-rgb/OWCSKR)';
@@ -78,8 +78,7 @@ export async function fetchPage(title, { maxAgeMs = 3600e3 } = {}) {
   if (text == null) { await sideSet('_missing.json', title, Date.now() / 1000); return { text: null, redirect, missing: true, cached: false }; }
   await sideSet('_missing.json', title, undefined);
   if (isRedirectBody(text)) throw new Error('redirect not followed: ' + text.trim().slice(0, 120));
-  await fs.mkdir(cfg.cache, { recursive: true });
-  await fs.writeFile(file, text);
+  await writeAtomic(file, text);   // a half-written copy would be read as fresh for 6 h (fewer matches, no SHRINK below half)
   await sideSet('_redirects.json', title, redirect ?? undefined);
   return { text, redirect, missing: false, cached: false };
 }
