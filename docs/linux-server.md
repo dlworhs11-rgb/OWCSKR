@@ -36,10 +36,10 @@
 sudo timedatectl set-timezone Asia/Seoul          # 날짜 계산(date.today)이 한국 날짜와 맞도록
 sudo apt update
 sudo apt install -y git python3-venv tesseract-ocr ffmpeg gh curl dbus-user-session
-# Node: 배포판 nodejs는 22.04에서 12.x라 못 쓴다 (collector는 20 이상, package.json engines). NodeSource 20.x:
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+# Node: 배포판 nodejs는 22.04에서 12.x라 못 쓴다 (collector는 20 이상, package.json engines). NodeSource 22.x (20은 2026-04-30에 지원 종료, 사이트 Actions도 22):
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 sudo apt install -y nodejs
-node --version                                     # v20.x 인지 확인
+node --version                                     # v22.x 인지 확인
 # OBS 방식 캡처를 쓸 때만 (위 "시작 전에" 확인 후): sudo apt install -y obs-studio xvfb
 ```
 그다음 **그 계정으로 직접 ssh 접속해서** (`ssh owcskr@서버`, `sudo -u`/`su` 아님):
