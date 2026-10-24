@@ -82,7 +82,11 @@ start_xvfb() {
   done
   return 1
 }
-if [ -z "${DISPLAY:-}" ] && command -v Xvfb >/dev/null 2>&1; then
+# OWCSKR_FRAME_SOURCE=hls: live_capture.py reads the SOOP stream with yt-dlp + ffmpeg, no OBS, so no display either
+SOURCE="$(printf '%s' "${OWCSKR_FRAME_SOURCE:-obs}" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]')"
+if [ "$SOURCE" = hls ]; then
+  log "frame source hls - no Xvfb"
+elif [ -z "${DISPLAY:-}" ] && command -v Xvfb >/dev/null 2>&1; then
   if start_xvfb; then log "Xvfb on $DISPLAY"; else log "Xvfb did not start (see $DAYDIR/xvfb.log) - no display"; fi
 fi
 ARGS=(--until "$UNTIL" --date "$DAY")

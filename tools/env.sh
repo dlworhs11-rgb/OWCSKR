@@ -34,6 +34,8 @@ load_env "$ROOT/.env" || exit 1
 if [ -n "${OWCSKR_PYTHON:-}" ]; then PY="$OWCSKR_PYTHON"
 elif [ -x "$ROOT/.venv/bin/python" ]; then PY="$ROOT/.venv/bin/python"
 else PY=python3; fi
+# what pip installs into the venv (yt-dlp for OWCSKR_FRAME_SOURCE=hls) is on PATH too: systemd units have no venv
+if [ -d "$ROOT/.venv/bin" ]; then PATH="$ROOT/.venv/bin:$PATH"; export PATH; fi
 LOG_DIR="$ROOT/data/live"
 mkdir -p "$LOG_DIR"
 cd "$ROOT" || exit 1

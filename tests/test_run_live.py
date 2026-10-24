@@ -30,15 +30,21 @@ def live(tmp_path):
     with open(py, 'w', newline='\n') as f:
         f.write(PY)
     os.chmod(py, 0o755)
+    stubs = tmp_path / 'stubs'
+    stubs.mkdir()
+    with open(stubs / 'Xvfb', 'w', newline='\n') as f:          # logs and dies: run_live.sh goes on without a display
+        f.write('#!/usr/bin/env bash\necho "Xvfb $*" >> "$FAKE_LOG"\nexit 1\n')
+    os.chmod(stubs / 'Xvfb', 0o755)
     log = tmp_path / 'calls.log'
     base = {k: v for k, v in os.environ.items() if not k.startswith('OWCSKR_')}
     base.update(OWCSKR_PYTHON=py.as_posix(), FAKE_LOG=log.as_posix(), FAKE_UNTIL=UNTIL, DISPLAY=':0',
-                HOME=tmp_path.as_posix())
+                HOME=tmp_path.as_posix(), PATH=str(stubs) + os.pathsep + os.environ.get('PATH', ''))
 
     def run(**env):
         r = subprocess.run([bash, 'tools/run_live.sh', '6.5', DAY], cwd=root, env=dict(base, **env),
                            capture_output=True, text=True, timeout=60)
         calls = log.read_text(encoding='utf-8').splitlines() if log.exists() else []
+        run.all_calls = calls
         return r.returncode, [c for c in calls if 'live_capture.py' in c or 'notify.py' in c]
     run.day = root / 'data' / 'live' / DAY
     return run
@@ -78,3 +84,15 @@ def test_day_over_without_frames_does_nothing(live):
 def test_bad_end_time_is_exit_2_with_an_alert(live):
     rc, calls = live(FAKE_LU_RC='2', FAKE_UNTIL='')
     assert rc == 2 and any('notify.py' in c for c in calls)
+
+
+def test_obs_source_without_a_display_starts_xvfb(live):
+    rc, calls = live(DISPLAY='')
+    assert rc == 0 and any(c.startswith('Xvfb :99') for c in live.all_calls)
+    assert calls == [f'py -I tools/live_capture.py --until {UNTIL} --date {DAY}']
+
+
+def test_hls_source_never_starts_xvfb(live):
+    rc, calls = live(DISPLAY='', OWCSKR_FRAME_SOURCE='HLS')
+    assert rc == 0 and not any(c.startswith('Xvfb') for c in live.all_calls)
+    assert calls == [f'py -I tools/live_capture.py --until {UNTIL} --date {DAY}']

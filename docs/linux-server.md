@@ -12,13 +12,22 @@
 | `%APPDATA%\obs-studio` | `~/.config/obs-studio` |
 | `gh auth login` | `.env`의 `GH_TOKEN` (+ `gh auth setup-git`) |
 
+## 프레임 원천: 서버는 HLS를 권장
+`.env`의 `OWCSKR_FRAME_SOURCE`가 캡처(`live_capture.py`)의 화면 입구를 고른다.
+- `hls` (**서버 권장**, `.env.example` 값): SOOP 방송 HLS를 `yt-dlp` + `ffmpeg`로 직접 받는다(`tools/frames.py`, `docs/hls-capture.md`). OBS도 가상 화면도 없다: `run_live.sh`는 `Xvfb`를 띄우지 않고, `matchday_check.py`·`soop_quality.py`는 OBS 점검을 건너뛰고 로그에만 남긴다.
+  - `ffmpeg`는 apt(아래 설치 명령에 포함), `yt-dlp`는 venv에 `requirements.txt`로 설치된다(버전 고정, 일부러 올린다). `tools/env.sh`가 `.venv/bin`을 PATH 앞에 넣으므로 systemd 유닛에서도 찾는다. 다른 경로면 `FFMPEG_CMD`, `YTDLP_CMD`.
+  - `OWCSKR_HLS_CHANNEL`: SOOP 채널 id (기본 `owesports`). `OWCSKR_HLS_KEYFRAMES=1`: 키프레임만 디코딩(CPU가 크게 줄고 프레임 시각이 키프레임 간격에 맞춰짐). 경기일에 `tools/frames_probe.py --keyframes-only`로 간격을 본 뒤 켠다. 기본 `0`.
+- `obs` (기본값, 값이 없을 때): OBS 브라우저 소스. 윈도우 PC는 이 경로 그대로다. 리눅스에서는 `run_live.sh`가 `Xvfb`를 띄운다(아래 "시작 전에" 참고).
+- 이 세 값은 `live_capture.py`가 직접 읽는다. 사이트 기록기(`score_watch.py` 등)는 아직 OBS 화면을 읽는다(아래 "아직 남은 일").
+
 ## 시작 전에 확인할 것
-- **OBS 방식 캡처는 ARM에서 확인되지 않았다.** Ubuntu의 apt `obs-studio`에는 브라우저 소스(CEF)가 빠져 있을 가능성이 크고, 공식 OBS PPA는 amd64만 있다. ARM VM에서 아래를 먼저 해 본다.
+- **OBS 방식 캡처는 ARM에서 확인되지 않았다** (`OWCSKR_FRAME_SOURCE=obs`일 때만 해당). Ubuntu의 apt `obs-studio`에는 브라우저 소스(CEF)가 빠져 있을 가능성이 크고, 공식 OBS PPA는 amd64만 있다. ARM VM에서 아래를 먼저 해 본다.
   ```bash
   xvfb-run -a .venv/bin/python -I tools/obs_setup.py start 'https://vod.sooplive.com/player/209539901?change_second=3440'
   .venv/bin/python -I tools/obs_snap.py 6 10      # data/live/snap_report.txt에 실제 화면이 찍혔는지
   ```
-  검은 화면이거나 `CreateInput`이 실패하면 OBS 경로는 포기하고, OBS 없이 SOOP HLS를 `yt-dlp` + `ffmpeg`로 받는 프레임 입구(P1-17, `tools/frames.py`)가 끝난 다음에 옮긴다. 사이트 기록기(`score_watch.py` 등)도 OBS 화면을 읽으므로 같이 바꿔야 한다.
+  검은 화면이거나 `CreateInput`이 실패하면 OBS 경로는 포기하고 `OWCSKR_FRAME_SOURCE=hls`로 돌린다(위). 사이트 기록기(`score_watch.py` 등)도 OBS 화면을 읽으므로 같이 바꿔야 한다.
+- **HLS 첫 확인**: 다음 경기일에 `.venv/bin/yt-dlp -F https://play.sooplive.com/owesports`(비로그인 화질)와 `.venv/bin/python -I tools/frames_probe.py --count 3`을 돌려 본다. 첫 1~2 경기일은 PC 결과와 비교한다(`docs/hls-capture.md`).
 - **Oracle Always Free는 유휴 인스턴스를 회수한다** (7일 동안 CPU·네트워크·메모리 사용이 낮으면). 경기 없는 주에는 일일 작업 몇 분뿐이라 회수 대상이 된다. 계정을 **PAYG(종량제)로 올린다**: Always Free 한도 안에서는 요금이 없고 회수 대상에서 빠진다. 부하를 일부러 만드는 방법은 쓰지 않는다. 회수돼도 알 수 있게 아래 healthchecks를 꼭 설정한다.
 
 ## 처음 설치 (Ubuntu 22.04/24.04, ARM 또는 x86)
@@ -59,9 +68,9 @@ bash tools/register_tasks.sh                       # 매일 09:00 KST + 부팅 3
 - `run_daily.sh` 순서: (캡처가 안 돌면) `git pull --ff-only` → `run-lp.mjs --discover --strict` (`competitions.json`/`active.json`이 바뀌면 `OWCSKR_AUTOCOMMIT=1`일 때 커밋, `OWCSKR_AUTOPUSH=1`일 때 push) → `run-lp.mjs --active-only --strict` → `build.mjs` → `republish_recent.py` → `schedule_today.py --upcoming` → 백업 → 다시보기 댓글 → 사이트 최신성 점검. 단계가 실패해도 다음 단계를 돌리고, 끝에서 실패 목록과 출력 끝부분을 한 번에 알린다. 실패가 있으면 종료 코드 1 (`run-lp` 종료 코드 2 = 일부 페이지 실패, git pull/push 실패, 최신성 점검은 경고: 알리기만 한다).
 - 코드 받기(`git pull`): 일일 작업이 매번 다시 쓰는 추적 파일(`data/lp/`, `competitions.json`, `active.json`)은 "로컬 변경"으로 치지 않는다. 들어오는 커밋이 그 파일을 건드려 pull이 거부되면 그 파일만 HEAD로 되돌리고(바로 뒤 단계가 다시 받는다) 한 번 더 pull 한다. 그 밖의 파일을 서버에서 고쳤으면 pull을 건너뛰고 경고로 알린다(`git stash`나 `git checkout`으로 정리). push가 거부되면(원격이 그사이 바뀜) 발견 커밋을 되돌리고 변경은 작업 트리에 남긴다: 다음 날 pull 뒤에 다시 커밋한다.
 - 서버 권장값은 `OWCSKR_AUTOCOMMIT=1`과 `OWCSKR_AUTOPUSH=1`을 **함께** 켜는 것이다(사이트가 서버가 찾은 스테이지 목록을 쓰게 하려면). `AUTOCOMMIT=1`만 켜면 로컬 커밋이 쌓여 원격이 바뀐 날부터 `git pull --ff-only`가 계속 실패한다.
-- `owcskr-live-<날짜>`: `run_live.sh HOURS DATE`. 처음 시작할 때 끝나는 시각(지금 + HOURS)을 `data/live/<날짜>/until.txt`에 적고 `live_capture.py --until`로 넘긴다. 죽으면 60초 뒤 다시 시작하고(`Restart=on-failure`), 다시 시작해도 같은 시각에 끝난다. `live_capture.py` 시작 점검 실패(종료 코드 2)와 "캡처는 끝났는데 마지막 판독·발행 실패"(종료 코드 4)는 다시 시작하지 않는다(`RestartPreventExitStatus=2 4`). 하루 요약이 나간 날(`data/live/<날짜>/summary.txt`)은 다시 시작해도 바로 끝난다. 끝 시각이 지난 뒤의 재시작은 프레임은 있는데 요약이 없을 때(끝 무렵 충돌)만 마지막 판독·발행·요약을 한 번 돌린다. 화면이 없는 서버에서는 `Xvfb`를 직접 띄운다(`xvfb-run`은 멈출 때 먼저 죽어서 쓰지 않는다). 같은 날 두 번 뜨지 않게 `flock`으로 잠근다. 자정을 넘긴 캡처는 그사이 재부팅해도 부팅 일일 작업이 어제 날짜까지 보고 다시 띄운다. `RuntimeMaxSec`는 일정 길이 + 1시간(안전장치), 멈출 때는 SIGTERM 후 5분(`TimeoutStopSec`) 동안 마지막 판독·발행을 기다린다. 이미 돌고 있는 캡처는 일일 작업이 다시 돌아도 건드리지 않는다.
+- `owcskr-live-<날짜>`: `run_live.sh HOURS DATE`. 처음 시작할 때 끝나는 시각(지금 + HOURS)을 `data/live/<날짜>/until.txt`에 적고 `live_capture.py --until`로 넘긴다. 죽으면 60초 뒤 다시 시작하고(`Restart=on-failure`), 다시 시작해도 같은 시각에 끝난다. `live_capture.py` 시작 점검 실패(종료 코드 2)와 "캡처는 끝났는데 마지막 판독·발행 실패"(종료 코드 4)는 다시 시작하지 않는다(`RestartPreventExitStatus=2 4`). 하루 요약이 나간 날(`data/live/<날짜>/summary.txt`)은 다시 시작해도 바로 끝난다. 끝 시각이 지난 뒤의 재시작은 프레임은 있는데 요약이 없을 때(끝 무렵 충돌)만 마지막 판독·발행·요약을 한 번 돌린다. `OWCSKR_FRAME_SOURCE=obs`이고 화면이 없는 서버에서는 `Xvfb`를 직접 띄운다(`xvfb-run`은 멈출 때 먼저 죽어서 쓰지 않는다). `hls`면 띄우지 않는다. 같은 날 두 번 뜨지 않게 `flock`으로 잠근다. 자정을 넘긴 캡처는 그사이 재부팅해도 부팅 일일 작업이 어제 날짜까지 보고 다시 띄운다. `RuntimeMaxSec`는 일정 길이 + 1시간(안전장치), 멈출 때는 SIGTERM 후 5분(`TimeoutStopSec`) 동안 마지막 판독·발행을 기다린다. 이미 돌고 있는 캡처는 일일 작업이 다시 돌아도 건드리지 않는다.
 - 기록기(`start_watchers.sh`)는 각각 `owcskr-<이름>` 유닛으로 뜨고, 죽으면 30초 뒤 다시 시작한다. 모든 `systemd-run` 유닛은 `.env`를 `EnvironmentFile=`로 받는다 (안 그러면 `GH_TOKEN` 등이 없다).
-- 경기일마다: 첫 경기 5분 전 `matchday_check.py`, 2분 뒤 `soop_quality.py`, 캡처 시작부터 15분마다 `healthcheck.py`. OBS나 기록기가 없는 서버에서는 그 점검을 건너뛰고 로그에만 남긴다. 지난 날짜의 타이머는 다음 날 일일 작업이 정리한다.
+- 경기일마다: 첫 경기 5분 전 `matchday_check.py`, 2분 뒤 `soop_quality.py`, 캡처 시작부터 15분마다 `healthcheck.py`. OBS나 기록기가 없는 서버(`OWCSKR_FRAME_SOURCE=hls` 포함)에서는 그 점검을 건너뛰고 로그에만 남긴다. 지난 날짜의 타이머는 다음 날 일일 작업이 정리한다.
 
 ## 감시 (healthchecks, 최신성)
 - [healthchecks.io](https://healthchecks.io)(무료)에 체크 두 개를 만들고 ping URL을 `.env`에 넣는다.
@@ -92,6 +101,6 @@ tail -f data/live/daily.log data/live/task.log
 윈도우 PC와 서버를 같이 돌리면 같은 경기를 두 곳에서 캡처하고 발행한다. 서버를 정식으로 등록하는 날 PC에서 `OWCSKR_예약해제.bat`을 실행한다.
 
 ## 아직 남은 일
-- OBS 없이 프레임 받기 (SOOP HLS → ffmpeg). 지금 `run_live.sh`는 OBS를 가상 화면(xvfb)에서 띄운다.
+- HLS 원천의 실제 경기일 확인(화질, 키프레임 간격, PC 결과와 비교)과 새 화질에 맞춘 사전 재구축 (`docs/hls-capture.md`).
 - 사이트 기록기(`score_watch.py` 등)도 OBS에서 화면을 받으므로 같이 바꿔야 한다.
 - 사이트 `owcs-ver.json`에 데이터 빌드 성공 시각(`dataBuilt`) 추가 (사이트 저장소, P1-04).

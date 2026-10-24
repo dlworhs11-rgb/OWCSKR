@@ -5,7 +5,8 @@ ratio is low: 10-17 VOD frames gave 1.66-1.86 at 720p and 0.69-0.92 for the same
 waiting screens alike. Below 1.2 an alert (platform_util.notify) asks the user to log in again (OBS: SOOP source > Interact).
 usage: python -I tools/soop_quality.py   (2 minutes after the first match, scheduled by schedule_today.py: task
        OWCSKR\\SoopQuality_<date> / systemd timer owcskr-soop-<date>)
-Without OBS on this machine or without the site recorders (score_watch.py reads the OBS picture) it only logs."""
+Without OBS on this machine (also OWCSKR_FRAME_SOURCE=hls: the capture reads the stream itself) or without the site
+recorders (score_watch.py reads the OBS picture) it only logs."""
 import asyncio, datetime, os, sys
 import cv2, numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -42,7 +43,9 @@ def popup(text):
 
 
 def skip_reason():
-    """why this machine cannot run the check at all (then it logs, no alert): no OBS, or no site recorders"""
+    """why this machine cannot run the check at all (then it logs, no alert): HLS frames, no OBS, or no site recorders"""
+    if PU.frame_source() == 'hls':
+        return 'frame source hls (OWCSKR_FRAME_SOURCE) - no OBS picture to check'
     if not PU.obs_installed():
         return 'OBS not installed'
     if not PU.SITE_DIR:

@@ -13,7 +13,8 @@ NEED = ('score_watch.py', 'pick_watch.py', 'caster_watch.py', 'live_relay.py', '
 
 def problems():
     """(problems to alert about, notes for the log only). A machine without the recorders (OWCSKR_SITE_DIR not set)
-    or without OBS (a server reading the stream directly) gets those checks skipped, not reported as down."""
+    or without OBS (a server reading the stream directly: OWCSKR_FRAME_SOURCE=hls, or no OBS installed) gets those
+    checks skipped, not reported as down."""
     out, notes = [], []
     need = NEED
     if not PU.SITE_DIR:
@@ -25,6 +26,9 @@ def problems():
     missing = [n for n in need if n not in ps]
     if missing:
         out.append('안 켜진 기록기: ' + ', '.join(m.replace('.py', '') for m in missing))
+    if PU.frame_source() == 'hls':
+        notes.append('frame source hls (OWCSKR_FRAME_SOURCE) - OBS checks skipped')
+        return out, notes
     if not PU.obs_installed():
         notes.append('OBS not installed - picture check skipped')
         return out, notes
