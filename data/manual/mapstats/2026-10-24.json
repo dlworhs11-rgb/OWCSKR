@@ -1,0 +1,163 @@
+{
+ "date": "2026-10-24",
+ "source": "OBS capture of the SOOP broadcast (owesports), GAME DATA screens",
+ "maps": [
+  {
+   "match": "Cheeseburger vs ZETA DIVISION",
+   "matchNo": 1,
+   "game": 1,
+   "map": "Nepal",
+   "mapTime": "10:13",
+   "frame": "m01_table1_1792823645.png",
+   "teams": {
+    "Cheeseburger": [
+     {
+      "name": "?1",
+      "e": 23,
+      "a": 4,
+      "d": 5,
+      "dmg": 14654,
+      "heal": 1191,
+      "mit": 8652
+     },
+     {
+      "name": "?2",
+      "e": 19,
+      "a": 4,
+      "d": 4,
+      "dmg": 14082,
+      "heal": 860,
+      "mit": 1056
+     },
+     {
+      "name": "Profit",
+      "e": 17,
+      "a": 0,
+      "d": 7,
+      "dmg": 5249,
+      "heal": 24,
+      "mit": 152
+     },
+     {
+      "name": "TenTen",
+      "e": 9,
+      "a": 21,
+      "d": 3,
+      "dmg": 2300,
+      "heal": 11047,
+      "mit": 0
+     },
+     {
+      "name": "?3",
+      "e": 12,
+      "a": 22,
+      "d": 6,
+      "dmg": 4437,
+      "heal": 11128,
+      "mit": 938
+     }
+    ],
+    "ZETA DIVISION": [
+     {
+      "name": "Bernar",
+      "e": 17,
+      "a": 10,
+      "d": 6,
+      "dmg": 12179,
+      "heal": 1378,
+      "mit": 9748
+     },
+     {
+      "name": "?4",
+      "e": 11,
+      "a": 0,
+      "d": 9,
+      "dmg": 8776,
+      "heal": 82,
+      "mit": 767
+     },
+     {
+      "name": "Proper",
+      "e": 10,
+      "a": 0,
+      "d": 4,
+      "dmg": 8604,
+      "heal": 143,
+      "mit": 1016
+     },
+     {
+      "name": "Shu",
+      "e": 10,
+      "a": 16,
+      "d": 8,
+      "dmg": 6012,
+      "heal": 8716,
+      "mit": 2068
+     },
+     {
+      "name": "?5",
+      "e": 17,
+      "a": 13,
+      "d": 5,
+      "dmg": 4717,
+      "heal": 10588,
+      "mit": 0
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "bans": {
+    "initial": {
+     "team": "Cheeseburger",
+     "hero": "orisa"
+    },
+    "followUp": {
+     "team": "ZETA DIVISION",
+     "hero": "cassidy"
+    }
+   },
+   "seriesBefore": {
+    "Cheeseburger": 0,
+    "ZETA DIVISION": 0
+   }
+  }
+ ],
+ "matches": [
+  {
+   "match": "Cheeseburger vs ZETA DIVISION",
+   "matchNo": 1,
+   "mapWins": {},
+   "potm": null
+  }
+ ],
+ "unknownNames": [
+  {
+   "id": "?1",
+   "map": "01",
+   "row": 0
+  },
+  {
+   "id": "?2",
+   "map": "01",
+   "row": 1
+  },
+  {
+   "id": "?3",
+   "map": "01",
+   "row": 4
+  },
+  {
+   "id": "?4",
+   "map": "01",
+   "row": 6
+  },
+  {
+   "id": "?5",
+   "map": "01",
+   "row": 9
+  }
+ ],
+ "unknownMaps": [],
+ "note": "reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; mapTime = damage / damage-per-minute from the totals page."
+}
