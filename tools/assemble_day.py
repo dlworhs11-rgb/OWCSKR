@@ -12,7 +12,9 @@ usage: python -I tools/assemble_day.py YYYY-MM-DD
   when two other sources agree. A map whose match, game or panel sides cannot be trusted gets labelVerified False.
   matchKey = '<competitionTitle>#<idx>' of the schedule entry (keeps a same-day rematch apart; 'match' is the label).
 - ban / POTM screen readings are cached per frame in data/live/<date>/screens_cache.json
-- writes data/live/<date>/mapstats.json (tools/publish_day.py uploads the verified maps)
+- writes data/live/<date>/mapstats.json (tools/publish_day.py uploads the verified maps); its 'source' names the frame
+  source live_capture recorded in data/live/<date>/source.json ('HLS capture of the SOOP broadcast (owesports), ...'),
+  else this machine's OWCSKR_FRAME_SOURCE
 """
 import contextlib, glob, hashlib, json, os, re, sys, time
 from collections import Counter
@@ -806,10 +808,25 @@ def check_libraries(date: str, day: str, lib: list) -> bool:
     return True
 
 
+def source_text(day: str) -> str:
+    """mapstats.json 'source': what live_capture recorded for the day (data/live/<date>/source.json), else this
+    machine's frame source (platform_util.frame_source) -> 'HLS capture of the SOOP broadcast (owesports), ...'"""
+    import platform_util as PU
+    try:
+        with open(os.path.join(day, 'source.json'), encoding='utf-8') as f: rec = json.load(f)
+    except (OSError, ValueError):
+        rec = {}
+    rec = rec if isinstance(rec, dict) else {}
+    kind = rec.get('source') if rec.get('source') in PU.FRAME_SOURCES else PU.frame_source()
+    hls_channel = (os.environ.get('OWCSKR_HLS_CHANNEL') or '').strip() if kind == 'hls' else ''
+    channel = rec.get('channel') or hls_channel or 'owesports'
+    return f'{kind.upper()} capture of the SOOP broadcast ({channel}), GAME DATA screens'
+
+
 def write_result(date: str, day: str, res: dict) -> None:
     for m in res['maps']:
         for k in ('_ts', '_known', '_pair', '_idx'): m.pop(k, None)
-    out = {'date': date, 'source': 'OBS capture of the SOOP broadcast (owesports), GAME DATA screens', **res,
+    out = {'date': date, 'source': source_text(day), **res,
            'note': 'reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; '
                    'labelVerified = match, game and panel teams agree with the schedule, ban screen and rosters (labelIssues say why not); '
                    'name None + unknownId = a player name not in the name library; mapTime = damage / damage-per-minute from the totals page.'}

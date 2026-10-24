@@ -63,6 +63,7 @@ TABLE_SETTLE = 2.0              # s after the first TABLE frame of a map before 
 TOTALS_STEP = 5.0               # TOTALS frames at +0 / +5 / +10 s
 MAX_TABLES = MAX_TOTALS = 3
 SUMMARY_MARK = 'summary.txt'    # written once the end-of-day summary went out (a restart after the window resends none)
+SOURCE_RECORD = 'source.json'   # in data/live/<date>: {'source', 'channel'} of the capture, for mapstats.json 'source'
 FINALIZE_FAILED = 4             # exit code: the day was captured, only the final steps failed
 SUMMARY_NEAR_END = 5 * 60       # a crash / stop this close to --until has no successor run: it sends the summary itself
 _REFS = None
@@ -753,6 +754,22 @@ def capture(a, out, frames, log, alert, end, source, window=None) -> str:
         except Exception as e: log('closing the frame source failed:', type(e).__name__, e)
 
 
+def soop_channel(url: str) -> str:
+    """'owesports' from a channel id or a play.sooplive.com address (the OBS embed player page included)"""
+    import urllib.parse
+    p = urllib.parse.urlparse(url)
+    return next((s for s in (p.path if p.netloc else url).split('/') if s), url)
+
+
+def record_source(out, a, log) -> None:
+    """what this capture reads, for assemble_day's mapstats.json 'source' ('HLS capture of the SOOP broadcast ...')"""
+    try:
+        with open(os.path.join(out, SOURCE_RECORD), 'w', encoding='utf-8') as fh:
+            json.dump({'source': a.source, 'channel': soop_channel(a.url)}, fh)
+    except OSError as e:
+        log('could not write', SOURCE_RECORD, e)
+
+
 def summary_due(how, end, now, out) -> bool:
     """one summary per day, from the run that finishes it. A crash or a stop before the end (reboot, systemctl stop) is
     followed by a run that does, unless the window is (nearly) over: then run_live.sh starts nothing more."""
@@ -788,6 +805,7 @@ def run(a, out, frames, log, alert, source_factory=None) -> int:
     source = (source_factory or source_factory_for(a))(a.url, log)
     busy = source_busy(source, log, alert)
     if busy is not None: return busy
+    record_source(out, a, log)
     how = capture(a, out, frames, log, alert, end, source, broadcast_window(a.date, log))
     finishing()
     finalized = finalize(a, out, frames, log, alert) == 0

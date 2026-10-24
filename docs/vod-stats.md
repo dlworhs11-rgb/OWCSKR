@@ -38,6 +38,7 @@
 - `tools/assemble_day.py` : 이름 사전(`data/name_lib/`)으로 선수 이름, 선수 시트로 팀, 화면 머리글·밴 화면·Liquipedia 일정으로 경기/세트/맵 결정 -> `data/live/<날짜>/mapstats.json`
   (모르는 이름은 `name: null` + `unknownId: "?46"`(맵 4, 줄 6 = 맵 번호 × 10 + 줄), 크롭은 `data/live/<날짜>/unknown/`에 저장 -> 아래 "모르는 이름 붙이기")
   - 같은 날의 조립은 한 번에 하나(`data/live/<날짜>/.assemble.lock`), `mapstats.json`은 임시 파일에 쓰고 바꿔 넣음
+  - `mapstats.json`의 `source`는 그날 캡처의 화면 입구: `live_capture.py`가 시작할 때 `data/live/<날짜>/source.json`에 적은 원천과 채널(`"HLS capture of the SOOP broadcast (owesports), GAME DATA screens"`, OBS면 `OBS capture ...`). 그 파일이 없으면 이 기계의 `OWCSKR_FRAME_SOURCE`
   - 이름 사전이 비어 있으면 알림을 보내고 종료 코드 2로 멈춤. 굵은 숫자 사전에 0~9가 3개씩 없으면 하루 한 번 경고
 - `tools/schedule_today.py --upcoming` : 앞으로 14일(자정을 넘겨 도는 어제 캡처 포함)의 한국 리그 경기일마다 첫 경기 10분 전에 `OWCSKR\LiveCapture_<날짜>` 작업(리눅스 `owcskr-live-<날짜>`)과 경기일 점검을 예약. 경기일은 KST 날짜. Liquipedia에 시각 없이 날짜만 있는 경기(00:00 UTC 또는 00:00 KST로 저장됨)는 정규 시즌이든 플레이오프든 그 요일의 평소 첫 경기 시각(KST, 금 17:00, 토·일 15:00, 그 밖 19:00)으로 추정하고, 그런 날은 경기마다 길이를 더해 캡처 시간을 잡음
 - `tools/OWCSKR_예약등록.bat`(바탕화면에 복사해도 됨) : 매일 09:00 `OWCSKR\Daily` 작업 등록 (Liquipedia 갱신 -> 빌드 -> 최근 이틀 재발행 -> 예약). 해제는 `OWCSKR_예약해제.bat`

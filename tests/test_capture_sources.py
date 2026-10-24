@@ -77,6 +77,13 @@ def test_run_checks_and_builds_the_chosen_source(tmp_path, monkeypatch):
     a = LC.parse_args(['--date', '2026-10-25', '--hours', '1'], env={'OWCSKR_FRAME_SOURCE': 'hls'})
     assert LC.run(a, str(tmp_path), str(tmp_path), lambda *x: None, LC.Alerter(lambda t, x: None)) == 0
     assert seen == {'source': 'hls', 'publish': True} and built == ['owesports']
+    assert json.loads((tmp_path / LC.SOURCE_RECORD).read_text(encoding='utf-8')) == {'source': 'hls', 'channel': 'owesports'}
+
+
+def test_soop_channel():
+    assert LC.soop_channel(LC.obs_setup.LIVE_URL) == 'owesports'
+    assert LC.soop_channel('https://play.sooplive.com/otherchan') == 'otherchan'
+    assert LC.soop_channel('owesports') == 'owesports'
 
 
 # ---- GAME DATA: offset search and alignment ------------------------------------------------------------------

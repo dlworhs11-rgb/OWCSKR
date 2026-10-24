@@ -357,6 +357,27 @@ def test_write_result_replaces_the_file_whole(tmp_path, monkeypatch):
     assert [p.name for p in tmp_path.iterdir()] == ['mapstats.json']
 
 
+def test_write_result_names_the_recorded_frame_source(tmp_path, monkeypatch):
+    """'source' was always 'OBS capture ...', also for a day read from the HLS stream"""
+    monkeypatch.delenv('OWCSKR_FRAME_SOURCE', raising=False)
+    monkeypatch.delenv('OWCSKR_HLS_CHANNEL', raising=False)
+    res = run_day(monkeypatch)
+    (tmp_path / 'source.json').write_text(json.dumps({'source': 'hls', 'channel': 'owesports'}), encoding='utf-8')
+    AD.write_result(FX['date'], str(tmp_path), res)
+    got = json.loads((tmp_path / 'mapstats.json').read_text(encoding='utf-8'))['source']
+    assert got == 'HLS capture of the SOOP broadcast (owesports), GAME DATA screens'
+
+
+def test_source_text_without_a_record_is_this_machines_source(tmp_path, monkeypatch):
+    monkeypatch.delenv('OWCSKR_FRAME_SOURCE', raising=False)
+    assert AD.source_text(str(tmp_path)) == 'OBS capture of the SOOP broadcast (owesports), GAME DATA screens'
+    monkeypatch.setenv('OWCSKR_FRAME_SOURCE', 'hls')
+    monkeypatch.setenv('OWCSKR_HLS_CHANNEL', 'otherchan')
+    assert AD.source_text(str(tmp_path)) == 'HLS capture of the SOOP broadcast (otherchan), GAME DATA screens'
+    (tmp_path / 'source.json').write_text('[broken', encoding='utf-8')
+    assert AD.source_text(str(tmp_path)).startswith('HLS capture')
+
+
 def test_unverified_maps_carry_no_winner(monkeypatch):
     m = by_map(run_day(monkeypatch, bans=bans_with(m06={'score': [0, 0]})))      # m06 game untrusted
     assert m['06']['labelVerified'] is False and 'winner' not in m['06']
