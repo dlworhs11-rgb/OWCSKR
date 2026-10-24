@@ -489,6 +489,126 @@
    },
    "winner": "T1",
    "winnerSource": "series score"
+  },
+  {
+   "match": "Team Falcons vs T1",
+   "matchNo": 2,
+   "game": 3,
+   "map": "Eichenwalde",
+   "mapTime": "15:00",
+   "frame": "m08_table1_1792834302.png",
+   "teams": {
+    "Team Falcons": [
+     {
+      "name": "?49",
+      "e": 16,
+      "a": 19,
+      "d": 11,
+      "dmg": 7291,
+      "heal": 10831,
+      "mit": 1438
+     },
+     {
+      "name": "?50",
+      "e": 25,
+      "a": 6,
+      "d": 10,
+      "dmg": 14915,
+      "heal": 1480,
+      "mit": 13280
+     },
+     {
+      "name": "?51",
+      "e": 19,
+      "a": 0,
+      "d": 8,
+      "dmg": 11687,
+      "heal": 0,
+      "mit": 0
+     },
+     {
+      "name": "?52",
+      "e": 9,
+      "a": 15,
+      "d": 9,
+      "dmg": 5746,
+      "heal": 11186,
+      "mit": 938
+     },
+     {
+      "name": "?53",
+      "e": 21,
+      "a": 0,
+      "d": 5,
+      "dmg": 10441,
+      "heal": 239,
+      "mit": 545
+     }
+    ],
+    "T1": [
+     {
+      "name": "?54",
+      "e": 30,
+      "a": 0,
+      "d": 4,
+      "dmg": 9594,
+      "heal": 100,
+      "mit": 454
+     },
+     {
+      "name": "?55",
+      "e": 18,
+      "a": 22,
+      "d": 8,
+      "dmg": 6558,
+      "heal": 13829,
+      "mit": 3197
+     },
+     {
+      "name": "?56",
+      "e": 16,
+      "a": 22,
+      "d": 8,
+      "dmg": 5177,
+      "heal": 15883,
+      "mit": 0
+     },
+     {
+      "name": "?57",
+      "e": 16,
+      "a": 0,
+      "d": 9,
+      "dmg": 12951,
+      "heal": 0,
+      "mit": 447
+     },
+     {
+      "name": "?58",
+      "e": 30,
+      "a": 5,
+      "d": 4,
+      "dmg": 11644,
+      "heal": 1324,
+      "mit": 15285
+     }
+    ]
+   },
+   "totalsVerified": true,
+   "reading": "ocr",
+   "bans": {
+    "initial": {
+     "team": "T1",
+     "hero": "jetpack cat"
+    },
+    "followUp": {
+     "team": "Team Falcons",
+     "hero": "vendetta"
+    }
+   },
+   "seriesBefore": {
+    "Team Falcons": 0,
+    "T1": 2
+   }
   }
  ],
  "matches": [
@@ -513,7 +633,7 @@
    "match": "Team Falcons vs T1",
    "matchNo": 2,
    "mapWins": {
-    "T1": 1
+    "T1": 2
    },
    "potm": null
   }
@@ -758,6 +878,56 @@
    "id": "?48",
    "map": "07",
    "row": 9
+  },
+  {
+   "id": "?49",
+   "map": "08",
+   "row": 0
+  },
+  {
+   "id": "?50",
+   "map": "08",
+   "row": 1
+  },
+  {
+   "id": "?51",
+   "map": "08",
+   "row": 2
+  },
+  {
+   "id": "?52",
+   "map": "08",
+   "row": 3
+  },
+  {
+   "id": "?53",
+   "map": "08",
+   "row": 4
+  },
+  {
+   "id": "?54",
+   "map": "08",
+   "row": 5
+  },
+  {
+   "id": "?55",
+   "map": "08",
+   "row": 6
+  },
+  {
+   "id": "?56",
+   "map": "08",
+   "row": 7
+  },
+  {
+   "id": "?57",
+   "map": "08",
+   "row": 8
+  },
+  {
+   "id": "?58",
+   "map": "08",
+   "row": 9
   }
  ],
  "unknownMaps": [
@@ -772,6 +942,10 @@
   {
    "map": "06",
    "frame": "m06_table1_1792831510.png"
+  },
+  {
+   "map": "08",
+   "frame": "m08_table1_1792834302.png"
   }
  ],
  "note": "reading=ocr: numbers, match/game/map read from the broadcast screen; totalsVerified = sums match the team-totals page; mapTime = damage / damage-per-minute from the totals page."
