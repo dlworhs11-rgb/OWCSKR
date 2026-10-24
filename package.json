@@ -3,5 +3,5 @@
  "private": true,
  "type": "module",
  "engines": { "node": ">=20" },
- "scripts": { "test": "node --test collector/*.test.mjs" }
+ "scripts": { "test": "node collector/run-tests.mjs" }
 }

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { testFiles } from './run-tests.mjs';
 import { knownPlayer, kstDay, readJson, writeJson, renameRetry, addPlayerRow, isActiveTitle } from './util.mjs';
 
 test('knownPlayer skips unknown broadcast names in both published shapes', () => {
@@ -65,4 +66,11 @@ test('isActiveTitle: full titles match exactly, short legacy entries by substrin
   assert.equal(isActiveTitle(K, []), false);
   assert.equal(isActiveTitle(K, null), false);
   assert.equal(isActiveTitle(K, ['', null, 3]), false);   // a blank entry would substring-match every page
+});
+
+test('run-tests lists every collector/*.test.mjs file itself (no shell or Node 21 glob needed)', () => {
+  const names = testFiles().map(f => path.basename(f));
+  assert.ok(names.includes('util.test.mjs') && names.includes('run-lp.test.mjs') && names.includes('liquipedia.test.mjs'), names.join());
+  assert.ok(names.every(n => n.endsWith('.test.mjs')));
+  assert.ok(testFiles().every(f => path.isAbsolute(f)));
 });
