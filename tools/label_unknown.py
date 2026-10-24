@@ -3,7 +3,7 @@
 usage: python -I tools/label_unknown.py YYYY-MM-DD ?3 Name [?5 Name2 ...]
 
 - ids are the unknownId values of data/live/<date>/mapstats.json; look at unknown/<k>_m<map>_r<row>.raw.png to see
-  who it is. Ids are renumbered on every assembly, so give all names of one look in one command.
+  who it is. An id is map * 10 + row (?46 = map 4, row 6) and stays the same when the day is assembled again.
 - copies unknown/<k>_m<map>_r<row>.feat.png (the 96x18 feature, not the raw crop) to data/name_lib/<Name>__<date>_<k>.png
 """
 import glob, os, re, sys
@@ -33,7 +33,7 @@ def find_feature(unknown_dir: str, uid: str) -> tuple:
     if len(feats) == 1: return feats[0], None
     if glob.glob(os.path.join(unknown_dir, f'{k}_m*_r*.raw.png')):
         return None, f'{uid}: the name crop was empty (no feature); it cannot be added'
-    return None, f'{uid}: no such unknown name in {unknown_dir} (ids change after each assembly: check mapstats.json)'
+    return None, f'{uid}: no such unknown name in {unknown_dir} (already labelled, or check mapstats.json)'
 
 
 def target_path(lib_dir: str, name: str, date: str, feat_path: str) -> str:

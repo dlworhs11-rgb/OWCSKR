@@ -127,6 +127,6 @@ def test_main_end_to_end_without_frames(tmp_path, monkeypatch):
     assert len(out['maps']) == 9 and len(out['unknownNames']) == 90       # no frames here: every name unknown
     m = out['maps'][0]
     assert {'labelVerified', 'labelIssues', 'totalsVerified', 'framesAgree'} <= set(m) and '_ts' not in m
-    assert m['teams']['Cheeseburger'][0] == {'name': None, 'unknownId': '?1', 'e': 13, 'a': 5, 'd': 2, 'dmg': 9356, 'heal': 422, 'mit': 10648}
+    assert m['teams']['Cheeseburger'][0] == {'name': None, 'unknownId': '?10', 'e': 13, 'a': 5, 'd': 2, 'dmg': 9356, 'heal': 422, 'mit': 10648}
     assert not os.listdir(day / 'unknown')                                 # earlier crops cleared, none saved without frames
     assert 'OWCSKR digit library incomplete' in sent                       # no data/digit_lib on this machine
