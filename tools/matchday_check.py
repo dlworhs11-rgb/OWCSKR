@@ -1,6 +1,7 @@
 """Match-day pre-flight, 5 minutes before the first match: are the recorders, OBS and the SOOP picture up?
 Sends one alert listing what is wrong (nothing when all is well) and appends a line to data/live/matchday_check.log.
-usage: python matchday_check.py      (scheduled tasks OWCSKR\\MatchdayCheck_<date>)"""
+usage: python -I tools/matchday_check.py   (scheduled by schedule_today.py: task OWCSKR\\MatchdayCheck_<date> /
+       systemd timer owcskr-check-<date>)"""
 import asyncio, datetime, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import platform_util as PU
@@ -11,14 +12,28 @@ NEED = ('score_watch.py', 'pick_watch.py', 'caster_watch.py', 'live_relay.py', '
 
 
 def problems():
-    out = []
+    """(problems to alert about, notes for the log only). A machine without the recorders (OWCSKR_SITE_DIR not set)
+    or without OBS (a server reading the stream directly) gets those checks skipped, not reported as down."""
+    out, notes = [], []
+    need = NEED
+    if not PU.SITE_DIR:
+        need = ('live_capture.py',)
+        notes.append('recorders not on this machine (OWCSKR_SITE_DIR not set)')
+    elif not os.path.isdir(PU.SITE_DIR):
+        out.append(f'OWCSKR_SITE_DIR 폴더가 없음: {PU.SITE_DIR}')
     ps = PU.python_cmdlines()
-    missing = [n for n in NEED if n not in ps]
+    missing = [n for n in need if n not in ps]
     if missing:
         out.append('안 켜진 기록기: ' + ', '.join(m.replace('.py', '') for m in missing))
+    if not PU.obs_installed():
+        notes.append('OBS not installed - picture check skipped')
+        return out, notes
     if not PU.process_running(PU.OBS_PROC):
         out.append('OBS가 안 켜져 있음')
-        return out
+        return out, notes
+    if not PU.SITE_DIR or not os.path.isdir(PU.SITE_DIR):
+        notes.append('no score_watch.py (site recorders) - picture check skipped')
+        return out, notes
     try:
         import score_watch as W
 
@@ -33,18 +48,23 @@ def problems():
             out.append('OBS SOOP 화면이 검은색 (방송 전이거나 SOOP 소스 문제)')
     except Exception as e:
         out.append(f'OBS 화면을 못 읽음: {type(e).__name__}')
-    return out
+    return out, notes
 
 
 def main():
-    p = problems()
+    try:
+        p, notes = problems()
+    except Exception as e:      # report, never crash: this runs unattended
+        p, notes = [f'점검 자체가 실패함: {type(e).__name__}: {e}'], []
     os.makedirs(PU.LIVE_DIR, exist_ok=True)
     with open(LOG, 'a', encoding='utf-8') as f:
-        f.write(f"{datetime.datetime.now():%Y-%m-%d %H:%M:%S} {'OK' if not p else ' | '.join(p)}\n")
+        f.write(f"{datetime.datetime.now():%Y-%m-%d %H:%M:%S} {'OK' if not p else ' | '.join(p)}"
+                + (f" ({'; '.join(notes)})" if notes else '') + '\n')
     if p:
         fix = os.path.join(PU.ROOT, 'tools', 'start_watchers.bat' if PU.IS_WIN else 'start_watchers.sh')
         PU.notify('OWCS 경기 전 점검', '경기 5분 전 점검에서 문제가 있어요:\n- ' + '\n- '.join(p) + f'\n\n{fix} 실행')
+    return 0
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
