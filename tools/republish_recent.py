@@ -1,11 +1,31 @@
 """Re-assemble and re-upload the last two capture days (fills in map names / scores that Liquipedia added later).
-Run by the daily job after collector/build.mjs."""
+Run by the daily job after collector/build.mjs. Exit 1 when any step failed (the daily job reports it)."""
 import datetime, os, subprocess, sys
-import sys as _sys; _sys.stdout.reconfigure(encoding='utf-8', errors='replace'); _sys.stderr.reconfigure(encoding='utf-8', errors='replace')   # logs may contain names like 'Esperança'
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-os.chdir(ROOT)
-for back in (1, 0):
-    day = (datetime.date.today() - datetime.timedelta(back)).isoformat()
-    if os.path.exists(os.path.join('data', 'live', day, 'ocr.json')):
+
+
+def run_step(script: str, day: str, run=subprocess.run) -> bool:
+    r = run([sys.executable, '-I', script, day], capture_output=True, text=True, encoding='utf-8', errors='replace', cwd=ROOT)
+    sys.stdout.write(r.stdout or ''); sys.stderr.write(r.stderr or '')
+    if r.returncode == 0: return True
+    print(f'republish: {os.path.basename(script)} {day} FAILED (exit {r.returncode}): {(r.stderr or "").strip()[-500:]}', file=sys.stderr)
+    return False
+
+
+def main(today: datetime.date | None = None, run=subprocess.run) -> int:
+    today = today or datetime.date.today()
+    failed = []
+    for back in (1, 0):
+        day = (today - datetime.timedelta(back)).isoformat()
+        if not os.path.exists(os.path.join(ROOT, 'data', 'live', day, 'ocr.json')): continue
         for script in ('tools/assemble_day.py', 'tools/publish_day.py'):
-            subprocess.run([sys.executable, '-I', script, day])
+            if not run_step(script, day, run):
+                failed.append(f'{os.path.basename(script)} {day}'); break   # never publish a stale assembly
+    if failed: print('republish FAILED:', ', '.join(failed), file=sys.stderr)
+    return 1 if failed else 0
+
+
+if __name__ == '__main__':
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace'); sys.stderr.reconfigure(encoding='utf-8', errors='replace')   # names like 'Esperança'
+    sys.exit(main())
