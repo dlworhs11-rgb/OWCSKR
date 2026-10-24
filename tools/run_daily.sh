@@ -19,7 +19,8 @@ record() {
 }
 
 # step LEVEL NAME CMD...: run CMD, output to the log. A nonzero exit counts as LEVEL: fail, warn, or lp (the
-# collector's codes: 2 = some pages failed, old copies kept -> warn; 3 = Node too old and anything else -> fail).
+# collector's codes under --strict: 2 = some pages failed, old copies kept -> warn; 3 = Node too old and anything
+# else -> fail). Without --strict run-lp exits 0 on failed pages (what the site's cloud_live.py expects).
 step() {
   local level="$1" name="$2" rc; shift 2
   "$@" > "$OUT" 2>&1; rc=$?
@@ -74,7 +75,7 @@ fi
 
 # 2. new stages and events on Liquipedia -> data/competitions.json, data/active.json
 LISTS=(data/competitions.json data/active.json)
-step lp "run-lp --discover" node collector/run-lp.mjs --discover
+step lp "run-lp --discover" node collector/run-lp.mjs --discover --strict
 if ! git diff --quiet -- "${LISTS[@]}" 2>/dev/null; then
   if [ "${OWCSKR_AUTOCOMMIT:-0}" = 1 ]; then
     if step warn "git commit (discover)" git commit -q -m "$DISCOVER_MSG" -- "${LISTS[@]}" \
@@ -87,7 +88,7 @@ if ! git diff --quiet -- "${LISTS[@]}" 2>/dev/null; then
 fi
 
 # 3. data
-step lp "run-lp --active-only" node collector/run-lp.mjs --active-only
+step lp "run-lp --active-only" node collector/run-lp.mjs --active-only --strict
 step fail "build.mjs" node collector/build.mjs
 step fail "republish_recent.py" "$PY" -I tools/republish_recent.py
 step fail "schedule_today.py --upcoming" "$PY" -I tools/schedule_today.py --upcoming
