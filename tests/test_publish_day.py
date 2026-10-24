@@ -165,3 +165,62 @@ def test_republish_ok(tmp_path, monkeypatch):
     monkeypatch.setattr(RR, 'ROOT', str(tmp_path))
     ok = lambda cmd, **kw: types.SimpleNamespace(returncode=0, stdout='', stderr='')
     assert RR.main(datetime.date(2026, 10, 25), ok) == 0
+
+
+class RacingGH(FakeGH):
+    """the first PUTs fail with a sha conflict: someone else wrote the file between our GET and our PUT"""
+    def __init__(self, conflicts, after=None, code='409', **kw):
+        super().__init__(**kw)
+        self.conflicts, self.after, self.code = conflicts, after, code
+
+    def __call__(self, *args, data=None):
+        if args[0] == '-X' and self.conflicts:
+            self.calls.append((args, data)); self.conflicts -= 1
+            if self.after is not None: self.remote = self.after
+            return 1, '', f'gh: sha does not match (HTTP {self.code})'
+        return super().__call__(*args, data=data)
+
+
+def puts(fake): return [c for c in fake.calls if c[0][0] == '-X']
+
+
+@pytest.mark.parametrize('code', ['409', '422'])
+def test_sha_conflict_rereads_and_retries(tmp_path, monkeypatch, code):
+    fake = RacingGH(1, code=code, remote={'maps': []})
+    monkeypatch.setattr(PD, 'gh', fake); monkeypatch.setattr(PD, 'find_gh', lambda which=None: '/usr/bin/gh')
+    write_day(tmp_path, [{'map': 'A', 'totalsVerified': True}])
+    assert PD.main([DATE], root=str(tmp_path)) == 0
+    assert [c[0][0] for c in fake.calls] == ['repos/dlworhs11-rgb/OWCSKR/contents/data/manual/mapstats/2026-10-25.json?ref=main',
+                                             '-X'] * 2                       # GET, PUT (409), GET again, PUT
+    assert fake.uploaded()[1]['maps'][0]['map'] == 'A'
+
+
+def test_sha_conflict_gives_up_after_two_retries(tmp_path, monkeypatch):
+    fake = RacingGH(5, remote={'maps': []})
+    monkeypatch.setattr(PD, 'gh', fake); monkeypatch.setattr(PD, 'find_gh', lambda which=None: '/usr/bin/gh')
+    write_day(tmp_path, [{'map': 'A', 'totalsVerified': True}])
+    assert PD.main([DATE], root=str(tmp_path)) == 1
+    assert len(puts(fake)) == 1 + PD.SHA_RETRIES == 3
+
+
+def test_sha_conflict_never_overwrites_a_manual_file_written_meanwhile(tmp_path, monkeypatch):
+    fake = RacingGH(1, after={'maps': [{'reading': 'manual'}]}, remote={'maps': []})
+    monkeypatch.setattr(PD, 'gh', fake); monkeypatch.setattr(PD, 'find_gh', lambda which=None: '/usr/bin/gh')
+    write_day(tmp_path, [{'map': 'A', 'totalsVerified': True}])
+    assert PD.main([DATE], root=str(tmp_path)) == 0
+    assert len(puts(fake)) == 1                                              # re-read saw the manual file: no second PUT
+
+
+def test_other_put_errors_are_not_retried(tmp_path, monkeypatch):
+    fake = RacingGH(5, code='403', remote={'maps': []})
+    monkeypatch.setattr(PD, 'gh', fake); monkeypatch.setattr(PD, 'find_gh', lambda which=None: '/usr/bin/gh')
+    write_day(tmp_path, [{'map': 'A', 'totalsVerified': True}])
+    assert PD.main([DATE], root=str(tmp_path)) == 1
+    assert len(puts(fake)) == 1
+
+
+def test_unknown_map_fields_like_matchkey_are_kept(tmp_path, gh):
+    write_day(tmp_path, [{'map': 'A', 'totalsVerified': True, 'matchKey': '2026-10-25T18:00:00+09:00|ZETA|CR', 'extra': {'x': 1}}])
+    assert PD.main([DATE], root=str(tmp_path)) == 0
+    m = gh.uploaded()[1]['maps'][0]
+    assert m['matchKey'] == '2026-10-25T18:00:00+09:00|ZETA|CR' and m['extra'] == {'x': 1}
