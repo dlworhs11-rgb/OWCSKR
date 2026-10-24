@@ -237,6 +237,18 @@ def test_restart_on_http_403():
         assert src.restarts == 1 and '403' in src.last_error
 
 
+def test_forbidden_pattern_matches_ffmpeg_403_lines_only():
+    assert F.FORBIDDEN.search(b'[http @ 0x1] HTTP error 403 Forbidden')
+    assert F.FORBIDDEN.search(b'https://h/m.m3u8: Server returned 403 Forbidden (access denied)')
+    assert not F.FORBIDDEN.search(b'[hls @ 0x1] Failed to open segment 403 of playlist 0')
+    assert not F.FORBIDDEN.search(b'[http @ 0x1] HTTP error 404 Not Found')
+
+
+def test_ffmpeg_cmd_logs_warnings():       # the 4xx lines the 403 check reads are warnings
+    cmd = F.ffmpeg_cmd('https://h/m.m3u8')
+    assert cmd[cmd.index('-loglevel') + 1] == 'warning' and '-nostats' in cmd
+
+
 def test_resolve_failure_is_retried_and_grab_never_raises():
     n = []
     def resolver():
