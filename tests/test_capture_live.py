@@ -284,6 +284,18 @@ def test_source_restarted_at_once_when_process_is_gone(tmp_path):
     assert src.restarts == 1 and src.reconnects == 0
 
 
+def test_slow_failed_restart_is_not_repeated_at_once(tmp_path):
+    clock, starts = Clock(), []
+    class Slow(FakeSource):
+        def restart(self):
+            starts.append(clock.t); clock.t += 120                # obs_setup.start waits ~2 min, then gives up
+            raise RuntimeError('could not reach OBS websocket')
+    src = Slow([RuntimeError('down')] * 200, alive=True)
+    LC.capture_loop(src, StubCapture(), clock() + 900, str(tmp_path), lambda *x: None, lambda *a, **k: True,
+                    clock=clock, sleep=clock.sleep)
+    assert len(starts) >= 2 and all(b - a >= 120 + 60 for a, b in zip(starts, starts[1:]))
+
+
 def test_long_outage_alerts(tmp_path):
     src, sent = FakeSource([RuntimeError('down')] * 60), []
     loop(tmp_path, src, StubCapture(), 600, alert=lambda key, t, x: sent.append(key))

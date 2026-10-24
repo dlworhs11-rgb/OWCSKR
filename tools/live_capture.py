@@ -265,12 +265,15 @@ class Grabber:
 
     def _restart(self, why):
         self.log('restarting the frame source:', why)
-        self.fail_since = self.clock()               # the next restart only after another full minute
         try:
             self.source.restart(); self.log('frame source restarted')
         except Exception as e:
             self.log('frame source restart FAILED:', type(e).__name__, e)
             self.alert('restart', 'OWCSKR 캡처', f'frame source restart failed ({why}): {type(e).__name__} {e}'[:400])
+        finally:
+            # the next restart a full minute after this one ended: obs_setup.start waits up to 2 min, and counting
+            # from its start killed a slow OBS again right after every failed wait
+            self.fail_since = self.clock()
 
 
 class FrozenDetector:
