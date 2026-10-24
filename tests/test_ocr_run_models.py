@@ -161,3 +161,28 @@ def test_real_training_on_synthetic_frames_reads_back(tmp_path, monkeypatch):
     rows, _ = R.read_table(table)
     assert rows == [{k: p[k] for k in GM.K} for t in m['teams'].values() for p in t]
     assert R.sums_ok(rows, R.read_totals(tot))
+
+
+def test_unreadable_training_frame_falls_back_to_the_cache(root, trainer, monkeypatch):
+    GM.get_models(root=str(root), log=lambda *x: None)
+    (root / 'data/vod/t2.png').write_bytes(b'a broken copy')               # stale hash -> rebuild is attempted
+    def broken(gt, tables, tots): raise GM.UnreadableFrame(f'cannot read training frame {tables[1]}')
+    monkeypatch.setattr(GM, 'train', broken)
+    lines = []
+    mt, mo = GM.get_models(root=str(root), log=lambda *x: lines.append(' '.join(map(str, x))))
+    assert mt.predict(np.full((4, 3), 3, np.float32))[0] == '3'
+    assert any('WARNING cannot read training frame' in ln and 'existing cache' in ln for ln in lines)
+    with pytest.raises(GM.UnreadableFrame):                                   # an explicit rebuild still fails
+        GM.get_models(root=str(root), log=lambda *x: None, rebuild=True)
+
+
+def test_unreadable_training_frame_without_cache_still_fails(root, monkeypatch):
+    def broken(gt, tables, tots): raise GM.UnreadableFrame('cannot read training frame t1.png')
+    monkeypatch.setattr(GM, 'train', broken)
+    with pytest.raises(GM.ModelError, match='cannot read training frame'):
+        GM.get_models(root=str(root), log=lambda *x: None)
+
+
+def test_real_unreadable_frame_raises_unreadable(root):
+    with pytest.raises(GM.UnreadableFrame):
+        GM._imread(str(root / 'data/vod/t1.png'))                            # b'img' is not an image

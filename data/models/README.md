@@ -12,6 +12,8 @@ the content of `data/manual/mapstats/2026-10-11.json` plus the path, size and mt
 - training frames present, hash matches: loads the cache
 - training frames present, hash differs or no cache: retrains, prints per-digit sample counts and skipped cells,
   and rewrites both files. It fails if any digit 0-9 has no sample.
+- training frames present but one cannot be decoded (broken copy), cache present: prints a warning and loads the
+  cache (`--rebuild` still fails, so a rebuild on the PC shows the broken file)
 - training frames absent, cache present (the server): loads the cache as it is
 - neither: stops with an error. `ocr_run.py` exits 2 and the self-check reports it as fatal.
 

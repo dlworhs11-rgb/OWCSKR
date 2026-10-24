@@ -30,8 +30,21 @@ python -I tools/frames_probe.py --count 5 --interval 1 --keyframes-only   # 출�
 - **간격.** `live_capture`는 POTM 직후 2초마다 프레임을 찾는다. 그래서 `HlsSource` 기본 interval은 2초이고, `grab()`은 지난번보다 새 프레임을 interval만큼 기다렸다가 돌려준다.
 - **오프셋.** `classify_gamedata()`가 돌려주는 `(dx, dy)`는 960x540 기준이다. 1920x1080 좌표에는 2를 곱해 쓴다.
 
-## 아직 할 일 (P1-17 4~7)
-- `live_capture.py`에 연결: `run(..., source_factory=frames.HlsSource)`(이미 1920x1080으로 정규화된 프레임을 준다) → `classify_gamedata()`.
+## live_capture에서 쓰기
+```bash
+OWCSKR_FRAME_SOURCE=hls python -I tools/live_capture.py --until 2026-10-25T23:30:00+09:00   # 또는 --source hls
+```
+| 설정 | 기본값 | 뜻 |
+|---|---|---|
+| `--source` / `OWCSKR_FRAME_SOURCE` | `obs` | `obs`: OBS 브라우저 소스 스크린샷, `hls`: `frames.HlsSource`. 다른 값이면 exit 2 |
+| `--url` / `OWCSKR_HLS_CHANNEL` | `owesports` | hls일 때 채널(또는 재생 페이지 주소). obs일 때 `--url`은 플레이어 페이지 |
+| `OWCSKR_HLS_KEYFRAMES` | (없음) | `1`이면 `keyframes_only=True` |
+
+- 자가 점검(`selfcheck.py --source hls`)은 hls일 때 `ffmpeg`, `yt-dlp`(`FFMPEG_CMD`, `YTDLP_CMD` 또는 PATH)가 없으면 fatal이다. obs일 때는 경고만 낸다.
+- GAME DATA 판정은 두 원천 모두 `classify_gamedata()`(±16px)다. 점수는 탐색 범위에 오프셋 0이 들어 있어 옛 판정보다 낮아지지 않는다. 오프셋이 0이 아니면 저장 전에 1080p 프레임을 −오프셋×2만큼 옮겨 OCR 고정 좌표에 맞추고 로그에 남긴다. 0이면 그대로 저장한다.
+- 방송이 끝나면 HLS는 정지 화면이 아니라 `grab()` 예외가 된다. 그 'no frame' 알림(`frames-down`)과 정지·검은 화면 알림·새로고침은 방송 시간 안에서만 낸다(오늘 일정 + 미정 플레이오프 경기, 마지막 경기 예상 종료 또는 마지막 POTM 카드까지). 재시작 복구는 계속한다.
+
+## 아직 할 일 (P1-17 5~7)
 - `screen_kind`(밴/POTM)에도 `locate()` 적용, 찾은 오프셋을 OCR 좌표에 반영.
 - 새 원천 프레임으로 기준 이미지와 사전을 다시 만들기.
 - 제목 문턱 0.6은 오프셋 0에서도 약하다(합성 시험: `GAME DATA` 기준에 `GAME 3`이 0.83). ±16px 탐색은 점수를 올리기만 하므로 다른 제목 화면이 문턱을 넘을 수 있다(`MAP DATA` 0.23 → 0.56). 새 기준 이미지로 실제 비-GAME DATA 화면 점수를 재서 문턱을 다시 정한다.

@@ -1,25 +1,34 @@
-"""Capture a whole broadcast day through OBS and read every GAME DATA screen.
+"""Capture a whole broadcast day through OBS or the SOOP HLS stream and read every GAME DATA screen.
 
-usage: python -I tools/live_capture.py [--url URL] [--date YYYY-MM-DD] (--until ISO-DATETIME | --hours 8)
+usage: python -I tools/live_capture.py [--source obs|hls] [--url URL] [--date YYYY-MM-DD] (--until ISO-DATETIME | --hours 8)
                                        [--interval 5] [--idle-stop 75]
 
-- runs tools/selfcheck.py first: a fatal problem (missing reference image, library, token, tesseract ...) -> alert, exit 2
-- starts OBS in the tray (dedicated 'OWCSKR' scene collection) unless it is already running with that collection;
-  refuses to touch an OBS that is running with the user's own scene collection (exit 2)
-- every --interval seconds grabs a frame from the frame source (default: the OBS browser source); frames that are not
-  GAME DATA screens are discarded immediately (nothing else is stored)
+- frame source (--source, default env OWCSKR_FRAME_SOURCE, else obs):
+  obs  screenshots of the OBS browser source; --url is the player page. Starts OBS in the tray (dedicated 'OWCSKR'
+       scene collection) unless it is already running with that collection; refuses to touch an OBS that is running
+       with the user's own scene collection (exit 2)
+  hls  tools/frames.HlsSource: yt-dlp + ffmpeg on the SOOP stream, frames normalised to 1920x1080; --url is the
+       channel (default env OWCSKR_HLS_CHANNEL, else owesports); OWCSKR_HLS_KEYFRAMES=1 decodes keyframes only
+- runs tools/selfcheck.py first (for that source: hls needs ffmpeg + yt-dlp): a fatal problem (missing reference
+  image, library, token, tesseract ...) -> alert, exit 2
+- every --interval seconds grabs a frame; frames that are not GAME DATA screens are discarded immediately (nothing
+  else is stored). GAME DATA is found with a +-16 px search (screen_match); a shifted page is saved shifted back so
+  the OCR modules' fixed boxes line up (the offset is logged)
 - per map keeps up to 3 TABLE frames (seen >= 2 s after the first one, which may be mid-transition; that one is only a
   fallback) and up to 3 TOTALS frames (+0 / +5 / +10 s) in data/live/<date>/frames; right after each map it runs
-  ocr_run.py -> assemble_day.py -> publish_day.py, so verified stats reach GitHub within minutes
+  ocr_run.py -> assemble_day.py -> publish_day.py, so verified stats reach GitHub within minutes. A map whose frames
+  stopped (source outage, restart) and that shows again within 3 min of its last saved frame keeps its number
 - stops at --until (wins over --hours; a restart keeps the same end), on SIGTERM (after the final OCR and publish), or
   when no GAME DATA screen was seen for --idle-stop minutes after at least one map
 - recovers by itself: loop errors are logged and skipped, the frame source is restarted after a minute of failed
-  grabs or when OBS is gone, a frozen / black frame for 60 s refreshes the browser source; alerts go through
-  platform_util.notify (each kind at most once per 15 min, also across restarts: data/live/<date>/alerts.json);
+  grabs or when OBS is gone, a frozen / black frame for 60 s refreshes the source; alerts go through
+  platform_util.notify (each kind at most once per 15 min, also across restarts: data/live/<date>/alerts.json).
+  Frozen-frame refreshes / alerts and the 'no frame' alert only fire inside the broadcast window (today's scheduled
+  matches from data/site/matches.json + TBD playoff matches, until the last one's expected end or its POTM card);
   an end-of-day summary is sent at the end
-exit: 0 ok, 1 unexpected error (the capture crashed: systemd restarts it), 2 self-check failed or OBS busy,
-      4 the capture ended (--until / idle stop / signal) but the final OCR / assemble / publish failed - alerted,
-      and a restart would only capture an empty stream until --until (not restarted: RestartPreventExitStatus=2 4)
+exit: 0 ok, 1 unexpected error (the capture crashed: systemd restarts it), 2 self-check failed, OBS busy or a bad
+      --source, 4 the capture ended (--until / idle stop / signal) but the final OCR / assemble / publish failed -
+      alerted, and a restart would only capture an empty stream until --until (not restarted: RestartPreventExitStatus=2 4)
 """
 import argparse, asyncio, datetime, glob, hashlib, json, os, re, signal, subprocess, sys, time, traceback
 
@@ -28,12 +37,18 @@ import cv2, numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import obs_setup
 import platform_util as PU
+import screen_match as SM
 import selfcheck
 from obs_client import OBS
 
 ROOT = PU.ROOT
 REF_TABLE, REF_TOTALS = 'data/vod/maps/m_3480.png', 'data/vod/maps/m_9465.png'
-TITLE = (slice(48, 95), slice(128, 300)); BODY = (slice(110, 460), slice(200, 900))
+SEARCH = 16                     # px (960 grid) the GAME DATA title is searched around its reference position
+HLS_CHANNEL_ENV, HLS_CHANNEL = 'OWCSKR_HLS_CHANNEL', 'owesports'
+HLS_KEYFRAMES_ENV = 'OWCSKR_HLS_KEYFRAMES'   # '1': ffmpeg decodes keyframes only (less CPU, frames every 1-2 s)
+MAP_GAP = 60                    # s without a GAME DATA frame (other screens seen) that end a map
+MAP_RESUME_GAP = 180            # s: a map whose frames simply stopped coming (source outage, restart) is continued
+MAP_FRAME = re.compile(r'm(\d+)_(table\d+|totals)_(\d+)\.png')
 ALERT_PERIOD = 15 * 60          # one alert of a kind per 15 min
 PARTIAL_ALERT_PERIOD = 24 * 3600  # the same 'map could not be read' message: once a day
 ALERT_STATE = 'alerts.json'     # in data/live/<date>: alert times, kept across restarts
@@ -50,25 +65,34 @@ SUMMARY_NEAR_END = 5 * 60       # a crash / stop this close to --until has no su
 _REFS = None
 
 
-def _small(img): return cv2.resize(img, (960, 540), interpolation=cv2.INTER_AREA)
-
-
 def refs():
     global _REFS
     if _REFS is None:
         ims = [cv2.imread(os.path.join(ROOT, p)) for p in (REF_TABLE, REF_TOTALS)]
         if any(im is None for im in ims):
             raise FileNotFoundError(f'reference image missing: {REF_TABLE} / {REF_TOTALS}')
-        _REFS = tuple(_small(im) for im in ims)
+        _REFS = tuple(SM.small(im) for im in ims)
     return _REFS
 
 
-def classify(img):
+def classify(img) -> tuple[str | None, tuple[int, int]]:
+    """GAME DATA page of a frame (either source) -> ('TABLE' | 'TOTALS' | None, (dx, dy) on the 960 grid).
+    The title is searched +-SEARCH px (screen_match): the search includes offset 0, so the score is never below the old
+    fixed-position check and every frame that passed before still passes; a shifted overlay now passes too."""
     ref_t, ref_s = refs()
-    s = _small(img)
-    if cv2.matchTemplate(s[TITLE], ref_t[TITLE], cv2.TM_CCOEFF_NORMED)[0][0] < 0.6: return None
-    dt = np.abs(s[BODY].astype(np.float32) - ref_t[BODY]).mean(); ds = np.abs(s[BODY].astype(np.float32) - ref_s[BODY]).mean()
-    return 'TOTALS' if ds < dt else 'TABLE'
+    kind, _, off = SM.classify_gamedata(img, ref_t, ref_s, SEARCH)
+    return kind, off
+
+
+def aligned(img, off: tuple[int, int]):
+    """the frame moved by -offset (x img width / 960) so the OCR modules' fixed 1080p boxes sit on the graphics again;
+    the frame itself when the offset is 0. Integer shift, nothing resampled; the uncovered edge is black."""
+    dx, dy = off
+    if not (dx or dy): return img
+    k = img.shape[1] / SM.SMALL[0]
+    m = np.float32([[1, 0, -dx * k], [0, 1, -dy * k]])
+    return cv2.warpAffine(img, m, (img.shape[1], img.shape[0]), flags=cv2.INTER_NEAREST,
+                          borderMode=cv2.BORDER_CONSTANT, borderValue=(0, 0, 0))
 
 
 def screens():
@@ -234,8 +258,9 @@ class ObsSource:
 
 class Grabber:
     """source.grab() with recovery: reconnect after a failure, restart after RESTART_AFTER s or when the source died"""
-    def __init__(self, source, log, alert, clock=time.time, sleep=time.sleep):
-        self.source, self.log, self.alert, self.clock, self.sleep = source, log, alert, clock, sleep
+    def __init__(self, source, log, alert, clock=time.time, sleep=time.sleep, live=lambda now: True):
+        """live(now) False: outside the broadcast (AlertGate) - recovery goes on, but no 'frames-down' alert"""
+        self.source, self.log, self.alert, self.clock, self.sleep, self.live = source, log, alert, clock, sleep, live
         self.fail_since = self.down_since = None
 
     def grab(self):
@@ -256,7 +281,7 @@ class Grabber:
         now = self.clock()
         if self.fail_since is None: self.fail_since = self.down_since = now
         self.log('screenshot failed, reconnecting:', type(e).__name__, str(e)[:120])
-        if now - self.down_since >= DOWN_ALERT_AFTER:
+        if now - self.down_since >= DOWN_ALERT_AFTER and self.live(now):
             self.alert('frames-down', 'OWCSKR 캡처', f'no frame from the source for {now - self.down_since:.0f} s: {type(e).__name__} {e}'[:400])
         self.sleep(5)
         dead = not self._alive()
@@ -284,6 +309,10 @@ class FrozenDetector:
     `refresh_every` s while it lasts, 'alert' once after `alert_after` s."""
     def __init__(self, window=60, alert_after=300, refresh_every=120, dark=8.0):
         self.window, self.alert_after, self.refresh_every, self.dark = window, alert_after, refresh_every, dark
+        self.reset()
+
+    def reset(self) -> None:
+        """forget the last frame: after a pause or a source outage the frame before it says nothing about the next one"""
         self.sig = self.last_t = self.since = self.refreshed = None
         self.alerted = False
 
@@ -311,12 +340,31 @@ def next_map_number(frames) -> int:
     return max([int(m.group(1)) for f in os.listdir(frames) for m in [re.match(r'm(\d+)_', f)] if m] or [0])
 
 
+def saved_map(frames, n) -> dict | None:
+    """map n as an earlier run left it (its saved TABLE / TOTALS frames): a cluster a restart can continue, or None"""
+    stamps = {'TABLE': [], 'TOTALS': []}
+    for f in os.listdir(frames):
+        m = MAP_FRAME.fullmatch(f)
+        if m and int(m.group(1)) == n: stamps['TOTALS' if m.group(2) == 'totals' else 'TABLE'].append(int(m.group(3)))
+    if not any(stamps.values()): return None
+    return {'n': n, 'last': float(max(stamps['TABLE'] + stamps['TOTALS'])), 'tables': len(stamps['TABLE']),
+            'totals': len(stamps['TOTALS']), 'first': {k: float(min(v)) for k, v in stamps.items() if v},
+            'pending': None, 'off': (0, 0)}
+
+
+def saved_potms(frames) -> list[float]:
+    """first-frame times of the POTM cards already saved today (potm_<first>_<k>.png): the day's end survives a restart"""
+    return sorted({float(m.group(1)) for f in os.listdir(frames) for m in [re.fullmatch(r'potm_(\d+)_\d+\.png', f)] if m})
+
+
 class Capture:
     """What to keep from each frame. on_map_closed() / on_publish() run OCR + assemble + publish."""
     def __init__(self, frames, log, on_map_closed, on_publish, interval=5.0, idle_stop=75.0):
         self.frames, self.log, self.on_map_closed, self.on_publish = frames, log, on_map_closed, on_publish
         self.interval, self.idle_stop = interval, idle_stop
         self.n, self.detected = next_map_number(frames), 0
+        self.resume = saved_map(frames, self.n) if self.n else None   # a restart mid-map continues that map
+        self.potms = saved_potms(frames)
         self.cluster, self.last_hit = None, None
         self.other = {'BAN': [0.0, 0, 0], 'POTM': [0.0, 0, 0]}    # last time seen, frames kept, first timestamp of the current occurrence
         self.potm_close = 0
@@ -338,7 +386,7 @@ class Capture:
         if c: self.finish(c, process)
 
     def handle(self, img, now):
-        kind = classify(img) if img is not None else None
+        kind, off = classify(img) if img is not None else (None, (0, 0))
         if self.potm_close and now >= self.potm_close:
             self.potm_close = 0
             if self.cluster: self.close_cluster()      # finish() publishes already
@@ -346,16 +394,28 @@ class Capture:
         if img is not None and now < self.potm_tail[0] and now - self.potm_tail[2] >= 1.5:
             self.potm_tail[1] += 1; self.potm_tail[2] = now
             self.save(f'potm_{self.other["POTM"][2]}_t{self.potm_tail[1]}.png', img)
-        if kind: self._game_data(kind, img, now)
+        if kind: self._game_data(kind, aligned(img, off), now, off)
         else: self._other(img, now)
 
-    def _game_data(self, kind, img, now):
+    def _open(self, now) -> dict:
+        """the cluster for a GAME DATA frame with no map open: the map a restart interrupted when its last saved frame
+        is at most MAP_RESUME_GAP old, else a new map number"""
+        r, self.resume = self.resume, None
+        if r is not None and now - r['last'] <= MAP_RESUME_GAP:
+            self.log(f"map {r['n']}: GAME DATA again {now - r['last']:.0f} s after its last saved frame - continuing it")
+            return r
+        self.n += 1; self.detected += 1
+        self.log(f'map {self.n}: GAME DATA detected')
+        return {'n': self.n, 'last': now, 'tables': 0, 'totals': 0, 'first': {}, 'pending': None, 'off': (0, 0)}
+
+    def _game_data(self, kind, img, now, off=(0, 0)):
         c = self.cluster
-        if c is None or now - c['last'] > 60:
-            self.close_cluster()
-            self.n += 1; self.detected += 1
-            c = self.cluster = {'n': self.n, 'last': now, 'tables': 0, 'totals': 0, 'first': {}, 'pending': None}
-            self.log(f'map {self.n}: GAME DATA detected')
+        # an open map is only closed by other screens (MAP_GAP, in _other) or by a gap too long for one GAME DATA
+        # page: frames that just stopped (source outage) and came back on the same page are the same map
+        if c is not None and now - c['last'] > MAP_RESUME_GAP: self.close_cluster(); c = None
+        if c is None: c = self.cluster = self._open(now)
+        if off != c['off']:
+            self.log(f"map {c['n']}: GAME DATA offset {off} px (960 grid) - saved frames shifted back by it"); c['off'] = off
         c['last'] = now; self.last_hit = now
         ts, first = int(now), c['first'].setdefault(kind, now)
         if kind == 'TABLE' and c['tables'] < MAX_TABLES:
@@ -374,13 +434,13 @@ class Capture:
             last, kept, first = self.other[k2]
             if now - last > 40:
                 kept, first = 0, int(now); self.log(f'{k2} screen detected')
-                if k2 == 'POTM': self.potm_tail[:] = [now + 24, 0, now]
+                if k2 == 'POTM': self.potm_tail[:] = [now + 24, 0, now]; self.potms.append(float(first))
             if kept < (4 if k2 == 'POTM' else 2):      # the POTM card animates in: keep a few frames, the name shows up later
                 self.save(f'{k2.lower()}_{first}_{kept + 1}.png', img); kept += 1
             self.other[k2] = [now, kept, first]
             if k2 == 'POTM' and kept == 1:            # the match is over: close the last map and publish once the name card is in
                 self.potm_close = now + 26            # (OCR + publish take long: done now, they made the loop miss the name card)
-        if self.cluster and now - self.cluster['last'] > 60 and now >= self.potm_tail[0]:
+        if self.cluster and now - self.cluster['last'] > MAP_GAP and now >= self.potm_tail[0]:
             self.close_cluster()
 
     def idle_over(self, now) -> bool:
@@ -410,6 +470,84 @@ class ErrorCounter:
         return self.counts[sig] == self.threshold
 
 
+LAST_POTM_AFTER = 30 * 60       # s: a POTM card this long after the last match's start can be that match's
+
+
+def match_hours(m: dict) -> float:
+    """expected length of a match (schedule_today.plan's rule): a BO7 (playoffs) up to 4 h, a BO5 about 2.5 h"""
+    return 4 if (m.get('bestof') or 5) >= 7 else 2.5
+
+
+class BroadcastWindow:
+    """When a frozen / black / missing frame means trouble (RP-15): from the first scheduled match's start until the
+    last one's expected end (breaks between matches included), and not after the day's last POTM card. After the
+    broadcast the player shows a still offline page (OBS) or the HLS stream is gone: alerting and refreshing then
+    only produced a false alarm every match day. The last POTM: at least as many POTM cards as matches, the latest
+    one LAST_POTM_AFTER after the last match's start - so no scheduled match is still to come."""
+    def __init__(self, matches: list[dict]):
+        timed = sorted(((datetime.datetime.fromisoformat(m['date']).timestamp(), m) for m in matches), key=lambda x: x[0])
+        self.begin, self.last, self.count = timed[0][0], timed[-1][0], len(matches)
+        self.end = self.last + match_hours(timed[-1][1]) * 3600
+
+    def day_over(self, potms) -> bool:
+        return len(potms) >= self.count and max(potms) >= self.last + LAST_POTM_AFTER
+
+    def active(self, now: float, potms=()) -> bool:
+        return self.begin <= now < self.end and not (potms and self.day_over(potms))
+
+    def describe(self) -> str:
+        t = lambda x: datetime.datetime.fromtimestamp(x).astimezone().isoformat(timespec='minutes')
+        return f'{self.count} match(es), {t(self.begin)} .. {t(self.end)}'
+
+
+def todays_matches(day: str, log, matches_path=None, lp_dir=None) -> list[dict]:
+    """today's Korean matches (data/site/matches.json) plus the TBD playoff matches (data/lp), as schedule_today plans
+    them; [] when the schedule cannot be read"""
+    import schedule_today as ST
+    try:
+        ms = ST.load_matches(matches_path)
+    except (OSError, ValueError) as e:
+        log('schedule not readable:', type(e).__name__, e); return []
+    lp_dir = lp_dir or ST.LP_DIR
+    try:
+        if os.path.isdir(lp_dir):
+            got = ST.plan(day, ms, lp_dir)
+            return got[0] if got else []
+        # no Liquipedia pages on this machine: the regular matches only (plan's own filter)
+        return sorted((m for m in ms if m['date'].startswith(day) and '/Korea' in m['competitionTitle']),
+                      key=lambda m: m['date'])
+    except (OSError, ValueError, KeyError, TypeError, AttributeError) as e:
+        log('schedule not usable:', type(e).__name__, e); return []
+
+
+def broadcast_window(day: str, log, matches_path=None, lp_dir=None) -> 'BroadcastWindow | None':
+    ms = todays_matches(day, log, matches_path, lp_dir)
+    if not ms:
+        log(f'no scheduled match found for {day}: frozen-frame and outage alerts stay on for the whole capture')
+        return None
+    w = BroadcastWindow(ms)
+    log('broadcast window:', w.describe(), '- frozen-frame and outage alerts only inside it')
+    return w
+
+
+class AlertGate:
+    """BroadcastWindow applied to the loop: logs each change, resets the FrozenDetector when the window opens (the
+    still pre-broadcast page must not count), None = no schedule = always on"""
+    def __init__(self, window, cap, frozen, log):
+        self.window, self.cap, self.frozen, self.log, self.state = window, cap, frozen, log, None
+
+    def live(self, now: float) -> bool:
+        on = self.window is None or self.window.active(now, getattr(self.cap, 'potms', ()))
+        if on != self.state:
+            if self.state is not None or not on:
+                self.log('inside the broadcast window: frozen-frame and outage alerts on' if on else
+                         'outside the broadcast window (not started, over, or the last POTM was shown): '
+                         'frozen-frame refreshes and alerts off')
+            if on: self.frozen.reset()
+            self.state = on
+        return on
+
+
 def watch_frozen(frozen, source, img, now, log, alert):
     act = frozen.update(img, now)
     if act == 'refresh':
@@ -420,9 +558,9 @@ def watch_frozen(frozen, source, img, now, log, alert):
         alert('frozen', 'OWCSKR 캡처', 'the frame has been frozen or black for 5 min (stream down or player stuck)')
 
 
-def step(cap, frozen, errors, source, img, now, log, alert):
+def step(cap, frozen, errors, source, img, now, log, alert, gate=None):
     try:
-        if img is not None: watch_frozen(frozen, source, img, now, log, alert)
+        if img is not None and (gate is None or gate.live(now)): watch_frozen(frozen, source, img, now, log, alert)
         cap.handle(img, now)
     except Exception as e:
         sig = f'{type(e).__name__}: {e}'[:200]
@@ -431,18 +569,22 @@ def step(cap, frozen, errors, source, img, now, log, alert):
             alert('loop:' + sig, 'OWCSKR 캡처', f'capture loop error x{errors.threshold}: {sig}')
 
 
-def capture_loop(source, cap, end, out, log, alert, clock=time.time, sleep=time.sleep):
-    grabber, frozen, errors = Grabber(source, log, alert, clock, sleep), FrozenDetector(), ErrorCounter()
+def capture_loop(source, cap, end, out, log, alert, clock=time.time, sleep=time.sleep, window=None):
+    """window: BroadcastWindow (None = no schedule: frozen-frame / outage alerts all day)"""
+    frozen, errors = FrozenDetector(), ErrorCounter()
+    gate = AlertGate(window, cap, frozen, log)
+    grabber = Grabber(source, log, alert, clock, sleep, live=gate.live)
     try:
         while clock() < end:
             t0 = clock()
             rest = paused(out)
             if rest:
-                sleep(min(rest, 10)); continue
+                frozen.reset(); sleep(min(rest, 10)); continue
             ok, img = grabber.grab()
-            if not ok: continue
+            if not ok:
+                frozen.reset(); continue        # the frame after an outage is not 'still the same' as the one before
             now = clock()
-            step(cap, frozen, errors, source, img, now, log, alert)
+            step(cap, frozen, errors, source, img, now, log, alert, gate)
             if cap.idle_over(now):
                 log(f'no GAME DATA for {cap.idle_stop} min - broadcast day looks finished'); break
             sleep(max(0.0, cap.period(now) - (clock() - t0)))
@@ -476,16 +618,35 @@ def install_sigterm():
     signal.signal(signal.SIGTERM, _on_sigterm)
 
 
-def parse_args(argv=None):
+def parse_args(argv=None, env=None):
+    env = os.environ if env is None else env
     ap = argparse.ArgumentParser()
-    ap.add_argument('--url', default=obs_setup.LIVE_URL)
+    ap.add_argument('--source', default=selfcheck.frame_source(env), type=str.lower,
+                    help=f'frame source: obs (browser source screenshots) or hls (SOOP stream via yt-dlp + ffmpeg); '
+                         f'default env {selfcheck.SOURCE_ENV}, else obs')
+    ap.add_argument('--url', default=None, help=f'obs: the player page (default {obs_setup.LIVE_URL}); '
+                                                f'hls: channel or play URL (default env {HLS_CHANNEL_ENV}, else {HLS_CHANNEL})')
     ap.add_argument('--date', default=datetime.date.today().isoformat())
     ap.add_argument('--hours', type=float, default=None, help='capture length (default 8) when --until is not given')
     ap.add_argument('--until', type=datetime.datetime.fromisoformat, default=None,
                     help='end of the capture window, ISO with offset (e.g. 2026-10-25T23:30:00+09:00); wins over --hours')
     ap.add_argument('--interval', type=float, default=5)
     ap.add_argument('--idle-stop', type=float, default=75, help='minutes without GAME DATA (after the first map) before stopping')
-    return ap.parse_args(argv)
+    a = ap.parse_args(argv)
+    if a.source not in selfcheck.FRAME_SOURCES:      # argparse checks choices on the command line, not on an env default
+        ap.error(f'--source / {selfcheck.SOURCE_ENV}: {a.source!r} is not one of {", ".join(selfcheck.FRAME_SOURCES)}')
+    if a.url is None:
+        a.url = obs_setup.LIVE_URL if a.source == 'obs' else (env.get(HLS_CHANNEL_ENV) or '').strip() or HLS_CHANNEL
+    a.keyframes = (env.get(HLS_KEYFRAMES_ENV) or '').strip() == '1'
+    return a
+
+
+def source_factory_for(a):
+    """(url, log) -> frame source for --source: ObsSource, or frames.HlsSource (already normalised 1920x1080 frames;
+    keyframes_only from OWCSKR_HLS_KEYFRAMES=1)"""
+    if a.source != 'hls': return ObsSource
+    import frames as FR
+    return lambda url, log: FR.HlsSource(url, log, keyframes_only=a.keyframes)
 
 
 def end_time(a, now: float) -> float:
@@ -546,15 +707,15 @@ def finalize(a, out, frames, log, alert) -> int:
     return 0 if ok else 1
 
 
-def preflight(log) -> bool:
-    problems = selfcheck.check()
+def preflight(log, source='obs') -> bool:
+    problems = selfcheck.check(source=source)
     for p in problems: log('selfcheck', p)
     bad = selfcheck.fatal(problems)
     if bad: PU.notify('OWCSKR 캡처 시작 실패', 'self-check failed:\n' + '\n'.join(str(p) for p in bad))
     return not bad
 
 
-def capture(a, out, frames, log, alert, end, source) -> str:
+def capture(a, out, frames, log, alert, end, source, window=None) -> str:
     """the capture itself -> 'done' (--until / idle stop), 'stopped' (signal) or 'crashed'; the source is always closed"""
     def after_map():
         run_ocr(out, frames, log, alert)
@@ -562,8 +723,9 @@ def capture(a, out, frames, log, alert, end, source) -> str:
     cap = Capture(frames, log, after_map, lambda: update_and_publish(a.date, log, alert), a.interval, a.idle_stop)
     try:
         source.start()
-        log('capture start', a.url, 'until', datetime.datetime.fromtimestamp(end).astimezone().isoformat(timespec='seconds'))
-        capture_loop(source, cap, end, out, log, alert)
+        log('capture start', a.source, a.url, 'until',
+            datetime.datetime.fromtimestamp(end).astimezone().isoformat(timespec='seconds'))
+        capture_loop(source, cap, end, out, log, alert, window=window)
         return 'done'
     except SystemExit:
         log('stop requested - finishing the day'); return 'stopped'
@@ -599,7 +761,7 @@ def source_busy(source, log, alert) -> int | None:
     return 2
 
 
-def run(a, out, frames, log, alert, source_factory=ObsSource) -> int:
+def run(a, out, frames, log, alert, source_factory=None) -> int:
     end = end_time(a, time.time())
     if end <= time.time():           # restarted after the window: only redo the final OCR / publish
         log('capture window already over - final OCR and publish only')
@@ -607,11 +769,11 @@ def run(a, out, frames, log, alert, source_factory=ObsSource) -> int:
         rc = FINALIZE_FAILED if finalize(a, out, frames, log, alert) != 0 else 0
         if not os.path.exists(os.path.join(out, SUMMARY_MARK)): send_summary(a.date, out, frames, log)
         return rc
-    if not preflight(log): return 2
-    source = source_factory(a.url, log)
+    if not preflight(log, a.source): return 2
+    source = (source_factory or source_factory_for(a))(a.url, log)
     busy = source_busy(source, log, alert)
     if busy is not None: return busy
-    how = capture(a, out, frames, log, alert, end, source)
+    how = capture(a, out, frames, log, alert, end, source, broadcast_window(a.date, log))
     finishing()
     finalized = finalize(a, out, frames, log, alert) == 0
     rc = 1 if how == 'crashed' else (0 if finalized else FINALIZE_FAILED)

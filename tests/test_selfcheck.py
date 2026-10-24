@@ -116,10 +116,46 @@ def test_tesseract_env_override(tmp_path):
 
 
 def test_cli_exit_code(monkeypatch, capsys):
-    monkeypatch.setattr(SC, 'check', lambda: [SC.Problem('fatal', 'gh', 'missing')])
+    monkeypatch.setattr(SC, 'check', lambda **k: [SC.Problem('fatal', 'gh', 'missing')])
     sent = []
     monkeypatch.setattr(SC.PU, 'notify', lambda t, x: sent.append((t, x)))
     assert SC.main(['--notify']) == 2
     assert 'FATAL gh: missing' in capsys.readouterr().out and len(sent) == 1
-    monkeypatch.setattr(SC, 'check', lambda: [SC.Problem('warn', 'ffmpeg', 'missing')])
+    monkeypatch.setattr(SC, 'check', lambda **k: [SC.Problem('warn', 'ffmpeg', 'missing')])
     assert SC.main([]) == 0
+
+
+def test_hls_source_needs_ffmpeg_and_ytdlp(tmp_path):
+    complete_root(tmp_path)
+    which = lambda n: None if n in ('ffmpeg', 'yt-dlp') else all_tools(n)
+    probs = SC.check(str(tmp_path), env={'GH_TOKEN': 'x'}, which=which, find_spec=has_module, source='hls')
+    assert items(probs, 'fatal') == {'ffmpeg', 'yt-dlp'} and 'FFMPEG_CMD' in str(probs[0])
+    obs = SC.check(str(tmp_path), env={'GH_TOKEN': 'x'}, which=which, find_spec=has_module, source='obs')
+    assert items(obs, 'fatal') == set() and items(obs, 'warn') == {'ffmpeg', 'yt-dlp'}
+    assert 'only with --source hls' in str(obs[0])
+
+
+def test_hls_tools_found_through_env_overrides(tmp_path):
+    complete_root(tmp_path)
+    ff, yt = tmp_path / 'ffmpeg.exe', tmp_path / 'yt.exe'
+    ff.write_bytes(b''); yt.write_bytes(b'')
+    which = lambda n: None if n in ('ffmpeg', 'yt-dlp') else all_tools(n)
+    env = {'GH_TOKEN': 'x', 'FFMPEG_CMD': str(ff), 'YTDLP_CMD': str(yt)}
+    assert SC.check(str(tmp_path), env=env, which=which, find_spec=has_module, source='hls') == []
+
+
+def test_frame_source_from_env(tmp_path):
+    assert SC.frame_source({}) == 'obs' and SC.frame_source({'OWCSKR_FRAME_SOURCE': ' HLS '}) == 'hls'
+    complete_root(tmp_path)
+    which = lambda n: None if n == 'ffmpeg' else all_tools(n)
+    probs = SC.check(str(tmp_path), env={'GH_TOKEN': 'x', 'OWCSKR_FRAME_SOURCE': 'hls'}, which=which, find_spec=has_module)
+    assert items(probs, 'fatal') == {'ffmpeg'}
+    bad = SC.check(str(tmp_path), env={'GH_TOKEN': 'x', 'OWCSKR_FRAME_SOURCE': 'webcam'}, which=all_tools, find_spec=has_module)
+    assert items(bad, 'fatal') == {'frame source'}
+
+
+def test_cli_source_argument(monkeypatch, capsys):
+    seen = {}
+    monkeypatch.setattr(SC, 'check', lambda **k: seen.update(k) or [])
+    assert SC.main(['--source', 'hls']) == 0 and seen['source'] == 'hls'
+    assert SC.main([]) == 0 and seen['source'] is None
