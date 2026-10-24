@@ -100,7 +100,7 @@ tail -f data/live/daily.log data/live/task.log
 .venv/bin/python -I tools/healthcheck.py --quiet                 # 사이트 최신성
 .venv/bin/python -m pytest tests
 ```
-해제: `bash tools/unregister_tasks.sh`
+해제: `bash tools/unregister_tasks.sh`. 모든 OWCSKR 타이머를 멈추고 `register_tasks.sh`가 쓴 유닛 파일을 지우며 실패 기록을 지운다. **지금 돌고 있는 캡처와 기록기는 그대로 둔다**(방송 중에 멈추면 그날 나머지를 잃는다): 남긴 유닛과 멈추는 명령을 출력한다. 함께 멈추려면 `bash tools/unregister_tasks.sh --stop-running`. 윈도우의 `OWCSKR_예약해제.bat`도 작업만 지우고 돌고 있는 캡처는 두는 것은 같다.
 
 윈도우 PC와 서버를 같이 돌리면 같은 경기를 두 곳에서 캡처하고 발행한다. 서버를 정식으로 등록하는 날 PC에서 `OWCSKR_예약해제.bat`을 실행한다.
 
