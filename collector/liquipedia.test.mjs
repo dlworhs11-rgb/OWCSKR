@@ -35,6 +35,12 @@ test('parseMatches: every written date parses or is counted as dateless with a D
   assert.equal(m2[0].section, 'Playoffs'); assert.equal(m2[0].round, 'Grand Final');
 });
 
+test('parseMatches: a CRLF copy of a page parses the same as LF', () => {
+  const lf = quiet(() => parseMatches(DATES, 'x'))[0], crlf = quiet(() => parseMatches(DATES.replace(/\r?\n/g, '\r\n'), 'x'))[0];
+  assert.equal(lf.length, 5);
+  assert.deepEqual(crlf, lf);
+});
+
 test('isRedirectBody', async () => {
   assert.equal(isRedirectBody(await fixture('redirect.wiki')), true);
   assert.equal(isRedirectBody(DATES), false);

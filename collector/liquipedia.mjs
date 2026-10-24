@@ -170,6 +170,7 @@ function matchPlaces(text) {
 // Parse every {{Match}} in a Liquipedia tournament page. stats.dateless counts matches whose date is written but not
 // understood (they drop out of site/matches.json, so each one is logged as DATE?)
 export function parseMatches(text, competition, stats = {}) {
+  text = text.replace(/\r\n?/g, '\n');   // a CRLF copy (git autocrlf on Windows) otherwise parses to 0 matches
   const places = matchPlaces(text);
   stats.dateless = 0;
   return findTemplates(text, 'Match').map((raw, idx) => {
