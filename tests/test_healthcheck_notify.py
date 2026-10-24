@@ -195,3 +195,12 @@ def test_databuilt_wins_and_build_fails_are_named(alerts, monkeypatch, capsys):
     assert H.main([], now=NOW, fetch=lambda site: ver) == 1
     assert '4 failed data build(s) since' in capsys.readouterr().out
     assert '빌드는 누가 일으키나' in texts[0] and 'cron-job.org' not in texts[0]
+
+
+def test_site_owcs_ver_shape_is_read():
+    """owcs-kr cloud_live.ver_record writes {v, checked, dataBuilt, buildFails}; buildFails 0 adds nothing"""
+    good = {'v': 'c2509487', 'checked': '2026-10-24T11:05:00+09:00', 'dataBuilt': '2026-10-24T10:00:00+09:00',
+            'buildFails': 0}
+    built, note = H.read_built('https://owticker.com/', lambda site: good)
+    assert built == datetime.datetime(2026, 10, 24, 10, tzinfo=KST) and note == ''
+    assert H.read_built('x', lambda site: dict(good, buildFails=2))[1] == ', 2 failed data build(s) since'
