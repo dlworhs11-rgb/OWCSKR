@@ -552,8 +552,8 @@ class LiveHls:
 
     def playlist(self):
         k = min(int(time.time() - self.t0) + 3, self.n - 1)
-        return ('#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:1\n#EXT-X-MEDIA-SEQUENCE:%d\n' % (k - 3) +
-                ''.join('#EXTINF:1.0,\ns%03d.ts\n' % i for i in range(k - 3, k + 1))).encode()
+        return (f'#EXTM3U\n#EXT-X-VERSION:3\n#EXT-X-TARGETDURATION:1\n#EXT-X-MEDIA-SEQUENCE:{k - 3}\n' +
+                ''.join(f'#EXTINF:1.0,\ns{i:03d}.ts\n' for i in range(k - 3, k + 1))).encode()
 
     def close(self): self.srv.shutdown(); self.srv.server_close()
 
@@ -562,7 +562,7 @@ class LiveHls:
 def live_hls(tmp_path):
     r = subprocess.run([FFMPEG, '-hide_banner', '-loglevel', 'error', '-f', 'lavfi', '-i', 'testsrc=size=640x360:rate=10:duration=40',
                         '-c:v', 'libx264', '-g', '10', '-pix_fmt', 'yuv420p', '-f', 'hls', '-hls_time', '1', '-hls_list_size', '0',
-                        '-hls_segment_filename', str(tmp_path / 's%03d.ts'), str(tmp_path / 'vod.m3u8')], capture_output=True, timeout=120)
+                        '-hls_segment_filename', str(tmp_path / 's%03d.ts'), str(tmp_path / 'vod.m3u8')], capture_output=True, timeout=120, check=False)
     assert r.returncode == 0, r.stderr
     srv = LiveHls(str(tmp_path))
     yield srv
